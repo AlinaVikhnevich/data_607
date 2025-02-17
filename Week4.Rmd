@@ -1,0 +1,55 @@
+---
+title: "Week 4 / Assignment – Tidying and Transforming Data"
+author: "Alina Vikhnevich"
+date: '`r Sys.Date()`'
+output: html_document
+---
+
+```{r setup_main, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+library(dplyr)
+library(tidyr)
+library(readr)
+```
+
+## **Introduction**
+This report focuses on tidying and transforming data in R. Using `tidyr` and `dplyr`, we'll reshape data between wide and long formats, making it more suitable for analysis. 
+
+## **Loading Data**
+```{r load_data}
+flight_data <- read_csv("/Users/alina_vikhnevich/Desktop/Spring 2025/DATA 607/DATA607/flight_data.csv")
+print(flight_data)
+```
+
+## **Tidying the Data**
+### **Reshaping Wide to Long Format**
+```{r wide_to_long}
+tidy_flight_data <- flight_data %>% 
+  pivot_longer(cols = -c(Airline, Status), 
+               names_to = "Destination", 
+               values_to = "Count")
+print(tidy_flight_data)
+```
+
+## **Summarizing the Data**
+### **Total Flights by Airline and Status**
+```{r summarize_data}
+summarized_data <- tidy_flight_data %>% 
+  group_by(Airline, Status) %>% 
+  summarise(Total_Flights = sum(Count), .groups = 'drop')
+print(summarized_data)
+```
+
+## **Visualizing the Data**
+### **Bar Plot: On-Time vs Delayed Flights**
+```{r plot_flight_status, echo=FALSE}
+library(ggplot2)
+ggplot(summarized_data, aes(x=Airline, y=Total_Flights, fill=Status)) +
+  geom_bar(stat="identity", position="dodge") +
+  labs(title="On-Time vs Delayed Flights by Airline", x="Airline", y="Total Flights") +
+  theme_minimal()
+```
+
+## **Conclusion**
+This assignment demonstrated how to reshape and analyze flight data in R. Using `tidyr` and `dplyr`, we converted wide-format data into a tidy structure and summarized key insights. This process makes data easier to work with for visualization and analysis.
+
