@@ -1,0 +1,155 @@
+---
+title: "Week6-Project2"
+author: "Musrat Jahan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+library(tidyr)
+library(dplyr)
+library(tidyverse)
+library(viridis)
+```
+## Load data set
+```{r}
+df <- read.csv("https://raw.githubusercontent.com/justin-2028/Total-Emissions-Per-Country-2000-2020/refs/heads/main/Total%20Emissions%20Per%20Country%20(2000-2020).csv")
+
+
+colnames(df) <- gsub("^X", "", colnames(df))
+
+head(df)
+```
+
+## Make longer
+I changed all the year columns to one column under year. I made the data set longer. This makes it tidy. 
+```{r}
+df_longer <- df |> 
+  pivot_longer(
+    cols = starts_with("2"), 
+    names_to = "year", 
+    values_to = "total emissions",
+    values_drop_na = TRUE
+  )
+
+
+```
+
+
+## Total emissions per country for each year 
+```{r}
+yearly_emissions_by_area <- aggregate(df_longer$'total emissions', by = list(df_longer$year, df_longer$Area), FUN = sum)
+
+yearly_emissions_by_area
+
+#rename columns
+yearly_emissions_by_area <-
+yearly_emissions_by_area %>% 
+  rename(
+    year = Group.1,
+    country = Group.2,
+    emissions = x
+    )
+
+yearly_emissions_by_area
+```
+
+## Analyze overall total emissions per country for each year 
+Too many different countries 
+```{r}
+ggplot(yearly_emissions_by_area, aes(x = year, y = emissions, 
+                                     fill = country)) +
+  geom_tile()
+```
+
+
+## Analyze total emissions over time
+As you can see from the graph, total emissions have gone up steadily from 2000 to 2019, but in 2020, it decreased a significant amount. This might be due to more awareness about climate change and global warming.
+```{r}
+yearly_emissions <- aggregate(df_longer$'total emissions', by=list(df_longer$year), FUN = sum)
+yearly_emissions
+
+#rename columns
+yearly_emissions <-
+yearly_emissions %>% 
+  rename(
+    year = Group.1,
+    emissions = x
+    )
+
+ggplot(yearly_emissions, aes(x = year, y = emissions)) +
+  geom_point()
+```
+
+## Total emissions per country 
+
+Some of the top countries that contributed to emissions are China,  USA, Brazil, India, Indonesia, and Democratic Republic of the Congo.  
+```{r}
+emissions_by_area <- aggregate(df_longer$'total emissions', by = list(df_longer$Area), FUN = sum)
+
+
+#rename columns
+emissions_by_area <-
+emissions_by_area %>% 
+  rename(
+    country = Group.1,
+    emissions = x
+    )
+
+top <- emissions_by_area[order(-emissions_by_area$emissions),]
+head(top, 50)
+```
+
+## Analysis of Total emissions per country 
+too many countries, cant read 
+```{r}
+ggplot(emissions_by_area, aes(x = country, y = emissions), label=NA)+ geom_point() 
+
+```
+
+
+## Aanalyze by emission type
+Emissions (CO2eq) (AR5) are highest. They are over 200,000 kilotonnes. The second highest place is tied with emissions (N20) and emissions (CO2eq) from N20 (AR5). Lowest emissions are (CO2eq) from F-gases, less than 25,000 kilotonnes.
+```{r}
+
+ggplot(df_longer, aes(y=Element)) +
+         geom_bar()
+```
+
+## USA emission types distribution
+The distribution looks very similar to the distribution with the data from all the regions. For USA, the counts are smaller. Highest are emissions (CO2eq) (AR5), a little less than 1250 kilotonnes. Lowest emissions are (CO2eq) from F-gases, around 125 kilotonnes. The second highest place is from emissions (N20), around 950 kilotonnes.
+```{r}
+usa <- df_longer %>%
+  filter(Area == "United States of America")
+
+ggplot(usa, aes(y=Element)) +
+         geom_bar()
+```
+
+## Item Analysis
+Highest item is IPCC Agriculture. Second highest is farm gate emissions.
+Lowest is international bunkers.
+
+```{r}
+
+ggplot(df_longer, aes(y=Item)) +
+         geom_bar()
+```
+
+## Item Analysis USA
+Highest item is IPCC Agriculture, just like in the overall data. Lowest is drained organic soils (C02) and drained organic soils.
+
+```{r}
+ggplot(usa, aes(y=Item)) +
+         geom_bar()
+```
+
