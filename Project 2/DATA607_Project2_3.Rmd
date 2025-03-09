@@ -11,182 +11,397 @@ output:
       collapsed: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(lubridate)
+library(kableExtra)
+
+color_str <- function(x, color='#2d3c52') {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color,
+      x)
+  } else x
+}
+
+knit_table <- function(df, position = 'left') {
+  kbl(df, format = "html", escape = FALSE) |>
+    kable_styling(
+      position = position,
+      bootstrap_options = c("striped")) |>
+    row_spec(0, bold = T,
+             color = "white",
+             background = "#2d3c52",
+             extra_css = "border: 2px solid #2d3c52;") |>
+    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #2d3c52;") |>
+    column_spec(1, extra_css = "border-left: 2px solid #2d3c52;") |>
+    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #2d3c52;")
+}
 ```
 
+
 ## Overview
-Overview Text
+The goal of this project is to practice preparing different datasets for downstream analysis work. An untidy data set shared in the Week 4 Discussion Post was selected to tidy, transform, and perform analysis as requested in the Discussion Post. This data set includes information on different kinds of cheese from all around the world.
 
 
 <hr style="border:1px solid #2d3c52">
 
 
 ## Import Data
-Read in csv file as data frame
+`r color_str('Read in raw csv file as data frame', '#2d3c52')`
 ```{r}
 data <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2024/2024-06-04/cheeses.csv")
 ```
 
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(data)[1],
+    Column_Count = dim(data)[2],
+    Null_Count = sum(is.na(data))[1],
+    None_Str_Count = dim(data|>filter(apply(data, 1, function(x) any(x %in% "None"))))[1]
+    ))
+```
+
+
+\
+
 ## Data Handling
 
 - select columns needed to tidy and for analysis
-- fill empty string with NA
+- fill empty strings and null values with 'None' string
 ```{r}
-fill_empty_str = function(x){if_else(x=="", NA_character_ ,x)}
+fill_empty_str = function(x){if_else(x=="", 'None' ,x)}
 
 df = data |>
   select(cheese, milk, country, texture, aroma, flavor) |>
-  mutate_all(fill_empty_str) 
+  mutate_all(fill_empty_str) |>
+  mutate_all(replace_na, "None")
 ```
+
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(df)[1],
+    Column_Count = dim(df)[2],
+    Null_Count = sum(is.na(df))[1],
+    None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
+    ))
+```
+
+\
 
 ## Tidy Data
+`r color_str('Tidy data by ensuring each value has its own cell', '#2d3c52')`
 
-- split out each column with listed values into rows
-- replace column values with less then 2% of all rows with the value 'Other' to reduce number of columns
-- pivot split out columns into dummy flag columns 
+- split out each row with listed values (milk, texture, aroma, flavor, country) into individual rows and lengthen the dataframe
 ```{r}
-prct_nrow = 0.02
 df = df |>
-  separate_rows(milk, sep = ', ') |>
-  group_by(milk) |>
-  mutate(milk = ifelse(n() < nrow(df)*prct_nrow, 'Other', milk)) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = milk,
-    values_from = milk,
-    names_prefix = 'milk_',
-    values_fn = function(x) 1, values_fill = 0)
-  
-df = df |>
-  separate_rows(texture, sep = ', ') |>
-  group_by(texture) |>
-  mutate(texture = ifelse(n() < nrow(df)*prct_nrow, 'Other', texture)) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = texture,
-    values_from = texture,
-    names_prefix = 'texture_',
-    values_fn = function(x) 1, values_fill = 0)
-  
-df = df |>
-  separate_rows(aroma, sep = ', ') |>
-  group_by(aroma) |>
-  mutate(aroma = ifelse(n() < nrow(data)*prct_nrow, 'Other', aroma)) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = aroma,
-    values_from = aroma,
-    names_prefix = 'aroma_',
-    values_fn = function(x) 1, values_fill = 0)
-  
-df = df |>
-  separate_rows(flavor, sep = ', ') |>
-  group_by(flavor) |>
-  mutate(flavor = ifelse(n() < nrow(data)*prct_nrow, 'Other', flavor)) |>
-  ungroup() |>
-  pivot_wider(
-    names_from = flavor,
-    values_from = flavor,
-    names_prefix = 'flavor_',
-    values_fn = function(x) 1, values_fill = 0)
-
-df = df |>
+  mutate(cheese_id = row_number()) |>
   separate_rows(country, sep = ', ') |>
-  group_by(country) |>
-  mutate(country = ifelse(n() < nrow(df)*prct_nrow, 'Other', country)) |>
-  ungroup()
+  separate_rows(milk, sep = ', ') |>
+  separate_rows(texture, sep = ', ') |>
+  separate_rows(aroma, sep = ', ') |>
+  separate_rows(flavor, sep = ', ')
 ```
 
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(df)[1],
+    Column_Count = dim(df)[2],
+    Null_Count = sum(is.na(df))[1],
+    None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
+    ))
+```
+
+\
+
+## Normalize Data
+`r color_str('Normalize data to reduce redundancy and allow for more efficent analysis', '#2d3c52')`
+
+- create a data frame for each column and create an associated id column for each
+- replace all column values with respective id value in core data frame
+```{r}
+create_id_dfs = function(id_prefix, col, df) {
+  id_df = df |>
+    select(all_of(col)) |>
+    distinct() |>
+    arrange(col) |>
+    mutate(id = paste0(id_prefix, row_number()))
+  return(id_df)
+}
+
+cheese_df = df |>
+  select(cheese, cheese_id) |>
+  distinct()
+
+country_df = create_id_dfs('C', 'country', df)
+colnames(country_df) = c('country', 'country_id')
+
+milk_df = create_id_dfs('M', 'milk', df)
+colnames(milk_df) = c('milk', 'milk_id')
+
+texture_df = create_id_dfs('T', 'texture', df)
+colnames(texture_df) = c('texture', 'texture_id')
+
+aroma_df = create_id_dfs('A', 'aroma', df)
+colnames(aroma_df) = c('aroma', 'aroma_id')
+
+flavor_df = create_id_dfs('F', 'flavor', df)
+colnames(flavor_df) = c('flavor', 'flavor_id')
+
+df = left_join(df, country_df, by = join_by(country))
+df = left_join(df, milk_df, by = join_by(milk))
+df = left_join(df, texture_df, by = join_by(texture))
+df = left_join(df, aroma_df, by = join_by(aroma))
+df = left_join(df, flavor_df, by = join_by(flavor))
+
+df = df |>
+  select(cheese_id, country_id, milk_id, texture_id, aroma_id, flavor_id)
+```
+
+```{r, echo=FALSE}
+# knit_table(cheese_df)
+# knit_table(country_df)
+# knit_table(milk_df)
+# knit_table(texture_df)
+# knit_table(aroma_df)
+# knit_table(flavor_df)
+```
+\
 
 <hr style="border:1px solid #2d3c52">
 
+\
 
 ## Analysis 
 
-Most Common Milks Used
+`r color_str('Analysis Requested in Discussion Post: ', '#2d3c52')`
+
+> 1. What are the most common milks used?
+> 2. What are the more common textures associated with cheese?
+3. Is there a country or region that produces more cheese?
+4. Are there common aromas or flavors across cheeses made by different milks?
+
+\
+
+#### **`r color_str('1. Most Common Milks Used', '#557874')`**
 ```{r}
 df |>
-  select(starts_with('milk')) |>
-  pivot_longer(cols=starts_with('milk'), names_to = 'milk') |>
-  mutate(milk = str_to_title(str_replace(milk, 'milk_', ''))) |>
+  select(cheese_id, milk_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(milk_df, by = join_by(milk_id)) |>
+  mutate(milk = str_to_title(milk)) |>
   group_by(milk) |>
-  summarise(sum_val = sum(value)) |>
-  ggplot(aes(x = reorder(milk, -sum_val), y = sum_val)) +
-  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(milk, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
   labs(
-    title = "Cheese Milk Types",
+    title = "Most Common Cheese Milk Types",
     x = "Milk",
     y = "Count",
+    fill = 'Count Type'
   ) +
   theme_classic() + 
   theme(
-    axis.text.x = element_text(size = 11),
-    plot.title = element_text(size = 14, face = "bold"))
+    axis.text.x = element_text(size = 11, angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
 
 ```
 
-Most Common Textures Associated with Cheeses
+\
+
+
+#### **`r color_str('2. Most Common Textures Associated with Cheeses', '#557874')`**
 ```{r}
 df |>
-  select(starts_with('texture')) |>
-  pivot_longer(cols=starts_with('texture'), names_to = 'texture') |>
-  mutate(texture = str_to_title(str_replace(texture, 'texture_', ''))) |>
+  select(cheese_id, texture_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(texture_df, by = join_by(texture_id)) |>
+  mutate(texture = str_to_title(texture)) |>
   group_by(texture) |>
-  summarise(sum_val = sum(value)) |>
-  ggplot(aes(x = reorder(texture, -sum_val), y = sum_val)) +
-  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(texture, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.2, preserve = "single")) +
   labs(
-    title = "Cheese Textures",
+    title = "Most Common Textures Associated with Cheeses",
     x = "Texture",
     y = "Count",
+    fill = 'Count Type'
   ) +
   theme_classic() + 
   theme(
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
-    plot.title = element_text(size = 14, face = "bold"))
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size = 8),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
 ```
 
-Countries Producing Most Cheese
+\
+
+#### **`r color_str('3. Countries Producing Most Cheese', '#557874')`**
 ```{r}
 df |>
+  select(cheese_id, country_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(country_df, by = join_by(country_id)) |>
+  mutate(country = str_to_title(country)) |>
   group_by(country) |>
-  tally() |>
-  ggplot(aes(x = reorder(country, -n), y = n)) +
-  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  mutate(country = ifelse(Unique_Cheese_Count <= 5, 'Other', country)) |>
+  group_by(country) |>
+  summarise(
+    Total_Count = sum(Total_Count),
+    Unique_Cheese_Count = sum(Unique_Cheese_Count)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(country, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.2, preserve = "single")) +
   labs(
-    title = "Cheese countrys",
-    x = "country",
+    title = "Countries Producing Most Cheese",
+    x = "Country",
     y = "Count",
+    fill = 'Count Type'
   ) +
   theme_classic() + 
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
+```
+
+\
+
+#### **`r color_str('4a. Common Flavors Across Cheeses By Different Milks', '#557874')`**
+```{r}
+top_flavor_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(flavor_df, by = join_by(flavor_id)) |>
+  group_by(flavor, flavor_id) |>
+  summarise(cnt = n(), .groups = 'keep') |>
+  arrange(desc(cnt)) |>
+  head(12)
+
+milk_cnt_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_flavor_df, by = join_by(flavor_id)) |>
+  left_join(milk_df, by = join_by(milk_id)) |>
+  group_by(milk, milk_id) |>
+  summarise(milk_cnt = n(), .groups = 'keep') |>
+  filter(milk_cnt>10)
+  
+df |>
+  select(cheese_id, milk_id, flavor_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_flavor_df, by = join_by(flavor_id)) |>
+  inner_join(milk_cnt_df, by = join_by(milk_id)) |>
+  mutate(
+    flavor = str_to_title(flavor),
+    milk = str_to_title(milk)
+    ) |>
+  group_by(milk) |>
+  mutate(y= n()) |>
+  group_by(milk, flavor) |>
+  mutate(x = n()) |>
+  mutate(Unique_Cheese_Prct =  (x / y)*100) |>
+  select(milk, flavor, Unique_Cheese_Prct, x, milk_cnt, y) |>
+  distinct() |>
+  ggplot(aes(x = milk, y = Unique_Cheese_Prct, fill = flavor)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
+  labs(
+    title = "Top Cheese Flavors and Milk Distribution",
+    subtitle = 'Top 12 Flavors and Milk Types with a Count of at Least 10',
+    x = "Milk",
+    y = "Percent of Milk",
+    fill = 'Flavor'
+  ) +
+  theme_classic() +
   theme(
     axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
     plot.title = element_text(size = 14, face = "bold"))
 ```
 
-Work In Progress
-```{r}
-# df |>
-#   pivot_longer(cols=starts_with('milk'), names_to = 'milk') |>
-#   pivot_longer(cols=starts_with('flavor'), names_to = 'flavor') |>
-#   ggplot(aes(x = reorder(country, -n), y = n)) +
-#   geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
-#   labs(
-#     title = "Cheese countrys",
-#     x = "country",
-#     y = "Count",
-#   ) +
-#   theme_classic() + 
-#   theme(
-#     axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
-#     plot.title = element_text(size = 14, face = "bold"))
-```
+\
 
+#### **`r color_str('4b. Common Aromas Across Cheeses By Different Milks', '#557874')`**
+```{r}
+top_aroma_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(aroma_df, by = join_by(aroma_id)) |>
+  group_by(aroma, aroma_id) |>
+  summarise(cnt = n(), .groups = 'keep') |>
+  arrange(desc(cnt)) |>
+  head(12)
+
+df |>
+  select(cheese_id, milk_id, aroma_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_aroma_df, by = join_by(aroma_id)) |>
+  inner_join(milk_cnt_df, by = join_by(milk_id)) |>
+  mutate(
+    aroma = str_to_title(aroma),
+    milk = str_to_title(milk)
+    ) |>
+  group_by(milk) |>
+  mutate(y= n()) |>
+  group_by(milk, aroma) |>
+  mutate(x = n()) |>
+  mutate(Unique_Cheese_Prct =  (x / y)*100) |>
+  select(milk, aroma, Unique_Cheese_Prct, x, milk_cnt, y) |>
+  distinct() |>
+  ggplot(aes(x = milk, y = Unique_Cheese_Prct, fill = aroma)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
+  labs(
+    title = "Top Cheese Aromas and Milk Distribution",
+    subtitle = 'Top 12 Aromas and Milk Types with a Count of at Least 10',
+    x = "Milk",
+    y = "Percent of Milk",
+    fill = 'Aroma'
+  ) +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"))
+```
 
 
 ## Conclusions
-text
+
+\
+
+**`r color_str('Data Considerations: ', '#22a298')`** 
+
+The overall raw data set has 7,133 null values. However, the subset data being utilized for tidying and analysis has only 340 null values. This number significantly increases to 2,050 after tidying the data set due to splitting out the rows with listed values. These null values are filled with the string 'None' to maintain all the data and to allow for inclusion in analysis. Inclusion of these null values in the analysis provides the potential to gain insight and draw conclusions for cheeses with missing data.
+\
+
+The bar plots displaying counts provide a visual understanding of how tidying the data effected the size of the data frame. Splitting out all of the columns with listed values into individual rows transformed the data from 1,187 rows to 14,394 rows, an increase of 13,207. The untidy data frame was at the cheese level; thus, the unique cheese count bars (blue) in the bar plot count plots reflects the size of the original data frame and the total count bars (red) reflect the size of the new tidy data. 
+
+\
+
+**`r color_str('Analysis Requested Conclusions: ', '#22a298')`**
+
+`r color_str('1. What are the most common milks used?', '#557874')`
+
+* Cow, goat, and sheep are the top three most common milk sources for cheese in this data set. Cow is the number one source by being producing twice as much as goat, the second most common source.
+    
+`r color_str('2. What are the more common textures associated with cheese?', '#557874')`
+
+* The most common textures associated with cheese are creamy, smooth, and firm.
+
+`r color_str('3. Is there a country or region that produces more cheese?', '#557874')`
+
+* The U.S. significantly produces the most cheese followed by Italy and Canada.
+
+`r color_str('4. Are there common aromas or flavors across cheeses made by different milks?', '#557874')`
+
+* When analyzing the top milk and cheese flavors, the following insights were found:
+    + Cheese produced by Buffalo appears to have the highest proportion of cheese with a creamy flavor and nutty aroma when compared to the other milk sources.
+    + Cheese sourced from Water Buffalo have the highest proportion of milky and fresh aromas compared to the other cheese milk sources.
+  + Plant-Based cheese has the highest proportions of earthy and mild aromas and has the least amount of variation in flavor 
 
