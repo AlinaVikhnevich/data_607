@@ -1,0 +1,113 @@
+---
+title: "Project 2: Data Transformation"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(knitr)
+```
+
+# **Introduction**
+
+*TODO: Provide an introduction explaining the objective of the project, an overview of the datasets, and the transformation goals.*
+
+---
+
+# **Dataset 1: Placeholder Name**
+
+## **Load Data**
+```{r load_data1}
+# TODO: Read in Dataset 1 (Paste dataset here)
+dataset1 <- read_csv("path/to/dataset1.csv")
+```
+
+## **Initial Exploration**
+```{r explore_data1}
+# TODO: Perform initial exploration
+glimpse(dataset1)
+summarise_all(dataset1, ~sum(is.na(.)))
+```
+
+## **Data Cleaning & Transformation**
+```{r transform_data1}
+# TODO: Apply tidying steps using dplyr and tidyr
+# dataset1 <- dataset1 %>% ...
+```
+
+## **Analysis**
+```{r analyze_data1}
+# TODO: Perform required analysis for Dataset 1
+```
+
+---
+
+# **Dataset 2: Placeholder Name**
+
+## **Load Data**
+```{r load_data2}
+# TODO: Read in Dataset 2 (Paste dataset here)
+dataset2 <- read_csv("path/to/dataset2.csv")
+```
+
+## **Initial Exploration**
+```{r explore_data2}
+# TODO: Perform initial exploration
+glimpse(dataset2)
+summarise_all(dataset2, ~sum(is.na(.)))
+```
+
+## **Data Cleaning & Transformation**
+```{r transform_data2}
+# TODO: Apply tidying steps using dplyr and tidyr
+# dataset2 <- dataset2 %>% ...
+```
+
+## **Analysis**
+```{r analyze_data2}
+# TODO: Perform required analysis for Dataset 2
+```
+
+---
+
+# **Dataset 3: Placeholder Name**
+
+## **Load Data**
+```{r load_data3}
+# TODO: Read in Dataset 3 (Paste dataset here)
+dataset3 <- read_csv("path/to/dataset3.csv")
+```
+
+## **Initial Exploration**
+```{r explore_data3}
+# TODO: Perform initial exploration
+glimpse(dataset3)
+summarise_all(dataset3, ~sum(is.na(.)))
+```
+
+## **Data Cleaning & Transformation**
+```{r transform_data3}
+# TODO: Apply tidying steps using dplyr and tidyr
+# dataset3 <- dataset3 %>% ...
+```
+
+## **Analysis**
+```{r analyze_data3}
+# TODO: Perform required analysis for Dataset 3
+```
+
+---
+
+# **Final Analysis & Discussion**
+```{r final_analysis}
+# TODO: Compare results across datasets and summarize key findings
+```
+
+# **Conclusion**
+
+*TODO: Summarize key takeaways, challenges encountered, and the importance of tidying data.*
