@@ -1,0 +1,192 @@
+---
+title: "DATA607 Project 2"
+subtitle: "Data Transformation"
+author: "Olivia Azevedo"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+```
+
+## Overview
+Overview Text
+
+
+<hr style="border:1px solid #2d3c52">
+
+
+## Import Data
+Read in csv file as data frame
+```{r}
+data <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2024/2024-06-04/cheeses.csv")
+```
+
+## Data Handling
+
+- select columns needed to tidy and for analysis
+- fill empty string with NA
+```{r}
+fill_empty_str = function(x){if_else(x=="", NA_character_ ,x)}
+
+df = data |>
+  select(cheese, milk, country, texture, aroma, flavor) |>
+  mutate_all(fill_empty_str) 
+```
+
+## Tidy Data
+
+- split out each column with listed values into rows
+- replace column values with less then 2% of all rows with the value 'Other' to reduce number of columns
+- pivot split out columns into dummy flag columns 
+```{r}
+prct_nrow = 0.02
+df = df |>
+  separate_rows(milk, sep = ', ') |>
+  group_by(milk) |>
+  mutate(milk = ifelse(n() < nrow(df)*prct_nrow, 'Other', milk)) |>
+  ungroup() |>
+  pivot_wider(
+    names_from = milk,
+    values_from = milk,
+    names_prefix = 'milk_',
+    values_fn = function(x) 1, values_fill = 0)
+  
+df = df |>
+  separate_rows(texture, sep = ', ') |>
+  group_by(texture) |>
+  mutate(texture = ifelse(n() < nrow(df)*prct_nrow, 'Other', texture)) |>
+  ungroup() |>
+  pivot_wider(
+    names_from = texture,
+    values_from = texture,
+    names_prefix = 'texture_',
+    values_fn = function(x) 1, values_fill = 0)
+  
+df = df |>
+  separate_rows(aroma, sep = ', ') |>
+  group_by(aroma) |>
+  mutate(aroma = ifelse(n() < nrow(data)*prct_nrow, 'Other', aroma)) |>
+  ungroup() |>
+  pivot_wider(
+    names_from = aroma,
+    values_from = aroma,
+    names_prefix = 'aroma_',
+    values_fn = function(x) 1, values_fill = 0)
+  
+df = df |>
+  separate_rows(flavor, sep = ', ') |>
+  group_by(flavor) |>
+  mutate(flavor = ifelse(n() < nrow(data)*prct_nrow, 'Other', flavor)) |>
+  ungroup() |>
+  pivot_wider(
+    names_from = flavor,
+    values_from = flavor,
+    names_prefix = 'flavor_',
+    values_fn = function(x) 1, values_fill = 0)
+
+df = df |>
+  separate_rows(country, sep = ', ') |>
+  group_by(country) |>
+  mutate(country = ifelse(n() < nrow(df)*prct_nrow, 'Other', country)) |>
+  ungroup()
+```
+
+
+<hr style="border:1px solid #2d3c52">
+
+
+## Analysis 
+
+Most Common Milks Used
+```{r}
+df |>
+  select(starts_with('milk')) |>
+  pivot_longer(cols=starts_with('milk'), names_to = 'milk') |>
+  mutate(milk = str_to_title(str_replace(milk, 'milk_', ''))) |>
+  group_by(milk) |>
+  summarise(sum_val = sum(value)) |>
+  ggplot(aes(x = reorder(milk, -sum_val), y = sum_val)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  labs(
+    title = "Cheese Milk Types",
+    x = "Milk",
+    y = "Count",
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(size = 11),
+    plot.title = element_text(size = 14, face = "bold"))
+
+```
+
+Most Common Textures Associated with Cheeses
+```{r}
+df |>
+  select(starts_with('texture')) |>
+  pivot_longer(cols=starts_with('texture'), names_to = 'texture') |>
+  mutate(texture = str_to_title(str_replace(texture, 'texture_', ''))) |>
+  group_by(texture) |>
+  summarise(sum_val = sum(value)) |>
+  ggplot(aes(x = reorder(texture, -sum_val), y = sum_val)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  labs(
+    title = "Cheese Textures",
+    x = "Texture",
+    y = "Count",
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"))
+```
+
+Countries Producing Most Cheese
+```{r}
+df |>
+  group_by(country) |>
+  tally() |>
+  ggplot(aes(x = reorder(country, -n), y = n)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+  labs(
+    title = "Cheese countrys",
+    x = "country",
+    y = "Count",
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"))
+```
+
+Work In Progress
+```{r}
+# df |>
+#   pivot_longer(cols=starts_with('milk'), names_to = 'milk') |>
+#   pivot_longer(cols=starts_with('flavor'), names_to = 'flavor') |>
+#   ggplot(aes(x = reorder(country, -n), y = n)) +
+#   geom_col(position = position_dodge2(width = 0.3, preserve = "single"), fill = 'steelblue') +
+#   labs(
+#     title = "Cheese countrys",
+#     x = "country",
+#     y = "Count",
+#   ) +
+#   theme_classic() + 
+#   theme(
+#     axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+#     plot.title = element_text(size = 14, face = "bold"))
+```
+
+
+
+## Conclusions
+text
+
