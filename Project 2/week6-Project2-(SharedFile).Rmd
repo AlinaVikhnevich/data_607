@@ -177,14 +177,8 @@ updated daily, and more information about the data can be found in the
 In this section, data was previously filtered to only include DART entries from 
 2020-2025, and will be focused on waste water permits that discharge to surface 
 water. 
-```{r call-dart-api}
-# API call to NYS DEC DART
-# would be nice to call the API for NPDES permits (as listed in p_type)
-# dart <- read.socrata("https://data.ny.gov/resource/mbk7-f2r2.json")
-# write_csv(dart,"dart_3.7.2025.csv")
-
-# note: this csv is too large to upload - will create a new csv.
-dart <- read_csv("dart_2020_2025.csv")
+```{r load-dart-csv}
+dart <- read_csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%202/dart_2020_2025.csv")
 ```
 
 ### Defining Regex Patterns to Detect NPDES IDs
