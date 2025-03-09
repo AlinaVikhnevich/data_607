@@ -324,9 +324,6 @@ manual review.
 
 
 ## Analysis
-
-
-
 ```{r permits-summaries}
 permit_status <- tbl1_permit_lvl |> 
 group_by(status) |> 
@@ -358,13 +355,13 @@ group_by(application_type) |>
     Proportion = n()/nrow(tbl2_permit_act_lvl)
   )
 
-# short_desc <- tbl2_permit_act_lvl |> 
-# c_fast
-# group_by(short_description) |> 
-#   summarize(
-#     Count = str_count(short_description,"fast track"),
-#     Proportion = n()/nrow(tbl2_permit_act_lvl)
-#   )
+short_desc <- tbl2_permit_act_lvl |>
+  mutate(c_fast_track=coalesce(str_count(short_description,"fast track"),0)) |> 
+  summarize(
+    "Fast Tracked Renewal Actions" = sum(c_fast_track),
+    "Total Actions" = nrow(tbl2_permit_act_lvl),
+    Proportion = sum(c_fast_track)/nrow(tbl2_permit_act_lvl)
+  )
 ```
 
 Data Analysis Questions to Answer:
