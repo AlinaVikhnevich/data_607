@@ -243,14 +243,13 @@ group_by(final_disposition) |>
   head(5)
 
 final_dis$Proportion <- paste0(round(final_dis$Proportion, digits=1),"%")
+final_dis$Count <- as.numeric(final_dis$Count)
 
 final_dis <- final_dis |> 
   clean_names("title")
 
-ggplot(final_dis,aes(x =reorder(`Final Disposition`,-Count), y= Count)) +
+ggplot(final_dis,aes(x =reorder(`Final Disposition`,`Count`, .desc = TRUE), y= Count)) +
     geom_bar(stat="identity", fill="lightblue", width=0.5)+
-    geom_text(aes(label=Proportion),
-              hjust=.35)+
     theme_minimal()+
     labs(title="Permits by Final Disposition",x="Final Disposition")+
     theme(axis.text.y =element_text(angle = 55,hjust=1))+
