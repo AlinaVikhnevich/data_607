@@ -260,10 +260,6 @@ tbl1_permit_lvl <- universe  |>
 ```{r tbl2-permit-action-lvl}
 # this table shows the permit history. each observation in this table represents
 # a permit action.
-
-# if there are true duplicates (meaning all rows are equal, then the duplicate
-# row can be dropped)
-
 tbl2_permit_act_lvl <- universe |> 
     mutate(action_id = paste(npdes_id,date_received, sep = "_")) |> 
     distinct() |> 
@@ -272,6 +268,8 @@ tbl2_permit_act_lvl <- universe |>
   select(action_id,facility,facility_id,npdes_id,application_id,applicant,
          application_type,date_received,status,short_description,
          enb_publication_date,written_comments_due,dup_flag,transfer_flag)
+
+tbl2_permit_act_lvl$short_description <- tolower(tbl2_permit_act_lvl$short_description)
 ```
 
 ### Table 3: Facility Level Data
@@ -324,6 +322,50 @@ possible to identify which entry was made first. Permit transfer actions are
 largely affected by this. Due to this, duplicates and transfers are flagged for 
 manual review. 
 
+
+## Analysis
+
+
+
+```{r permits-summaries}
+permit_status <- tbl1_permit_lvl |> 
+group_by(status) |> 
+  summarize(
+    Count = n(),
+    Proportion = n()/nrow(tbl1_permit_lvl)
+  )
+
+upa_class <- tbl1_permit_lvl |> 
+group_by(upa_class) |> 
+  summarize(
+    Count = n(),
+    Proportion = n()/nrow(tbl1_permit_lvl)
+  )
+
+final_dis <- tbl1_permit_lvl |> 
+group_by(final_disposition) |> 
+  summarize(
+    Count = n(),
+    Proportion = n()/nrow(tbl1_permit_lvl)
+  )
+```
+
+```{r}
+app_type <- tbl2_permit_act_lvl |> 
+group_by(application_type) |> 
+  summarize(
+    Count = n(),
+    Proportion = n()/nrow(tbl2_permit_act_lvl)
+  )
+
+# short_desc <- tbl2_permit_act_lvl |> 
+# c_fast
+# group_by(short_description) |> 
+#   summarize(
+#     Count = str_count(short_description,"fast track"),
+#     Proportion = n()/nrow(tbl2_permit_act_lvl)
+#   )
+```
 
 Data Analysis Questions to Answer:
 - Which facilities have multiple NPDES permits associated with it?
