@@ -1,6 +1,6 @@
 ---
-title: "Week6-Project2"
-author: "Musrat Jahan"
+title: "Project_2: Data Transformation"
+author: "Alina Vikhevich, Alyssa Gurkas, Musrat Jahan, Olivia Azevedo"
 date: "`r Sys.Date()`"
 output: 
     html_document:
@@ -9,7 +9,7 @@ output:
     toc_float: true
     number_sections: false
     toc_collapsed: true
-    toc_depth: 4
+    toc_depth: 1
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(viridis)
-library(RSocrata)
 library(readr)
 library(readxl)
 library(janitor)
@@ -163,7 +162,21 @@ ggplot(usa, aes(y=Item)) +
 # Section 2: NPDES NY Data
 
 ### Loading NYSDEC DART Data
-[insert info about data here]
+Data used in this section comes from 
+[New York State Department of Environmental Conservation's Application Review & Tracking System (DART on the Web)](https://extapps.dec.ny.gov/cfmx/extapps/envapps/index.cfm).
+
+<br>
+
+DART is a web-based application and tracking system that is designed 
+for the general public. DART hosts information about NYSDEC's processing and 
+issuance of environmental permits under the Uniform Procedures Act. The data is 
+updated daily, and more information about the data can be found in the
+[data dictionary](https://dev.socrata.com/foundry/data.ny.gov/mbk7-f2r2).
+
+<br>
+In this section, data was previously filtered to only include DART entries from 
+2020-2025, and will be focused on waste water permits that discharge to surface 
+water. 
 ```{r call-dart-api}
 # API call to NYS DEC DART
 # would be nice to call the API for NPDES permits (as listed in p_type)
@@ -171,11 +184,20 @@ ggplot(usa, aes(y=Item)) +
 # write_csv(dart,"dart_3.7.2025.csv")
 
 # note: this csv is too large to upload - will create a new csv.
-dart <- read_csv("dart_3.7.2025.csv")
+dart <- read_csv("dart_2020_2025.csv")
 ```
 
 ### Defining Regex Patterns to Detect NPDES IDs
-[insert info here about IDs]
+To identify wastewater permits, there are three regex patterns to identify:
+
+1. NPDES Permit (meaning a regular permit).
+2. General Permit 
+3. Individual Permit (these are permits that are processed under general permits).
+
+For more information about permit types please see the question 
+"What are the primary differences between a NODES individual permit and a NPDES
+general permit" under [EPA's NPDES Permit Basics Site](https://www.epa.gov/npdes/npdes-permit-basics).
+
 ```{r defining-regex-patterns}
 # p_type = permit type, in this exercise we are filtering for wastewater permits
 p_type <- c("P/C/I SPDES - Surface Discharge",
@@ -199,7 +221,7 @@ all_patterns <- paste(npdes_pattern,gp_pattern,individual_pattern, sep="|")
 universe <- dart |>  
   filter(`permit_type` %in% p_type) |>  
   mutate(
-    npdes = str_count(`other_known_ids`, npdes_pattern),
+    npdes = str_count(`other_known_ids`, npdes_pattern), # the str_counts are taking count of permit ID type
     individual = str_count(`other_known_ids`, individual_pattern),
     gp =  str_count(`other_known_ids`, gp_pattern),
     sum_ids = rowSums(across(c(`npdes`, `individual`,`gp`))),
@@ -210,7 +232,7 @@ universe <- dart |>
   mutate(facility_id = cur_group_id(),.by = c(facility,location,town_or_city)) |> # creating facility id
   distinct() |> # removing duplicate rows 
   mutate(
-          dart_p_type = case_when(sum_ids  > 1 ~ "multi",
+          dart_p_type = case_when(sum_ids  > 1 ~ "multi", # if entry is associated with multiple ids, it is flagged as multi
                                sum_ids & npdes == 1 ~ "npdes",
                                sum_ids & individual == 1 ~ "individual",
                                sum_ids & gp == 1 ~ "gp")) |>  
@@ -221,17 +243,6 @@ universe <- dart |>
 Note: The code above filters entries that did not have a NPDES ID listed in the 
 "Other Known IDs" column, however, were listed as NPDES permits in the Permit 
 Type Column. However, out of 35,642 entries, only 69 were missing NPDES IDs. 
-
-```{r note-on-str-count}
-# the str_count statements are taking a sum of associated permits from DART data 
-# entries. If a permit is associated with multiple ids it is assigned multi, 
-# if it is a regular npdes permit, it is called npdes. If the permit is an 
-# individual permit under a general permit, it is called individual. if it is a 
-# general permit, it is called 'gp'. for information about permit types please 
-# see the "What is the process for applying for coverage under a NPDES general 
-# permit" section of the EPA NPDES Permit Basics Page.
-# https://www.epa.gov/npdes/npdes-permit-basics
-```
 
 ### Table 1: Permit Level Data
 ```{r tbl1-permit-lvl}
@@ -286,17 +297,17 @@ tbl4_app_lvl <- universe |>
 
 ## Data Tables and Structure
 
-        (1) tbl1 - permit table: the purpose of this table is to have the most
+        (1) Table 1 - permit table: the purpose of this table is to have the most
         recent permit information. This will have one row per permit.
         
-        (2) tbl2 - permit action table: the purpose of this table is to have a 
+        (2) Table 2 - permit action table: the purpose of this table is to have a 
         table with every permit-action. This means there should be one row per
         permit action. 
         
-        (3) tbl3 - facility table: the purpose of this table is to have 
+        (3) Table 3 - facility table: the purpose of this table is to have 
         information on the facility. 
         
-        (4) tbl4 - applicant table: the purpose of this table is to have 
+        (4) Table 4 - applicant table: the purpose of this table is to have 
         information about the applicant.  
 
 ## Data Considerations:
@@ -304,14 +315,15 @@ tbl4_app_lvl <- universe |>
 information may not be available. 
 
 - There may be facilities that are listed as different facilities due to address
-changes. This information should be paired with other facility information, like
-EPA's Enforcement and Compliance History Online 
-(ECHO, available at: https://echo.epa.gov/).
+changes. This information should be verified. Databases like
+[EPA's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/))
+may be helpful for verifying facility information. 
 
 - For entries that were made on the same day for a particular permit, it is not 
 possible to identify which entry was made first. Permit transfer actions are 
 largely affected by this. Due to this, duplicates and transfers are flagged for 
 manual review. 
+
 
 Data Analysis Questions to Answer:
 - Which facilities have multiple NPDES permits associated with it?
