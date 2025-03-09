@@ -199,22 +199,62 @@ permit_status <- tbl1_permit_lvl |>
 group_by(status) |> 
   summarize(
     Count = n(),
-    Proportion = n()/nrow(tbl1_permit_lvl)
-  )
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) |> 
+  arrange(desc(Proportion)) |> 
+  head(5) |> 
+  rename("Status" = "status") 
+  
+permit_status$Proportion <- paste0(round(permit_status$Proportion, digits=1),"%")
+
+ggplot(permit_status,aes(x = reorder(Status, -Count), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    geom_text(aes(label=Proportion),
+              hjust=.35)+
+    theme_minimal()+
+    labs(title="Permits by Status",x="Status")+
+    theme(axis.text.y =element_text(angle = 55,hjust=1))+
+    coord_flip()
 
 upa_class <- tbl1_permit_lvl |> 
 group_by(upa_class) |> 
   summarize(
     Count = n(),
-    Proportion = n()/nrow(tbl1_permit_lvl)
-  )
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) 
+
+upa_class$Proportion <- paste0(round(upa_class$Proportion, digits=1),"%")
+
+ggplot(upa_class,aes(x = reorder(upa_class, -Count), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    geom_text(aes(label=Proportion),
+              hjust=.5,
+              vjust=0.25)+
+    theme_minimal()+
+    labs(title="Permits by UPA Class",x="UPA Class")
 
 final_dis <- tbl1_permit_lvl |> 
 group_by(final_disposition) |> 
   summarize(
     Count = n(),
-    Proportion = n()/nrow(tbl1_permit_lvl)
-  )
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) |> 
+  arrange(desc(Count)) |> 
+  head(5)
+
+final_dis$Proportion <- paste0(round(final_dis$Proportion, digits=1),"%")
+
+final_dis <- final_dis |> 
+  clean_names("title")
+
+ggplot(final_dis,aes(x =reorder(`Final Disposition`,-Count), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    geom_text(aes(label=Proportion),
+              hjust=.35)+
+    theme_minimal()+
+    labs(title="Permits by Final Disposition",x="Final Disposition")+
+    theme(axis.text.y =element_text(angle = 55,hjust=1))+
+    coord_flip()
 ```
 
 ```{r}
@@ -223,7 +263,11 @@ group_by(application_type) |>
   summarize(
     Count = n(),
     Proportion = n()/nrow(tbl2_permit_act_lvl)
-  )
+  ) |> 
+  clean_names("title") |> 
+  arrange(desc(Count))
+
+knitr::kable(app_type, format ="markdown")
 
 short_desc <- tbl2_permit_act_lvl |>
   mutate(c_fast_track=coalesce(str_count(short_description,"fast track"),0)) |> 
@@ -231,10 +275,8 @@ short_desc <- tbl2_permit_act_lvl |>
     "Fast Tracked Renewal Actions" = sum(c_fast_track),
     "Total Actions" = nrow(tbl2_permit_act_lvl),
     Proportion = sum(c_fast_track)/nrow(tbl2_permit_act_lvl)
-  )
-```
+  ) |> 
+  clean_names("title")
 
-Data Analysis Questions to Answer:
-- Which facilities have multiple NPDES permits associated with it?
-- Which applicants are associated with multiple NPDES permits?
-- How do we identify if a facility has numerous permits? 
+knitr::kable(short_desc, format ="markdown")
+```
