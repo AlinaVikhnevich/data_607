@@ -81,9 +81,9 @@ Each dataset represents a different domain and requires a unique transformation 
 -   **Data Issues**: The dataset is in wide format, with emissions spread across multiple columns by year.
 -   **Transformation Steps**: We will convert it into a long format, making it easier to analyze trends over time.
 
-2.  **Dataset #2: Public Transport Data (DART 2020-2025)**
+2.  **Dataset #2: New York State Department of Environmental Conservation's Application Review & Tracking System from 2020-2025 (DART)**
 
--   **Description**: This dataset contains public transport schedules and service availability from 2020 to 2025.
+-   **Description**: This dataset contains public about environment permits issued by New York State's Department of Environmental Conservation. This report explores water permits, regulated under the National Pollutant Discharge Elimination System (NPDES).
 -   **Data Issues**: The dataset is not normalized, and some entries are duplicated.
 -   **Transformation Steps**: We will standardize date formats, remove redundant data, and ensure consistency across service records.
 
@@ -257,7 +257,7 @@ ggplot(usa, aes(y=Item)) +
 
 \clearpage
 
-# **DART Transportation Data:**
+# **NYSDEC Water Permit Data (DART):**
 
 #### Loading NYSDEC DART Data
 
