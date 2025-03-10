@@ -85,7 +85,7 @@ Each dataset represents a different domain and requires a unique transformation 
 
 -   **Description**: This dataset contains public about environment permits issued by New York State's Department of Environmental Conservation. This report explores water permits, regulated under the National Pollutant Discharge Elimination System (NPDES).
 -   **Data Issues**: The dataset is not normalized, and some entries are duplicated.
--   **Transformation Steps**: We will standardize date formats, remove redundant data, and ensure consistency across service records.
+-   **Transformation Steps**: We will standardize date formats, remove redundant data, and ensure consistency across permit records.
 
 3.  **Dataset #3: Cheese Nutritional Data**
 
@@ -102,7 +102,7 @@ Each dataset requires different data transformation techniques, making them idea
 -   Handling missing values and duplicates.
 -   Preparing the data for downstream statistical analysis and visualization.
 
-## By applying tidy data principles, we ensure that each dataset is structured, organized, and ready for analysis. The insights gained from this project can be used for policy recommendations, transportation planning, and nutritional analysis.
+## By applying tidy data principles, we ensure that each dataset is structured, organized, and ready for analysis. The insights gained from this project can be used for policy recommendations, water quality analysis, and compliance to the Clean Water Act.
 
 \clearpage
 
@@ -820,7 +820,7 @@ write.csv(yearly_emissions_by_area, "yearly_emissions_by_area_cleaned.csv", row.
 write.csv(yearly_emissions, "yearly_emissions_cleaned.csv", row.names = FALSE)
 write.csv(emissions_by_area, "emissions_by_area_cleaned.csv", row.names = FALSE)
 
-# Export cleaned DART Transportation dataset
+# Export cleaned DART water permit dataset
 write.csv(tbl1_permit_lvl, "tbl1_permit_lvl_cleaned.csv", row.names = FALSE)
 write.csv(tbl2_permit_act_lvl, "tbl2_permit_act_lvl_cleaned.csv", row.names = FALSE)
 write.csv(tbl3_facility_lvl, "tbl3_facility_lvl_cleaned.csv", row.names = FALSE)
@@ -860,9 +860,9 @@ This project focused on transforming and analyzing three diverse datasets, demon
     -   The data was reshaped to a long format, making it easier to analyze changes over time.
     -   Trends in emissions were identified, providing insights into pollution levels and their environmental implications.
 
-2.  **DART Transportation Data:**
+2.  **DART Water Permits Data:**
 
-    -   The dataset was transformed to facilitate trend analysis in public transportation usage from 2020 to 2025.
+    -   The dataset was transformed to facilitate trend analysis in water permit issuance from 2020 to 2025.
     -   Cleaning and standardization helped address inconsistencies, ensuring accurate comparisons across years.
 
 3.  **Cheese Quality Data:**
