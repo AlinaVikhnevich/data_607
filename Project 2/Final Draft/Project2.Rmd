@@ -108,7 +108,7 @@ Each dataset requires different data transformation techniques, making them idea
 
 # **Data Preparation and Cleaning**
 
-# **Emissions Data:**
+## **Emissions Data:**
 
 ```{r, echo=TRUE}
 df <- read.csv("https://raw.githubusercontent.com/justin-2028/Total-Emissions-Per-Country-2000-2020/refs/heads/main/Total%20Emissions%20Per%20Country%20(2000-2020).csv")
@@ -257,7 +257,7 @@ ggplot(usa, aes(y=Item)) +
 
 \clearpage
 
-# **NYSDEC Water Permit Data (DART):**
+## **NYSDEC Water Permit Data (DART):**
 
 #### Loading NYSDEC DART Data
 
@@ -495,7 +495,7 @@ knitr::kable(short_desc, format ="markdown")
 
 \clearpage
 
-# **Cheese Dataset:**
+## **Cheese Dataset:**
 
 #### Import Data
 
