@@ -15,27 +15,18 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 
-color_str <- function(x, color='#2d3c52') {
-  if (knitr::is_latex_output()) {
-    sprintf("\\textcolor{%s}{%s}", color, x)
-  } else if (knitr::is_html_output()) {
-    sprintf("<span style='color: %s;'>%s</span>", color,
-      x)
-  } else x
-}
-
-knit_table <- function(df, position = 'left') {
-  kbl(df, format = "html", escape = FALSE) |>
+knit_table <- function(df, caption='', position = 'left') {
+  kbl(df, format = "html", escape = FALSE, caption = caption) |>
     kable_styling(
       position = position,
       bootstrap_options = c("striped")) |>
     row_spec(0, bold = T,
              color = "white",
-             background = "#2d3c52",
-             extra_css = "border: 2px solid #2d3c52;") |>
-    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #2d3c52;") |>
-    column_spec(1, extra_css = "border-left: 2px solid #2d3c52;") |>
-    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #2d3c52;")
+             background = "#327fac",
+             extra_css = "border: 2px solid #327fac;") |>
+    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #327fac;") |>
+    column_spec(1, extra_css = "border-left: 2px solid #327fac;") |>
+    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #327fac;")
 }
 ```
 
@@ -504,6 +495,10 @@ Read in raw csv file as data frame
 ```{r load cheese data}
 data <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2024/2024-06-04/cheeses.csv")
 ```
+##### View Raw Data
+```{r, echo=FALSE}
+knit_table(head(data), 'Raw Data Head') |> scroll_box(width = "800px")
+```
 
 ```{r, echo=FALSE}
 knit_table(tibble(
@@ -511,7 +506,7 @@ knit_table(tibble(
     Column_Count = dim(data)[2],
     Null_Count = sum(is.na(data))[1],
     None_Str_Count = dim(data|>filter(apply(data, 1, function(x) any(x %in% "None"))))[1]
-    ))
+    ), 'Raw Data Stats'))
 ```
 
 #### Data Handling
@@ -534,14 +529,14 @@ knit_table(tibble(
     Column_Count = dim(df)[2],
     Null_Count = sum(is.na(df))[1],
     None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
-    ))
+    ), 'Data after Handling Stats'))
 ```
 
 #### Tidy Data
 
 Tidy data by ensuring each value has its own cell
 
--   split out each row with listed values (milk, texture, aroma, flavor, country) into individual rows and lengthen the dataframe
+-   split out each row with listed values (milk, texture, aroma, flavor, country) into individual rows and lengthen the data frame
 
 ```{r}
 df = df |>
@@ -553,18 +548,23 @@ df = df |>
   separate_rows(flavor, sep = ', ')
 ```
 
+##### View Tidy Data 
+```{r, echo=FALSE}
+knit_table(head(data), 'Tidy Data Head') |> scroll_box(width = "800px")
+```
+
 ```{r, echo=FALSE}
 knit_table(tibble(
     Row_Count = dim(df)[1],
     Column_Count = dim(df)[2],
     Null_Count = sum(is.na(df))[1],
     None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
-    ))
+    ), 'Tidy Data Stats')
 ```
 
 #### Normalize Data
 
-Normalize data to reduce redundancy and allow for more efficent analysis
+Normalize data to reduce redundancy and allow for more efficient analysis
 
 -   create a data frame for each column and create an associated id column for each
 -   replace all column values with respective id value in core data frame
@@ -608,13 +608,15 @@ df = df |>
   select(cheese_id, country_id, milk_id, texture_id, aroma_id, flavor_id)
 ```
 
+##### View Tidy and Normalized Data
 ```{r, echo=FALSE}
-# knit_table(cheese_df)
-# knit_table(country_df)
-# knit_table(milk_df)
-# knit_table(texture_df)
-# knit_table(aroma_df)
-# knit_table(flavor_df)
+knit_table(head(df), 'Normalized Tidy Data Head')
+knit_table(head(cheese_df), 'Cheese Data Head')
+knit_table(head(country_df), 'Country Data Head')
+knit_table(head(milk_df), 'Milk Data Head')
+knit_table(head(texture_df), 'Texture Data Head')
+knit_table(head(aroma_df), 'Aroma Data Head')
+knit_table(head(flavor_df), 'Flavor Data Head')
 ```
 
 #### Analysis
@@ -626,7 +628,7 @@ df = df |>
 3.  Is there a country or region that produces more cheese?
 4.  Are there common aromas or flavors across cheeses made by different milks?
 
-#### **1. Most Common Milks Used**
+##### **1. Most Common Milks Used**
 
 ```{r}
 df |>
@@ -655,7 +657,7 @@ df |>
 
 ```
 
-#### **2. Most Common Textures Associated with Cheeses**
+##### **2. Most Common Textures Associated with Cheeses**
 
 ```{r}
 df |>
@@ -683,7 +685,7 @@ df |>
     legend.position = "bottom")
 ```
 
-#### **3. Countries Producing Most Cheese**
+##### **3. Countries Producing Most Cheese**
 
 ```{r}
 df |>
@@ -716,7 +718,7 @@ df |>
     legend.position = "bottom")
 ```
 
-#### **4a. Common Flavors Across Cheeses By Different Milks**
+##### **4a. Common Flavors Across Cheeses By Different Milks**
 
 ```{r}
 top_flavor_df = df |>
@@ -766,7 +768,7 @@ df |>
     plot.title = element_text(size = 14, face = "bold"))
 ```
 
-#### **4b. Common Aromas Across Cheeses By Different Milks**
+##### **4b. Common Aromas Across Cheeses By Different Milks**
 
 ```{r}
 top_aroma_df = df |>
