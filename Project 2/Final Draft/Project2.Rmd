@@ -8,8 +8,8 @@ output:
     toc: true
     toc_float: true
     number_sectons: false
-    toc_collapsed: true
-    toc_depth: 1
+    toc_collapsed: false
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
