@@ -1,0 +1,5695 @@
+"year","country","emissions"
+"2000","Afghanistan",205885.2201
+"2001","Afghanistan",196907.2112
+"2002","Afghanistan",241671.6773
+"2003","Afghanistan",250927.9447
+"2004","Afghanistan",249268.971
+"2005","Afghanistan",346995.574
+"2006","Afghanistan",263802.5522
+"2007","Afghanistan",271133.9258
+"2008","Afghanistan",308590.9589
+"2009","Afghanistan",336457.1234
+"2010","Afghanistan",385207.1228
+"2011","Afghanistan",414417.4525
+"2012","Afghanistan",401337.6849
+"2013","Afghanistan",539750.1353
+"2014","Afghanistan",393513.9453
+"2015","Afghanistan",382384.6998
+"2016","Afghanistan",375011.6835
+"2017","Afghanistan",382106.0625
+"2018","Afghanistan",380649.5266
+"2019","Afghanistan",382555.5951
+"2020","Afghanistan",395682.5596
+"2000","Africa",39797687.161
+"2001","Africa",39820019.148
+"2002","Africa",40265337.8883
+"2003","Africa",41884295.7576
+"2004","Africa",42347306.9644
+"2005","Africa",43632067.0919
+"2006","Africa",43533335.108
+"2007","Africa",44371728.6534
+"2008","Africa",45234596.9182
+"2009","Africa",44925301.1337
+"2010","Africa",46175855.7901
+"2011","Africa",49436274.2044
+"2012","Africa",50014903.1706
+"2013","Africa",50279742.3856
+"2014","Africa",50938478.0682
+"2015","Africa",51256324.2379
+"2016","Africa",52470627.2915
+"2017","Africa",53000142.3222
+"2018","Africa",53190226.7586
+"2019","Africa",53702835.1651
+"2020","Africa",53649704.9663
+"2000","Albania",114522.1769
+"2001","Albania",101489.7346
+"2002","Albania",105405.7439
+"2003","Albania",107560.9149
+"2004","Albania",106754.2301
+"2005","Albania",106526.163
+"2006","Albania",103751.403
+"2007","Albania",100580.0412
+"2008","Albania",98158.7948
+"2009","Albania",94662.0535
+"2010","Albania",89774.0936
+"2011","Albania",95902.6838
+"2012","Albania",93724.7607
+"2013","Albania",96956.7066
+"2014","Albania",102787.7454
+"2015","Albania",96326.2147
+"2016","Albania",100643.2596
+"2017","Albania",106235.1269
+"2018","Albania",100797.1064
+"2019","Albania",99036.6432
+"2020","Albania",93724.1203
+"2000","Algeria",1350194.7783
+"2001","Algeria",1222134.9213
+"2002","Algeria",1238531.7553
+"2003","Algeria",1300335.3305
+"2004","Algeria",1286159.8304
+"2005","Algeria",1408847.9407
+"2006","Algeria",1386702.0798
+"2007","Algeria",1425632.5567
+"2008","Algeria",1445877.6306
+"2009","Algeria",1486766.8443
+"2010","Algeria",1503644.3199
+"2011","Algeria",1544633.8766
+"2012","Algeria",1645183.8386
+"2013","Algeria",1732714.0263
+"2014","Algeria",1849589.0448
+"2015","Algeria",1924334.8777
+"2016","Algeria",1970634.856
+"2017","Algeria",1993152.8405
+"2018","Algeria",2078893.4143
+"2019","Algeria",2092216.504
+"2020","Algeria",2022469.7705
+"2000","American Samoa",-347.1057
+"2001","American Samoa",-254.2949
+"2002","American Samoa",-254.0309
+"2003","American Samoa",-253.9454
+"2004","American Samoa",-253.91
+"2005","American Samoa",-253.9439
+"2006","American Samoa",-254.0477
+"2007","American Samoa",-254.2157
+"2008","American Samoa",-254.4128
+"2009","American Samoa",-254.597
+"2010","American Samoa",-254.7317
+"2011","American Samoa",-221.8709
+"2012","American Samoa",-221.8955
+"2013","American Samoa",-221.891
+"2014","American Samoa",-221.8808
+"2015","American Samoa",-221.7554
+"2016","American Samoa",-261.3427
+"2017","American Samoa",-261.2467
+"2018","American Samoa",-261.1585
+"2019","American Samoa",-261.0694
+"2020","American Samoa",-260.9719
+"2000","Americas",109309143.821
+"2001","Americas",111085415.2308
+"2002","Americas",112247976.5755
+"2003","Americas",114046885.5097
+"2004","Americas",115745422.0009
+"2005","Americas",117060261.8769
+"2006","Americas",117061306.3426
+"2007","Americas",118949706.4535
+"2008","Americas",118164842.6686
+"2009","Americas",114923024.8393
+"2010","Americas",117741857.4257
+"2011","Americas",103423043.3164
+"2012","Americas",102589623.5742
+"2013","Americas",103699001.43
+"2014","Americas",104766517.792
+"2015","Americas",104100940.1433
+"2016","Americas",104051851.5687
+"2017","Americas",104204441.0843
+"2018","Americas",104923682.7925
+"2019","Americas",104602992.4918
+"2020","Americas",99633407.8085
+"2000","Andorra",3946.0902
+"2001","Andorra",3962.6339
+"2002","Andorra",4015.3914
+"2003","Andorra",4043.3476
+"2004","Andorra",4213.4892
+"2005","Andorra",4310.3812
+"2006","Andorra",4109.6337
+"2007","Andorra",4075.9576
+"2008","Andorra",4071.3332
+"2009","Andorra",3897.0317
+"2010","Andorra",3913.5213
+"2011","Andorra",3744.2721
+"2012","Andorra",3705.901
+"2013","Andorra",3625.6072
+"2014","Andorra",3518.5301
+"2015","Andorra",3522.698
+"2016","Andorra",3554.6954
+"2017","Andorra",3538.4541
+"2018","Andorra",3476.7061
+"2019","Andorra",3359.0286
+"2020","Andorra",3300.8244
+"2000","Angola",1260587.8842
+"2001","Angola",1508057.3618
+"2002","Angola",1563408.6783
+"2003","Angola",1661330.4039
+"2004","Angola",1711471.8268
+"2005","Angola",1766612.8675
+"2006","Angola",1619263.6374
+"2007","Angola",1652902.7265
+"2008","Angola",1654162.986
+"2009","Angola",1689652.9279
+"2010","Angola",1776554.679
+"2011","Angola",1751272.8311
+"2012","Angola",1758651.5412
+"2013","Angola",1752432.0709
+"2014","Angola",1811487.7766
+"2015","Angola",1811153.9166
+"2016","Angola",1798647.6306
+"2017","Angola",1858253.2644
+"2018","Angola",1668873.1436
+"2019","Angola",1803272.274
+"2020","Angola",1719136.0638
+"2000","Anguilla",652.4896
+"2001","Anguilla",705.9583
+"2002","Anguilla",697.4087
+"2003","Anguilla",753.7352
+"2004","Anguilla",887.3872
+"2005","Anguilla",932.3014
+"2006","Anguilla",1046.0816
+"2007","Anguilla",1094.7644
+"2008","Anguilla",1090.073
+"2009","Anguilla",1069.2479
+"2010","Anguilla",1099.8681
+"2011","Anguilla",1055.7418
+"2012","Anguilla",1045.6376
+"2013","Anguilla",892.8242
+"2014","Anguilla",1031.5017
+"2015","Anguilla",1141.9812
+"2016","Anguilla",1150.694
+"2017","Anguilla",1062.977
+"2018","Anguilla",1101.628
+"2019","Anguilla",1149.7951
+"2020","Anguilla",1022.3254
+"2000","Annex I countries",137835723.7183
+"2001","Annex I countries",134847942.329
+"2002","Annex I countries",134929035.3931
+"2003","Annex I countries",135812459.4765
+"2004","Annex I countries",137751647.4385
+"2005","Annex I countries",137709545.9728
+"2006","Annex I countries",138870785.183
+"2007","Annex I countries",139824852.1597
+"2008","Annex I countries",137445272.2723
+"2009","Annex I countries",130223190.7098
+"2010","Annex I countries",133203202.9403
+"2011","Annex I countries",130576335.8993
+"2012","Annex I countries",129818118.7719
+"2013","Annex I countries",129006984.3222
+"2014","Annex I countries",128571607.5568
+"2015","Annex I countries",127895391.2413
+"2016","Annex I countries",132283760.8569
+"2017","Annex I countries",133918044.5367
+"2018","Annex I countries",135480119.154
+"2019","Annex I countries",133022206.9986
+"2020","Annex I countries",123743473.4153
+"2000","Antigua and Barbuda",3800.8656
+"2001","Antigua and Barbuda",3433.6585
+"2002","Antigua and Barbuda",3650.8406
+"2003","Antigua and Barbuda",3844.314
+"2004","Antigua and Barbuda",3980.1483
+"2005","Antigua and Barbuda",4046.9758
+"2006","Antigua and Barbuda",4141.177
+"2007","Antigua and Barbuda",4301.9596
+"2008","Antigua and Barbuda",4362.5677
+"2009","Antigua and Barbuda",4564.3979
+"2010","Antigua and Barbuda",4265.5591
+"2011","Antigua and Barbuda",4253.3976
+"2012","Antigua and Barbuda",4354.1839
+"2013","Antigua and Barbuda",4413.0497
+"2014","Antigua and Barbuda",4412.4021
+"2015","Antigua and Barbuda",4425.3347
+"2016","Antigua and Barbuda",4622.3885
+"2017","Antigua and Barbuda",4663.8981
+"2018","Antigua and Barbuda",4805.5074
+"2019","Antigua and Barbuda",4930.6844
+"2020","Antigua and Barbuda",4487.181
+"2000","Argentina",4819050.292
+"2001","Argentina",4949509.6433
+"2002","Argentina",4962367.6496
+"2003","Argentina",5233966.9321
+"2004","Argentina",5424274.9199
+"2005","Argentina",5463536.7332
+"2006","Argentina",5570001.2951
+"2007","Argentina",5618100.3671
+"2008","Argentina",5686047.6878
+"2009","Argentina",5432411.2907
+"2010","Argentina",6052010.1822
+"2011","Argentina",4935003.7083
+"2012","Argentina",5673081.4854
+"2013","Argentina",5072130.1465
+"2014","Argentina",5072322.1651
+"2015","Argentina",5095169.5556
+"2016","Argentina",4614725.4317
+"2017","Argentina",4720414.4979
+"2018","Argentina",4670577.9612
+"2019","Argentina",4627467.5896
+"2020","Argentina",4604653.7334
+"2000","Armenia",57629.0068
+"2001","Armenia",54735.7637
+"2002","Armenia",54377.8085
+"2003","Armenia",58515.1049
+"2004","Armenia",62969.8987
+"2005","Armenia",68526.1067
+"2006","Armenia",81010.65
+"2007","Armenia",81089.1365
+"2008","Armenia",85429.863
+"2009","Armenia",76248.9176
+"2010","Armenia",79348.6299
+"2011","Armenia",76965.7014
+"2012","Armenia",86532.653
+"2013","Armenia",91333.6189
+"2014","Armenia",90851.1131
+"2015","Armenia",85868.4549
+"2016","Armenia",96722.0949
+"2017","Armenia",92121.9073
+"2018","Armenia",98716.7231
+"2019","Armenia",95808.9719
+"2020","Armenia",94826.0408
+"2000","Aruba",16444.0221
+"2001","Aruba",16638.5966
+"2002","Aruba",16718.4524
+"2003","Aruba",17540.2142
+"2004","Aruba",18020.1213
+"2005","Aruba",18636.3614
+"2006","Aruba",18436.756
+"2007","Aruba",19064.8961
+"2008","Aruba",17958.3223
+"2009","Aruba",17832.0097
+"2010","Aruba",16978.521
+"2011","Aruba",17191.9581
+"2012","Aruba",10055.1537
+"2013","Aruba",7195.6773
+"2014","Aruba",7218.7896
+"2015","Aruba",7348.2961
+"2016","Aruba",7244.7324
+"2017","Aruba",7553.546
+"2018","Aruba",7755.0598
+"2019","Aruba",8016.0526
+"2020","Aruba",7160.7606
+"2000","Asia",128669860.5111
+"2001","Asia",125546783.1422
+"2002","Asia",136293991.8472
+"2003","Asia",138985208.7517
+"2004","Asia",153214938.0687
+"2005","Asia",155889729.6614
+"2006","Asia",169245083.4566
+"2007","Asia",167112311.66
+"2008","Asia",173200153.088
+"2009","Asia",183456894.5803
+"2010","Asia",185949046.1573
+"2011","Asia",197925668.7695
+"2012","Asia",203916835.1612
+"2013","Asia",206501919.3915
+"2014","Asia",215346417.3994
+"2015","Asia",217183467.1275
+"2016","Asia",211617117.2243
+"2017","Asia",214865769.9597
+"2018","Asia",222047316.4517
+"2019","Asia",228626085.9807
+"2020","Asia",221771529.0001
+"2000","Australia",7687089.1896
+"2001","Australia",7916517.0954
+"2002","Australia",7787583.5419
+"2003","Australia",6498354.3243
+"2004","Australia",7177661.9611
+"2005","Australia",6628733.6426
+"2006","Australia",7369822.2058
+"2007","Australia",7273758.9796
+"2008","Australia",6749395.0233
+"2009","Australia",6937101.8278
+"2010","Australia",6538528.6996
+"2011","Australia",7213943.4412
+"2012","Australia",7095948.1037
+"2013","Australia",5685255.7544
+"2014","Australia",5958383.6471
+"2015","Australia",5808174.5429
+"2016","Australia",5478003.1112
+"2017","Australia",6135647.2836
+"2018","Australia",6116549.392
+"2019","Australia",5765093.2822
+"2020","Australia",5181591.6906
+"2000","Australia and New Zealand",7970133.6674
+"2001","Australia and New Zealand",8173243.6727
+"2002","Australia and New Zealand",8090845.4937
+"2003","Australia and New Zealand",6822334.9374
+"2004","Australia and New Zealand",7542490.4971
+"2005","Australia and New Zealand",6916992.8792
+"2006","Australia and New Zealand",7670937.2761
+"2007","Australia and New Zealand",7543848.9774
+"2008","Australia and New Zealand",7072404.8348
+"2009","Australia and New Zealand",7286771.9999
+"2010","Australia and New Zealand",6926718.6004
+"2011","Australia and New Zealand",7729319.1978
+"2012","Australia and New Zealand",7703360.6891
+"2013","Australia and New Zealand",6303607.8985
+"2014","Australia and New Zealand",6613769.8363
+"2015","Australia and New Zealand",6505821.5051
+"2016","Australia and New Zealand",6317061.6613
+"2017","Australia and New Zealand",6984424.7817
+"2018","Australia and New Zealand",6938648.4862
+"2019","Australia and New Zealand",6623475.7638
+"2020","Australia and New Zealand",5929945.4139
+"2000","Austria",547441.4855
+"2001","Austria",611003.7423
+"2002","Austria",649703.2055
+"2003","Austria",728714.9842
+"2004","Austria",701417.768
+"2005","Austria",703823.1076
+"2006","Austria",722038.6243
+"2007","Austria",707086.778
+"2008","Austria",717841.2136
+"2009","Austria",723048.4157
+"2010","Austria",796256.4445
+"2011","Austria",770686.3195
+"2012","Austria",721938.7445
+"2013","Austria",728823.5627
+"2014","Austria",715420.964
+"2015","Austria",725207.3154
+"2016","Austria",739662.2151
+"2017","Austria",745912.7891
+"2018","Austria",713414.3429
+"2019","Austria",735215.652
+"2020","Austria",680620.4217
+"2000","Azerbaijan",415114.069
+"2001","Azerbaijan",413054.8487
+"2002","Azerbaijan",416470.4699
+"2003","Azerbaijan",393932.2903
+"2004","Azerbaijan",410983.5645
+"2005","Azerbaijan",440796.9233
+"2006","Azerbaijan",431261.0415
+"2007","Azerbaijan",440564.8552
+"2008","Azerbaijan",479500.6788
+"2009","Azerbaijan",438433.4989
+"2010","Azerbaijan",429955.8605
+"2011","Azerbaijan",432769.5559
+"2012","Azerbaijan",449634.164
+"2013","Azerbaijan",452020.9122
+"2014","Azerbaijan",444567.3073
+"2015","Azerbaijan",454521.921
+"2016","Azerbaijan",462921.2023
+"2017","Azerbaijan",451038.5859
+"2018","Azerbaijan",466140.491
+"2019","Azerbaijan",488642.7213
+"2020","Azerbaijan",489374.5394
+"2000","Bahamas",17052.4939
+"2001","Bahamas",20120.2974
+"2002","Bahamas",20328.1946
+"2003","Bahamas",19919.5442
+"2004","Bahamas",21025.4762
+"2005","Bahamas",18995.4265
+"2006","Bahamas",17819.1274
+"2007","Bahamas",17833.6207
+"2008","Bahamas",21825.6375
+"2009","Bahamas",16511.5322
+"2010","Bahamas",20959.0142
+"2011","Bahamas",18741.5092
+"2012","Bahamas",18872.899
+"2013","Bahamas",26705.4926
+"2014","Bahamas",21751.5241
+"2015","Bahamas",19635.7137
+"2016","Bahamas",18613.9461
+"2017","Bahamas",20548.9843
+"2018","Bahamas",19865.4055
+"2019","Bahamas",20631.9299
+"2020","Bahamas",19043.9171
+"2000","Bahrain",274559.6674
+"2001","Bahrain",249156.8414
+"2002","Bahrain",252911.3819
+"2003","Bahrain",251245.7566
+"2004","Bahrain",255926.0284
+"2005","Bahrain",274208.3057
+"2006","Bahrain",275101.0013
+"2007","Bahrain",321063.154
+"2008","Bahrain",354536.5279
+"2009","Bahrain",350717.6939
+"2010","Bahrain",351618.1649
+"2011","Bahrain",350319.5769
+"2012","Bahrain",359044.9276
+"2013","Bahrain",402908.2529
+"2014","Bahrain",407551.5481
+"2015","Bahrain",415049.3936
+"2016","Bahrain",409048.2068
+"2017","Bahrain",411514.7966
+"2018","Bahrain",370819.3914
+"2019","Bahrain",387341.3327
+"2020","Bahrain",380332.6327
+"2000","Bangladesh",2011248.6507
+"2001","Bangladesh",2279320.6982
+"2002","Bangladesh",2097820.0743
+"2003","Bangladesh",2117487.3819
+"2004","Bangladesh",2127126.4723
+"2005","Bangladesh",2395706.1897
+"2006","Bangladesh",2288489.0299
+"2007","Bangladesh",2306286.4425
+"2008","Bangladesh",2406197.6982
+"2009","Bangladesh",2438607.7086
+"2010","Bangladesh",2494842.4781
+"2011","Bangladesh",2558814.8158
+"2012","Bangladesh",2686532.0247
+"2013","Bangladesh",2554428.0443
+"2014","Bangladesh",2608863.3635
+"2015","Bangladesh",2667224.3378
+"2016","Bangladesh",2655192.3881
+"2017","Bangladesh",2740154.1128
+"2018","Bangladesh",2801853.128
+"2019","Bangladesh",2866475.5856
+"2020","Bangladesh",2873390.5715
+"2000","Barbados",12092.5573
+"2001","Barbados",11966.6421
+"2002","Barbados",11685.3528
+"2003","Barbados",12021.6869
+"2004","Barbados",12391.741
+"2005","Barbados",12532.936
+"2006","Barbados",12561.7785
+"2007","Barbados",12705.9506
+"2008","Barbados",14355.7759
+"2009","Barbados",14224.741
+"2010","Barbados",13364.8034
+"2011","Barbados",13911.7134
+"2012","Barbados",13638.882
+"2013","Barbados",13453.1455
+"2014","Barbados",12241.0296
+"2015","Barbados",12211.9896
+"2016","Barbados",12414.4911
+"2017","Barbados",11800.614
+"2018","Barbados",12032.2481
+"2019","Barbados",12488.3946
+"2020","Barbados",11516.9598
+"2000","Belarus",992573.6762
+"2001","Belarus",1031032.9433
+"2002","Belarus",1031722.1753
+"2003","Belarus",1053177.4657
+"2004","Belarus",1074451.6656
+"2005","Belarus",1083190.4974
+"2006","Belarus",1107352.7381
+"2007","Belarus",1085575.3197
+"2008","Belarus",1119295.8263
+"2009","Belarus",1086410.4325
+"2010","Belarus",1097569.2318
+"2011","Belarus",1292420.1886
+"2012","Belarus",1300473.2175
+"2013","Belarus",1307643.0006
+"2014","Belarus",1309841.9052
+"2015","Belarus",1284448.0685
+"2016","Belarus",1226184.2817
+"2017","Belarus",1263003.7286
+"2018","Belarus",1281917.7798
+"2019","Belarus",1319645.3751
+"2020","Belarus",1352515.9667
+"2000","Belgium",1141053.9129
+"2001","Belgium",1134733.5581
+"2002","Belgium",1104900.8783
+"2003","Belgium",1149852.8058
+"2004","Belgium",1142929.1856
+"2005","Belgium",1115099.4956
+"2006","Belgium",1100677.4071
+"2007","Belgium",1078882.2465
+"2008","Belgium",1087056.5999
+"2009","Belgium",1070616.9534
+"2010","Belgium",1135498.6909
+"2011","Belgium",1088668.9752
+"2012","Belgium",1051709.8007
+"2013","Belgium",1070379.9267
+"2014","Belgium",1040616.9905
+"2015","Belgium",1067879.3019
+"2016","Belgium",1057980.5687
+"2017","Belgium",1059195.5507
+"2018","Belgium",1093596.7123
+"2019","Belgium",1070531.9997
+"2020","Belgium",972973.6349
+"2000","Belize",158682.8772
+"2001","Belize",55771.3621
+"2002","Belize",57063.6008
+"2003","Belize",72431.2367
+"2004","Belize",54312.0417
+"2005","Belize",56721.1975
+"2006","Belize",66871.8421
+"2007","Belize",58087.374
+"2008","Belize",56732.6085
+"2009","Belize",69181.2373
+"2010","Belize",57836.725
+"2011","Belize",95715.8512
+"2012","Belize",88167.6639
+"2013","Belize",91820.3992
+"2014","Belize",89283.0184
+"2015","Belize",91499.5719
+"2016","Belize",87653.7636
+"2017","Belize",88611.058
+"2018","Belize",86949.3844
+"2019","Belize",89209.0524
+"2020","Belize",89904.9236
+"2000","Benin",318928.9303
+"2001","Benin",251036.9791
+"2002","Benin",263964.282
+"2003","Benin",260323.0445
+"2004","Benin",260117.1241
+"2005","Benin",276048.198
+"2006","Benin",274966.1517
+"2007","Benin",281589.0584
+"2008","Benin",276517.7537
+"2009","Benin",282510.7697
+"2010","Benin",289089.5657
+"2011","Benin",291456.7665
+"2012","Benin",291186.2627
+"2013","Benin",298116.1377
+"2014","Benin",299892.3383
+"2015","Benin",304497.2635
+"2016","Benin",316157.598
+"2017","Benin",319901.2143
+"2018","Benin",330359.1617
+"2019","Benin",339157.4064
+"2020","Benin",339063.8647
+"2000","Bermuda",322.4393
+"2001","Bermuda",317.723
+"2002","Bermuda",337.8383
+"2003","Bermuda",331.4907
+"2004","Bermuda",340.3114
+"2005","Bermuda",374.1909
+"2006","Bermuda",441.7433
+"2007","Bermuda",395.2432
+"2008","Bermuda",378.2188
+"2009","Bermuda",384.3476
+"2010","Bermuda",384.1839
+"2011","Bermuda",346.282
+"2012","Bermuda",335.5445
+"2013","Bermuda",340.5478
+"2014","Bermuda",359.1893
+"2015","Bermuda",318.5784
+"2016","Bermuda",450.1627
+"2017","Bermuda",308.1701
+"2018","Bermuda",406.3829
+"2019","Bermuda",412.1707
+"2020","Bermuda",411.2476
+"2000","Bhutan",-43161.9039
+"2001","Bhutan",-35937.4406
+"2002","Bhutan",-35548.7092
+"2003","Bhutan",-35833.6027
+"2004","Bhutan",-36067.8015
+"2005","Bhutan",-33906.3338
+"2006","Bhutan",-34119.4197
+"2007","Bhutan",-33170.6256
+"2008","Bhutan",-34954.0298
+"2009","Bhutan",-33048.9555
+"2010","Bhutan",-31970.0076
+"2011","Bhutan",11400.3515
+"2012","Bhutan",12396.0196
+"2013","Bhutan",12034.0302
+"2014","Bhutan",12270.8442
+"2015","Bhutan",-3269.5485
+"2016","Bhutan",13605.391
+"2017","Bhutan",14465.0351
+"2018","Bhutan",14190.3907
+"2019","Bhutan",15215.9618
+"2020","Bhutan",15293.2592
+"2000","Bolivia (Plurinational State of)",1862129.1282
+"2001","Bolivia (Plurinational State of)",1389421.1127
+"2002","Bolivia (Plurinational State of)",1580889.3694
+"2003","Bolivia (Plurinational State of)",1423263.6113
+"2004","Bolivia (Plurinational State of)",1847335.0742
+"2005","Bolivia (Plurinational State of)",1643828.0102
+"2006","Bolivia (Plurinational State of)",1680304.8252
+"2007","Bolivia (Plurinational State of)",1749798.9719
+"2008","Bolivia (Plurinational State of)",1648452.8172
+"2009","Bolivia (Plurinational State of)",1622802.5516
+"2010","Bolivia (Plurinational State of)",2034626.9644
+"2011","Bolivia (Plurinational State of)",1790095.0136
+"2012","Bolivia (Plurinational State of)",1804591.7681
+"2013","Bolivia (Plurinational State of)",1792909.0443
+"2014","Bolivia (Plurinational State of)",1791283.8798
+"2015","Bolivia (Plurinational State of)",1850887.6181
+"2016","Bolivia (Plurinational State of)",2009209.3519
+"2017","Bolivia (Plurinational State of)",1991956.3811
+"2018","Bolivia (Plurinational State of)",2008326.8357
+"2019","Bolivia (Plurinational State of)",2220663.7362
+"2020","Bolivia (Plurinational State of)",2167425.3826
+"2000","Bosnia and Herzegovina",169513.0634
+"2001","Bosnia and Herzegovina",141054.1664
+"2002","Bosnia and Herzegovina",155633.5529
+"2003","Bosnia and Herzegovina",161326.0274
+"2004","Bosnia and Herzegovina",175051.401
+"2005","Bosnia and Herzegovina",181565.3336
+"2006","Bosnia and Herzegovina",194261.55
+"2007","Bosnia and Herzegovina",193565.0993
+"2008","Bosnia and Herzegovina",213929.3865
+"2009","Bosnia and Herzegovina",219782.6083
+"2010","Bosnia and Herzegovina",224378.4664
+"2011","Bosnia and Herzegovina",213411.9276
+"2012","Bosnia and Herzegovina",202989.2487
+"2013","Bosnia and Herzegovina",197078.6256
+"2014","Bosnia and Herzegovina",188063.5592
+"2015","Bosnia and Herzegovina",187704.4952
+"2016","Bosnia and Herzegovina",223368.8163
+"2017","Bosnia and Herzegovina",225153.1203
+"2018","Bosnia and Herzegovina",223739.5474
+"2019","Bosnia and Herzegovina",222941.8061
+"2020","Bosnia and Herzegovina",220582.3287
+"2000","Botswana",687097.5245
+"2001","Botswana",796625.6604
+"2002","Botswana",799688.7925
+"2003","Botswana",685640.3437
+"2004","Botswana",695411.9189
+"2005","Botswana",715296.4908
+"2006","Botswana",749385.8519
+"2007","Botswana",718650.3994
+"2008","Botswana",860894.9388
+"2009","Botswana",713643.0852
+"2010","Botswana",900855.7279
+"2011","Botswana",966855.104000001
+"2012","Botswana",776639.4931
+"2013","Botswana",762728.4709
+"2014","Botswana",724112.6155
+"2015","Botswana",710243.5133
+"2016","Botswana",699053.4461
+"2017","Botswana",753087.4217
+"2018","Botswana",718463.6539
+"2019","Botswana",689191.7255
+"2020","Botswana",736865.8446
+"2000","Brazil",32296738.1604
+"2001","Brazil",35219096.4801
+"2002","Brazil",37042905.5447
+"2003","Brazil",39294353.7376
+"2004","Brazil",40356997.1775
+"2005","Brazil",38252562.9182
+"2006","Brazil",36031529.1596
+"2007","Brazil",35957286.4452
+"2008","Brazil",36179000.6925
+"2009","Brazil",34193624.7034
+"2010","Brazil",33919315.2752
+"2011","Brazil",23314981.0483
+"2012","Brazil",21709442.6129
+"2013","Brazil",23821258.9836
+"2014","Brazil",23937117.8193
+"2015","Brazil",22632556.4204
+"2016","Brazil",21865702.3352
+"2017","Brazil",21564421.778
+"2018","Brazil",21122841.7997
+"2019","Brazil",21439727.8708
+"2020","Brazil",21573479.5925
+"2000","British Virgin Islands",912.7739
+"2001","British Virgin Islands",935.6318
+"2002","British Virgin Islands",982.2232
+"2003","British Virgin Islands",1062.6667
+"2004","British Virgin Islands",1156.6069
+"2005","British Virgin Islands",1328.2707
+"2006","British Virgin Islands",1356.3058
+"2007","British Virgin Islands",1389.9287
+"2008","British Virgin Islands",1410.7937
+"2009","British Virgin Islands",1429.0902
+"2010","British Virgin Islands",1486.5707
+"2011","British Virgin Islands",1528.5121
+"2012","British Virgin Islands",1527.8857
+"2013","British Virgin Islands",1546.1262
+"2014","British Virgin Islands",1616.4088
+"2015","British Virgin Islands",1614.1919
+"2016","British Virgin Islands",1618.4335
+"2017","British Virgin Islands",1295.9781
+"2018","British Virgin Islands",1323.3767
+"2019","British Virgin Islands",1399.7498
+"2020","British Virgin Islands",1243.6772
+"2000","Brunei Darussalam",84815.5964
+"2001","Brunei Darussalam",88966.1656
+"2002","Brunei Darussalam",83095.4604
+"2003","Brunei Darussalam",88955.5188
+"2004","Brunei Darussalam",88371.5446
+"2005","Brunei Darussalam",88716.3363
+"2006","Brunei Darussalam",94587.0536
+"2007","Brunei Darussalam",117934.6833
+"2008","Brunei Darussalam",132834.0279
+"2009","Brunei Darussalam",116412.8378
+"2010","Brunei Darussalam",110184.7951
+"2011","Brunei Darussalam",115829.3744
+"2012","Brunei Darussalam",114538.1318
+"2013","Brunei Darussalam",101779.4468
+"2014","Brunei Darussalam",109487.4648
+"2015","Brunei Darussalam",96323.0015
+"2016","Brunei Darussalam",99289.7185
+"2017","Brunei Darussalam",110247.4216
+"2018","Brunei Darussalam",112306.586
+"2019","Brunei Darussalam",119930.593
+"2020","Brunei Darussalam",118091.3221
+"2000","Bulgaria",260143.3244
+"2001","Bulgaria",276657.8855
+"2002","Bulgaria",267944.3423
+"2003","Bulgaria",292316.0862
+"2004","Bulgaria",283523.136
+"2005","Bulgaria",292710.6208
+"2006","Bulgaria",296989.3785
+"2007","Bulgaria",325306.2697
+"2008","Bulgaria",311358.307
+"2009","Bulgaria",257092.7684
+"2010","Bulgaria",269433.2881
+"2011","Bulgaria",398566.0047
+"2012","Bulgaria",357354.8947
+"2013","Bulgaria",338837.9114
+"2014","Bulgaria",360050.8248
+"2015","Bulgaria",384107.7994
+"2016","Bulgaria",216088.7084
+"2017","Bulgaria",240343.7471
+"2018","Bulgaria",226323.3335
+"2019","Bulgaria",220910.4997
+"2020","Bulgaria",172845.013
+"2000","Burkina Faso",438435.4448
+"2001","Burkina Faso",444931.5525
+"2002","Burkina Faso",455251.1268
+"2003","Burkina Faso",513135.6251
+"2004","Burkina Faso",523506.8743
+"2005","Burkina Faso",536074.8916
+"2006","Burkina Faso",534289.5019
+"2007","Burkina Faso",583861.0846
+"2008","Burkina Faso",555890.0727
+"2009","Burkina Faso",567518.3698
+"2010","Burkina Faso",585851.2826
+"2011","Burkina Faso",502274.6979
+"2012","Burkina Faso",509058.679
+"2013","Burkina Faso",523106.3665
+"2014","Burkina Faso",530529.4079
+"2015","Burkina Faso",542033.1845
+"2016","Burkina Faso",710113.9638
+"2017","Burkina Faso",720550.606
+"2018","Burkina Faso",725054.735
+"2019","Burkina Faso",734049.1962
+"2020","Burkina Faso",747717.349
+"2000","Burundi",113230.5927
+"2001","Burundi",86049.6836
+"2002","Burundi",85949.7404
+"2003","Burundi",86129.3614
+"2004","Burundi",87517.0359
+"2005","Burundi",81955.6215
+"2006","Burundi",90998.3088
+"2007","Burundi",92527.7392
+"2008","Burundi",94791.8808
+"2009","Burundi",97254.609
+"2010","Burundi",100729.158
+"2011","Burundi",65695.9755
+"2012","Burundi",64138.6898
+"2013","Burundi",72450.6544
+"2014","Burundi",71741.9022
+"2015","Burundi",70784.234
+"2016","Burundi",116925.2644
+"2017","Burundi",126402.5102
+"2018","Burundi",127918.8748
+"2019","Burundi",120424.2372
+"2020","Burundi",117462.0123
+"2000","C?e d'Ivoire",1695805.4583
+"2001","C?e d'Ivoire",586703.0139
+"2002","C?e d'Ivoire",596408.4654
+"2003","C?e d'Ivoire",581345.6086
+"2004","C?e d'Ivoire",577865.7469
+"2005","C?e d'Ivoire",605420.4764
+"2006","C?e d'Ivoire",598023.6792
+"2007","C?e d'Ivoire",603224.5706
+"2008","C?e d'Ivoire",596418.8872
+"2009","C?e d'Ivoire",588889.0112
+"2010","C?e d'Ivoire",595150.2342
+"2011","C?e d'Ivoire",606536.6804
+"2012","C?e d'Ivoire",626967.4111
+"2013","C?e d'Ivoire",646036.938
+"2014","C?e d'Ivoire",636581.9626
+"2015","C?e d'Ivoire",640257.4231
+"2016","C?e d'Ivoire",682649.4287
+"2017","C?e d'Ivoire",667704.5627
+"2018","C?e d'Ivoire",669188.2856
+"2019","C?e d'Ivoire",673761.0708
+"2020","C?e d'Ivoire",682571.9225
+"2000","Cabo Verde",1547.9021
+"2001","Cabo Verde",4841.8686
+"2002","Cabo Verde",5157.6503
+"2003","Cabo Verde",4966.7863
+"2004","Cabo Verde",5298.1736
+"2005","Cabo Verde",6127.7256
+"2006","Cabo Verde",6324.906
+"2007","Cabo Verde",6481.5885
+"2008","Cabo Verde",6180.8512
+"2009","Cabo Verde",6708.5834
+"2010","Cabo Verde",7040.6371
+"2011","Cabo Verde",7477.9439
+"2012","Cabo Verde",6747.9143
+"2013","Cabo Verde",6816.141
+"2014","Cabo Verde",6816.6126
+"2015","Cabo Verde",6905.3246
+"2016","Cabo Verde",7305.4847
+"2017","Cabo Verde",7211.1891
+"2018","Cabo Verde",8269.3151
+"2019","Cabo Verde",8416.2071
+"2020","Cabo Verde",8607.8596
+"2000","Cambodia",425096.3318
+"2001","Cambodia",473458.5779
+"2002","Cambodia",510176.0383
+"2003","Cambodia",549774.4833
+"2004","Cambodia",556123.1661
+"2005","Cambodia",548280.1432
+"2006","Cambodia",593382.6413
+"2007","Cambodia",602179.6265
+"2008","Cambodia",598628.3287
+"2009","Cambodia",626997.197
+"2010","Cambodia",628088.8397
+"2011","Cambodia",1597355.1434
+"2012","Cambodia",1566953.0993
+"2013","Cambodia",1565366.7376
+"2014","Cambodia",1560696.2365
+"2015","Cambodia",1595832.5329
+"2016","Cambodia",1022183.8044
+"2017","Cambodia",1002015.4162
+"2018","Cambodia",993016.515900001
+"2019","Cambodia",1009630.1189
+"2020","Cambodia",1009346.8411
+"2000","Cameroon",1077915.5049
+"2001","Cameroon",956464.4357
+"2002","Cameroon",952467.7619
+"2003","Cameroon",1006756.7549
+"2004","Cameroon",954438.314
+"2005","Cameroon",1000709.9701
+"2006","Cameroon",953852.1232
+"2007","Cameroon",960527.0646
+"2008","Cameroon",961649.7746
+"2009","Cameroon",955864.2507
+"2010","Cameroon",965169.7907
+"2011","Cameroon",847117.384
+"2012","Cameroon",846009.7937
+"2013","Cameroon",856081.5896
+"2014","Cameroon",865743.4253
+"2015","Cameroon",892246.7923
+"2016","Cameroon",910747.4013
+"2017","Cameroon",890350.0473
+"2018","Cameroon",892942.7818
+"2019","Cameroon",905567.832
+"2020","Cameroon",918901.1624
+"2000","Canada",6884513.9767
+"2001","Canada",8667788.5661
+"2002","Canada",8720293.4165
+"2003","Canada",8975740.7366
+"2004","Canada",9102678.861
+"2005","Canada",9248148.889
+"2006","Canada",9276541.2882
+"2007","Canada",9341473.9098
+"2008","Canada",9184660.3936
+"2009","Canada",8871130.4128
+"2010","Canada",8928512.819
+"2011","Canada",7531490.7887
+"2012","Canada",7580399.173
+"2013","Canada",7738461.9273
+"2014","Canada",7868728.2266
+"2015","Canada",7967789.053
+"2016","Canada",7155215.9853
+"2017","Canada",7293546.56
+"2018","Canada",7432979.9968
+"2019","Canada",7368642.5579
+"2020","Canada",6909017.0644
+"2000","Caribbean",1308050.0044
+"2001","Caribbean",1352415.5838
+"2002","Caribbean",1404716.5979
+"2003","Caribbean",1450710.0317
+"2004","Caribbean",1460429.8096
+"2005","Caribbean",1532170.6058
+"2006","Caribbean",1638267.9817
+"2007","Caribbean",1659813.211
+"2008","Caribbean",1669299.4552
+"2009","Caribbean",1665632.2281
+"2010","Caribbean",1717957.4599
+"2011","Caribbean",1737454.5039
+"2012","Caribbean",1718339.8497
+"2013","Caribbean",1717904.7141
+"2014","Caribbean",1704101.3204
+"2015","Caribbean",1715507.0322
+"2016","Caribbean",1743216.7546
+"2017","Caribbean",1726356.8343
+"2018","Caribbean",1732429.3116
+"2019","Caribbean",1754874.9539
+"2020","Caribbean",1645283.7301
+"2000","Cayman Islands",108.393
+"2001","Cayman Islands",88.6671
+"2002","Cayman Islands",87.824
+"2003","Cayman Islands",89.4119
+"2004","Cayman Islands",89.478
+"2005","Cayman Islands",91.6723
+"2006","Cayman Islands",191.3677
+"2007","Cayman Islands",252.3745
+"2008","Cayman Islands",287.7963
+"2009","Cayman Islands",303.6043
+"2010","Cayman Islands",315.6851
+"2011","Cayman Islands",269.2804
+"2012","Cayman Islands",269.9726
+"2013","Cayman Islands",275.7285
+"2014","Cayman Islands",278.6768
+"2015","Cayman Islands",280.5374
+"2016","Cayman Islands",265.5886
+"2017","Cayman Islands",268.7016
+"2018","Cayman Islands",272.697
+"2019","Cayman Islands",274.4485
+"2020","Cayman Islands",275.1182
+"2000","Central African Republic",649060.6603
+"2001","Central African Republic",851682.9708
+"2002","Central African Republic",775152.0562
+"2003","Central African Republic",-2382962.0893
+"2004","Central African Republic",-2597466.651
+"2005","Central African Republic",-2470977.9243
+"2006","Central African Republic",-2549787.4689
+"2007","Central African Republic",-2502340.5908
+"2008","Central African Republic",-2511786.0544
+"2009","Central African Republic",-2737749.3372
+"2010","Central African Republic",-2594372.8511
+"2011","Central African Republic",959409.6572
+"2012","Central African Republic",874167.8156
+"2013","Central African Republic",842791.4144
+"2014","Central African Republic",785087.1506
+"2015","Central African Republic",823991.4793
+"2016","Central African Republic",961315.6021
+"2017","Central African Republic",866348.7122
+"2018","Central African Republic",863373.1432
+"2019","Central African Republic",833327.3804
+"2020","Central African Republic",830509.1265
+"2000","Central America",7704144.2714
+"2001","Central America",6883127.9814
+"2002","Central America",6935306.4892
+"2003","Central America",7300959.8361
+"2004","Central America",7166917.6281
+"2005","Central America",7534659.7148
+"2006","Central America",7676251.1472
+"2007","Central America",7923685.922
+"2008","Central America",8276657.0408
+"2009","Central America",8182724.3728
+"2010","Central America",8101338.6794
+"2011","Central America",8607052.9805
+"2012","Central America",8574075.5686
+"2013","Central America",8711799.5266
+"2014","Central America",8706156.9007
+"2015","Central America",8677832.5423
+"2016","Central America",8927579.1623
+"2017","Central America",8880118.8584
+"2018","Central America",8826684.4065
+"2019","Central America",8802708.3148
+"2020","Central America",8322489.4394
+"2000","Central Asia",3472231.856
+"2001","Central Asia",3533290.5689
+"2002","Central Asia",3834152.142
+"2003","Central Asia",3863379.4547
+"2004","Central Asia",4138765.7798
+"2005","Central Asia",4209940.1137
+"2006","Central Asia",4490317.418
+"2007","Central Asia",4646127.3583
+"2008","Central Asia",4948829.9067
+"2009","Central Asia",4549241.1958
+"2010","Central Asia",4906871.0084
+"2011","Central Asia",5144742.9565
+"2012","Central Asia",5183602.9195
+"2013","Central Asia",5262411.2951
+"2014","Central Asia",5219770.432
+"2015","Central Asia",5244723.2607
+"2016","Central Asia",5336691.2332
+"2017","Central Asia",5571127.8532
+"2018","Central Asia",5817190.5966
+"2019","Central Asia",5894770.8058
+"2020","Central Asia",5762702.6524
+"2000","Chad",726222.8612
+"2001","Chad",742020.6173
+"2002","Chad",784927.4395
+"2003","Chad",837391.3545
+"2004","Chad",903737.6746
+"2005","Chad",934317.176
+"2006","Chad",965587.9254
+"2007","Chad",1013292.2314
+"2008","Chad",1025858.0201
+"2009","Chad",1034171.3757
+"2010","Chad",1099759.0373
+"2011","Chad",1272505.6539
+"2012","Chad",1323951.181
+"2013","Chad",1350731.5374
+"2014","Chad",1396376.8555
+"2015","Chad",1476726.9969
+"2016","Chad",1530218.7486
+"2017","Chad",1562699.7596
+"2018","Chad",1634985.2677
+"2019","Chad",1681696.0167
+"2020","Chad",1769508.5752
+"2000","Channel Islands",0
+"2001","Channel Islands",0
+"2002","Channel Islands",0
+"2003","Channel Islands",0
+"2004","Channel Islands",0
+"2005","Channel Islands",0
+"2006","Channel Islands",267.8784
+"2007","Channel Islands",239.6528
+"2008","Channel Islands",247.518
+"2009","Channel Islands",229.7696
+"2010","Channel Islands",205.5508
+"2011","Channel Islands",199.7424
+"2012","Channel Islands",195.5544
+"2013","Channel Islands",194.1108
+"2014","Channel Islands",192.6732
+"2015","Channel Islands",143.49
+"2016","Channel Islands",137.492
+"2017","Channel Islands",152.4844
+"2018","Channel Islands",165.1876
+"2019","Channel Islands",159.6908
+"2020","Channel Islands",159.6908
+"2000","Chile",560024.2359
+"2001","Chile",450591.0808
+"2002","Chile",470597.1783
+"2003","Chile",475553.9298
+"2004","Chile",521306.8672
+"2005","Chile",529046.9149
+"2006","Chile",564603.7113
+"2007","Chile",588692.5404
+"2008","Chile",611064.0316
+"2009","Chile",568253.6625
+"2010","Chile",494973.078
+"2011","Chile",290342.0053
+"2012","Chile",308804.9899
+"2013","Chile",172899.677
+"2014","Chile",244735.3362
+"2015","Chile",270074.657
+"2016","Chile",374451.3931
+"2017","Chile",497621.8118
+"2018","Chile",279655.886
+"2019","Chile",516988.7556
+"2020","Chile",461248.3091
+"2000","China",41391835.6876
+"2001","China",42117000.653
+"2002","China",44600073.8367
+"2003","China",49699099.4251
+"2004","China",55367060.9274
+"2005","China",60686526.7438
+"2006","China",65334641.8054
+"2007","China",68791517.9253
+"2008","China",72149326.9824
+"2009","China",74820046.0622
+"2010","China",80342920.3919
+"2011","China",83525460.9867
+"2012","China",86824646.037
+"2013","China",87685195.6695
+"2014","China",88946007.4273
+"2015","China",88386387.6231
+"2016","China",88152111.7719
+"2017","China",89644823.4865
+"2018","China",91230986.2411
+"2019","China",93225916.9214
+"2020","China",94472805.7398
+"2000","China, Hong Kong SAR",338699.8717
+"2001","China, Hong Kong SAR",319958.3517
+"2002","China, Hong Kong SAR",324890.6063
+"2003","China, Hong Kong SAR",347542.7534
+"2004","China, Hong Kong SAR",331741.9488
+"2005","China, Hong Kong SAR",346376.4172
+"2006","China, Hong Kong SAR",333605.2957
+"2007","China, Hong Kong SAR",344121.7455
+"2008","China, Hong Kong SAR",350774.8837
+"2009","China, Hong Kong SAR",348984.9955
+"2010","China, Hong Kong SAR",339673.2879
+"2011","China, Hong Kong SAR",359354.4082
+"2012","China, Hong Kong SAR",357265.6565
+"2013","China, Hong Kong SAR",366970.9216
+"2014","China, Hong Kong SAR",374731.3659
+"2015","China, Hong Kong SAR",356999.3125
+"2016","China, Hong Kong SAR",364612.8215
+"2017","China, Hong Kong SAR",360378.4035
+"2018","China, Hong Kong SAR",363131.7763
+"2019","China, Hong Kong SAR",342905.638
+"2020","China, Hong Kong SAR",267302.3086
+"2000","China, Macao SAR",13088.8903
+"2001","China, Macao SAR",13400.9388
+"2002","China, Macao SAR",12405.8179
+"2003","China, Macao SAR",12429.5959
+"2004","China, Macao SAR",13692.7829
+"2005","China, Macao SAR",14483.6825
+"2006","China, Macao SAR",13205.3323
+"2007","China, Macao SAR",11936.805
+"2008","China, Macao SAR",10496.098
+"2009","China, Macao SAR",15394.4366
+"2010","China, Macao SAR",11428.5235
+"2011","China, Macao SAR",13329.4919
+"2012","China, Macao SAR",12521.4499
+"2013","China, Macao SAR",11817.68
+"2014","China, Macao SAR",13813.1091
+"2015","China, Macao SAR",17277.9523
+"2016","China, Macao SAR",15774.9278
+"2017","China, Macao SAR",16821.2156
+"2018","China, Macao SAR",18520.0889
+"2019","China, Macao SAR",19695.6168
+"2020","China, Macao SAR",19612.723
+"2000","China, mainland",39344208.1962
+"2001","China, mainland",40060234.1006
+"2002","China, mainland",42437041.964
+"2003","China, mainland",47470377.9166
+"2004","China, mainland",53087209.3417
+"2005","China, mainland",56577868.8432
+"2006","China, mainland",63050706.4476
+"2007","China, mainland",66326576.6804
+"2008","China, mainland",69770962.5932
+"2009","China, mainland",72529716.816
+"2010","China, mainland",75552837.1609
+"2011","China, mainland",81063248.3883
+"2012","China, mainland",81877030.2357
+"2013","China, mainland",85255410.3666
+"2014","China, mainland",84079307.8189
+"2015","China, mainland",85978738.3769
+"2016","China, mainland",85691005.669
+"2017","China, mainland",87148577.8695
+"2018","China, mainland",88734153.4204
+"2019","China, mainland",90795351.8835
+"2020","China, mainland",92211261.2499
+"2000","China, Taiwan Province of",1695838.7286
+"2001","China, Taiwan Province of",1723407.2776
+"2002","China, Taiwan Province of",1825735.4656
+"2003","China, Taiwan Province of",1868749.1602
+"2004","China, Taiwan Province of",1934416.8538
+"2005","China, Taiwan Province of",1966434.1905
+"2006","China, Taiwan Province of",1937124.7298
+"2007","China, Taiwan Province of",2108882.694
+"2008","China, Taiwan Province of",2017093.3904
+"2009","China, Taiwan Province of",1925949.8077
+"2010","China, Taiwan Province of",2050318.5961
+"2011","China, Taiwan Province of",2089528.7152
+"2012","China, Taiwan Province of",2007672.6102
+"2013","China, Taiwan Province of",2050996.8814
+"2014","China, Taiwan Province of",2081058.5474
+"2015","China, Taiwan Province of",2033371.8405
+"2016","China, Taiwan Province of",2080718.3521
+"2017","China, Taiwan Province of",2119045.8694
+"2018","China, Taiwan Province of",2115180.803
+"2019","China, Taiwan Province of",2067963.7806
+"2020","China, Taiwan Province of",1974629.4657
+"2000","Colombia",3323527.0968
+"2001","Colombia",2994498.0119
+"2002","Colombia",2995622.6058
+"2003","Colombia",3041093.1736
+"2004","Colombia",3277818.2075
+"2005","Colombia",3068477.0091
+"2006","Colombia",3082688.3171
+"2007","Colombia",3138403.3965
+"2008","Colombia",3170398.1548
+"2009","Colombia",3219974.7491
+"2010","Colombia",3290165.4579
+"2011","Colombia",2855463.6726
+"2012","Colombia",2824976.806
+"2013","Colombia",2894352.1408
+"2014","Colombia",2919400.6663
+"2015","Colombia",2739312.3143
+"2016","Colombia",3215279.3584
+"2017","Colombia",3219019.5411
+"2018","Colombia",3320162.4523
+"2019","Colombia",3398124.4954
+"2020","Colombia",3379183.6228
+"2000","Comoros",1184.5634
+"2001","Comoros",7053.552
+"2002","Comoros",7169.4166
+"2003","Comoros",7214.8456
+"2004","Comoros",7302.1204
+"2005","Comoros",7997.8041
+"2006","Comoros",7903.9544
+"2007","Comoros",7164.372
+"2008","Comoros",7676.2088
+"2009","Comoros",7946.9382
+"2010","Comoros",8403.4168
+"2011","Comoros",8576.0936
+"2012","Comoros",8811.3775
+"2013","Comoros",9185.5506
+"2014","Comoros",9191.5206
+"2015","Comoros",9449.0362
+"2016","Comoros",9643.3064
+"2017","Comoros",10048.9351
+"2018","Comoros",10203.448
+"2019","Comoros",10035.2085
+"2020","Comoros",10116.223
+"2000","Congo",103417.2669
+"2001","Congo",259761.4632
+"2002","Congo",226473.3847
+"2003","Congo",255968.8085
+"2004","Congo",263857.0754
+"2005","Congo",291979.4472
+"2006","Congo",306027.5397
+"2007","Congo",281054.4895
+"2008","Congo",279154.4946
+"2009","Congo",289026.4696
+"2010","Congo",309619.1327
+"2011","Congo",309134.4009
+"2012","Congo",305347.5044
+"2013","Congo",304975.0784
+"2014","Congo",296907.5916
+"2015","Congo",304314.3717
+"2016","Congo",321598.0875
+"2017","Congo",323500.5622
+"2018","Congo",332306.7667
+"2019","Congo",325732.631
+"2020","Congo",317270.8705
+"2000","Cook Islands",490.9978
+"2001","Cook Islands",499.3994
+"2002","Cook Islands",414.2309
+"2003","Cook Islands",458.1741
+"2004","Cook Islands",594.9169
+"2005","Cook Islands",655.4532
+"2006","Cook Islands",620.0506
+"2007","Cook Islands",616.6997
+"2008","Cook Islands",624.0125
+"2009","Cook Islands",605.9349
+"2010","Cook Islands",669.8241
+"2011","Cook Islands",742.1222
+"2012","Cook Islands",762.6375
+"2013","Cook Islands",753.2162
+"2014","Cook Islands",776.6636
+"2015","Cook Islands",742.1175
+"2016","Cook Islands",727.8585
+"2017","Cook Islands",752.0115
+"2018","Cook Islands",755.7022
+"2019","Cook Islands",787.4023
+"2020","Cook Islands",753.3371
+"2000","Costa Rica",174683.8507
+"2001","Costa Rica",120287.8729
+"2002","Costa Rica",121626.8277
+"2003","Costa Rica",125023.895
+"2004","Costa Rica",121656.7271
+"2005","Costa Rica",136874.6736
+"2006","Costa Rica",126770.2943
+"2007","Costa Rica",138742.6623
+"2008","Costa Rica",141931.5176
+"2009","Costa Rica",137182.6084
+"2010","Costa Rica",139425.3274
+"2011","Costa Rica",87176.0281
+"2012","Costa Rica",85433.1121
+"2013","Costa Rica",89583.3832
+"2014","Costa Rica",88408.708
+"2015","Costa Rica",88796.9524
+"2016","Costa Rica",97528.3693
+"2017","Costa Rica",101378.3581
+"2018","Costa Rica",107122.5371
+"2019","Costa Rica",114032.3259
+"2020","Costa Rica",98246.1444
+"2000","Croatia",200158.3022
+"2001","Croatia",207083.2965
+"2002","Croatia",218112.8307
+"2003","Croatia",228880.6915
+"2004","Croatia",239498.8658
+"2005","Croatia",238036.701
+"2006","Croatia",249471.878
+"2007","Croatia",263987.8344
+"2008","Croatia",258903.0127
+"2009","Croatia",222146.8298
+"2010","Croatia",220188.4778
+"2011","Croatia",218143.1001
+"2012","Croatia",199843.1587
+"2013","Croatia",195205.3392
+"2014","Croatia",192189.4247
+"2015","Croatia",198949.164
+"2016","Croatia",178458.1389
+"2017","Croatia",188183.4285
+"2018","Croatia",177434.6504
+"2019","Croatia",179294.8707
+"2020","Croatia",179728.0141
+"2000","Cuba",373086.3637
+"2001","Cuba",362331.9842
+"2002","Cuba",390715.7754
+"2003","Cuba",381210.5163
+"2004","Cuba",373297.2587
+"2005","Cuba",363757.4703
+"2006","Cuba",374991.4114
+"2007","Cuba",367757.0994
+"2008","Cuba",384112.5366
+"2009","Cuba",401129.1959
+"2010","Cuba",431568.0142
+"2011","Cuba",389171.6416
+"2012","Cuba",388842.0401
+"2013","Cuba",381613.3994
+"2014","Cuba",370369.093
+"2015","Cuba",373009.1719
+"2016","Cuba",450750.5564
+"2017","Cuba",426048.6165
+"2018","Cuba",429968.7373
+"2019","Cuba",434714.9765
+"2020","Cuba",403198.0024
+"2000","Cyprus",62944.3153
+"2001","Cyprus",61447.3184
+"2002","Cyprus",62971.5526
+"2003","Cyprus",67321.5707
+"2004","Cyprus",64774.0468
+"2005","Cyprus",65025.9011
+"2006","Cyprus",67321.7356
+"2007","Cyprus",70439.8573
+"2008","Cyprus",71971.9813
+"2009","Cyprus",69486.1519
+"2010","Cyprus",69387.4065
+"2011","Cyprus",67157.3475
+"2012","Cyprus",63928.9484
+"2013","Cyprus",58585.7327
+"2014","Cyprus",60878.8015
+"2015","Cyprus",61170.5194
+"2016","Cyprus",66113.315
+"2017","Cyprus",66783.327
+"2018","Cyprus",66625.3299
+"2019","Cyprus",67034.9635
+"2020","Cyprus",62799.3711
+"2000","Czechia",1010151.0142
+"2001","Czechia",1041168.3216
+"2002","Czechia",993467.0958
+"2003","Czechia",1010370.9604
+"2004","Czechia",985249.6935
+"2005","Czechia",994958.0233
+"2006","Czechia",1016398.2479
+"2007","Czechia",1030116.8796
+"2008","Czechia",976202.7093
+"2009","Czechia",947817.8814
+"2010","Czechia",955140.0404
+"2011","Czechia",955430.8539
+"2012","Czechia",934662.5539
+"2013","Czechia",921375.0122
+"2014","Czechia",897447.3334
+"2015","Czechia",927031.2849
+"2016","Czechia",927813.1007
+"2017","Czechia",932512.5458
+"2018","Czechia",947463.8864
+"2019","Czechia",954625.8772
+"2020","Czechia",856779.3101
+"2000","Democratic People's Republic of Korea",806303.9927
+"2001","Democratic People's Republic of Korea",772991.4647
+"2002","Democratic People's Republic of Korea",735955.4277
+"2003","Democratic People's Republic of Korea",765363.4315
+"2004","Democratic People's Republic of Korea",786472.7315
+"2005","Democratic People's Republic of Korea",818903.2613
+"2006","Democratic People's Republic of Korea",832186.1657
+"2007","Democratic People's Republic of Korea",734409.3219
+"2008","Democratic People's Republic of Korea",784318.7388
+"2009","Democratic People's Republic of Korea",657838.6367
+"2010","Democratic People's Republic of Korea",637780.89
+"2011","Democratic People's Republic of Korea",571399.3057
+"2012","Democratic People's Republic of Korea",575591.8805
+"2013","Democratic People's Republic of Korea",512092.4763
+"2014","Democratic People's Republic of Korea",541613.3813
+"2015","Democratic People's Republic of Korea",500154.6271
+"2016","Democratic People's Republic of Korea",537855.1862
+"2017","Democratic People's Republic of Korea",476322.1104
+"2018","Democratic People's Republic of Korea",485610.0661
+"2019","Democratic People's Republic of Korea",491387.1795
+"2020","Democratic People's Republic of Korea",486646.5233
+"2000","Democratic Republic of the Congo",9813383.9279
+"2001","Democratic Republic of the Congo",10969897.8125
+"2002","Democratic Republic of the Congo",11303000.1419
+"2003","Democratic Republic of the Congo",11404317.3583
+"2004","Democratic Republic of the Congo",11227077.1889
+"2005","Democratic Republic of the Congo",11204902.3536
+"2006","Democratic Republic of the Congo",11895429.2523
+"2007","Democratic Republic of the Congo",11125865.611
+"2008","Democratic Republic of the Congo",12240657.5009
+"2009","Democratic Republic of the Congo",11238578.1951
+"2010","Democratic Republic of the Congo",6878243.8859
+"2011","Democratic Republic of the Congo",9595615.6177
+"2012","Democratic Republic of the Congo",9585102.5795
+"2013","Democratic Republic of the Congo",9635728.4272
+"2014","Democratic Republic of the Congo",9620240.7616
+"2015","Democratic Republic of the Congo",9679483.1317
+"2016","Democratic Republic of the Congo",9684525.9012
+"2017","Democratic Republic of the Congo",9698581.0144
+"2018","Democratic Republic of the Congo",9602257.233
+"2019","Democratic Republic of the Congo",9668782.4741
+"2020","Democratic Republic of the Congo",9687869.5585
+"2000","Denmark",731798.1284
+"2001","Denmark",736963.606
+"2002","Denmark",726491.2081
+"2003","Denmark",747720.5251
+"2004","Denmark",699730.307
+"2005","Denmark",675212.0562
+"2006","Denmark",722297.2653
+"2007","Denmark",747700.9599
+"2008","Denmark",673400.398
+"2009","Denmark",643525.7225
+"2010","Denmark",653116.4095
+"2011","Denmark",600369.3603
+"2012","Denmark",570927.2334
+"2013","Denmark",578993.7433
+"2014","Denmark",554499.1345
+"2015","Denmark",536966.2367
+"2016","Denmark",586172.7278
+"2017","Denmark",570533.0357
+"2018","Denmark",572243.4606
+"2019","Denmark",551612.4061
+"2020","Denmark",514480.0665
+"2000","Djibouti",7873.46310000001
+"2001","Djibouti",18627.8994
+"2002","Djibouti",18879.2543
+"2003","Djibouti",19010.1627
+"2004","Djibouti",18865.106
+"2005","Djibouti",19028.9139
+"2006","Djibouti",18995.3601
+"2007","Djibouti",19443.7935
+"2008","Djibouti",19828.7088
+"2009","Djibouti",19495.4224
+"2010","Djibouti",19887.6191
+"2011","Djibouti",19681.8075
+"2012","Djibouti",20038.921
+"2013","Djibouti",20604.0034
+"2014","Djibouti",19679.6032
+"2015","Djibouti",20122.2693
+"2016","Djibouti",20127.532
+"2017","Djibouti",20306.5165
+"2018","Djibouti",20472.5197
+"2019","Djibouti",20387.9369
+"2020","Djibouti",20214.5627
+"2000","Dominica",2647.0206
+"2001","Dominica",1816.9942
+"2002","Dominica",1656.3755
+"2003","Dominica",1786.7785
+"2004","Dominica",1926.0094
+"2005","Dominica",1944.5774
+"2006","Dominica",2010.4037
+"2007","Dominica",2297.5097
+"2008","Dominica",2147.9126
+"2009","Dominica",2109.2271
+"2010","Dominica",2146.5601
+"2011","Dominica",2113.4506
+"2012","Dominica",2149.6279
+"2013","Dominica",2201.3565
+"2014","Dominica",2226.3924
+"2015","Dominica",2254.092
+"2016","Dominica",2204.7656
+"2017","Dominica",-3438.0663
+"2018","Dominica",2122.5497
+"2019","Dominica",2194.3875
+"2020","Dominica",2041.2449
+"2000","Dominican Republic",217987.5595
+"2001","Dominican Republic",279890.0111
+"2002","Dominican Republic",299852.4797
+"2003","Dominican Republic",296452.2794
+"2004","Dominican Republic",286347.2633
+"2005","Dominican Republic",289174.9772
+"2006","Dominican Republic",298842.0335
+"2007","Dominican Republic",318726.3131
+"2008","Dominican Republic",322725.0276
+"2009","Dominican Republic",321829.541
+"2010","Dominican Republic",358385.9101
+"2011","Dominican Republic",352102.9652
+"2012","Dominican Republic",353397.3282
+"2013","Dominican Republic",359718.4244
+"2014","Dominican Republic",359435.2619
+"2015","Dominican Republic",373670.2699
+"2016","Dominican Republic",388760.7112
+"2017","Dominican Republic",392578.7604
+"2018","Dominican Republic",399068.313
+"2019","Dominican Republic",404216.6835
+"2020","Dominican Republic",386767.2718
+"2000","Eastern Africa",8452454.1315
+"2001","Eastern Africa",9101225.5694
+"2002","Eastern Africa",9398646.0376
+"2003","Eastern Africa",9732579.5199
+"2004","Eastern Africa",9754715.3573
+"2005","Eastern Africa",10138077.0009
+"2006","Eastern Africa",9977363.485
+"2007","Eastern Africa",10593824.166
+"2008","Eastern Africa",10902245.2779
+"2009","Eastern Africa",10872741.2127
+"2010","Eastern Africa",11297501.4739
+"2011","Eastern Africa",11097592.7042
+"2012","Eastern Africa",12345380.002
+"2013","Eastern Africa",12466493.8705
+"2014","Eastern Africa",12618127.5536
+"2015","Eastern Africa",12903647.3968
+"2016","Eastern Africa",13816325.7586
+"2017","Eastern Africa",13772453.0432
+"2018","Eastern Africa",13956942.2289
+"2019","Eastern Africa",14169744.0464
+"2020","Eastern Africa",14450222.207
+"2000","Eastern Asia",55836336.9531
+"2001","Eastern Asia",56006963.7326
+"2002","Eastern Asia",58698958.2816
+"2003","Eastern Asia",63918019.6994
+"2004","Eastern Asia",69832511.6594
+"2005","Eastern Asia",74883764.5342
+"2006","Eastern Asia",79758985.0148
+"2007","Eastern Asia",83479308.4862
+"2008","Eastern Asia",86694163.7603
+"2009","Eastern Asia",88547606.5395
+"2010","Eastern Asia",94557889.8676
+"2011","Eastern Asia",98874152.0781
+"2012","Eastern Asia",101203452.9815
+"2013","Eastern Asia",103536339.8066
+"2014","Eastern Asia",104519837.0485
+"2015","Eastern Asia",103758733.9066
+"2016","Eastern Asia",103923589.1858
+"2017","Eastern Asia",105520451.0093
+"2018","Eastern Asia",107044149.2992
+"2019","Eastern Asia",108797552.676
+"2020","Eastern Asia",109201863.6627
+"2000","Eastern Europe",25206779.647
+"2001","Eastern Europe",21467707.3325
+"2002","Eastern Europe",21243844.482
+"2003","Eastern Europe",22067147.0251
+"2004","Eastern Europe",21969654.0404
+"2005","Eastern Europe",22333321.5953
+"2006","Eastern Europe",22813945.3618
+"2007","Eastern Europe",22805354.639
+"2008","Eastern Europe",23184126.7889
+"2009","Eastern Europe",21193135.2137
+"2010","Eastern Europe",22214139.9311
+"2011","Eastern Europe",22107774.5908
+"2012","Eastern Europe",22634832.046
+"2013","Eastern Europe",22253179.5491
+"2014","Eastern Europe",21785196.0139
+"2015","Eastern Europe",21452158.5489
+"2016","Eastern Europe",25050326.0435
+"2017","Eastern Europe",25391621.3324
+"2018","Eastern Europe",26171425.0792
+"2019","Eastern Europe",25735158.2103
+"2020","Eastern Europe",24641411.2758
+"2000","Ecuador",1086208.7498
+"2001","Ecuador",1003400.8869
+"2002","Ecuador",1008595.0526
+"2003","Ecuador",1023152.2919
+"2004","Ecuador",1053655.1866
+"2005","Ecuador",1060876.1187
+"2006","Ecuador",1057517.2118
+"2007","Ecuador",1075006.9301
+"2008","Ecuador",1059516.9507
+"2009","Ecuador",1091637.5537
+"2010","Ecuador",1234512.2444
+"2011","Ecuador",994376.2035
+"2012","Ecuador",1088317.1245
+"2013","Ecuador",1004775.23
+"2014","Ecuador",1014350.7144
+"2015","Ecuador",903777.0462
+"2016","Ecuador",1011179.209
+"2017","Ecuador",1042213.2677
+"2018","Ecuador",1023159.1397
+"2019","Ecuador",1024398.7577
+"2020","Ecuador",981041.3442
+"2000","Egypt",2071470.6299
+"2001","Egypt",1870297.1735
+"2002","Egypt",1942064.273
+"2003","Egypt",2062836.1584
+"2004","Egypt",2106439.3103
+"2005","Egypt",2433164.0105
+"2006","Egypt",2377656.0821
+"2007","Egypt",2452772.7549
+"2008","Egypt",2501364.8261
+"2009","Egypt",2529991.0702
+"2010","Egypt",2524879.3535
+"2011","Egypt",2658976.3487
+"2012","Egypt",2637925.2341
+"2013","Egypt",2639862.3307
+"2014","Egypt",2743104.9587
+"2015","Egypt",2690602.941
+"2016","Egypt",2800355.7531
+"2017","Egypt",2927687.4753
+"2018","Egypt",2878222.6629
+"2019","Egypt",2812239.0178
+"2020","Egypt",2651881.656
+"2000","El Salvador",128792.4623
+"2001","El Salvador",136293.3275
+"2002","El Salvador",139729.7528
+"2003","El Salvador",140921.7493
+"2004","El Salvador",142229.7041
+"2005","El Salvador",167139.636
+"2006","El Salvador",150851.4771
+"2007","El Salvador",153575.9172
+"2008","El Salvador",150630.9105
+"2009","El Salvador",147039.0925
+"2010","El Salvador",144528.0616
+"2011","El Salvador",139637.7144
+"2012","El Salvador",142131.8015
+"2013","El Salvador",131540.4729
+"2014","El Salvador",134640.545
+"2015","El Salvador",139326.9186
+"2016","El Salvador",134385.6219
+"2017","El Salvador",128099.1511
+"2018","El Salvador",132212.6524
+"2019","El Salvador",131535.2491
+"2020","El Salvador",125078.1534
+"2000","Equatorial Guinea",161309.0084
+"2001","Equatorial Guinea",153805.0133
+"2002","Equatorial Guinea",141631.7751
+"2003","Equatorial Guinea",151583.5716
+"2004","Equatorial Guinea",172679.1488
+"2005","Equatorial Guinea",180692.7354
+"2006","Equatorial Guinea",178204.3461
+"2007","Equatorial Guinea",177202.7631
+"2008","Equatorial Guinea",187829.035
+"2009","Equatorial Guinea",176244.849
+"2010","Equatorial Guinea",180402.111
+"2011","Equatorial Guinea",184321.6154
+"2012","Equatorial Guinea",181020.7556
+"2013","Equatorial Guinea",179508.7712
+"2014","Equatorial Guinea",171499.2552
+"2015","Equatorial Guinea",164087.1988
+"2016","Equatorial Guinea",161660.6445
+"2017","Equatorial Guinea",153441.239
+"2018","Equatorial Guinea",163881.5528
+"2019","Equatorial Guinea",166677.0244
+"2020","Equatorial Guinea",162919.151
+"2000","Eritrea",128119.6113
+"2001","Eritrea",89812.2983
+"2002","Eritrea",88909.6715
+"2003","Eritrea",91786.8306
+"2004","Eritrea",92727.4087
+"2005","Eritrea",94283.9865
+"2006","Eritrea",90460.026
+"2007","Eritrea",95891.384
+"2008","Eritrea",94983.2418
+"2009","Eritrea",95966.9058
+"2010","Eritrea",94260.0255
+"2011","Eritrea",98860.9182
+"2012","Eritrea",99191.4257
+"2013","Eritrea",100249.3084
+"2014","Eritrea",100838.9982
+"2015","Eritrea",101446.755
+"2016","Eritrea",101843.7564
+"2017","Eritrea",102906.9846
+"2018","Eritrea",103953.804
+"2019","Eritrea",104145.5247
+"2020","Eritrea",104453.333
+"2000","Estonia",193033.3759
+"2001","Estonia",199397.2773
+"2002","Estonia",194303.7598
+"2003","Estonia",203250.6691
+"2004","Estonia",214714.5064
+"2005","Estonia",222158.9726
+"2006","Estonia",213824.7328
+"2007","Estonia",228758.8264
+"2008","Estonia",223482.7679
+"2009","Estonia",204771.5331
+"2010","Estonia",225596.0825
+"2011","Estonia",189614.197
+"2012","Estonia",193240.4962
+"2013","Estonia",211429.7098
+"2014","Estonia",213340.5311
+"2015","Estonia",200348.8323
+"2016","Estonia",265679.7082
+"2017","Estonia",272337.5204
+"2018","Estonia",272749.7666
+"2019","Estonia",252480.477
+"2020","Estonia",246342.0889
+"2000","Eswatini",36225.1433
+"2001","Eswatini",33938.8386
+"2002","Eswatini",34285.5983
+"2003","Eswatini",34031.1934
+"2004","Eswatini",33964.9597
+"2005","Eswatini",34396.4282
+"2006","Eswatini",33088.8173
+"2007","Eswatini",35747.1692
+"2008","Eswatini",34858.6783
+"2009","Eswatini",33337.1418
+"2010","Eswatini",33412.0492
+"2011","Eswatini",33033.1259
+"2012","Eswatini",34407.6363
+"2013","Eswatini",36719.7675
+"2014","Eswatini",32991.4401
+"2015","Eswatini",33175.2119
+"2016","Eswatini",35004.8919
+"2017","Eswatini",33703.4026
+"2018","Eswatini",34255.7793
+"2019","Eswatini",34393.0039
+"2020","Eswatini",32390.7985
+"2000","Ethiopia",1976692.0424
+"2001","Ethiopia",2159332.6673
+"2002","Ethiopia",2333435.088
+"2003","Ethiopia",2297883.0341
+"2004","Ethiopia",2233500.8236
+"2005","Ethiopia",2287217.2626
+"2006","Ethiopia",2400562.7303
+"2007","Ethiopia",2578026.4168
+"2008","Ethiopia",2700706.9799
+"2009","Ethiopia",2769906.384
+"2010","Ethiopia",2883660.5062
+"2011","Ethiopia",2909732.8914
+"2012","Ethiopia",2871322.2009
+"2013","Ethiopia",2922956.4788
+"2014","Ethiopia",2636681.9339
+"2015","Ethiopia",2685352.1538
+"2016","Ethiopia",2764088.8713
+"2017","Ethiopia",2820144.6563
+"2018","Ethiopia",2852061.3712
+"2019","Ethiopia",3030561.2613
+"2020","Ethiopia",3145915.2792
+"2000","Europe",61554222.7231
+"2001","Europe",58048002.6559
+"2002","Europe",57603649.7939
+"2003","Europe",58928768.9251
+"2004","Europe",58961700.7213
+"2005","Europe",59045964.7311
+"2006","Europe",59562915.4632
+"2007","Europe",59223918.1957
+"2008","Europe",59078738.0198
+"2009","Europe",55235747.5111
+"2010","Europe",56919131.352
+"2011","Europe",55595506.0891
+"2012","Europe",55857422.7733
+"2013","Europe",55214953.8627
+"2014","Europe",53689519.7781
+"2015","Europe",53655271.7707
+"2016","Europe",57659597.6362
+"2017","Europe",58052015.0768
+"2018","Europe",58388104.7045
+"2019","Europe",57230343.4253
+"2020","Europe",53416729.798
+"2000","European Union (27)",37010344.1862
+"2001","European Union (27)",37100866.1735
+"2002","European Union (27)",36944941.3768
+"2003","European Union (27)",37451363.4949
+"2004","European Union (27)",37485203.4783
+"2005","European Union (27)",37242380.1699
+"2006","European Union (27)",37337083.3317
+"2007","European Union (27)",37267126.8314
+"2008","European Union (27)",36429779.4088
+"2009","European Union (27)",34516418.8773
+"2010","European Union (27)",35334125.3051
+"2011","European Union (27)",32326824.6143
+"2012","European Union (27)",31716763.7946
+"2013","European Union (27)",31429776.7844
+"2014","European Union (27)",30649874.6707
+"2015","European Union (27)",31177141.3944
+"2016","European Union (27)",33792049.9048
+"2017","European Union (27)",34124570.6903
+"2018","European Union (27)",33807483.6101
+"2019","European Union (27)",32931118.5259
+"2020","European Union (27)",30359262.5904
+"2000","Falkland Islands (Malvinas)",102831.0086
+"2001","Falkland Islands (Malvinas)",102739.8076
+"2002","Falkland Islands (Malvinas)",102693.4211
+"2003","Falkland Islands (Malvinas)",102673.1704
+"2004","Falkland Islands (Malvinas)",102684.3955
+"2005","Falkland Islands (Malvinas)",102608.5219
+"2006","Falkland Islands (Malvinas)",102613.6018
+"2007","Falkland Islands (Malvinas)",102592.9801
+"2008","Falkland Islands (Malvinas)",102593.0813
+"2009","Falkland Islands (Malvinas)",102589.5457
+"2010","Falkland Islands (Malvinas)",102592.7293
+"2011","Falkland Islands (Malvinas)",102592.5718
+"2012","Falkland Islands (Malvinas)",102606.816
+"2013","Falkland Islands (Malvinas)",102611.111
+"2014","Falkland Islands (Malvinas)",102611.7934
+"2015","Falkland Islands (Malvinas)",102612.4632
+"2016","Falkland Islands (Malvinas)",102613.7124
+"2017","Falkland Islands (Malvinas)",102613.8121
+"2018","Falkland Islands (Malvinas)",102612.329
+"2019","Falkland Islands (Malvinas)",102615.6164
+"2020","Falkland Islands (Malvinas)",102606.4584
+"2000","Faroe Islands",7647.8209
+"2001","Faroe Islands",8121.9353
+"2002","Faroe Islands",7864.9233
+"2003","Faroe Islands",7790.1187
+"2004","Faroe Islands",7956.7715
+"2005","Faroe Islands",7824.0851
+"2006","Faroe Islands",7513.0331
+"2007","Faroe Islands",7456.9041
+"2008","Faroe Islands",6902.4289
+"2009","Faroe Islands",6623.7523
+"2010","Faroe Islands",6882.1834
+"2011","Faroe Islands",6614.2524
+"2012","Faroe Islands",6814.3715
+"2013","Faroe Islands",7126.1979
+"2014","Faroe Islands",6894.3864
+"2015","Faroe Islands",7057.2832
+"2016","Faroe Islands",7003.6739
+"2017","Faroe Islands",7482.6696
+"2018","Faroe Islands",7548.7742
+"2019","Faroe Islands",7677.611
+"2020","Faroe Islands",7689.2199
+"2000","Fiji",6207.4639
+"2001","Fiji",7962.0794
+"2002","Fiji",6299.8762
+"2003","Fiji",6755.5649
+"2004","Fiji",-2795.8166
+"2005","Fiji",7266.7404
+"2006","Fiji",7955.739
+"2007","Fiji",7723.2317
+"2008","Fiji",6202.4527
+"2009","Fiji",5801.6565
+"2010","Fiji",8053.4641
+"2011","Fiji",7783.2791
+"2012","Fiji",7109.1697
+"2013","Fiji",9136.4261
+"2014","Fiji",1481.6728
+"2015","Fiji",5478.2088
+"2016","Fiji",4290.9968
+"2017","Fiji",7266.0309
+"2018","Fiji",8617.645
+"2019","Fiji",11815.0736
+"2020","Fiji",10549.9005
+"2000","Finland",480145.3383
+"2001","Finland",752636.5951
+"2002","Finland",778006.1029
+"2003","Finland",830712.8572
+"2004","Finland",839579.4308
+"2005","Finland",736466.7102
+"2006","Finland",809218.0963
+"2007","Finland",812570.0275
+"2008","Finland",746283.205
+"2009","Finland",664142.4155
+"2010","Finland",792212.3848
+"2011","Finland",339118.396
+"2012","Finland",290812.5634
+"2013","Finland",319981.4034
+"2014","Finland",313734.677
+"2015","Finland",292128.8112
+"2016","Finland",738848.0033
+"2017","Finland",729060.7426
+"2018","Finland",775291.5771
+"2019","Finland",729061.1674
+"2020","Finland",700388.7413
+"2000","France",4905907.6096
+"2001","France",4650115.3251
+"2002","France",4562148.1584
+"2003","France",4557556.7784
+"2004","France",4575490.3576
+"2005","France",4555580.2987
+"2006","France",4466611.755
+"2007","France",4484509.8071
+"2008","France",4446476.5663
+"2009","France",4345896.557
+"2010","France",4385655.821
+"2011","France",4257997.2252
+"2012","France",4251746.8956
+"2013","France",4247514.7796
+"2014","France",4086916.8833
+"2015","France",4146190.0986
+"2016","France",4045571.5922
+"2017","France",4112900.034
+"2018","France",3996363.1423
+"2019","France",3904213.772
+"2020","France",3560863.1998
+"2000","French Guyana",52014.238
+"2001","French Guyana",49083.5908
+"2002","French Guyana",49021.0054
+"2003","French Guyana",48752.1905
+"2004","French Guyana",49479.8784
+"2005","French Guyana",49666.7856
+"2006","French Guyana",49413.3179
+"2007","French Guyana",48987.0936
+"2008","French Guyana",48780.5301
+"2009","French Guyana",48969.2135
+"2010","French Guyana",48792.1664
+"2011","French Guyana",37636.6239
+"2012","French Guyana",38043.1487
+"2013","French Guyana",37646.0151
+"2014","French Guyana",38353.9505
+"2015","French Guyana",37520.0058
+"2016","French Guyana",39260.3955
+"2017","French Guyana",39137.6046
+"2018","French Guyana",39016.061
+"2019","French Guyana",38992.8365
+"2020","French Guyana",38148.2868
+"2000","French Polynesia",157.1342
+"2001","French Polynesia",762.4761
+"2002","French Polynesia",652.8217
+"2003","French Polynesia",705.9848
+"2004","French Polynesia",850.2319
+"2005","French Polynesia",810.863
+"2006","French Polynesia",845.3009
+"2007","French Polynesia",1025.42
+"2008","French Polynesia",1076.8857
+"2009","French Polynesia",1071.6503
+"2010","French Polynesia",1247.9155
+"2011","French Polynesia",1512.7363
+"2012","French Polynesia",1565.7737
+"2013","French Polynesia",1610.1972
+"2014","French Polynesia",1632.263
+"2015","French Polynesia",1696.8428
+"2016","French Polynesia",1727.6492
+"2017","French Polynesia",1795.4193
+"2018","French Polynesia",1842.2445
+"2019","French Polynesia",1906.7049
+"2020","French Polynesia",1899.8443
+"2000","Gabon",85059.2095
+"2001","Gabon",209732.8314
+"2002","Gabon",205877.2121
+"2003","Gabon",224638.5334
+"2004","Gabon",214260.4988
+"2005","Gabon",202056.3597
+"2006","Gabon",182080.5933
+"2007","Gabon",164328.6864
+"2008","Gabon",174781.7172
+"2009","Gabon",169255.6953
+"2010","Gabon",173828.6036
+"2011","Gabon",219623.7234
+"2012","Gabon",217928.8273
+"2013","Gabon",218360.0366
+"2014","Gabon",219640.1688
+"2015","Gabon",224952.0663
+"2016","Gabon",225201.1886
+"2017","Gabon",212941.9766
+"2018","Gabon",208410.6784
+"2019","Gabon",205160.1426
+"2020","Gabon",199508.0339
+"2000","Gambia",36286.242
+"2001","Gambia",25882.8864
+"2002","Gambia",25496.3814
+"2003","Gambia",26949.3723
+"2004","Gambia",28546.3068
+"2005","Gambia",29301.6633
+"2006","Gambia",30409.2059
+"2007","Gambia",30315.0839
+"2008","Gambia",32553.8193
+"2009","Gambia",38012.6341
+"2010","Gambia",39933.187
+"2011","Gambia",33938.2845
+"2012","Gambia",35220.5783
+"2013","Gambia",36477.6183
+"2014","Gambia",37948.8131
+"2015","Gambia",40481.355
+"2016","Gambia",38132.5677
+"2017","Gambia",38621.7933
+"2018","Gambia",36789.6976
+"2019","Gambia",39619.3832
+"2020","Gambia",40366.15
+"2000","Georgia",-40044.1069
+"2001","Georgia",81595.2037
+"2002","Georgia",82503.1683
+"2003","Georgia",86649.84
+"2004","Georgia",90596.7531
+"2005","Georgia",99002.1654
+"2006","Georgia",92014.5238
+"2007","Georgia",92141.997
+"2008","Georgia",82049.7863
+"2009","Georgia",85134.3737
+"2010","Georgia",87928.9311
+"2011","Georgia",127514.8655
+"2012","Georgia",135792.4003
+"2013","Georgia",134999.3075
+"2014","Georgia",137279.0438
+"2015","Georgia",135776.4495
+"2016","Georgia",138938.9668
+"2017","Georgia",130312.1318
+"2018","Georgia",129088.2699
+"2019","Georgia",129926.2878
+"2020","Georgia",131082.8905
+"2000","Germany",7890796.5748
+"2001","Germany",8220051.2364
+"2002","Germany",8046356.8558
+"2003","Germany",7979299.3961
+"2004","Germany",7914533.0988
+"2005","Germany",7791554.4607
+"2006","Germany",7870770.8101
+"2007","Germany",7673085.7549
+"2008","Germany",7592513.9405
+"2009","Germany",7138759.8673
+"2010","Germany",7444184.0728
+"2011","Germany",7137674.7809
+"2012","Germany",7155942.713
+"2013","Germany",7286930.1967
+"2014","Germany",7055333.2072
+"2015","Germany",7098088.8969
+"2016","Germany",7074970.3847
+"2017","Germany",7023457.4584
+"2018","Germany",6799180.8232
+"2019","Germany",6473541.2483
+"2020","Germany",5958176.3923
+"2000","Ghana",502802.5614
+"2001","Ghana",785088.1068
+"2002","Ghana",794850.8559
+"2003","Ghana",800481.5462
+"2004","Ghana",792553.6091
+"2005","Ghana",815507.7155
+"2006","Ghana",827605.854
+"2007","Ghana",792838.2673
+"2008","Ghana",789062.0572
+"2009","Ghana",780426.622
+"2010","Ghana",801641.0328
+"2011","Ghana",584122.7293
+"2012","Ghana",598470.899
+"2013","Ghana",617113.0219
+"2014","Ghana",620820.9468
+"2015","Ghana",639908.4662
+"2016","Ghana",247305.1558
+"2017","Ghana",189127.0019
+"2018","Ghana",216003.5029
+"2019","Ghana",243333.3526
+"2020","Ghana",254572.8483
+"2000","Gibraltar",144.7433
+"2001","Gibraltar",143.8413
+"2002","Gibraltar",139.4946
+"2003","Gibraltar",133.965
+"2004","Gibraltar",141.6273
+"2005","Gibraltar",137.6046
+"2006","Gibraltar",140.8026
+"2007","Gibraltar",132.9207
+"2008","Gibraltar",130.7201
+"2009","Gibraltar",139.2497
+"2010","Gibraltar",137.1051
+"2011","Gibraltar",126.4636
+"2012","Gibraltar",126.7963
+"2013","Gibraltar",137.3405
+"2014","Gibraltar",148.2533
+"2015","Gibraltar",161.1424
+"2016","Gibraltar",174.5352
+"2017","Gibraltar",189.2264
+"2018","Gibraltar",201.248
+"2019","Gibraltar",211.8447
+"2020","Gibraltar",211.8405
+"2000","Greece",984820.381
+"2001","Greece",975949.4355
+"2002","Greece",978453.793
+"2003","Greece",1016815.3208
+"2004","Greece",1007542.7275
+"2005","Greece",1012650.1499
+"2006","Greece",992740.2955
+"2007","Greece",1007126.8668
+"2008","Greece",992594.0512
+"2009","Greece",949020.2941
+"2010","Greece",900810.9096
+"2011","Greece",886949.0053
+"2012","Greece",873620.7322
+"2013","Greece",808846.7875
+"2014","Greece",795317.3522
+"2015","Greece",767402.8001
+"2016","Greece",749262.4503
+"2017","Greece",673584.8571
+"2018","Greece",746831.9877
+"2019","Greece",727784.4946
+"2020","Greece",655830.072
+"2000","Greenland",526.1816
+"2001","Greenland",526.8464
+"2002","Greenland",527.1336
+"2003","Greenland",487.4556
+"2004","Greenland",879.1351
+"2005","Greenland",1013.7489
+"2006","Greenland",783.4159
+"2007","Greenland",1255.6878
+"2008","Greenland",1223.635
+"2009","Greenland",1105.0286
+"2010","Greenland",1065.6983
+"2011","Greenland",1097.9404
+"2012","Greenland",1231.2361
+"2013","Greenland",1287.7011
+"2014","Greenland",1171.0019
+"2015","Greenland",1094.3217
+"2016","Greenland",1206.8815
+"2017","Greenland",1301.8105
+"2018","Greenland",1277.6619
+"2019","Greenland",1302.608
+"2020","Greenland",1299.2336
+"2000","Grenada",2142.8639
+"2001","Grenada",2178.6605
+"2002","Grenada",2246.0531
+"2003","Grenada",2345.782
+"2004","Grenada",2264.3247
+"2005","Grenada",2345.5374
+"2006","Grenada",2461.3537
+"2007","Grenada",2530.0804
+"2008","Grenada",2550.9907
+"2009","Grenada",2572.187
+"2010","Grenada",2617.6571
+"2011","Grenada",2603.7601
+"2012","Grenada",2713.0164
+"2013","Grenada",2954.6501
+"2014","Grenada",2508.6648
+"2015","Grenada",2682.3555
+"2016","Grenada",2742.6749
+"2017","Grenada",2846.453
+"2018","Grenada",3050.6829
+"2019","Grenada",3179.227
+"2020","Grenada",2924.9137
+"2000","Guadeloupe",4557.4701
+"2001","Guadeloupe",4692.3262
+"2002","Guadeloupe",5307.8017
+"2003","Guadeloupe",5383.4507
+"2004","Guadeloupe",5077.3507
+"2005","Guadeloupe",4972.6821
+"2006","Guadeloupe",5058.5758
+"2007","Guadeloupe",4873.1283
+"2008","Guadeloupe",4595.2975
+"2009","Guadeloupe",4494.6707
+"2010","Guadeloupe",4506.4541
+"2011","Guadeloupe",2415.5733
+"2012","Guadeloupe",2190.2498
+"2013","Guadeloupe",2222.8127
+"2014","Guadeloupe",2386.532
+"2015","Guadeloupe",2476.8165
+"2016","Guadeloupe",3861.1874
+"2017","Guadeloupe",3882.0643
+"2018","Guadeloupe",3925.9313
+"2019","Guadeloupe",3971.925
+"2020","Guadeloupe",1301.5035
+"2000","Guam",33.9288
+"2001","Guam",34.1634
+"2002","Guam",37.9968
+"2003","Guam",37.9413
+"2004","Guam",37.8534
+"2005","Guam",37.7487
+"2006","Guam",37.6305
+"2007","Guam",37.506
+"2008","Guam",37.3746
+"2009","Guam",37.2444
+"2010","Guam",37.1169
+"2011","Guam",37.0008
+"2012","Guam",36.912
+"2013","Guam",36.8316
+"2014","Guam",36.7089
+"2015","Guam",36.7188
+"2016","Guam",-1230.4167
+"2017","Guam",-1230.2976
+"2018","Guam",-1230.1449
+"2019","Guam",-1229.9349
+"2020","Guam",-1229.7339
+"2000","Guatemala",474507.0173
+"2001","Guatemala",452697.7518
+"2002","Guatemala",463016.0021
+"2003","Guatemala",492814.3527
+"2004","Guatemala",471161.8417
+"2005","Guatemala",506882.8849
+"2006","Guatemala",494186.2524
+"2007","Guatemala",510610.3934
+"2008","Guatemala",499591.2618
+"2009","Guatemala",522458.2294
+"2010","Guatemala",525997.689
+"2011","Guatemala",441177.3203
+"2012","Guatemala",448717.4068
+"2013","Guatemala",462573.7465
+"2014","Guatemala",470608.617
+"2015","Guatemala",493463.3747
+"2016","Guatemala",446105.229
+"2017","Guatemala",456363.8565
+"2018","Guatemala",442948.7985
+"2019","Guatemala",459395.1678
+"2020","Guatemala",456656.8248
+"2000","Guinea",-391725.8738
+"2001","Guinea",351999.3125
+"2002","Guinea",370633.4638
+"2003","Guinea",372357.9695
+"2004","Guinea",372414.5003
+"2005","Guinea",396512.8166
+"2006","Guinea",401110.9574
+"2007","Guinea",405846.4509
+"2008","Guinea",415084.7129
+"2009","Guinea",422120.6049
+"2010","Guinea",458437.5194
+"2011","Guinea",477668.9171
+"2012","Guinea",498527.6923
+"2013","Guinea",501060.5935
+"2014","Guinea",507311.7458
+"2015","Guinea",513748.3406
+"2016","Guinea",569844.4765
+"2017","Guinea",569650.1737
+"2018","Guinea",570560.0578
+"2019","Guinea",594109.5791
+"2020","Guinea",610414.3646
+"2000","Guinea-Bissau",53551.3563
+"2001","Guinea-Bissau",57042.9028
+"2002","Guinea-Bissau",59703.3091
+"2003","Guinea-Bissau",60807.1163
+"2004","Guinea-Bissau",61377.6527
+"2005","Guinea-Bissau",60617.6171
+"2006","Guinea-Bissau",79701.7903
+"2007","Guinea-Bissau",65754.0105
+"2008","Guinea-Bissau",61277.8814
+"2009","Guinea-Bissau",62250.6077
+"2010","Guinea-Bissau",54540.3148
+"2011","Guinea-Bissau",62876.998
+"2012","Guinea-Bissau",70776.0548
+"2013","Guinea-Bissau",66058.4746
+"2014","Guinea-Bissau",67603.7588
+"2015","Guinea-Bissau",71910.9709
+"2016","Guinea-Bissau",66461.1298
+"2017","Guinea-Bissau",65038.2936
+"2018","Guinea-Bissau",66836.349
+"2019","Guinea-Bissau",67383.4161
+"2020","Guinea-Bissau",67849.1804
+"2000","Guyana",35103.2002
+"2001","Guyana",47311.2871
+"2002","Guyana",45524.1335
+"2003","Guyana",52665.3155
+"2004","Guyana",57193.2775
+"2005","Guyana",156740.8803
+"2006","Guyana",154610.8304
+"2007","Guyana",157696.3717
+"2008","Guyana",159335.5451
+"2009","Guyana",160785.484
+"2010","Guyana",162585.3388
+"2011","Guyana",270402.1883
+"2012","Guyana",271217.5225
+"2013","Guyana",273783.7966
+"2014","Guyana",276699.9137
+"2015","Guyana",279001.0993
+"2016","Guyana",238869.011
+"2017","Guyana",240359.8163
+"2018","Guyana",242617.146
+"2019","Guyana",244625.5173
+"2020","Guyana",243845.4206
+"2000","Haiti",142958.2447
+"2001","Haiti",121978.6991
+"2002","Haiti",123902.7763
+"2003","Haiti",123793.4713
+"2004","Haiti",125516.8958
+"2005","Haiti",140582.2888
+"2006","Haiti",141734.2764
+"2007","Haiti",145549.7129
+"2008","Haiti",146476.4945
+"2009","Haiti",147590.7762
+"2010","Haiti",147950.0687
+"2011","Haiti",158916.3794
+"2012","Haiti",160681.4577
+"2013","Haiti",163611.9606
+"2014","Haiti",167096.901
+"2015","Haiti",170592.5536
+"2016","Haiti",172624.1393
+"2017","Haiti",173024.6896
+"2018","Haiti",172243.1971
+"2019","Haiti",178051.6644
+"2020","Haiti",177138.1444
+"2000","Holy See",42.9357
+"2001","Holy See",43.036
+"2002","Holy See",43.6143
+"2003","Holy See",45.3107
+"2004","Holy See",45.6312
+"2005","Holy See",45.5788
+"2006","Holy See",44.6218
+"2007","Holy See",43.7706
+"2008","Holy See",42.2679
+"2009","Holy See",37.9347
+"2010","Holy See",38.53
+"2011","Holy See",37.4911
+"2012","Holy See",35.9799
+"2013","Holy See",33.1466
+"2014","Holy See",31.391
+"2015","Holy See",32.2876
+"2016","Holy See",31.7446
+"2017","Holy See",31.2047
+"2018","Holy See",31.1821
+"2019","Holy See",27.8364
+"2020","Holy See",26.6014
+"2000","Honduras",261285.9478
+"2001","Honduras",228746.218
+"2002","Honduras",233372.0319
+"2003","Honduras",275808.1883
+"2004","Honduras",255529.8144
+"2005","Honduras",263228.7273
+"2006","Honduras",265160.3945
+"2007","Honduras",279267.7489
+"2008","Honduras",280272.9631
+"2009","Honduras",284592.3661
+"2010","Honduras",284249.3679
+"2011","Honduras",307423.0748
+"2012","Honduras",301106.59
+"2013","Honduras",310327.7526
+"2014","Honduras",314882.0944
+"2015","Honduras",302012.7372
+"2016","Honduras",314523.3244
+"2017","Honduras",314383.5495
+"2018","Honduras",323603.0237
+"2019","Honduras",325624.5059
+"2020","Honduras",332168.5438
+"2000","Hungary",708528.474
+"2001","Hungary",721823.4615
+"2002","Hungary",734092.8521
+"2003","Hungary",740214.4982
+"2004","Hungary",740336.0882
+"2005","Hungary",717187.9367
+"2006","Hungary",720064.7033
+"2007","Hungary",707159.5552
+"2008","Hungary",695022.2217
+"2009","Hungary",643868.7605
+"2010","Hungary",652063.4074
+"2011","Hungary",639780.2007
+"2012","Hungary",611951.1429
+"2013","Hungary",610375.8596
+"2014","Hungary",605549.7162
+"2015","Hungary",622804.7158
+"2016","Hungary",655719.1848
+"2017","Hungary",672857.9006
+"2018","Hungary",680057.6608
+"2019","Hungary",673831.6098
+"2020","Hungary",673968.7825
+"2000","Iceland",66698.1832
+"2001","Iceland",66200.0127
+"2002","Iceland",68009.1024
+"2003","Iceland",67772.8838
+"2004","Iceland",67791.9215
+"2005","Iceland",67748.0319
+"2006","Iceland",68093.0997
+"2007","Iceland",69771.0792
+"2008","Iceland",72786.0458
+"2009","Iceland",71245.409
+"2010","Iceland",70229.5153
+"2011","Iceland",68889.7905
+"2012","Iceland",69053.3295
+"2013","Iceland",69991.0487
+"2014","Iceland",70039.213
+"2015","Iceland",71175.5928
+"2016","Iceland",70225.506
+"2017","Iceland",70407.619
+"2018","Iceland",71268.6451
+"2019","Iceland",68990.656
+"2020","Iceland",52971.9224
+"2000","India",20720012.2833
+"2001","India",21639806.7616
+"2002","India",21532747.6635
+"2003","India",22215221.4924
+"2004","India",22951705.9203
+"2005","India",23650827.1866
+"2006","India",24508841.6319
+"2007","India",25415280.8524
+"2008","India",26467603.2216
+"2009","India",27704584.9365
+"2010","India",29404495.2659
+"2011","India",28249635.6043
+"2012","India",29399407.0914
+"2013","India",30140470.6668
+"2014","India",31582066.4645
+"2015","India",33713257.0485
+"2016","India",33512815.767
+"2017","India",33719004.4494
+"2018","India",34720398.1727
+"2019","India",35051383.5281
+"2020","India",33997826.5635
+"2000","Indonesia",18620111.7134
+"2001","Indonesia",9992062.6224
+"2002","Indonesia",17622773.1466
+"2003","Indonesia",12208257.127
+"2004","Indonesia",17935930.535
+"2005","Indonesia",14155870.7933
+"2006","Indonesia",20556207.1065
+"2007","Indonesia",11863475.9766
+"2008","Indonesia",12134989.9404
+"2009","Indonesia",17999517.9728
+"2010","Indonesia",12154149.9575
+"2011","Indonesia",20217953.5315
+"2012","Indonesia",21120614.8892
+"2013","Indonesia",20098241.1704
+"2014","Indonesia",25317782.9181
+"2015","Indonesia",28165140.9542
+"2016","Indonesia",17498380.1669
+"2017","Indonesia",16743590.1309
+"2018","Indonesia",20313158.4908
+"2019","Indonesia",24254769.9567
+"2020","Indonesia",16125548.8645
+"2000","Iran (Islamic Republic of)",4330814.4099
+"2001","Iran (Islamic Republic of)",4075469.4735
+"2002","Iran (Islamic Republic of)",4151917.0493
+"2003","Iran (Islamic Republic of)",4452013.2606
+"2004","Iran (Islamic Republic of)",4741108.826
+"2005","Iran (Islamic Republic of)",4977669.0904
+"2006","Iran (Islamic Republic of)",5400024.876
+"2007","Iran (Islamic Republic of)",5438819.7929
+"2008","Iran (Islamic Republic of)",5576318.7342
+"2009","Iran (Islamic Republic of)",5702613.4888
+"2010","Iran (Islamic Republic of)",5863451.3026
+"2011","Iran (Islamic Republic of)",6276989.6212
+"2012","Iran (Islamic Republic of)",6321321.4971
+"2013","Iran (Islamic Republic of)",6267401.8651
+"2014","Iran (Islamic Republic of)",6450479.0796
+"2015","Iran (Islamic Republic of)",6493716.7812
+"2016","Iran (Islamic Republic of)",6778713.0731
+"2017","Iran (Islamic Republic of)",7117147.2888
+"2018","Iran (Islamic Republic of)",7384444.6036
+"2019","Iran (Islamic Republic of)",7435455.5581
+"2020","Iran (Islamic Republic of)",7646099.9255
+"2000","Iraq",1153787.7317
+"2001","Iraq",1268763.1194
+"2002","Iraq",1248815.1845
+"2003","Iraq",1227136.2527
+"2004","Iraq",1376174.9003
+"2005","Iraq",1380875.4424
+"2006","Iraq",1270092.7767
+"2007","Iraq",1011608.098
+"2008","Iraq",1252225.118
+"2009","Iraq",1412745.6254
+"2010","Iraq",1522234.1269
+"2011","Iraq",1747645.8218
+"2012","Iraq",1939661.9044
+"2013","Iraq",2022093.7485
+"2014","Iraq",2032921.2575
+"2015","Iraq",2063965.1716
+"2016","Iraq",2425887.5334
+"2017","Iraq",2533549.4468
+"2018","Iraq",2820564.7391
+"2019","Iraq",2742743.9367
+"2020","Iraq",2646755.287
+"2000","Ireland",1032766.2223
+"2001","Ireland",1052285.628
+"2002","Ireland",1041861.0591
+"2003","Ireland",1035615.5418
+"2004","Ireland",1032300.4312
+"2005","Ireland",1025493.7419
+"2006","Ireland",1022828.606
+"2007","Ireland",1012239.1468
+"2008","Ireland",993734.1518
+"2009","Ireland",972294.8497
+"2010","Ireland",958121.966
+"2011","Ireland",923089.2033
+"2012","Ireland",943282.3089
+"2013","Ireland",947055.3162
+"2014","Ireland",944521.321
+"2015","Ireland",966601.405
+"2016","Ireland",990713.7621
+"2017","Ireland",997023.2095
+"2018","Ireland",962503.7837
+"2019","Ireland",943787.187
+"2020","Ireland",903879.9931
+"2000","Isle of Man",426.3567
+"2001","Isle of Man",426.6684
+"2002","Isle of Man",442.2983
+"2003","Isle of Man",444.4319
+"2004","Isle of Man",443.7405
+"2005","Isle of Man",448.8181
+"2006","Isle of Man",449.2882
+"2007","Isle of Man",451.8091
+"2008","Isle of Man",458.159
+"2009","Isle of Man",458.9777
+"2010","Isle of Man",459.6194
+"2011","Isle of Man",456.6983
+"2012","Isle of Man",465.3603
+"2013","Isle of Man",466.1994
+"2014","Isle of Man",463.2432
+"2015","Isle of Man",461.5592
+"2016","Isle of Man",461.4935
+"2017","Isle of Man",461.2033
+"2018","Isle of Man",452.5549
+"2019","Isle of Man",457.7416
+"2020","Isle of Man",446.9071
+"2000","Israel",512959.9221
+"2001","Israel",526381.3457
+"2002","Israel",509043.81
+"2003","Israel",542064.2294
+"2004","Israel",531960.573
+"2005","Israel",521983.877
+"2006","Israel",561033.5442
+"2007","Israel",573903.7277
+"2008","Israel",602127.074
+"2009","Israel",576261.0247
+"2010","Israel",607354.2897
+"2011","Israel",619536.038
+"2012","Israel",661410.1808
+"2013","Israel",616987.2671
+"2014","Israel",603332.2323
+"2015","Israel",641265.9789
+"2016","Israel",638993.5844
+"2017","Israel",643254.0345
+"2018","Israel",654715.4204
+"2019","Israel",665323.5693
+"2020","Israel",633820.8843
+"2000","Italy",4225728.4751
+"2001","Italy",4139150.1222
+"2002","Italy",4183276.665
+"2003","Italy",4326835.9991
+"2004","Italy",4330064.7855
+"2005","Italy",4323358.4052
+"2006","Italy",4250640.4058
+"2007","Italy",4311114.7029
+"2008","Italy",4124955.1346
+"2009","Italy",3767420.2527
+"2010","Italy",3771753.6294
+"2011","Italy",3710506.3341
+"2012","Italy",3570198.8368
+"2013","Italy",3360781.107
+"2014","Italy",3190692.2912
+"2015","Italy",3262347.8822
+"2016","Italy",3365830.005
+"2017","Italy",3434418.6386
+"2018","Italy",3406594.0638
+"2019","Italy",3352102.1087
+"2020","Italy",3132982.3366
+"2000","Jamaica",114819.2161
+"2001","Jamaica",93613.9224
+"2002","Jamaica",89921.0106
+"2003","Jamaica",94262.416
+"2004","Jamaica",95425.9771
+"2005","Jamaica",103372.3191
+"2006","Jamaica",129170.4063
+"2007","Jamaica",115560.8266
+"2008","Jamaica",125744.2989
+"2009","Jamaica",87612.6466
+"2010","Jamaica",85073.9441
+"2011","Jamaica",95419.7396
+"2012","Jamaica",108962.178
+"2013","Jamaica",99921.17
+"2014","Jamaica",91283.7586
+"2015","Jamaica",93700.8509
+"2016","Jamaica",96006.4374
+"2017","Jamaica",91516.3769
+"2018","Jamaica",102021.6016
+"2019","Jamaica",104411.0202
+"2020","Jamaica",98342.7452
+"2000","Japan",9194322.0299
+"2001","Japan",8870454.3313
+"2002","Japan",9029504.5695
+"2003","Japan",9131176.0085
+"2004","Japan",9277738.4852
+"2005","Japan",9230098.7705
+"2006","Japan",9247070.6521
+"2007","Japan",9386307.8404
+"2008","Japan",9145316.1818
+"2009","Japan",8440119.6049
+"2010","Japan",8903617.4915
+"2011","Japan",9430915.3646
+"2012","Japan",9751353.547
+"2013","Japan",9801854.8538
+"2014","Japan",9646667.5126
+"2015","Japan",9395516.8999
+"2016","Japan",9490716.3994
+"2017","Japan",9523199.8523
+"2018","Japan",9337903.2485
+"2019","Japan",9196531.2163
+"2020","Japan",8737931.7991
+"2000","Jordan",148361.4725
+"2001","Jordan",149317.9372
+"2002","Jordan",157307.7849
+"2003","Jordan",162680.1037
+"2004","Jordan",175563.7033
+"2005","Jordan",190351.4271
+"2006","Jordan",197120.5237
+"2007","Jordan",202594.7564
+"2008","Jordan",203929.8635
+"2009","Jordan",207110.6044
+"2010","Jordan",203001.2944
+"2011","Jordan",211852.721
+"2012","Jordan",231074.3216
+"2013","Jordan",236110.8448
+"2014","Jordan",252473.9689
+"2015","Jordan",252075.0902
+"2016","Jordan",245232.2853
+"2017","Jordan",257705.3758
+"2018","Jordan",224147.9606
+"2019","Jordan",227485.8018
+"2020","Jordan",219298.9106
+"2000","Kazakhstan",1571306.5348
+"2001","Kazakhstan",1641775.3719
+"2002","Kazakhstan",1776710.4896
+"2003","Kazakhstan",1699416.9957
+"2004","Kazakhstan",1930500.2745
+"2005","Kazakhstan",1959547.9987
+"2006","Kazakhstan",2118744.1986
+"2007","Kazakhstan",2229742.6669
+"2008","Kazakhstan",2386848.4982
+"2009","Kazakhstan",2242340.2913
+"2010","Kazakhstan",2518788.939
+"2011","Kazakhstan",2477260.1476
+"2012","Kazakhstan",2385860.4447
+"2013","Kazakhstan",2436357.104
+"2014","Kazakhstan",2387730.9678
+"2015","Kazakhstan",2391092.104
+"2016","Kazakhstan",2498301.8937
+"2017","Kazakhstan",2746114.0917
+"2018","Kazakhstan",2876976.2204
+"2019","Kazakhstan",2873315.4375
+"2020","Kazakhstan",2764491.2254
+"2000","Kenya",701189.3108
+"2001","Kenya",801989.9212
+"2002","Kenya",813578.2703
+"2003","Kenya",839069.499
+"2004","Kenya",876138.0783
+"2005","Kenya",1021578.9508
+"2006","Kenya",867937.7366
+"2007","Kenya",1158327.3603
+"2008","Kenya",1171288.6161
+"2009","Kenya",1158070.9345
+"2010","Kenya",1336423.1504
+"2011","Kenya",1099888.6771
+"2012","Kenya",1093344.5686
+"2013","Kenya",1089694.8998
+"2014","Kenya",1108765.6961
+"2015","Kenya",1134576.7335
+"2016","Kenya",1036088.1582
+"2017","Kenya",977929.8548
+"2018","Kenya",1012684.0222
+"2019","Kenya",1140050.9046
+"2020","Kenya",1159648.9525
+"2000","Kiribati",496.5089
+"2001","Kiribati",478.4145
+"2002","Kiribati",573.4168
+"2003","Kiribati",605.9521
+"2004","Kiribati",638.3204
+"2005","Kiribati",717.6115
+"2006","Kiribati",1441.3441
+"2007","Kiribati",1423.3984
+"2008","Kiribati",1150.5366
+"2009","Kiribati",722.7779
+"2010","Kiribati",756.6489
+"2011","Kiribati",748.4862
+"2012","Kiribati",733.4743
+"2013","Kiribati",750.0613
+"2014","Kiribati",788.8931
+"2015","Kiribati",831.9272
+"2016","Kiribati",858.4643
+"2017","Kiribati",884.1728
+"2018","Kiribati",915.7646
+"2019","Kiribati",972.9209
+"2020","Kiribati",974.2373
+"2000","Kuwait",547157.273
+"2001","Kuwait",564710.8032
+"2002","Kuwait",579822.1193
+"2003","Kuwait",632277.2099
+"2004","Kuwait",653708.1671
+"2005","Kuwait",725661.1302
+"2006","Kuwait",741827.49
+"2007","Kuwait",742981.2617
+"2008","Kuwait",782907.0082
+"2009","Kuwait",797391.9334
+"2010","Kuwait",813600.9883
+"2011","Kuwait",817357.837
+"2012","Kuwait",917695.0973
+"2013","Kuwait",897699.2665
+"2014","Kuwait",865019.5669
+"2015","Kuwait",903254.4117
+"2016","Kuwait",950129.1959
+"2017","Kuwait",957529.5018
+"2018","Kuwait",965938.8983
+"2019","Kuwait",990799.136
+"2020","Kuwait",941831.6798
+"2000","Kyrgyzstan",116211.8035
+"2001","Kyrgyzstan",120603.5269
+"2002","Kyrgyzstan",126648.9014
+"2003","Kyrgyzstan",132787.2371
+"2004","Kyrgyzstan",135542.838
+"2005","Kyrgyzstan",135434.4565
+"2006","Kyrgyzstan",135992.6039
+"2007","Kyrgyzstan",146667.456
+"2008","Kyrgyzstan",156529.1317
+"2009","Kyrgyzstan",159125.5309
+"2010","Kyrgyzstan",158448.3662
+"2011","Kyrgyzstan",144002.6872
+"2012","Kyrgyzstan",161368.4939
+"2013","Kyrgyzstan",167563.6197
+"2014","Kyrgyzstan",178083.2672
+"2015","Kyrgyzstan",177541.6229
+"2016","Kyrgyzstan",158202.9419
+"2017","Kyrgyzstan",156331.3022
+"2018","Kyrgyzstan",177588.0707
+"2019","Kyrgyzstan",175240.9219
+"2020","Kyrgyzstan",175392.0674
+"2000","Land Locked Developing Countries",15747322.1175
+"2001","Land Locked Developing Countries",16061385.5557
+"2002","Land Locked Developing Countries",16649509.8688
+"2003","Land Locked Developing Countries",17056724.9836
+"2004","Land Locked Developing Countries",17591869.4059
+"2005","Land Locked Developing Countries",18039843.6613
+"2006","Land Locked Developing Countries",18407139.9918
+"2007","Land Locked Developing Countries",19208600.0478
+"2008","Land Locked Developing Countries",19825676.1874
+"2009","Land Locked Developing Countries",19163190.9536
+"2010","Land Locked Developing Countries",20761932.3728
+"2011","Land Locked Developing Countries",21458249.4238
+"2012","Land Locked Developing Countries",22632458.0126
+"2013","Land Locked Developing Countries",22936438.4246
+"2014","Land Locked Developing Countries",22992237.8991
+"2015","Land Locked Developing Countries",23412844.6944
+"2016","Land Locked Developing Countries",24718176.057
+"2017","Land Locked Developing Countries",25138145.8137
+"2018","Land Locked Developing Countries",25615067.9926
+"2019","Land Locked Developing Countries",26197059.1369
+"2020","Land Locked Developing Countries",26464279.6001
+"2000","Lao People's Democratic Republic",414228.1826
+"2001","Lao People's Democratic Republic",314873.4858
+"2002","Lao People's Democratic Republic",330953.8348
+"2003","Lao People's Democratic Republic",337514.6481
+"2004","Lao People's Democratic Republic",399581.0051
+"2005","Lao People's Democratic Republic",359954.6274
+"2006","Lao People's Democratic Republic",346015.3369
+"2007","Lao People's Democratic Republic",410173.7786
+"2008","Lao People's Democratic Republic",352762.4792
+"2009","Lao People's Democratic Republic",369032.6434
+"2010","Lao People's Democratic Republic",420350.6192
+"2011","Lao People's Democratic Republic",344517.882
+"2012","Lao People's Democratic Republic",368090.6422
+"2013","Lao People's Democratic Republic",384409.4112
+"2014","Lao People's Democratic Republic",382720.1225
+"2015","Lao People's Democratic Republic",418050.6467
+"2016","Lao People's Democratic Republic",475655.9844
+"2017","Lao People's Democratic Republic",473171.6115
+"2018","Lao People's Democratic Republic",475601.6815
+"2019","Lao People's Democratic Republic",503372.876
+"2020","Lao People's Democratic Republic",542463.4134
+"2000","Latvia",20024.5799
+"2001","Latvia",12688.0397
+"2002","Latvia",19241.1948
+"2003","Latvia",28629.6391
+"2004","Latvia",46397.188
+"2005","Latvia",53166.5439
+"2006","Latvia",56333.2031
+"2007","Latvia",64126.3305
+"2008","Latvia",60886.9192
+"2009","Latvia",67342.7347
+"2010","Latvia",83600.1705
+"2011","Latvia",171479.5864
+"2012","Latvia",168254.0996
+"2013","Latvia",172823.0436
+"2014","Latvia",188744.4638
+"2015","Latvia",230463.3561
+"2016","Latvia",177423.6931
+"2017","Latvia",170603.2007
+"2018","Latvia",173886.7247
+"2019","Latvia",175156.1031
+"2020","Latvia",178573.2564
+"2000","Least Developed Countries",28524217.2399
+"2001","Least Developed Countries",28754204.1349
+"2002","Least Developed Countries",29602379.9548
+"2003","Least Developed Countries",30915735.9997
+"2004","Least Developed Countries",31284739.5116
+"2005","Least Developed Countries",31930548.3406
+"2006","Least Developed Countries",31913094.4607
+"2007","Least Developed Countries",32660880.9822
+"2008","Least Developed Countries",33006876.5419
+"2009","Least Developed Countries",33253613.4206
+"2010","Least Developed Countries",34282532.3757
+"2011","Least Developed Countries",38035933.7787
+"2012","Least Developed Countries",38569807.7206
+"2013","Least Developed Countries",38954300.0928
+"2014","Least Developed Countries",39396579.0163
+"2015","Least Developed Countries",40014758.8859
+"2016","Least Developed Countries",40822180.2044
+"2017","Least Developed Countries",41100385.7029
+"2018","Least Developed Countries",41320165.9352
+"2019","Least Developed Countries",41930836.1303
+"2020","Least Developed Countries",42506444.2035
+"2000","Lebanon",143732.801
+"2001","Lebanon",148535.9487
+"2002","Lebanon",146585.3995
+"2003","Lebanon",163024.1851
+"2004","Lebanon",153184.0747
+"2005","Lebanon",148273.0664
+"2006","Lebanon",134854.4624
+"2007","Lebanon",130058.5574
+"2008","Lebanon",155221.655
+"2009","Lebanon",183657.8758
+"2010","Lebanon",173870.6211
+"2011","Lebanon",174903.8911
+"2012","Lebanon",197236.4247
+"2013","Lebanon",193875.6061
+"2014","Lebanon",209533.9359
+"2015","Lebanon",223238.8649
+"2016","Lebanon",228777.4958
+"2017","Lebanon",238074.1657
+"2018","Lebanon",182404.4618
+"2019","Lebanon",183138.9186
+"2020","Lebanon",174978.0678
+"2000","Lesotho",48240.866
+"2001","Lesotho",46099.2421
+"2002","Lesotho",43087.0159
+"2003","Lesotho",44210.3643
+"2004","Lesotho",43290.666
+"2005","Lesotho",46334.0952
+"2006","Lesotho",45479.9697
+"2007","Lesotho",46715.5862
+"2008","Lesotho",45654.7209
+"2009","Lesotho",46721.4446
+"2010","Lesotho",46824.6092
+"2011","Lesotho",47933.41
+"2012","Lesotho",48536.7537
+"2013","Lesotho",46712.0297
+"2014","Lesotho",46221.8098
+"2015","Lesotho",45307.8381
+"2016","Lesotho",44899.0395
+"2017","Lesotho",48699.3932
+"2018","Lesotho",45853.9219
+"2019","Lesotho",43499.8319
+"2020","Lesotho",44574.2394
+"2000","Liberia",28087.3287
+"2001","Liberia",208905.2964
+"2002","Liberia",209331.8719
+"2003","Liberia",211281.6142
+"2004","Liberia",211261.7559
+"2005","Liberia",212026.66
+"2006","Liberia",216987.8181
+"2007","Liberia",214445.3373
+"2008","Liberia",215631.432
+"2009","Liberia",231709.5015
+"2010","Liberia",219295.269
+"2011","Liberia",221394.453
+"2012","Liberia",222094.0091
+"2013","Liberia",222159.8581
+"2014","Liberia",191350.6165
+"2015","Liberia",244708.34
+"2016","Liberia",228025.3921
+"2017","Liberia",221885.2158
+"2018","Liberia",227860.5883
+"2019","Liberia",233876.7591
+"2020","Liberia",229914.6164
+"2000","Libya",665850.3737
+"2001","Libya",659555.5893
+"2002","Libya",633400.5703
+"2003","Libya",660704.8184
+"2004","Libya",659933.5481
+"2005","Libya",712642.0913
+"2006","Libya",712874.8743
+"2007","Libya",667067.3783
+"2008","Libya",695522.7139
+"2009","Libya",694909.5129
+"2010","Libya",739544.3521
+"2011","Libya",444951.2301
+"2012","Libya",631663.5599
+"2013","Libya",627289.8996
+"2014","Libya",562520.0498
+"2015","Libya",494823.8846
+"2016","Libya",456187.3578
+"2017","Libya",520802.3207
+"2018","Libya",555010.5706
+"2019","Libya",513423.7248
+"2020","Libya",434069.5297
+"2000","Liechtenstein",1748.8045
+"2001","Liechtenstein",1715.9925
+"2002","Liechtenstein",1730.6076
+"2003","Liechtenstein",1750.3473
+"2004","Liechtenstein",1761.3894
+"2005","Liechtenstein",1778.3349
+"2006","Liechtenstein",1850.9171
+"2007","Liechtenstein",1665.2654
+"2008","Liechtenstein",1812.1109
+"2009","Liechtenstein",1782.9045
+"2010","Liechtenstein",1582.6701
+"2011","Liechtenstein",1336.7204
+"2012","Liechtenstein",1354.9571
+"2013","Liechtenstein",1629.5635
+"2014","Liechtenstein",1358.244
+"2015","Liechtenstein",1240.9341
+"2016","Liechtenstein",1104.4506
+"2017","Liechtenstein",1216.8002
+"2018","Liechtenstein",1219.425
+"2019","Liechtenstein",1186.2845
+"2020","Liechtenstein",1091.1837
+"2000","Lithuania",315846.3436
+"2001","Lithuania",324094.0753
+"2002","Lithuania",336041.1273
+"2003","Lithuania",343598.8985
+"2004","Lithuania",350516.8944
+"2005","Lithuania",364467.322
+"2006","Lithuania",361347.2589
+"2007","Lithuania",378481.9096
+"2008","Lithuania",373446.9478
+"2009","Lithuania",343877.1701
+"2010","Lithuania",343034.8619
+"2011","Lithuania",317026.938
+"2012","Lithuania",323237.0373
+"2013","Lithuania",324297.8218
+"2014","Lithuania",336754.1199
+"2015","Lithuania",347671.3433
+"2016","Lithuania",384597.9142
+"2017","Lithuania",395933.039
+"2018","Lithuania",382975.2554
+"2019","Lithuania",388990.375
+"2020","Lithuania",392374.1019
+"2000","Low Income Food Deficit Countries",51062416.0419
+"2001","Low Income Food Deficit Countries",53643128.0613
+"2002","Low Income Food Deficit Countries",54325781.5804
+"2003","Low Income Food Deficit Countries",56162612.0952
+"2004","Low Income Food Deficit Countries",57029885.375
+"2005","Low Income Food Deficit Countries",58768383.6783
+"2006","Low Income Food Deficit Countries",59755436.6127
+"2007","Low Income Food Deficit Countries",61444469.8039
+"2008","Low Income Food Deficit Countries",63187922.6357
+"2009","Low Income Food Deficit Countries",64344642.0086
+"2010","Low Income Food Deficit Countries",65639239.2661
+"2011","Low Income Food Deficit Countries",68118434.1735
+"2012","Low Income Food Deficit Countries",69638927.4964
+"2013","Low Income Food Deficit Countries",70729455.8217
+"2014","Low Income Food Deficit Countries",72523284.217
+"2015","Low Income Food Deficit Countries",73584293.5697
+"2016","Low Income Food Deficit Countries",76299725.5341
+"2017","Low Income Food Deficit Countries",77085389.9179
+"2018","Low Income Food Deficit Countries",78926079.2002
+"2019","Low Income Food Deficit Countries",80078142.2041
+"2020","Low Income Food Deficit Countries",79558684.4882
+"2000","Luxembourg",67084.3389
+"2001","Luxembourg",70504.3307
+"2002","Luxembourg",75158.0743
+"2003","Luxembourg",77852.9893
+"2004","Luxembourg",87065.7267
+"2005","Luxembourg",88802.7416
+"2006","Luxembourg",87088.8513
+"2007","Luxembourg",85223.2811
+"2008","Luxembourg",84515.0322
+"2009","Luxembourg",81308.4518
+"2010","Luxembourg",86274.5477
+"2011","Luxembourg",86976.6127
+"2012","Luxembourg",84816.5205
+"2013","Luxembourg",81209.3485
+"2014","Luxembourg",79027.3607
+"2015","Luxembourg",76274.9888
+"2016","Luxembourg",74636.4754
+"2017","Luxembourg",77142.6534
+"2018","Luxembourg",79721.2326
+"2019","Luxembourg",80282.6247
+"2020","Luxembourg",69776.1379
+"2000","Madagascar",495517.7882
+"2001","Madagascar",765888.1903
+"2002","Madagascar",733730.1827
+"2003","Madagascar",769685.3714
+"2004","Madagascar",749989.2996
+"2005","Madagascar",248758.8017
+"2006","Madagascar",147144.6774
+"2007","Madagascar",141593.3286
+"2008","Madagascar",137441.8093
+"2009","Madagascar",169108.6098
+"2010","Madagascar",462108.2365
+"2011","Madagascar",639507.7928
+"2012","Madagascar",646776.3991
+"2013","Madagascar",627800.5815
+"2014","Madagascar",624017.7754
+"2015","Madagascar",632565.4129
+"2016","Madagascar",629246.8301
+"2017","Madagascar",609792.3533
+"2018","Madagascar",632496.222
+"2019","Madagascar",647510.4874
+"2020","Madagascar",661035.3202
+"2000","Malawi",183582.51
+"2001","Malawi",183837.5371
+"2002","Malawi",190285.156
+"2003","Malawi",197819.5163
+"2004","Malawi",194295.514
+"2005","Malawi",200931.6699
+"2006","Malawi",200062.195
+"2007","Malawi",208253.2861
+"2008","Malawi",218314.2505
+"2009","Malawi",215783.4955
+"2010","Malawi",233875.2984
+"2011","Malawi",233879.5328
+"2012","Malawi",240762.9441
+"2013","Malawi",241853.4766
+"2014","Malawi",251949.366
+"2015","Malawi",257673.8191
+"2016","Malawi",264033.9761
+"2017","Malawi",266436.041
+"2018","Malawi",287535.7014
+"2019","Malawi",304170.5318
+"2020","Malawi",308247.6943
+"2000","Malaysia",1757714.1619
+"2001","Malaysia",1957143.9596
+"2002","Malaysia",2076316.2055
+"2003","Malaysia",2236515.3926
+"2004","Malaysia",2529821.2674
+"2005","Malaysia",2233157.64
+"2006","Malaysia",2408759.9904
+"2007","Malaysia",2659211.144
+"2008","Malaysia",2693908.6283
+"2009","Malaysia",2893462.6571
+"2010","Malaysia",2846591.7126
+"2011","Malaysia",357567.9538
+"2012","Malaysia",1369886.4875
+"2013","Malaysia",1546675.3719
+"2014","Malaysia",1329354.8018
+"2015","Malaysia",1601904.2267
+"2016","Malaysia",2933628.8829
+"2017","Malaysia",3251481.6893
+"2018","Malaysia",3383399.179
+"2019","Malaysia",3449019.4931
+"2020","Malaysia",3270611.7409
+"2000","Maldives",4199.7033
+"2001","Maldives",4263.6126
+"2002","Maldives",5302.4571
+"2003","Maldives",4706.9118
+"2004","Maldives",5999.1888
+"2005","Maldives",5515.3505
+"2006","Maldives",6758.3726
+"2007","Maldives",6926.8772
+"2008","Maldives",7431.9666
+"2009","Maldives",7814.376
+"2010","Maldives",8181.3264
+"2011","Maldives",8804.216
+"2012","Maldives",9832.9519
+"2013","Maldives",9636.3614
+"2014","Maldives",11419.47
+"2015","Maldives",11115.4375
+"2016","Maldives",12184.1994
+"2017","Maldives",12611.3126
+"2018","Maldives",13066.5563
+"2019","Maldives",13548.5352
+"2020","Maldives",13987.518
+"2000","Mali",302081.9363
+"2001","Mali",377976.2877
+"2002","Mali",386801.0085
+"2003","Mali",400306.4546
+"2004","Mali",437048.2359
+"2005","Mali",450964.898
+"2006","Mali",453081.138
+"2007","Mali",468455.138
+"2008","Mali",494435.6176
+"2009","Mali",494229.6655
+"2010","Mali",217747.7268
+"2011","Mali",507431.6908
+"2012","Mali",522649.7266
+"2013","Mali",539760.9132
+"2014","Mali",555388.2357
+"2015","Mali",575584.7912
+"2016","Mali",628015.7438
+"2017","Mali",637688.7877
+"2018","Mali",658658.8592
+"2019","Mali",681073.5382
+"2020","Mali",716005.3223
+"2000","Malta",18801.347
+"2001","Malta",21320.052
+"2002","Malta",20236.8225
+"2003","Malta",22209.6144
+"2004","Malta",22376.9838
+"2005","Malta",23439.5562
+"2006","Malta",23054.8118
+"2007","Malta",24133.6766
+"2008","Malta",23340.9814
+"2009","Malta",22673.9589
+"2010","Malta",23818.2086
+"2011","Malta",23705.1662
+"2012","Malta",24541.3087
+"2013","Malta",22726.1596
+"2014","Malta",22905.7695
+"2015","Malta",18688.0565
+"2016","Malta",16990.9379
+"2017","Malta",18407.1268
+"2018","Malta",22671.9643
+"2019","Malta",22608.3238
+"2020","Malta",22673.1259
+"2000","Marshall Islands",816.4899
+"2001","Marshall Islands",846.3302
+"2002","Marshall Islands",899.0508
+"2003","Marshall Islands",880.1296
+"2004","Marshall Islands",955.3825
+"2005","Marshall Islands",943.2098
+"2006","Marshall Islands",997.9358
+"2007","Marshall Islands",1042.6107
+"2008","Marshall Islands",1071.8272
+"2009","Marshall Islands",1132.5413
+"2010","Marshall Islands",1186.7203
+"2011","Marshall Islands",1214.6623
+"2012","Marshall Islands",1187.1618
+"2013","Marshall Islands",1219.0571
+"2014","Marshall Islands",1260.1945
+"2015","Marshall Islands",1264.9673
+"2016","Marshall Islands",1262.5119
+"2017","Marshall Islands",1288.4662
+"2018","Marshall Islands",1341.6665
+"2019","Marshall Islands",1454.1282
+"2020","Marshall Islands",1444.0391
+"2000","Martinique",1044.8424
+"2001","Martinique",807.465200000001
+"2002","Martinique",563.2759
+"2003","Martinique",502.4798
+"2004","Martinique",572.1855
+"2005","Martinique",448.8068
+"2006","Martinique",562.8544
+"2007","Martinique",411.8967
+"2008","Martinique",454.4797
+"2009","Martinique",427.3055
+"2010","Martinique",380.3157
+"2011","Martinique",-128.1062
+"2012","Martinique",-132.3884
+"2013","Martinique",-182.4392
+"2014","Martinique",-160.2738
+"2015","Martinique",-198.016
+"2016","Martinique",-176.3783
+"2017","Martinique",-199.7434
+"2018","Martinique",-251.41
+"2019","Martinique",-274.9962
+"2020","Martinique",-822.8704
+"2000","Mauritania",183506.9455
+"2001","Mauritania",161882.2835
+"2002","Mauritania",163248.7152
+"2003","Mauritania",165448.5074
+"2004","Mauritania",165348.9225
+"2005","Mauritania",168047.8997
+"2006","Mauritania",174039.9798
+"2007","Mauritania",173187.3796
+"2008","Mauritania",160741.5197
+"2009","Mauritania",171513.9158
+"2010","Mauritania",185930.0539
+"2011","Mauritania",180838.0605
+"2012","Mauritania",187635.0148
+"2013","Mauritania",190052.1022
+"2014","Mauritania",196882.693
+"2015","Mauritania",226907.7287
+"2016","Mauritania",192725.2095
+"2017","Mauritania",203239.0924
+"2018","Mauritania",226945.9027
+"2019","Mauritania",208175.7561
+"2020","Mauritania",209498.265
+"2000","Mauritius",30465.1354
+"2001","Mauritius",31867.1925
+"2002","Mauritius",32145.6934
+"2003","Mauritius",32451.342
+"2004","Mauritius",31019.2299
+"2005","Mauritius",32315.7806
+"2006","Mauritius",33296.4435
+"2007","Mauritius",35126.1103
+"2008","Mauritius",35749.0469
+"2009","Mauritius",35477.1961
+"2010","Mauritius",36778.5734
+"2011","Mauritius",36262.5398
+"2012","Mauritius",36852.4657
+"2013","Mauritius",36303.7803
+"2014","Mauritius",38290.1426
+"2015","Mauritius",38048.918
+"2016","Mauritius",38903.5073
+"2017","Mauritius",40182.1999
+"2018","Mauritius",40571.1338
+"2019","Mauritius",41329.4163
+"2020","Mauritius",41909.3353
+"2000","Mayotte",993.4534
+"2001","Mayotte",443.1388
+"2002","Mayotte",444.5416
+"2003","Mayotte",452.0834
+"2004","Mayotte",459.1464
+"2005","Mayotte",472.7736
+"2006","Mayotte",481.485
+"2007","Mayotte",491.9844
+"2008","Mayotte",511.0546
+"2009","Mayotte",522.3708
+"2010","Mayotte",523.3692
+"2011","Mayotte",224.835
+"2012","Mayotte",229.4474
+"2013","Mayotte",233.228
+"2014","Mayotte",243.356
+"2015","Mayotte",248.6874
+"2016","Mayotte",283.4724
+"2017","Mayotte",288.4248
+"2018","Mayotte",293.378
+"2019","Mayotte",298.3312
+"2020","Mayotte",298.3312
+"2000","Melanesia",524803.4911
+"2001","Melanesia",500701.3811
+"2002","Melanesia",513529.7568
+"2003","Melanesia",511636.5618
+"2004","Melanesia",534287.3886
+"2005","Melanesia",528142.0917
+"2006","Melanesia",533080.314
+"2007","Melanesia",533547.6097
+"2008","Melanesia",525729.4846
+"2009","Melanesia",509029.3711
+"2010","Melanesia",506199.1103
+"2011","Melanesia",452588.0025
+"2012","Melanesia",450938.8819
+"2013","Melanesia",455436.3743
+"2014","Melanesia",469086.9356
+"2015","Melanesia",508667.3223
+"2016","Melanesia",1007159.2511
+"2017","Melanesia",1017388.1077
+"2018","Melanesia",1035900.2247
+"2019","Melanesia",1030419.4696
+"2020","Melanesia",1034527.0021
+"2000","Mexico",6336775.6851
+"2001","Mexico",5586994.8752
+"2002","Mexico",5624149.0179
+"2003","Mexico",5897328.4208
+"2004","Mexico",5815855.2722
+"2005","Mexico",6096457.1317
+"2006","Mexico",6254837.5793
+"2007","Mexico",6423999.4687
+"2008","Mexico",6787541.4384
+"2009","Mexico",6669860.072
+"2010","Mexico",6570443.3488
+"2011","Mexico",7357071.4401
+"2012","Mexico",7280190.8104
+"2013","Mexico",7383812.2861
+"2014","Mexico",6975593.6384
+"2015","Mexico",6906204.4021
+"2016","Mexico",7083500.5139
+"2017","Mexico",7025139.3792
+"2018","Mexico",6967392.8356
+"2019","Mexico",6904175.2882
+"2020","Mexico",6452248.3602
+"2000","Micronesia",10400.3509
+"2001","Micronesia",10553.251
+"2002","Micronesia",10135.8297
+"2003","Micronesia",10278.0173
+"2004","Micronesia",10384.4925
+"2005","Micronesia",10626.619
+"2006","Micronesia",10791.8192
+"2007","Micronesia",10895.2825
+"2008","Micronesia",10652.289
+"2009","Micronesia",11427.1999
+"2010","Micronesia",11293.8548
+"2011","Micronesia",9856.0764
+"2012","Micronesia",10798.9581
+"2013","Micronesia",9890.28539999999
+"2014","Micronesia",9476.1795
+"2015","Micronesia",9470.6575
+"2016","Micronesia",18901.5663
+"2017","Micronesia",19017.2944
+"2018","Micronesia",19261.4878
+"2019","Micronesia",19904.842
+"2020","Micronesia",19861.4582
+"2000","Micronesia (Federated States of)",2700.1466
+"2001","Micronesia (Federated States of)",3943.837
+"2002","Micronesia (Federated States of)",3892.6311
+"2003","Micronesia (Federated States of)",3974.3252
+"2004","Micronesia (Federated States of)",3945.6416
+"2005","Micronesia (Federated States of)",3813.7972
+"2006","Micronesia (Federated States of)",3806.4857
+"2007","Micronesia (Federated States of)",3897.0419
+"2008","Micronesia (Federated States of)",3740.7503
+"2009","Micronesia (Federated States of)",4112.9359
+"2010","Micronesia (Federated States of)",3743.5138
+"2011","Micronesia (Federated States of)",1829.8207
+"2012","Micronesia (Federated States of)",1910.1224
+"2013","Micronesia (Federated States of)",2036.9723
+"2014","Micronesia (Federated States of)",2053.0594
+"2015","Micronesia (Federated States of)",2112.7926
+"2016","Micronesia (Federated States of)",2080.9761
+"2017","Micronesia (Federated States of)",2071.348
+"2018","Micronesia (Federated States of)",2136.6524
+"2019","Micronesia (Federated States of)",2264.7408
+"2020","Micronesia (Federated States of)",2277.9538
+"2000","Middle Africa",10403674.421
+"2001","Middle Africa",10637783.9356
+"2002","Middle Africa",10830311.6829
+"2003","Middle Africa",11470065.325
+"2004","Middle Africa",11361303.3778
+"2005","Middle Africa",11594950.9527
+"2006","Middle Africa",11490965.8068
+"2007","Middle Africa",11450656.0216
+"2008","Middle Africa",11546101.259
+"2009","Middle Africa",11362980.6208
+"2010","Middle Africa",11748156.9611
+"2011","Middle Africa",15143411.0682
+"2012","Middle Africa",15096682.2119
+"2013","Middle Africa",15145142.3137
+"2014","Middle Africa",15171537.2541
+"2015","Middle Africa",15381532.0463
+"2016","Middle Africa",15598555.9733
+"2017","Middle Africa",15570826.8105
+"2018","Middle Africa",15371713.2851
+"2019","Middle Africa",15594905.0986
+"2020","Middle Africa",15610299.8623
+"2000","Monaco",914.9281
+"2001","Monaco",932.4016
+"2002","Monaco",935.8094
+"2003","Monaco",916.5964
+"2004","Monaco",888.3034
+"2005","Monaco",872.8338
+"2006","Monaco",836.8323
+"2007","Monaco",843.4876
+"2008","Monaco",843.3983
+"2009","Monaco",806.2155
+"2010","Monaco",809.8427
+"2011","Monaco",815.0724
+"2012","Monaco",818.2908
+"2013","Monaco",836.328
+"2014","Monaco",796.2616
+"2015","Monaco",813.7724
+"2016","Monaco",805.8943
+"2017","Monaco",785.2872
+"2018","Monaco",817.0213
+"2019","Monaco",760.7943
+"2020","Monaco",623.4613
+"2000","Mongolia",746217.2606
+"2001","Mongolia",695897.2648
+"2002","Mongolia",655214.7654
+"2003","Mongolia",655239.2776
+"2004","Mongolia",652058.7187
+"2005","Mongolia",684989.2479
+"2006","Mongolia",800512.5053
+"2007","Mongolia",777568.4691
+"2008","Mongolia",782168.1356
+"2009","Mongolia",809601.6059
+"2010","Mongolia",785611.3458
+"2011","Mongolia",873154.6106
+"2012","Mongolia",979151.9339
+"2013","Mongolia",1049009.5235
+"2014","Mongolia",1059532.7648
+"2015","Mongolia",1035084.4333
+"2016","Mongolia",1101425.0977
+"2017","Mongolia",1202211.8479
+"2018","Mongolia",1222107.44
+"2019","Mongolia",1276115.8108
+"2020","Mongolia",1263771.2877
+"2006","Montenegro",-5161.0621
+"2007","Montenegro",-5464.0902
+"2008","Montenegro",-2034.5532
+"2009","Montenegro",-9120.9094
+"2010","Montenegro",-3455.9119
+"2011","Montenegro",31487.5791
+"2012","Montenegro",33317.0887
+"2013","Montenegro",32547.9559
+"2014","Montenegro",32704.4985
+"2015","Montenegro",34374.3483
+"2016","Montenegro",33419.1164
+"2017","Montenegro",34521.9877
+"2018","Montenegro",35106.4195
+"2019","Montenegro",34367.7908
+"2020","Montenegro",34807.8416
+"2000","Montserrat",321.4966
+"2001","Montserrat",1.5812
+"2002","Montserrat",5.858
+"2003","Montserrat",2.6872
+"2004","Montserrat",3.9488
+"2005","Montserrat",2.1184
+"2006","Montserrat",2.2008
+"2007","Montserrat",2.4436
+"2008","Montserrat",6.4408
+"2009","Montserrat",4.0312
+"2010","Montserrat",23.9443
+"2011","Montserrat",3.7568
+"2012","Montserrat",4.0096
+"2013","Montserrat",9.6644
+"2014","Montserrat",6.8724
+"2015","Montserrat",9.7332
+"2016","Montserrat",-1.7156
+"2017","Montserrat",-3.2156
+"2018","Montserrat",-2.9752
+"2019","Montserrat",-4.3188
+"2020","Montserrat",-4.3188
+"2000","Morocco",615256.0316
+"2001","Morocco",561151.0621
+"2002","Morocco",576201.5253
+"2003","Morocco",578201.441
+"2004","Morocco",627851.3931
+"2005","Morocco",652503.3058
+"2006","Morocco",680974.0963
+"2007","Morocco",695046.5614
+"2008","Morocco",713697.206
+"2009","Morocco",715234.0173
+"2010","Morocco",845473.3258
+"2011","Morocco",805402.0263
+"2012","Morocco",911625.9642
+"2013","Morocco",851784.2127
+"2014","Morocco",862487.9699
+"2015","Morocco",885105.6524
+"2016","Morocco",868116.6655
+"2017","Morocco",915639.6203
+"2018","Morocco",928775.0385
+"2019","Morocco",962173.7719
+"2020","Morocco",921078.893
+"2000","Mozambique",970615.5466
+"2001","Mozambique",1170397.353
+"2002","Mozambique",1187378.6033
+"2003","Mozambique",1240597.6569
+"2004","Mozambique",1223814.2073
+"2005","Mozambique",1294422.5185
+"2006","Mozambique",1275643.6437
+"2007","Mozambique",1298884.9059
+"2008","Mozambique",1355568.2286
+"2009","Mozambique",1282523.064
+"2010","Mozambique",1380220.3556
+"2011","Mozambique",1244113.6627
+"2012","Mozambique",1313495.064
+"2013","Mozambique",1337571.4325
+"2014","Mozambique",1352932.6488
+"2015","Mozambique",1318134.2798
+"2016","Mozambique",1452429.1268
+"2017","Mozambique",1451814.6165
+"2018","Mozambique",1488077.8663
+"2019","Mozambique",1423540.5984
+"2020","Mozambique",1408733.009
+"2000","Myanmar",3118761.0343
+"2001","Myanmar",2861222.4115
+"2002","Myanmar",2855290.2229
+"2003","Myanmar",3030803.7502
+"2004","Myanmar",3265596.2671
+"2005","Myanmar",3135684.5655
+"2006","Myanmar",3314232.763
+"2007","Myanmar",3470834.2948
+"2008","Myanmar",3285933.7809
+"2009","Myanmar",3449497.7831
+"2010","Myanmar",3547372.8425
+"2011","Myanmar",3112287.6433
+"2012","Myanmar",3167938.2212
+"2013","Myanmar",3194012.1666
+"2014","Myanmar",3296708.7842
+"2015","Myanmar",3407346.7499
+"2016","Myanmar",3288569.7233
+"2017","Myanmar",3354976.5602
+"2018","Myanmar",3452502.7658
+"2019","Myanmar",3477478.0904
+"2020","Myanmar",3598128.9396
+"2000","Namibia",375673.1355
+"2001","Namibia",132734.5509
+"2002","Namibia",101177.7371
+"2003","Namibia",109798.683
+"2004","Namibia",300371.9917
+"2005","Namibia",128544.138
+"2006","Namibia",158991.2188
+"2007","Namibia",154211.2334
+"2008","Namibia",114356.1008
+"2009","Namibia",186971.1577
+"2010","Namibia",165168.5859
+"2011","Namibia",248706.0688
+"2012","Namibia",279057.0646
+"2013","Namibia",111310.5113
+"2014","Namibia",118059.9028
+"2015","Namibia",112209.2685
+"2016","Namibia",117065.8559
+"2017","Namibia",322239.6217
+"2018","Namibia",307614.38
+"2019","Namibia",294059.4269
+"2020","Namibia",341918.8662
+"2000","Nauru",689.1613
+"2001","Nauru",642.6275
+"2002","Nauru",611.8652
+"2003","Nauru",534.5279
+"2004","Nauru",534.4541
+"2005","Nauru",522.9584
+"2006","Nauru",433.5271
+"2007","Nauru",447.8073
+"2008","Nauru",456.9152
+"2009","Nauru",424.9709
+"2010","Nauru",469.0777
+"2011","Nauru",407.7824
+"2012","Nauru",426.25
+"2013","Nauru",465.1609
+"2014","Nauru",483.6378
+"2015","Nauru",493.0801
+"2016","Nauru",409.3553
+"2017","Nauru",426.6918
+"2018","Nauru",440.4662
+"2019","Nauru",465.9405
+"2020","Nauru",463.3155
+"2000","Nepal",504843.0774
+"2001","Nepal",430085.1205
+"2002","Nepal",422199.6983
+"2003","Nepal",441894.3284
+"2004","Nepal",443631.1001
+"2005","Nepal",451733.8619
+"2006","Nepal",449453.4316
+"2007","Nepal",449175.8356
+"2008","Nepal",473398.2498
+"2009","Nepal",496313.8237
+"2010","Nepal",509532.9642
+"2011","Nepal",573168.6915
+"2012","Nepal",589131.5039
+"2013","Nepal",599971.6472
+"2014","Nepal",614006.5861
+"2015","Nepal",590335.497
+"2016","Nepal",658432.5814
+"2017","Nepal",648118.4059
+"2018","Nepal",662485.9032
+"2019","Nepal",692019.832
+"2020","Nepal",675543.802
+"2000","Net Food Importing Developing Countries",46009917.167
+"2001","Net Food Importing Developing Countries",45325636.7887
+"2002","Net Food Importing Developing Countries",46544962.6325
+"2003","Net Food Importing Developing Countries",48157302.3477
+"2004","Net Food Importing Developing Countries",48618685.3084
+"2005","Net Food Importing Developing Countries",49950988.9743
+"2006","Net Food Importing Developing Countries",50365756.148
+"2007","Net Food Importing Developing Countries",51677769.6745
+"2008","Net Food Importing Developing Countries",52524154.5915
+"2009","Net Food Importing Developing Countries",52891736.5535
+"2010","Net Food Importing Developing Countries",54227136.0876
+"2011","Net Food Importing Developing Countries",59035214.0567
+"2012","Net Food Importing Developing Countries",59797547.5385
+"2013","Net Food Importing Developing Countries",60172962.8603
+"2014","Net Food Importing Developing Countries",60821652.2373
+"2015","Net Food Importing Developing Countries",61503335.8697
+"2016","Net Food Importing Developing Countries",61767217.4228
+"2017","Net Food Importing Developing Countries",62430499.8992
+"2018","Net Food Importing Developing Countries",62631552.6816
+"2019","Net Food Importing Developing Countries",63565396.8806
+"2020","Net Food Importing Developing Countries",63907187.8559
+"2000","Netherlands",2176763.1279
+"2001","Netherlands",2170356.7212
+"2002","Netherlands",2141607.106
+"2003","Netherlands",2153896.6482
+"2004","Netherlands",2164644.0559
+"2005","Netherlands",2127295.7787
+"2006","Netherlands",2116867.7152
+"2007","Netherlands",2106402.6859
+"2008","Netherlands",2080567.8337
+"2009","Netherlands",2052164.5418
+"2010","Netherlands",2147155.2163
+"2011","Netherlands",2047813.5129
+"2012","Netherlands",2037937.0314
+"2013","Netherlands",2035446.7215
+"2014","Netherlands",1980908.7941
+"2015","Netherlands",2027023.5912
+"2016","Netherlands",2031703.8608
+"2017","Netherlands",1999133.8513
+"2018","Netherlands",1947703.9363
+"2019","Netherlands",1939363.1243
+"2020","Netherlands",1798678.7132
+"2000","Netherlands Antilles (former)",38324.6404
+"2001","Netherlands Antilles (former)",39050.2342
+"2002","Netherlands Antilles (former)",37537.1652
+"2003","Netherlands Antilles (former)",38029.67
+"2004","Netherlands Antilles (former)",39888.8853
+"2005","Netherlands Antilles (former)",39527.7608
+"2006","Netherlands Antilles (former)",41922.8227
+"2007","Netherlands Antilles (former)",46766.1494
+"2008","Netherlands Antilles (former)",45123.2438
+"2009","Netherlands Antilles (former)",45698.5754
+"2010","Netherlands Antilles (former)",33234.6793
+"2011","Netherlands Antilles (former)",35945.5789
+"2012","Netherlands Antilles (former)",42437.4152
+"2013","Netherlands Antilles (former)",37690.3194
+"2014","Netherlands Antilles (former)",41796.5067
+"2015","Netherlands Antilles (former)",44918.832
+"2016","Netherlands Antilles (former)",39783.4092
+"2017","Netherlands Antilles (former)",38555.134
+"2018","Netherlands Antilles (former)",39666.5746
+"2019","Netherlands Antilles (former)",40992.7728
+"2020","Netherlands Antilles (former)",36175.3742
+"2000","New Caledonia",3749.3525
+"2001","New Caledonia",5001.6198
+"2002","New Caledonia",5341.6926
+"2003","New Caledonia",5279.8967
+"2004","New Caledonia",5611.9848
+"2005","New Caledonia",5459.6732
+"2006","New Caledonia",5380.5559
+"2007","New Caledonia",6069.8081
+"2008","New Caledonia",5625.5254
+"2009","New Caledonia",5490.0414
+"2010","New Caledonia",5676.3587
+"2011","New Caledonia",6563.1174
+"2012","New Caledonia",6083.493
+"2013","New Caledonia",6485.1607
+"2014","New Caledonia",5897.376
+"2015","New Caledonia",5518.6413
+"2016","New Caledonia",5161.0353
+"2017","New Caledonia",5095.0184
+"2018","New Caledonia",4999.175
+"2019","New Caledonia",5150.114
+"2020","New Caledonia",4814.0625
+"2000","New Zealand",913438.1783
+"2001","New Zealand",953031.4215
+"2002","New Zealand",975906.1001
+"2003","New Zealand",982598.683
+"2004","New Zealand",980967.7819
+"2005","New Zealand",976767.0682
+"2006","New Zealand",976438.8718
+"2007","New Zealand",962364.2747
+"2008","New Zealand",942082.3364
+"2009","New Zealand",945713.797699999
+"2010","New Zealand",950002.5177
+"2011","New Zealand",1013304.4397
+"2012","New Zealand",1053271.462
+"2013","New Zealand",1050599.7079
+"2014","New Zealand",1078770.4145
+"2015","New Zealand",1056880.9379
+"2016","New Zealand",1111921.9501
+"2017","New Zealand",1116045.1772
+"2018","New Zealand",1116449.8123
+"2019","New Zealand",1118348.4041
+"2020","New Zealand",1128302.1522
+"2000","Nicaragua",574265.8814
+"2001","Nicaragua",510255.9737
+"2002","Nicaragua",515532.9601
+"2003","Nicaragua",529509.919
+"2004","Nicaragua",520538.8081
+"2005","Nicaragua",532450.7976
+"2006","Nicaragua",532355.8228
+"2007","Nicaragua",533219.9513
+"2008","Nicaragua",532865.8293
+"2009","Nicaragua",535837.7532
+"2010","Nicaragua",540054.5529
+"2011","Nicaragua",384287.1823
+"2012","Nicaragua",389768.577
+"2013","Nicaragua",397248.3656
+"2014","Nicaragua",409598.7937
+"2015","Nicaragua",420295.0171
+"2016","Nicaragua",544932.2716
+"2017","Nicaragua",538377.2723
+"2018","Nicaragua",543221.1883
+"2019","Nicaragua",549571.1732
+"2020","Nicaragua",551004.9889
+"2000","Niger",382452.8738
+"2001","Niger",318298.9905
+"2002","Niger",329820.5881
+"2003","Niger",342177.9261
+"2004","Niger",355160.9388
+"2005","Niger",368648.1099
+"2006","Niger",381396.8186
+"2007","Niger",397695.5838
+"2008","Niger",410013.3793
+"2009","Niger",432983.1964
+"2010","Niger",427979.1482
+"2011","Niger",442568.3744
+"2012","Niger",468308.2043
+"2013","Niger",491934.1098
+"2014","Niger",515647.2234
+"2015","Niger",533530.6695
+"2016","Niger",558549.7571
+"2017","Niger",581892.2713
+"2018","Niger",610061.2649
+"2019","Niger",635865.5111
+"2020","Niger",665484.0443
+"2000","Nigeria",4317044.2231
+"2001","Nigeria",4030352.7307
+"2002","Nigeria",3791662.5969
+"2003","Nigeria",3874381.0341
+"2004","Nigeria",3887002.7674
+"2005","Nigeria",3970198.7041
+"2006","Nigeria",3834455.9265
+"2007","Nigeria",3726103.8983
+"2008","Nigeria",3704692.2103
+"2009","Nigeria",3538865.8315
+"2010","Nigeria",3918369.8604
+"2011","Nigeria",4142245.0506
+"2012","Nigeria",4135814.4084
+"2013","Nigeria",4126806.5509
+"2014","Nigeria",4223068.1931
+"2015","Nigeria",4143030.0713
+"2016","Nigeria",4493536.7501
+"2017","Nigeria",4430807.1103
+"2018","Nigeria",4533930.5771
+"2019","Nigeria",4518225.5148
+"2020","Nigeria",4535498.654
+"2000","Niue",101.3542
+"2001","Niue",90.0011
+"2002","Niue",89.9062
+"2003","Niue",67.353
+"2004","Niue",67.2312
+"2005","Niue",67.7528
+"2006","Niue",67.7344
+"2007","Niue",68.5334
+"2008","Niue",91.1066
+"2009","Niue",-219.1383
+"2010","Niue",69.1578
+"2011","Niue",54.7443
+"2012","Niue",54.6931
+"2013","Niue",54.9676
+"2014","Niue",78.9944
+"2015","Niue",55.9607
+"2016","Niue",57.2566
+"2017","Niue",57.2402
+"2018","Niue",60.196
+"2019","Niue",65.5648
+"2020","Niue",65.2945
+"2000","Non-Annex I countries",227667611.4528
+"2001","Non-Annex I countries",221385993.1396
+"2002","Non-Annex I countries",234789585.301
+"2003","Non-Annex I countries",240081192.2486
+"2004","Non-Annex I countries",256585313.3285
+"2005","Non-Annex I countries",260484101.6125
+"2006","Non-Annex I countries",270749704.5973
+"2007","Non-Annex I countries",269509369.212
+"2008","Non-Annex I countries",278411041.2802
+"2009","Non-Annex I countries",286989374.2542
+"2010","Non-Annex I countries",289244503.3804
+"2011","Non-Annex I countries",289837963.0528
+"2012","Non-Annex I countries",296765353.1096
+"2013","Non-Annex I countries",301127662.5919
+"2014","Non-Annex I countries",309005249.2871
+"2015","Non-Annex I countries",313554421.4364
+"2016","Non-Annex I countries",305743395.6957
+"2017","Non-Annex I countries",308472821.6826
+"2018","Non-Annex I countries",315289578.3835
+"2019","Non-Annex I countries",322980792.375
+"2020","Non-Annex I countries",314454065.9835
+"2000","Norfolk Island",-0.56
+"2001","Norfolk Island",-1.5768
+"2002","Norfolk Island",-1.5768
+"2003","Norfolk Island",-1.5768
+"2004","Norfolk Island",-1.5768
+"2005","Norfolk Island",-1.5768
+"2006","Norfolk Island",-1.5768
+"2007","Norfolk Island",-1.5768
+"2008","Norfolk Island",-1.5768
+"2009","Norfolk Island",-1.5768
+"2010","Norfolk Island",-1.5768
+"2011","Norfolk Island",3.7624
+"2012","Norfolk Island",3.7624
+"2013","Norfolk Island",3.7624
+"2014","Norfolk Island",3.7624
+"2015","Norfolk Island",3.7624
+"2016","Norfolk Island",1.02
+"2017","Norfolk Island",1.02
+"2018","Norfolk Island",1.02
+"2019","Norfolk Island",1.02
+"2020","Norfolk Island",1.02
+"2000","North Macedonia",117397.6101
+"2001","North Macedonia",114496.8366
+"2002","North Macedonia",105534.0108
+"2003","North Macedonia",113919.1596
+"2004","North Macedonia",115578.5747
+"2005","North Macedonia",114225.4999
+"2006","North Macedonia",113597.1601
+"2007","North Macedonia",107318.9501
+"2008","North Macedonia",105514.5967
+"2009","North Macedonia",95826.6317
+"2010","North Macedonia",94598.6714
+"2011","North Macedonia",101048.9115
+"2012","North Macedonia",96049.9792
+"2013","North Macedonia",89419.2868
+"2014","North Macedonia",85279.0897
+"2015","North Macedonia",85417.6343
+"2016","North Macedonia",85146.3477
+"2017","North Macedonia",88699.2041
+"2018","North Macedonia",85087.6725
+"2019","North Macedonia",88884.4113
+"2020","North Macedonia",80200.5445
+"2000","Northern Africa",7343411.3185
+"2001","Northern Africa",6952625.5985
+"2002","Northern Africa",7135471.7586
+"2003","Northern Africa",7421605.9786
+"2004","Northern Africa",7556918.5588
+"2005","Northern Africa",8019421.0146
+"2006","Northern Africa",8032677.707
+"2007","Northern Africa",8252890.7402
+"2008","Northern Africa",8371083.9656
+"2009","Northern Africa",8480603.915
+"2010","Northern Africa",8506760.6532
+"2011","Northern Africa",8460645.4511
+"2012","Northern Africa",7908880.0144
+"2013","Northern Africa",8055879.4763
+"2014","Northern Africa",8237370.1558
+"2015","Northern Africa",8258518.784
+"2016","Northern Africa",8309705.2789
+"2017","Northern Africa",8585651.645
+"2018","Northern Africa",8664397.5282
+"2019","Northern Africa",8603383.3236
+"2020","Northern Africa",8241322.9802
+"2000","Northern America",54718108.5042
+"2001","Northern America",55587400.1152
+"2002","Northern America",55912318.0842
+"2003","Northern America",56606631.3451
+"2004","Northern America",57467011.4915
+"2005","Northern America",57951853.2046
+"2006","Northern America",57834132.1823
+"2007","Northern America",58704892.3648
+"2008","Northern America",57529504.4278
+"2009","Northern America",54800990.7739
+"2010","Northern America",55884346.8071
+"2011","Northern America",53491085.4509
+"2012","Northern America",52063035.4464
+"2013","Northern America",52950240.32
+"2014","Northern America",53564908.5299
+"2015","Northern America",53085787.6469
+"2016","Northern America",53433922.3696
+"2017","Northern America",53446133.0098
+"2018","Northern America",54709392.7324
+"2019","Northern America",53783175.2137
+"2020","Northern America",49610410.0385
+"2000","Northern Europe",9853861.7653
+"2001","Northern Europe",10026450.4512
+"2002","Northern Europe",9935351.1697
+"2003","Northern Europe",10114211.629
+"2004","Northern Europe",10054803.8042
+"2005","Northern Europe",9972732.3046
+"2006","Northern Europe",10092182.286
+"2007","Northern Europe",9957981.822
+"2008","Northern Europe",9862208.7975
+"2009","Northern Europe",9300670.045
+"2010","Northern Europe",9527066.4542
+"2011","Northern Europe",8556445.6047
+"2012","Northern Europe",8628078.0685
+"2013","Northern Europe",8565994.8351
+"2014","Northern Europe",8316254.839
+"2015","Northern Europe",8219518.5281
+"2016","Northern Europe",8657798.1281
+"2017","Northern Europe",8598234.9721
+"2018","Northern Europe",8509775.9438
+"2019","Northern Europe",8353112.8167
+"2020","Northern Europe",7735272.913
+"2000","Northern Mariana Islands",2040.697
+"2001","Northern Mariana Islands",2036.8436
+"2002","Northern Mariana Islands",2036.8638
+"2003","Northern Mariana Islands",2036.7636
+"2004","Northern Mariana Islands",2036.6078
+"2005","Northern Mariana Islands",2036.4564
+"2006","Northern Mariana Islands",2036.3118
+"2007","Northern Mariana Islands",2036.1651
+"2008","Northern Mariana Islands",2036.0358
+"2009","Northern Mariana Islands",2035.9422
+"2010","Northern Mariana Islands",2035.8933
+"2011","Northern Mariana Islands",2369.199
+"2012","Northern Mariana Islands",2369.2632
+"2013","Northern Mariana Islands",2369.3682
+"2014","Northern Mariana Islands",2369.4804
+"2015","Northern Mariana Islands",2369.5851
+"2016","Northern Mariana Islands",13234.047
+"2017","Northern Mariana Islands",13234.1268
+"2018","Northern Mariana Islands",13234.2004
+"2019","Northern Mariana Islands",13234.2711
+"2020","Northern Mariana Islands",13234.3461
+"2000","Norway",502593.9372
+"2001","Norway",456848.003
+"2002","Norway",435095.2166
+"2003","Norway",491127.9409
+"2004","Norway",478973.1655
+"2005","Norway",478274.924
+"2006","Norway",484602.0962
+"2007","Norway",516776.1455
+"2008","Norway",639402.3225
+"2009","Norway",618809.8978
+"2010","Norway",552341.129
+"2011","Norway",529914.3134
+"2012","Norway",564978.8438
+"2013","Norway",559737.1925
+"2014","Norway",574168.0469
+"2015","Norway",604014.9044
+"2016","Norway",567818.0105
+"2017","Norway",614521.8781
+"2018","Norway",620187.9731
+"2019","Norway",610302.7918
+"2020","Norway",633219.9747
+"2000","Oceania",8513703.0296
+"2001","Oceania",8693783.8387
+"2002","Oceania",8623743.5903
+"2003","Oceania",7353746.8196
+"2004","Oceania",8096912.5184
+"2005","Oceania",7465646.6598
+"2006","Oceania",8224796.2374
+"2007","Oceania",8098277.1034
+"2008","Oceania",7618919.5969
+"2009","Oceania",7817661.0999
+"2010","Oceania",7455051.9807
+"2011","Oceania",8203285.3131
+"2012","Oceania",8176719.1205
+"2013","Oceania",6780808.9805
+"2014","Oceania",7104337.3063
+"2015","Oceania",7036511.478
+"2016","Oceania",7355301.8157
+"2017","Oceania",8033438.1825
+"2018","Oceania",8006794.6787
+"2019","Oceania",7686293.9369
+"2020","Oceania",6997283.236
+"2000","OECD",125732384.4678
+"2001","OECD",125160563.2072
+"2002","OECD",125427433.817
+"2003","OECD",125888307.0609
+"2004","OECD",127703237.3809
+"2005","OECD",127586351.2338
+"2006","OECD",128746359.8623
+"2007","OECD",129826062.613
+"2008","OECD",127798170.6432
+"2009","OECD",122430211.1176
+"2010","OECD",124926550.3104
+"2011","OECD",123431127.5571
+"2012","OECD",122167919.3648
+"2013","OECD",121519119.3339
+"2014","OECD",121219607.6608
+"2015","OECD",120805400.3149
+"2016","OECD",122526582.9269
+"2017","OECD",123651012.5527
+"2018","OECD",124440638.3533
+"2019","OECD",121872860.6042
+"2020","OECD",112754446.3228
+"2000","Oman",329421.512
+"2001","Oman",337303.3156
+"2002","Oman",376901.0654
+"2003","Oman",449140.3221
+"2004","Oman",414288.3714
+"2005","Oman",439530.8782
+"2006","Oman",499642.4268
+"2007","Oman",526613.2531
+"2008","Oman",526204.7142
+"2009","Oman",519012.8731
+"2010","Oman",566187.1965
+"2011","Oman",629035.4082
+"2012","Oman",671370.8537
+"2013","Oman",733246.7175
+"2014","Oman",731326.9831
+"2015","Oman",764915.4514
+"2016","Oman",762356.9721
+"2017","Oman",791795.1019
+"2018","Oman",808597.4602
+"2019","Oman",812285.364
+"2020","Oman",802533.8679
+"2000","Pakistan",3344038.8154
+"2001","Pakistan",3366558.6385
+"2002","Pakistan",3490618.2745
+"2003","Pakistan",3610845.77
+"2004","Pakistan",3765960.2804
+"2005","Pakistan",3883354.2191
+"2006","Pakistan",4107621.6836
+"2007","Pakistan",4245082.7555
+"2008","Pakistan",4350670.4489
+"2009","Pakistan",4493826.139
+"2010","Pakistan",4458052.1614
+"2011","Pakistan",4558019.1215
+"2012","Pakistan",4572908.9352
+"2013","Pakistan",4687170.5859
+"2014","Pakistan",4800241.3675
+"2015","Pakistan",5747546.5606
+"2016","Pakistan",5330141.7364
+"2017","Pakistan",5675756.0688
+"2018","Pakistan",5825823.2722
+"2019","Pakistan",6001620.0259
+"2020","Pakistan",6135455.1647
+"2000","Palau",2336.3312
+"2001","Palau",2571.0359
+"2002","Palau",2084.0059
+"2003","Palau",2216.3789
+"2004","Palau",2236.2335
+"2005","Palau",2393.7202
+"2006","Palau",2706.922
+"2007","Palau",2714.6858
+"2008","Palau",2528.1316
+"2009","Palau",2960.7874
+"2010","Palau",3068.6573
+"2011","Palau",3249.1245
+"2012","Palau",4135.7755
+"2013","Palau",3012.8345
+"2014","Palau",2484.2056
+"2015","Palau",2361.587
+"2016","Palau",2286.6273
+"2017","Palau",2342.7849
+"2018","Palau",2422.8816
+"2019","Palau",2742.7754
+"2020","Palau",2697.3006
+"2000","Palestine",5064.4101
+"2001","Palestine",5395.9099
+"2002","Palestine",6205.7303
+"2003","Palestine",6527.613
+"2004","Palestine",6433.1923
+"2005","Palestine",6456.7932
+"2006","Palestine",6408.5155
+"2007","Palestine",5864.1203
+"2008","Palestine",5573.9987
+"2009","Palestine",5200.6331
+"2010","Palestine",4756.5457
+"2011","Palestine",5754.7351
+"2012","Palestine",5462.7156
+"2013","Palestine",5637.1527
+"2014","Palestine",5796.985
+"2015","Palestine",5779.7942
+"2016","Palestine",5439.6531
+"2017","Palestine",5350.0125
+"2018","Palestine",5624.817
+"2019","Palestine",5703.468
+"2020","Palestine",5399.7668
+"2000","Panama",198233.4019
+"2001","Panama",189860.8934
+"2002","Panama",183188.7367
+"2003","Panama",187580.5061
+"2004","Panama",182191.0489
+"2005","Panama",191468.9957
+"2006","Panama",196689.7904
+"2007","Panama",195177.6056
+"2008","Panama",199211.7449
+"2009","Panama",207785.7223
+"2010","Panama",213073.9254
+"2011","Panama",218837.7267
+"2012","Panama",219550.5051
+"2013","Panama",230647.2691
+"2014","Panama",223141.4695
+"2015","Panama",221442.0518
+"2016","Panama",218950.0691
+"2017","Panama",227766.3578
+"2018","Panama",223233.8465
+"2019","Panama",229165.6797
+"2020","Panama",217181.6238
+"2000","Papua New Guinea",129920.9693
+"2001","Papua New Guinea",471633.7658
+"2002","Papua New Guinea",480296.4084
+"2003","Papua New Guinea",480262.3718
+"2004","Papua New Guinea",497804.5327
+"2005","Papua New Guinea",496397.9048
+"2006","Papua New Guinea",496010.4171
+"2007","Papua New Guinea",497439.67
+"2008","Papua New Guinea",491526.7107
+"2009","Papua New Guinea",477650.8401
+"2010","Papua New Guinea",471944.1357
+"2011","Papua New Guinea",578545.6234
+"2012","Papua New Guinea",582398.7073
+"2013","Papua New Guinea",588620.8699
+"2014","Papua New Guinea",606479.828
+"2015","Papua New Guinea",624826.5279
+"2016","Papua New Guinea",620948.1337
+"2017","Papua New Guinea",627875.7648
+"2018","Papua New Guinea",645104.5144
+"2019","Papua New Guinea",636490.4709
+"2020","Papua New Guinea",642387.0829
+"2000","Paraguay",1231085.3873
+"2001","Paraguay",1388372.5675
+"2002","Paraguay",1383752.8178
+"2003","Paraguay",1412083.3215
+"2004","Paraguay",1375195.3726
+"2005","Paraguay",1574151.9332
+"2006","Paraguay",1422343.039
+"2007","Paraguay",1488248.2399
+"2008","Paraguay",1449002.8604
+"2009","Paraguay",1476733.887
+"2010","Paraguay",1518035.3033
+"2011","Paraguay",1916937.4763
+"2012","Paraguay",2037119.5509
+"2013","Paraguay",1785313.1754
+"2014","Paraguay",1750425.9849
+"2015","Paraguay",1771784.0322
+"2016","Paraguay",1281055.0074
+"2017","Paraguay",1345153.0733
+"2018","Paraguay",1270660.35
+"2019","Paraguay",1301316.8824
+"2020","Paraguay",1319679.1791
+"2000","Peru",1904665.1438
+"2001","Peru",1687810.5713
+"2002","Peru",1702207.4574
+"2003","Peru",1707254.085
+"2004","Peru",1733306.7475
+"2005","Peru",1773580.8364
+"2006","Peru",1757094.9164
+"2007","Peru",1810176.7948
+"2008","Peru",1811283.8191
+"2009","Peru",1860408.4267
+"2010","Peru",2086215.1132
+"2011","Peru",2213468.3828
+"2012","Peru",2515465.5191
+"2013","Peru",2229134.7441
+"2014","Peru",2351930.4613
+"2015","Peru",2272069.1062
+"2016","Peru",2279983.8141
+"2017","Peru",2285611.7531
+"2018","Peru",2296011.9157
+"2019","Peru",2324655.4329
+"2020","Peru",2257381.6709
+"2000","Philippines",1732941.8476
+"2001","Philippines",1819278.8273
+"2002","Philippines",1831340.113
+"2003","Philippines",1847315.0312
+"2004","Philippines",1898179.931
+"2005","Philippines",1885729.2893
+"2006","Philippines",1856500.9314
+"2007","Philippines",1930270.5845
+"2008","Philippines",1994157.8469
+"2009","Philippines",2019230.5409
+"2010","Philippines",2052100.9791
+"2011","Philippines",1926621.9931
+"2012","Philippines",1979791.119
+"2013","Philippines",2039717.4509
+"2014","Philippines",2087967.2115
+"2015","Philippines",2139586.1982
+"2016","Philippines",2228557.7061
+"2017","Philippines",2368689.6101
+"2018","Philippines",2402531.129
+"2019","Philippines",2432584.8034
+"2020","Philippines",2368379.0191
+"2000","Pitcairn",0
+"2001","Pitcairn",0
+"2002","Pitcairn",0
+"2003","Pitcairn",0
+"2004","Pitcairn",0
+"2005","Pitcairn",0
+"2006","Pitcairn",0
+"2007","Pitcairn",0
+"2008","Pitcairn",0
+"2009","Pitcairn",0
+"2010","Pitcairn",0
+"2011","Pitcairn",0
+"2012","Pitcairn",0
+"2013","Pitcairn",0
+"2014","Pitcairn",0
+"2015","Pitcairn",0
+"2016","Pitcairn",0
+"2017","Pitcairn",0
+"2018","Pitcairn",0
+"2019","Pitcairn",0
+"2020","Pitcairn",0
+"2000","Poland",3660149.1262
+"2001","Poland",3222288.512
+"2002","Poland",3141064.6408
+"2003","Poland",3147719.7745
+"2004","Poland",3089219.8712
+"2005","Poland",3129829.4583
+"2006","Poland",3262297.1258
+"2007","Poland",3263674.795
+"2008","Poland",3260914.4433
+"2009","Poland",3114243.51
+"2010","Poland",3269205.1054
+"2011","Poland",3590918.6203
+"2012","Poland",3520821.4447
+"2013","Poland",3529785.7745
+"2014","Poland",3458873.6635
+"2015","Poland",3556116.7129
+"2016","Poland",3598312.3926
+"2017","Poland",3685012.9718
+"2018","Poland",3755308.6067
+"2019","Poland",3658223.3873
+"2020","Poland",3560256.0346
+"2000","Polynesia",8365.5195
+"2001","Polynesia",9285.3739
+"2002","Polynesia",9232.5286
+"2003","Polynesia",9497.1435
+"2004","Polynesia",9750.2985
+"2005","Polynesia",9885.069
+"2006","Polynesia",9986.8284
+"2007","Polynesia",9985.2165
+"2008","Polynesia",10133.1646
+"2009","Polynesia",10432.5287
+"2010","Polynesia",10840.4155
+"2011","Polynesia",11521.8615
+"2012","Polynesia",11620.6092
+"2013","Polynesia",11874.4237
+"2014","Polynesia",12004.0351
+"2015","Polynesia",12551.8514
+"2016","Polynesia",12179.5129
+"2017","Polynesia",12608.1748
+"2018","Polynesia",12984.641
+"2019","Polynesia",12493.8613
+"2020","Polynesia",12949.3623
+"2000","Portugal",706444.3097
+"2001","Portugal",644649.8872
+"2002","Portugal",678672.2275
+"2003","Portugal",674363.7118
+"2004","Portugal",673671.1681
+"2005","Portugal",710379.0199
+"2006","Portugal",652309.5458
+"2007","Portugal",640020.8588
+"2008","Portugal",608757.841
+"2009","Portugal",622977.4625
+"2010","Portugal",628735.7891
+"2011","Portugal",619813.837
+"2012","Portugal",620696.7572
+"2013","Portugal",629227.7322
+"2014","Portugal",634910.3726
+"2015","Portugal",673171.5771
+"2016","Portugal",697354.6943
+"2017","Portugal",780126.7632
+"2018","Portugal",729232.9123
+"2019","Portugal",729426.9822
+"2020","Portugal",708327.0334
+"2000","Puerto Rico",13310.8965
+"2001","Puerto Rico",5172.73300000001
+"2002","Puerto Rico",5231.8708
+"2003","Puerto Rico",5181.7865
+"2004","Puerto Rico",4018.041
+"2005","Puerto Rico",3809.5508
+"2006","Puerto Rico",3821.707
+"2007","Puerto Rico",3928.5971
+"2008","Puerto Rico",3917.0819
+"2009","Puerto Rico",3911.3139
+"2010","Puerto Rico",4028.3324
+"2011","Puerto Rico",17434.8555
+"2012","Puerto Rico",17448.7386
+"2013","Puerto Rico",17438.465
+"2014","Puerto Rico",17480.5358
+"2015","Puerto Rico",16984.9654
+"2016","Puerto Rico",32.5078999999989
+"2017","Puerto Rico",103.410999999998
+"2018","Puerto Rico",156.928899999999
+"2019","Puerto Rico",113.282400000002
+"2020","Puerto Rico",138.603999999999
+"2000","Qatar",495908.2468
+"2001","Qatar",512891.682
+"2002","Qatar",511793.5497
+"2003","Qatar",586054.5032
+"2004","Qatar",607019.2617
+"2005","Qatar",609001.2325
+"2006","Qatar",698088.9054
+"2007","Qatar",726131.4971
+"2008","Qatar",793919.2806
+"2009","Qatar",854072.9087
+"2010","Qatar",944023.2212
+"2011","Qatar",1043173.3185
+"2012","Qatar",1182714.1263
+"2013","Qatar",1214632.876
+"2014","Qatar",1350062.5151
+"2015","Qatar",1359843.815
+"2016","Qatar",1337963.0482
+"2017","Qatar",1246004.7968
+"2018","Qatar",1274173.1994
+"2019","Qatar",1424088.7315
+"2020","Qatar",1360034.6392
+"2000","R?nion",2616.94
+"2001","R?nion",2767.3248
+"2002","R?nion",2786.0358
+"2003","R?nion",2828.4555
+"2004","R?nion",2937.9308
+"2005","R?nion",2994.8476
+"2006","R?nion",3102.4445
+"2007","R?nion",3200.9729
+"2008","R?nion",3294.8355
+"2009","R?nion",3317.1669
+"2010","R?nion",3176.1459
+"2011","R?nion",2417.703
+"2012","R?nion",2419.351
+"2013","R?nion",2385.9118
+"2014","R?nion",2488.2429
+"2015","R?nion",2540.8077
+"2016","R?nion",2449.7627
+"2017","R?nion",2491.8324
+"2018","R?nion",2525.947
+"2019","R?nion",2547.1222
+"2020","R?nion",-332.8889
+"2000","Republic of Korea",3396997.0495
+"2001","Republic of Korea",3265122.0998
+"2002","Republic of Korea",3368860.5809
+"2003","Republic of Korea",3340763.003
+"2004","Republic of Korea",3428697.2289
+"2005","Republic of Korea",3350366.8086
+"2006","Republic of Korea",3355178.2758
+"2007","Republic of Korea",3535991.522
+"2008","Republic of Korea",3605788.1204
+"2009","Republic of Korea",3609963.1248
+"2010","Republic of Korea",4006670.5387
+"2011","Republic of Korea",4253796.215
+"2012","Republic of Korea",4280071.2538
+"2013","Republic of Korea",4316788.9474
+"2014","Republic of Korea",4309694.3292
+"2015","Republic of Korea",4338636.9957
+"2016","Republic of Korea",4554066.1028
+"2017","Republic of Korea",4583466.4267
+"2018","Republic of Korea",4680752.3383
+"2019","Republic of Korea",4539934.9849
+"2020","Republic of Korea",4270569.7829
+"2000","Republic of Moldova",87128.3992
+"2001","Republic of Moldova",89247.2281
+"2002","Republic of Moldova",91743.2539000001
+"2003","Republic of Moldova",92275.3795
+"2004","Republic of Moldova",97189.1757
+"2005","Republic of Moldova",96065.9416
+"2006","Republic of Moldova",94496.4027
+"2007","Republic of Moldova",87766.6896
+"2008","Republic of Moldova",93433.8465
+"2009","Republic of Moldova",82720.3016
+"2010","Republic of Moldova",90043.487
+"2011","Republic of Moldova",93301.3209
+"2012","Republic of Moldova",85827.3374
+"2013","Republic of Moldova",94579.9616
+"2014","Republic of Moldova",86836.3783
+"2015","Republic of Moldova",84346.6588
+"2016","Republic of Moldova",92131.2595
+"2017","Republic of Moldova",95570.6532
+"2018","Republic of Moldova",104312.7838
+"2019","Republic of Moldova",99954.399
+"2020","Republic of Moldova",96096.6312
+"2000","Romania",1034178.3052
+"2001","Romania",1039760.3981
+"2002","Romania",1041018.0195
+"2003","Romania",1077620.8338
+"2004","Romania",1079765.2081
+"2005","Romania",1067590.6764
+"2006","Romania",1106617.1137
+"2007","Romania",1097298.8498
+"2008","Romania",1065574.4725
+"2009","Romania",950254.876
+"2010","Romania",931096.3093
+"2011","Romania",-1296837.9843
+"2012","Romania",-1334171.5743
+"2013","Romania",-1372719.3896
+"2014","Romania",-1375353.9165
+"2015","Romania",-1368612.565
+"2016","Romania",737408.6565
+"2017","Romania",785463.029199999
+"2018","Romania",808753.784
+"2019","Romania",778909.9685
+"2020","Romania",796235.9011
+"2000","Russian Federation",11749629.1044
+"2001","Russian Federation",8023461.5274
+"2002","Russian Federation",7823801.0271
+"2003","Russian Federation",8259638.1532
+"2004","Russian Federation",8401535.4688
+"2005","Russian Federation",8817138.4777
+"2006","Russian Federation",9135093.3171
+"2007","Russian Federation",9192665.9086
+"2008","Russian Federation",9558469.0914
+"2009","Russian Federation",8145656.0483
+"2010","Russian Federation",8529916.554
+"2011","Russian Federation",10187989.6481
+"2012","Russian Federation",10789998.5084
+"2013","Russian Federation",10696985.9144
+"2014","Russian Federation",10661119.8104
+"2015","Russian Federation",10671793.2974
+"2016","Russian Federation",12221544.514
+"2017","Russian Federation",12567399.8738
+"2018","Russian Federation",13224862.3844
+"2019","Russian Federation",13196694.7892
+"2020","Russian Federation",13693893.3955
+"2000","Rwanda",98134.8445
+"2001","Rwanda",97390.0307
+"2002","Rwanda",88924.9821
+"2003","Rwanda",103252.6838
+"2004","Rwanda",105921.3799
+"2005","Rwanda",111230.5432
+"2006","Rwanda",113260.3149
+"2007","Rwanda",116946.7715
+"2008","Rwanda",120536.805
+"2009","Rwanda",122443.6513
+"2010","Rwanda",126671.3767
+"2011","Rwanda",111489.2179
+"2012","Rwanda",113020.006
+"2013","Rwanda",114762.0186
+"2014","Rwanda",114657.0971
+"2015","Rwanda",124261.2377
+"2016","Rwanda",120942.811
+"2017","Rwanda",122370.5019
+"2018","Rwanda",123533.6141
+"2019","Rwanda",126100.7962
+"2020","Rwanda",125878.7044
+"2000","Saint Helena, Ascension and Tristan da Cunha",97.4252
+"2001","Saint Helena, Ascension and Tristan da Cunha",113.3071
+"2002","Saint Helena, Ascension and Tristan da Cunha",112.2474
+"2003","Saint Helena, Ascension and Tristan da Cunha",102.2909
+"2004","Saint Helena, Ascension and Tristan da Cunha",93.2838
+"2005","Saint Helena, Ascension and Tristan da Cunha",97.4616
+"2006","Saint Helena, Ascension and Tristan da Cunha",96.1712
+"2007","Saint Helena, Ascension and Tristan da Cunha",99.8822
+"2008","Saint Helena, Ascension and Tristan da Cunha",100.1346
+"2009","Saint Helena, Ascension and Tristan da Cunha",101.5509
+"2010","Saint Helena, Ascension and Tristan da Cunha",102.6595
+"2011","Saint Helena, Ascension and Tristan da Cunha",100.7148
+"2012","Saint Helena, Ascension and Tristan da Cunha",101.4132
+"2013","Saint Helena, Ascension and Tristan da Cunha",104.4644
+"2014","Saint Helena, Ascension and Tristan da Cunha",105.5928
+"2015","Saint Helena, Ascension and Tristan da Cunha",105.2363
+"2016","Saint Helena, Ascension and Tristan da Cunha",103.756
+"2017","Saint Helena, Ascension and Tristan da Cunha",100.5005
+"2018","Saint Helena, Ascension and Tristan da Cunha",107.4334
+"2019","Saint Helena, Ascension and Tristan da Cunha",104.5526
+"2020","Saint Helena, Ascension and Tristan da Cunha",104.8511
+"2000","Saint Kitts and Nevis",1851.8466
+"2001","Saint Kitts and Nevis",1880.2998
+"2002","Saint Kitts and Nevis",1944.9189
+"2003","Saint Kitts and Nevis",1946.1009
+"2004","Saint Kitts and Nevis",2051.3746
+"2005","Saint Kitts and Nevis",1970.942
+"2006","Saint Kitts and Nevis",1981.0694
+"2007","Saint Kitts and Nevis",2094.4431
+"2008","Saint Kitts and Nevis",2127.0345
+"2009","Saint Kitts and Nevis",2181.9357
+"2010","Saint Kitts and Nevis",2165.648
+"2011","Saint Kitts and Nevis",2225.09
+"2012","Saint Kitts and Nevis",2017.3842
+"2013","Saint Kitts and Nevis",2031.4644
+"2014","Saint Kitts and Nevis",2058.5647
+"2015","Saint Kitts and Nevis",2094.482
+"2016","Saint Kitts and Nevis",2109.8629
+"2017","Saint Kitts and Nevis",2145.9504
+"2018","Saint Kitts and Nevis",2200.7302
+"2019","Saint Kitts and Nevis",2263.1356
+"2020","Saint Kitts and Nevis",2077.3626
+"2000","Saint Lucia",3163.8474
+"2001","Saint Lucia",3247.0206
+"2002","Saint Lucia",2885.7367
+"2003","Saint Lucia",3432.0178
+"2004","Saint Lucia",3408.4651
+"2005","Saint Lucia",3189.5451
+"2006","Saint Lucia",3397.356
+"2007","Saint Lucia",2943.4408
+"2008","Saint Lucia",2972.7614
+"2009","Saint Lucia",3176.9773
+"2010","Saint Lucia",3335.5401
+"2011","Saint Lucia",2998.7196
+"2012","Saint Lucia",2998.2866
+"2013","Saint Lucia",2874.4984
+"2014","Saint Lucia",3158.3006
+"2015","Saint Lucia",3225.3999
+"2016","Saint Lucia",3066.7401
+"2017","Saint Lucia",3180.7639
+"2018","Saint Lucia",3259.0263
+"2019","Saint Lucia",3348.7527
+"2020","Saint Lucia",3026.5875
+"2000","Saint Pierre and Miquelon",42.9596
+"2001","Saint Pierre and Miquelon",42.8906
+"2002","Saint Pierre and Miquelon",44.7282
+"2003","Saint Pierre and Miquelon",47.19
+"2004","Saint Pierre and Miquelon",45.326
+"2005","Saint Pierre and Miquelon",48.4384
+"2006","Saint Pierre and Miquelon",49.41
+"2007","Saint Pierre and Miquelon",51.267
+"2008","Saint Pierre and Miquelon",51.4216
+"2009","Saint Pierre and Miquelon",52.171
+"2010","Saint Pierre and Miquelon",52.9582
+"2011","Saint Pierre and Miquelon",53.6504
+"2012","Saint Pierre and Miquelon",55.1774
+"2013","Saint Pierre and Miquelon",54.599
+"2014","Saint Pierre and Miquelon",53.6426
+"2015","Saint Pierre and Miquelon",53.8818
+"2016","Saint Pierre and Miquelon",55.0158
+"2017","Saint Pierre and Miquelon",55.4028
+"2018","Saint Pierre and Miquelon",48.4154
+"2019","Saint Pierre and Miquelon",47.3698
+"2020","Saint Pierre and Miquelon",47.3698
+"2000","Saint Vincent and the Grenadines",1612.9536
+"2001","Saint Vincent and the Grenadines",2105.5512
+"2002","Saint Vincent and the Grenadines",2153.836
+"2003","Saint Vincent and the Grenadines",2217.0981
+"2004","Saint Vincent and the Grenadines",2536.7752
+"2005","Saint Vincent and the Grenadines",2398.4937
+"2006","Saint Vincent and the Grenadines",2377.4415
+"2007","Saint Vincent and the Grenadines",2672.4768
+"2008","Saint Vincent and the Grenadines",2243.4972
+"2009","Saint Vincent and the Grenadines",3046.7252
+"2010","Saint Vincent and the Grenadines",2433.9089
+"2011","Saint Vincent and the Grenadines",2329.1707
+"2012","Saint Vincent and the Grenadines",2681.1565
+"2013","Saint Vincent and the Grenadines",2388.0258
+"2014","Saint Vincent and the Grenadines",2790.3269
+"2015","Saint Vincent and the Grenadines",2426.4052
+"2016","Saint Vincent and the Grenadines",2644.8644
+"2017","Saint Vincent and the Grenadines",2651.5945
+"2018","Saint Vincent and the Grenadines",2714.3397
+"2019","Saint Vincent and the Grenadines",2801.0933
+"2020","Saint Vincent and the Grenadines",2576.2306
+"2000","Samoa",5431.8049
+"2001","Samoa",5701.1609
+"2002","Samoa",5712.5348
+"2003","Samoa",5801.4815
+"2004","Samoa",5819.0971
+"2005","Samoa",5902.9623
+"2006","Samoa",5923.8457
+"2007","Samoa",5823.3329
+"2008","Samoa",5826.0334
+"2009","Samoa",6055.9576
+"2010","Samoa",6348.0918
+"2011","Samoa",6750.5524
+"2012","Samoa",6714.3887
+"2013","Samoa",6781.4017
+"2014","Samoa",6869.4735
+"2015","Samoa",7364.4984
+"2016","Samoa",6996.9332
+"2017","Samoa",7135.3458
+"2018","Samoa",7395.8082
+"2019","Samoa",6676.3403
+"2020","Samoa",7166.6593
+"2000","San Marino",1515.2994
+"2001","San Marino",1532.5148
+"2002","San Marino",1548.1882
+"2003","San Marino",1608.8995
+"2004","San Marino",1628.694
+"2005","San Marino",1646.1556
+"2006","San Marino",1632.0152
+"2007","San Marino",1643.6855
+"2008","San Marino",1595.9627
+"2009","San Marino",1458.7579
+"2010","San Marino",1490.865
+"2011","San Marino",1469.1623
+"2012","San Marino",1394.3458
+"2013","San Marino",1278.1113
+"2014","San Marino",1202.2025
+"2015","San Marino",1240.4216
+"2016","San Marino",1246.447
+"2017","San Marino",1245.1767
+"2018","San Marino",1234.4154
+"2019","San Marino",1136.9353
+"2020","San Marino",1098.3403
+"2000","Sao Tome and Principe",933.235
+"2001","Sao Tome and Principe",992.5693
+"2002","Sao Tome and Principe",1078.5202
+"2003","Sao Tome and Principe",1156.3436
+"2004","Sao Tome and Principe",1213.5989
+"2005","Sao Tome and Principe",1254.923
+"2006","Sao Tome and Principe",1309.1177
+"2007","Sao Tome and Principe",1335.3145
+"2008","Sao Tome and Principe",1359.0281
+"2009","Sao Tome and Principe",1428.855
+"2010","Sao Tome and Principe",1482.2469
+"2011","Sao Tome and Principe",4410.1863
+"2012","Sao Tome and Principe",3946.1492
+"2013","Sao Tome and Principe",4533.2464
+"2014","Sao Tome and Principe",4554.1121
+"2015","Sao Tome and Principe",4575.9343
+"2016","Sao Tome and Principe",4640.7698
+"2017","Sao Tome and Principe",4710.2319
+"2018","Sao Tome and Principe",4682.5579
+"2019","Sao Tome and Principe",4689.4832
+"2020","Sao Tome and Principe",4677.4819
+"2000","Saudi Arabia",2753569.8819
+"2001","Saudi Arabia",2788424.0086
+"2002","Saudi Arabia",2996510.2797
+"2003","Saudi Arabia",3080740.2836
+"2004","Saudi Arabia",3529615.1943
+"2005","Saudi Arabia",3611366.4121
+"2006","Saudi Arabia",3872460.3042
+"2007","Saudi Arabia",3668098.3279
+"2008","Saudi Arabia",4010570.2023
+"2009","Saudi Arabia",4217821.8806
+"2010","Saudi Arabia",4626789.5175
+"2011","Saudi Arabia",4594326.5836
+"2012","Saudi Arabia",5094624.2495
+"2013","Saudi Arabia",4957421.2949
+"2014","Saudi Arabia",5361799.6207
+"2015","Saudi Arabia",5691518.1994
+"2016","Saudi Arabia",5202246.743
+"2017","Saudi Arabia",5254837.1314
+"2018","Saudi Arabia",5247346.6201
+"2019","Saudi Arabia",5196593.4078
+"2020","Saudi Arabia",5173710.5283
+"2000","Senegal",342167.1268
+"2001","Senegal",308506.6594
+"2002","Senegal",297731.0914
+"2003","Senegal",290229.8117
+"2004","Senegal",311631.3861
+"2005","Senegal",327763.077
+"2006","Senegal",320816.956
+"2007","Senegal",314503.2584
+"2008","Senegal",323765.8976
+"2009","Senegal",326945.7108
+"2010","Senegal",351937.4744
+"2011","Senegal",343876.7622
+"2012","Senegal",333707.5084
+"2013","Senegal",343932.0373
+"2014","Senegal",347364.9425
+"2015","Senegal",352146.6594
+"2016","Senegal",372651.1289
+"2017","Senegal",375248.9328
+"2018","Senegal",377410.8837
+"2019","Senegal",394446.8494
+"2020","Senegal",405487.4777
+"2006","Serbia",329171.3212
+"2007","Serbia",336337.9414
+"2008","Serbia",322178.5195
+"2009","Serbia",298752.3901
+"2010","Serbia",297645.2633
+"2011","Serbia",600086.3112
+"2012","Serbia",578452.6277
+"2013","Serbia",585184.3743
+"2014","Serbia",520027.1438
+"2015","Serbia",569500.4249
+"2016","Serbia",637699.6245
+"2017","Serbia",634282.3251
+"2018","Serbia",629907.4557
+"2019","Serbia",644793.7316
+"2020","Serbia",641812.8825
+"2000","Serbia and Montenegro",473252.9647
+"2001","Serbia and Montenegro",216048.0523
+"2002","Serbia and Montenegro",236585.4058
+"2003","Serbia and Montenegro",253521.256
+"2004","Serbia and Montenegro",301906.4882
+"2005","Serbia and Montenegro",237915.1229
+"2000","Seychelles",3226.9726
+"2001","Seychelles",5186.8631
+"2002","Seychelles",4594.0855
+"2003","Seychelles",4682.1937
+"2004","Seychelles",5932.2382
+"2005","Seychelles",5501.7754
+"2006","Seychelles",5823.7692
+"2007","Seychelles",5228.552
+"2008","Seychelles",5508.6009
+"2009","Seychelles",4631.5115
+"2010","Seychelles",4176.9455
+"2011","Seychelles",3360.9743
+"2012","Seychelles",3999.6532
+"2013","Seychelles",3390.5743
+"2014","Seychelles",4444.8425
+"2015","Seychelles",4441.6195
+"2016","Seychelles",5242.593
+"2017","Seychelles",5152.3881
+"2018","Seychelles",4219.2354
+"2019","Seychelles",4119.0717
+"2020","Seychelles",4007.552
+"2000","Sierra Leone",980112.7931
+"2001","Sierra Leone",1478744.9541
+"2002","Sierra Leone",1954533.4894
+"2003","Sierra Leone",1962518.7024
+"2004","Sierra Leone",2398852.4905
+"2005","Sierra Leone",2408185.3891
+"2006","Sierra Leone",129269.8286
+"2007","Sierra Leone",117585.0345
+"2008","Sierra Leone",113367.7623
+"2009","Sierra Leone",118653.7567
+"2010","Sierra Leone",118329.6268
+"2011","Sierra Leone",125238.0463
+"2012","Sierra Leone",137244.5734
+"2013","Sierra Leone",136773.023
+"2014","Sierra Leone",142709.2422
+"2015","Sierra Leone",141420.1906
+"2016","Sierra Leone",140803.74
+"2017","Sierra Leone",140290.4613
+"2018","Sierra Leone",151404.0506
+"2019","Sierra Leone",134063.0511
+"2020","Sierra Leone",134794.178
+"2000","Singapore",400508.7781
+"2001","Singapore",419682.4053
+"2002","Singapore",369132.4618
+"2003","Singapore",394118.679
+"2004","Singapore",385807.0401
+"2005","Singapore",323636.0101
+"2006","Singapore",368461.3608
+"2007","Singapore",406986.4443
+"2008","Singapore",464273.0784
+"2009","Singapore",666667.2619
+"2010","Singapore",476900.4842
+"2011","Singapore",318126.5548
+"2012","Singapore",421972.4442
+"2013","Singapore",482369.8871
+"2014","Singapore",494102.7197
+"2015","Singapore",540666.3224
+"2016","Singapore",397733.9436
+"2017","Singapore",403349.7724
+"2018","Singapore",398209.2312
+"2019","Singapore",398824.2031
+"2020","Singapore",397144.8631
+"2000","Slovakia",253466.2203
+"2001","Slovakia",283828.384
+"2002","Slovakia",282428.9025
+"2003","Slovakia",282338.9232
+"2004","Slovakia",283537.6061
+"2005","Slovakia",297509.3629
+"2006","Slovakia",286297.9162
+"2007","Slovakia",270268.4417
+"2008","Slovakia",282837.8676
+"2009","Slovakia",259151.1817
+"2010","Slovakia",279319.3183
+"2011","Slovakia",272122.5759
+"2012","Slovakia",254919.4628
+"2013","Slovakia",253772.4351
+"2014","Slovakia",247680.5694
+"2015","Slovakia",251808.7912
+"2016","Slovakia",311544.6884
+"2017","Slovakia",321578.1648
+"2018","Slovakia",320825.7857
+"2019","Slovakia",299243.6595
+"2020","Slovakia",290694.3358
+"2000","Slovenia",69352.0503
+"2001","Slovenia",59531.6724
+"2002","Slovenia",56698.4518
+"2003","Slovenia",57740.2071
+"2004","Slovenia",58359.8993
+"2005","Slovenia",60731.7457
+"2006","Slovenia",63505.6019
+"2007","Slovenia",61284.7543
+"2008","Slovenia",70041.7372
+"2009","Slovenia",54151.6503
+"2010","Slovenia",54433.9567
+"2011","Slovenia",137658.5529
+"2012","Slovenia",133860.7
+"2013","Slovenia",135385.6063
+"2014","Slovenia",149958.1206
+"2015","Slovenia",152131.1967
+"2016","Slovenia",171637.488
+"2017","Slovenia",174626.3684
+"2018","Slovenia",174684.1641
+"2019","Slovenia",157832.4267
+"2020","Slovenia",148485.6865
+"2000","Small Island Developing States",2938974.1059
+"2001","Small Island Developing States",2937265.5155
+"2002","Small Island Developing States",2950614.3808
+"2003","Small Island Developing States",3029295.3198
+"2004","Small Island Developing States",3060305.9908
+"2005","Small Island Developing States",3083521.5572
+"2006","Small Island Developing States",3249853.1338
+"2007","Small Island Developing States",3364379.9878
+"2008","Small Island Developing States",3459088.9755
+"2009","Small Island Developing States",3644158.8973
+"2010","Small Island Developing States",3523585.1128
+"2011","Small Island Developing States",3533444.7112
+"2012","Small Island Developing States",3627600.0588
+"2013","Small Island Developing States",3740745.1362
+"2014","Small Island Developing States",3762400.3479
+"2015","Small Island Developing States",3880081.7883
+"2016","Small Island Developing States",4233429.1502
+"2017","Small Island Developing States",4239969.009
+"2018","Small Island Developing States",4223817.1226
+"2019","Small Island Developing States",4271145.1767
+"2020","Small Island Developing States",4161533.6183
+"2000","Solomon Islands",36337.7802
+"2001","Solomon Islands",18041.4957
+"2002","Solomon Islands",18136.2281
+"2003","Solomon Islands",18252.0807
+"2004","Solomon Islands",18436.8293
+"2005","Solomon Islands",18547.6538
+"2006","Solomon Islands",18647.4121
+"2007","Solomon Islands",18762.898
+"2008","Solomon Islands",18874.0697
+"2009","Solomon Islands",19024.5933
+"2010","Solomon Islands",19168.9357
+"2011","Solomon Islands",-136819.3772
+"2012","Solomon Islands",-136757.5755
+"2013","Solomon Islands",-136500.5202
+"2014","Solomon Islands",-136732.5942
+"2015","Solomon Islands",-136914.6703
+"2016","Solomon Islands",369113.5239
+"2017","Solomon Islands",369171.7971
+"2018","Solomon Islands",369331.0844
+"2019","Solomon Islands",369555.8451
+"2020","Solomon Islands",369579.4344
+"2000","Somalia",680540.684
+"2001","Somalia",689956.368
+"2002","Somalia",696278.9001
+"2003","Somalia",700201.9108
+"2004","Somalia",704728.9577
+"2005","Somalia",712724.6154
+"2006","Somalia",690724.477
+"2007","Somalia",670232.0171
+"2008","Somalia",671535.3772
+"2009","Somalia",672436.4536
+"2010","Somalia",675822.6507
+"2011","Somalia",679129.9355
+"2012","Somalia",684186.3709
+"2013","Somalia",686285.1072
+"2014","Somalia",688740.7455
+"2015","Somalia",690317.6895
+"2016","Somalia",691386.6998
+"2017","Somalia",689924.8191
+"2018","Somalia",690206.1073
+"2019","Somalia",698744.3107
+"2020","Somalia",700892.7408
+"2000","South Africa",4111265.9301
+"2001","South Africa",3915121.2683
+"2002","South Africa",3867045.7923
+"2003","South Africa",4166917.0402
+"2004","South Africa",4483129.0803
+"2005","South Africa",4404531.1657
+"2006","South Africa",4593012.94
+"2007","South Africa",4753914.231
+"2008","South Africa",4951232.1661
+"2009","South Africa",4934027.4672
+"2010","South Africa",4661917.6741
+"2011","South Africa",4668866.7501
+"2012","South Africa",4654352.4132
+"2013","South Africa",4628234.1988
+"2014","South Africa",4800455.4545
+"2015","South Africa",4693987.5816
+"2016","South Africa",4570296.1251
+"2017","South Africa",4799023.7803
+"2018","South Africa",4585515.2655
+"2019","South Africa",4666006.0561
+"2020","South Africa",4414473.7399
+"2000","South America",45578841.0065
+"2001","South America",47262471.6981
+"2002","South America",47995635.3873
+"2003","South America",48688584.3105
+"2004","South America",49651063.0563
+"2005","South America",50041578.357
+"2006","South America",49912655.0538
+"2007","South America",50661314.9322
+"2008","South America",50689381.7274
+"2009","South America",50273677.4549
+"2010","South America",52038214.4903
+"2011","South America",39587450.3756
+"2012","South America",40234172.712
+"2013","South America",40319057.0466
+"2014","South America",40791351.0494
+"2015","South America",40621812.7687
+"2016","South America",39947133.4436
+"2017","South America",40151832.397
+"2018","South America",39655176.5101
+"2019","South America",40262233.8643
+"2020","South America",40055224.4619
+"2012","South Sudan",1099810.5161
+"2013","South Sudan",1091102.9443
+"2014","South Sudan",1100652.1251
+"2015","South Sudan",1103406.664
+"2016","South Sudan",1027769.5754
+"2017","South Sudan",987716.555
+"2018","South Sudan",1068452.2999
+"2019","South Sudan",937779.7533
+"2020","South Sudan",1087097.4436
+"2000","South-eastern Asia",27956742.5797
+"2001","South-eastern Asia",22763704.8546
+"2002","South-eastern Asia",30210052.8081
+"2003","South-eastern Asia",25791878.5237
+"2004","South-eastern Asia",31958226.5357
+"2005","South-eastern Asia",27950569.9161
+"2006","South-eastern Asia",33846675.4435
+"2007","South-eastern Asia",26655735.6403
+"2008","South-eastern Asia",26826098.249
+"2009","South-eastern Asia",33535896.9435
+"2010","South-eastern Asia",28220929.0433
+"2011","South-eastern Asia",34284538.1053
+"2012","South-eastern Asia",35257896.4276
+"2013","South-eastern Asia",34485254.4055
+"2014","South-eastern Asia",39952170.7344
+"2015","South-eastern Asia",41232421.6517
+"2016","South-eastern Asia",33557335.9634
+"2017","South-eastern Asia",33334966.0005
+"2018","South-eastern Asia",36905739.3931
+"2019","South-eastern Asia",40853257.3087
+"2020","South-eastern Asia",34802825.2118
+"2000","Southern Africa",5234494.5771
+"2001","Southern Africa",5067998.0793
+"2002","Southern Africa",5000036.1681
+"2003","Southern Africa",5195725.4183
+"2004","Southern Africa",5527808.7726
+"2005","Southern Africa",5483944.0941
+"2006","Southern Africa",5724864.7506
+"2007","Southern Africa",5847656.6671
+"2008","Southern Africa",6165062.8149
+"2009","Southern Africa",6044119.176
+"2010","Southern Africa",5945290.9717
+"2011","Southern Africa",6096113.997
+"2012","Southern Africa",5916334.319
+"2013","Southern Africa",5757871.6878
+"2014","Southern Africa",5884928.6151
+"2015","Southern Africa",5641246.1617
+"2016","Southern Africa",5671774.683
+"2017","Southern Africa",5780072.7188
+"2018","Southern Africa",5691703.0009
+"2019","Southern Africa",5727150.2031
+"2020","Southern Africa",5570223.6481
+"2000","Southern Asia",29985029.8801
+"2001","Southern Asia",32004611.6824
+"2002","Southern Asia",32176398.5494
+"2003","Southern Asia",33330110.5456
+"2004","Southern Asia",34522759.5394
+"2005","Southern Asia",35664086.0664
+"2006","Southern Asia",37236761.2364
+"2007","Southern Asia",38342297.576
+"2008","Southern Asia",39813917.4333
+"2009","Southern Asia",41402699.4675
+"2010","Southern Asia",42112772.2402
+"2011","Southern Asia",42918024.0698
+"2012","Southern Asia",44164770.6735
+"2013","Southern Asia",44965206.425
+"2014","Southern Asia",46787775.9952
+"2015","Southern Asia",47537520.5104
+"2016","Southern Asia",49119583.3847
+"2017","Southern Asia",50652880.8262
+"2018","Southern Asia",52154984.8899
+"2019","Southern Asia",52826406.0839
+"2020","Southern Asia",52129419.6571
+"2000","Southern Europe",9819749.0642
+"2001","Southern Europe",9627460.0192
+"2002","Southern Europe",9882162.7466
+"2003","Southern Europe",10143040.4783
+"2004","Southern Europe",10359576.6134
+"2005","Southern Europe",10334937.9325
+"2006","Southern Europe",10265737.3177
+"2007","Southern Europe",10345460.5868
+"2008","Southern Europe",9964654.5189
+"2009","Southern Europe",9270513.3607
+"2010","Southern Europe",9155313.4585
+"2011","Southern Europe",9528855.4682
+"2012","Southern Europe",9225733.8894
+"2013","Southern Europe",8847164.4012
+"2014","Southern Europe",8599619.7435
+"2015","Southern Europe",8834664.3241
+"2016","Southern Europe",8942784.4828
+"2017","Southern Europe",9080082.3394
+"2018","Southern Europe",9133414.2788
+"2019","Southern Europe",8996057.5424
+"2020","Southern Europe",8202576.1535
+"2000","Spain",2875243.3456
+"2001","Spain",3074878.9762
+"2002","Spain",3195723.8781
+"2003","Spain",3306790.6749
+"2004","Spain",3410834.5135
+"2005","Spain",3407359.8206
+"2006","Spain",3346168.7968
+"2007","Spain",3445646.5772
+"2008","Spain",3182652.7686
+"2009","Spain",2947963.9776
+"2010","Spain",2843971.8118
+"2011","Spain",2916193.7376
+"2012","Spain",2860336.2732
+"2013","Spain",2710268.3342
+"2014","Spain",2716755.2279
+"2015","Spain",2814040.7739
+"2016","Spain",2740028.3
+"2017","Spain",2890338.8579
+"2018","Spain",2875143.213
+"2019","Spain",2776588.1243
+"2020","Spain",2541093.5594
+"2000","Sri Lanka",297946.4151
+"2001","Sri Lanka",260918.5001
+"2002","Sri Lanka",269670.3645
+"2003","Sri Lanka",272847.0576
+"2004","Sri Lanka",274026.5838
+"2005","Sri Lanka",287775.854
+"2006","Sri Lanka",286455.0282
+"2007","Sri Lanka",284196.5394
+"2008","Sri Lanka",301449.1225
+"2009","Sri Lanka",298807.8559
+"2010","Sri Lanka",309405.5655
+"2011","Sri Lanka",309664.6208
+"2012","Sri Lanka",314395.2527
+"2013","Sri Lanka",305900.0876
+"2014","Sri Lanka",314915.0183
+"2015","Sri Lanka",340937.2226
+"2016","Sri Lanka",360033.833
+"2017","Sri Lanka",343518.0679
+"2018","Sri Lanka",352073.4924
+"2019","Sri Lanka",368131.2894
+"2020","Sri Lanka",376140.1185
+"2012","Sudan",1786151.2329
+"2013","Sudan",1816142.5395
+"2014","Sudan",1824034.6975
+"2015","Sudan",1861856.7425
+"2016","Sudan",1876140.911
+"2017","Sudan",1891286.5935
+"2018","Sudan",1911741.5901
+"2019","Sudan",1902668.4904
+"2020","Sudan",1909615.4301
+"2000","Sudan (former)",2592760.6403
+"2001","Sudan (former)",2356192.8198
+"2002","Sudan (former)",2464847.9957
+"2003","Sudan (former)",2535916.1177
+"2004","Sudan (former)",2584086.0168
+"2005","Sudan (former)",2662999.7312
+"2006","Sudan (former)",2567494.5528
+"2007","Sudan (former)",2695949.8379
+"2008","Sudan (former)",2685707.2229
+"2009","Sudan (former)",2718024.9508
+"2010","Sudan (former)",2636859.312
+"2011","Sudan (former)",2628512.3325
+"2000","Suriname",81702.0227
+"2001","Suriname",88340.0842
+"2002","Suriname",78843.878
+"2003","Suriname",85268.4866
+"2004","Suriname",82523.8528
+"2005","Suriname",81609.2439
+"2006","Suriname",82915.9611
+"2007","Suriname",81919.3796
+"2008","Suriname",84317.7332
+"2009","Suriname",85548.2172
+"2010","Suriname",88318.2067
+"2011","Suriname",146857.1984
+"2012","Suriname",150027.9112
+"2013","Suriname",150024.5923
+"2014","Suriname",151624.7475
+"2015","Suriname",150347.1621
+"2016","Suriname",163472.0101
+"2017","Suriname",164597.7306
+"2018","Suriname",166021.0936
+"2019","Suriname",167073.5144
+"2020","Suriname",165553.36
+"2000","Svalbard and Jan Mayen Islands",0
+"2001","Svalbard and Jan Mayen Islands",0
+"2002","Svalbard and Jan Mayen Islands",0
+"2003","Svalbard and Jan Mayen Islands",0
+"2004","Svalbard and Jan Mayen Islands",0
+"2005","Svalbard and Jan Mayen Islands",0
+"2006","Svalbard and Jan Mayen Islands",0
+"2007","Svalbard and Jan Mayen Islands",0
+"2008","Svalbard and Jan Mayen Islands",0
+"2009","Svalbard and Jan Mayen Islands",0
+"2010","Svalbard and Jan Mayen Islands",0
+"2011","Svalbard and Jan Mayen Islands",0
+"2012","Svalbard and Jan Mayen Islands",0
+"2013","Svalbard and Jan Mayen Islands",0
+"2014","Svalbard and Jan Mayen Islands",0
+"2015","Svalbard and Jan Mayen Islands",0
+"2016","Svalbard and Jan Mayen Islands",0
+"2017","Svalbard and Jan Mayen Islands",0
+"2018","Svalbard and Jan Mayen Islands",0
+"2019","Svalbard and Jan Mayen Islands",0
+"2020","Svalbard and Jan Mayen Islands",0
+"2000","Sweden",780140.8742
+"2001","Sweden",690845.8388
+"2002","Sweden",740635.1922
+"2003","Sweden",738510.5488
+"2004","Sweden",767551.1904
+"2005","Sweden",777750.3845
+"2006","Sweden",754674.8168
+"2007","Sweden",767103.814
+"2008","Sweden",741269.5001
+"2009","Sweden",681546.4983
+"2010","Sweden",742067.1584
+"2011","Sweden",589253.983
+"2012","Sweden",547674.3283
+"2013","Sweden",537543.3456
+"2014","Sweden",535547.7128
+"2015","Sweden",501843.9778
+"2016","Sweden",554692.4507
+"2017","Sweden",545045.0376
+"2018","Sweden",532552.7201
+"2019","Sweden",546122.3004
+"2020","Sweden",579436.9796
+"2000","Switzerland",484777.9619
+"2001","Switzerland",481770.4407
+"2002","Switzerland",460020.8426
+"2003","Switzerland",457929.3677
+"2004","Switzerland",462689.9931
+"2005","Switzerland",474101.1396
+"2006","Switzerland",485642.8493
+"2007","Switzerland",467169.8538
+"2008","Switzerland",481798.4001
+"2009","Switzerland",482295.4
+"2010","Switzerland",469710.125
+"2011","Switzerland",459597.944
+"2012","Switzerland",460941.1796
+"2013","Switzerland",478895.337
+"2014","Switzerland",454787.4297
+"2015","Switzerland",446572.431
+"2016","Switzerland",424526.0609
+"2017","Switzerland",426425.2698
+"2018","Switzerland",419817.637
+"2019","Switzerland",418438.2189
+"2020","Switzerland",386756.4885
+"2000","Syrian Arab Republic",672766.2442
+"2001","Syrian Arab Republic",611123.6496
+"2002","Syrian Arab Republic",535927.6647
+"2003","Syrian Arab Republic",636077.7446
+"2004","Syrian Arab Republic",612914.0546
+"2005","Syrian Arab Republic",630959.768
+"2006","Syrian Arab Republic",658817.9667
+"2007","Syrian Arab Republic",764456.9571
+"2008","Syrian Arab Republic",753554.7023
+"2009","Syrian Arab Republic",714280.6529
+"2010","Syrian Arab Republic",691896.1357
+"2011","Syrian Arab Republic",663829.0251
+"2012","Syrian Arab Republic",545044.4409
+"2013","Syrian Arab Republic",454327.6463
+"2014","Syrian Arab Republic",406813.4474
+"2015","Syrian Arab Republic",387656.2252
+"2016","Syrian Arab Republic",390685.2847
+"2017","Syrian Arab Republic",363688.4735
+"2018","Syrian Arab Republic",414012.0956
+"2019","Syrian Arab Republic",421693.8195
+"2020","Syrian Arab Republic",409127.0505
+"2000","T?kiye",2566869.1601
+"2001","T?kiye",2140232.1753
+"2002","T?kiye",2168632.7545
+"2003","T?kiye",2292345.3175
+"2004","T?kiye",2337418.8944
+"2005","T?kiye",2446567.5118
+"2006","T?kiye",2706819.1516
+"2007","T?kiye",2902005.0692
+"2008","T?kiye",2883670.514
+"2009","T?kiye",2937906.4058
+"2010","T?kiye",3070174.9477
+"2011","T?kiye",3134429.6678
+"2012","T?kiye",3329314.7982
+"2013","T?kiye",3392177.254
+"2014","T?kiye",3543524.4
+"2015","T?kiye",3498698.6178
+"2016","T?kiye",3964021.3294
+"2017","T?kiye",4238615.4562
+"2018","T?kiye",4328356.7591
+"2019","T?kiye",4353189.4664
+"2020","T?kiye",4631536.0349
+"2000","Tajikistan",100399.4091
+"2001","Tajikistan",97299.5017
+"2002","Tajikistan",96782.7415
+"2003","Tajikistan",100723.9825
+"2004","Tajikistan",110548.0101
+"2005","Tajikistan",114348.219
+"2006","Tajikistan",121534.7117
+"2007","Tajikistan",129227.1704
+"2008","Tajikistan",138419.456
+"2009","Tajikistan",145464.7866
+"2010","Tajikistan",147790.1231
+"2011","Tajikistan",125093.8473
+"2012","Tajikistan",134985.3798
+"2013","Tajikistan",139300.0073
+"2014","Tajikistan",161906.3231
+"2015","Tajikistan",162011.6566
+"2016","Tajikistan",179041.2999
+"2017","Tajikistan",189192.8122
+"2018","Tajikistan",184276.5814
+"2019","Tajikistan",189301.0551
+"2020","Tajikistan",185902.4643
+"2000","Thailand",2904542.0196
+"2001","Thailand",2575380.8686
+"2002","Thailand",2654640.3832
+"2003","Thailand",2802392.9937
+"2004","Thailand",2976269.9992
+"2005","Thailand",2985350.0978
+"2006","Thailand",3010656.6501
+"2007","Thailand",3211394.6529
+"2008","Thailand",3144417.8592
+"2009","Thailand",3313122.5809
+"2010","Thailand",3496365.7222
+"2011","Thailand",3949796.3766
+"2012","Thailand",4114792.7594
+"2013","Thailand",4165273.0243
+"2014","Thailand",4089171.0268
+"2015","Thailand",3979457.4493
+"2016","Thailand",4044252.5929
+"2017","Thailand",4077541.334
+"2018","Thailand",4051243.8566
+"2019","Thailand",4015540.468
+"2020","Thailand",3984070.8433
+"2000","Timor-Leste",21142.7507
+"2001","Timor-Leste",23961.0647
+"2002","Timor-Leste",24364.0762
+"2003","Timor-Leste",24154.2242
+"2004","Timor-Leste",26476.2204
+"2005","Timor-Leste",30184.703
+"2006","Timor-Leste",34384.141
+"2007","Timor-Leste",42800.3383
+"2008","Timor-Leste",43699.8796
+"2009","Timor-Leste",45511.5645
+"2010","Timor-Leste",46583.0415
+"2011","Timor-Leste",44490.992
+"2012","Timor-Leste",45629.2758
+"2013","Timor-Leste",45448.1443
+"2014","Timor-Leste",47643.5762
+"2015","Timor-Leste",55530.8458
+"2016","Timor-Leste",50244.0089
+"2017","Timor-Leste",49475.258
+"2018","Timor-Leste",50054.3216
+"2019","Timor-Leste",57454.6214
+"2020","Timor-Leste",56756.7755
+"2000","Togo",130437.865
+"2001","Togo",75791.7703
+"2002","Togo",81492.6969
+"2003","Togo",86750.8712
+"2004","Togo",82575.6149
+"2005","Togo",131712.247
+"2006","Togo",89161.4018
+"2007","Togo",84777.0073
+"2008","Togo",88937.6459
+"2009","Togo",101415.895
+"2010","Togo",100442.1818
+"2011","Togo",108464.9745
+"2012","Togo",103116.2407
+"2013","Togo",108047.0212
+"2014","Togo",106522.9075
+"2015","Togo",116241.2674
+"2016","Togo",116037.0519
+"2017","Togo",116584.797
+"2018","Togo",121226.221
+"2019","Togo",122747.9945
+"2020","Togo",129685.1798
+"2000","Tokelau",9.5429
+"2001","Tokelau",9.5053
+"2002","Tokelau",9.4556
+"2003","Tokelau",9.3943
+"2004","Tokelau",9.3359
+"2005","Tokelau",9.2896
+"2006","Tokelau",9.2591
+"2007","Tokelau",9.2404
+"2008","Tokelau",9.2299
+"2009","Tokelau",9.2299
+"2010","Tokelau",9.2404
+"2011","Tokelau",9.2488
+"2012","Tokelau",9.2591
+"2013","Tokelau",9.2746
+"2014","Tokelau",9.2983
+"2015","Tokelau",9.322
+"2016","Tokelau",9.3446
+"2017","Tokelau",9.3562
+"2018","Tokelau",9.3701
+"2019","Tokelau",9.3343
+"2020","Tokelau",9.3409
+"2000","Tonga",-906.6703
+"2001","Tonga",2252.6795
+"2002","Tonga",2351.5812
+"2003","Tonga",2454.298
+"2004","Tonga",2408.2429
+"2005","Tonga",2437.5962
+"2006","Tonga",-712.924700000001
+"2007","Tonga",2436.1069
+"2008","Tonga",2502.385
+"2009","Tonga",2612.8315
+"2010","Tonga",2511.5542
+"2011","Tonga",2435.8925
+"2012","Tonga",2474.1145
+"2013","Tonga",2625.0336
+"2014","Tonga",2595.3421
+"2015","Tonga",2630.8845
+"2016","Tonga",2676.2462
+"2017","Tonga",2863.9472
+"2018","Tonga",2911.4308
+"2019","Tonga",3019.9177
+"2020","Tonga",3016.0666
+"2000","Trinidad and Tobago",351205.4882
+"2001","Trinidad and Tobago",379177.4213
+"2002","Trinidad and Tobago",389281.8032
+"2003","Trinidad and Tobago",437707.2768
+"2004","Trinidad and Tobago",459333.9975
+"2005","Trinidad and Tobago",516536.2674
+"2006","Trinidad and Tobago",581564.9118
+"2007","Trinidad and Tobago",597355.2423
+"2008","Trinidad and Tobago",578251.9861
+"2009","Trinidad and Tobago",598542.0041
+"2010","Trinidad and Tobago",622854.8549
+"2011","Trinidad and Tobago",614926.9991
+"2012","Trinidad and Tobago",596647.3573
+"2013","Trinidad and Tobago",586855.451
+"2014","Trinidad and Tobago",590972.2999
+"2015","Trinidad and Tobago",578708.0397
+"2016","Trinidad and Tobago",531600.1636
+"2017","Trinidad and Tobago",539375.3108
+"2018","Trinidad and Tobago",523687.7841
+"2019","Trinidad and Tobago",524502.314
+"2020","Trinidad and Tobago",484364.7955
+"2000","Tunisia",309389.075
+"2001","Tunisia",285622.4329
+"2002","Tunisia",282754.0568
+"2003","Tunisia",285940.5294
+"2004","Tunisia",294776.8798
+"2005","Tunisia",302106.7339
+"2006","Tunisia",309304.4388
+"2007","Tunisia",318750.0682
+"2008","Tunisia",331242.9418
+"2009","Tunisia",338005.9392
+"2010","Tunisia",353017.6464
+"2011","Tunisia",379231.8165
+"2012","Tunisia",406169.6553
+"2013","Tunisia",389148.6305
+"2014","Tunisia",396695.4915
+"2015","Tunisia",402856.4067
+"2016","Tunisia",339106.0872
+"2017","Tunisia",337919.3385
+"2018","Tunisia",312590.6025
+"2019","Tunisia",321498.3409
+"2020","Tunisia",303044.227
+"2000","Turkmenistan",540578.1281
+"2001","Turkmenistan",535972.6282
+"2002","Turkmenistan",587105.8132
+"2003","Turkmenistan",666026.3519
+"2004","Turkmenistan",718431.5645
+"2005","Turkmenistan",707008.6219
+"2006","Turkmenistan",737153.7232
+"2007","Turkmenistan",779335.8995
+"2008","Turkmenistan",835100.509
+"2009","Turkmenistan",706365.9539
+"2010","Turkmenistan",807896.1279
+"2011","Turkmenistan",842438.9345
+"2012","Turkmenistan",886934.1193
+"2013","Turkmenistan",940899.751
+"2014","Turkmenistan",963145.9827
+"2015","Turkmenistan",994948.7063
+"2016","Turkmenistan",975942.6897
+"2017","Turkmenistan",966000.0412
+"2018","Turkmenistan",1010738.0026
+"2019","Turkmenistan",1056871.5984
+"2020","Turkmenistan",1021245.2038
+"2000","Turks and Caicos Islands",583.2382
+"2001","Turks and Caicos Islands",614.2132
+"2002","Turks and Caicos Islands",762.7414
+"2003","Turks and Caicos Islands",769.8152
+"2004","Turks and Caicos Islands",799.1052
+"2005","Turks and Caicos Islands",932.776
+"2006","Turks and Caicos Islands",1081.9323
+"2007","Turks and Caicos Islands",1239.4998
+"2008","Turks and Caicos Islands",1330.5134
+"2009","Turks and Caicos Islands",1397.8286
+"2010","Turks and Caicos Islands",1419.1722
+"2011","Turks and Caicos Islands",1435.5949
+"2012","Turks and Caicos Islands",1437.4356
+"2013","Turks and Caicos Islands",1481.5475
+"2014","Turks and Caicos Islands",1550.9865
+"2015","Turks and Caicos Islands",1602.4466
+"2016","Turks and Caicos Islands",1674.9107
+"2017","Turks and Caicos Islands",1788.7013
+"2018","Turks and Caicos Islands",1855.4869
+"2019","Turks and Caicos Islands",1919.2883
+"2020","Turks and Caicos Islands",1704.6134
+"2000","Tuvalu",176.3513
+"2001","Tuvalu",178.3944
+"2002","Tuvalu",203.6434
+"2003","Tuvalu",203.7329
+"2004","Tuvalu",203.9624
+"2005","Tuvalu",203.9412
+"2006","Tuvalu",183.3599
+"2007","Tuvalu",209.01
+"2008","Tuvalu",207.9825
+"2009","Tuvalu",211.9021
+"2010","Tuvalu",188.3498
+"2011","Tuvalu",189.9345
+"2012","Tuvalu",213.6733
+"2013","Tuvalu",214.381
+"2014","Tuvalu",234.7299
+"2015","Tuvalu",226.3492
+"2016","Tuvalu",237.2664
+"2017","Tuvalu",248.1931
+"2018","Tuvalu",263.2237
+"2019","Tuvalu",281.9317
+"2020","Tuvalu",292.0575
+"2000","Uganda",647738.8274
+"2001","Uganda",540773.6831
+"2002","Uganda",551115.4397
+"2003","Uganda",578514.6613
+"2004","Uganda",576599.1075
+"2005","Uganda",607571.3628
+"2006","Uganda",581519.8679
+"2007","Uganda",622178.9773
+"2008","Uganda",729061.6924
+"2009","Uganda",731040.0066
+"2010","Uganda",760377.8853
+"2011","Uganda",761123.5855
+"2012","Uganda",786387.5672
+"2013","Uganda",787544.3745
+"2014","Uganda",801153.8224
+"2015","Uganda",823096.2459
+"2016","Uganda",820599.7556
+"2017","Uganda",835069.5789
+"2018","Uganda",844657.4672
+"2019","Uganda",857293.495
+"2020","Uganda",882131.998
+"2000","Ukraine",3379515.0233
+"2001","Ukraine",3527313.8245
+"2002","Ukraine",3520063.1616
+"2003","Ukraine",3714078.3348
+"2004","Ukraine",3602998.8972
+"2005","Ukraine",3522516.7202
+"2006","Ukraine",3423355.0888
+"2007","Ukraine",3386237.148
+"2008","Ukraine",3366700.8609
+"2009","Ukraine",2916001.6155
+"2010","Ukraine",3214619.4891
+"2011","Ukraine",3315520.8416
+"2012","Ukraine",3346755.0341
+"2013","Ukraine",3354247.3295
+"2014","Ukraine",2936357.1043
+"2015","Ukraine",2648736.0611
+"2016","Ukraine",2700998.6693
+"2017","Ukraine",2510916.5655
+"2018","Ukraine",2612911.2365
+"2019","Ukraine",2601599.9387
+"2020","Ukraine",2535438.9055
+"2000","United Arab Emirates",1026283.2616
+"2001","United Arab Emirates",974502.1973
+"2002","United Arab Emirates",876224.3619
+"2003","United Arab Emirates",1036329.7123
+"2004","United Arab Emirates",1064581.3742
+"2005","United Arab Emirates",1081084.9515
+"2006","United Arab Emirates",1155538.3273
+"2007","United Arab Emirates",1246561.7892
+"2008","United Arab Emirates",1394808.771
+"2009","United Arab Emirates",1479242.0961
+"2010","United Arab Emirates",1440339.0251
+"2011","United Arab Emirates",1536055.403
+"2012","United Arab Emirates",1853298.0771
+"2013","United Arab Emirates",1913314.5833
+"2014","United Arab Emirates",1870371.5951
+"2015","United Arab Emirates",2049400.9256
+"2016","United Arab Emirates",1973815.7506
+"2017","United Arab Emirates",1715280.0793
+"2018","United Arab Emirates",1689160.1446
+"2019","United Arab Emirates",1702920.8274
+"2020","United Arab Emirates",1615183.8793
+"2000","United Kingdom of Great Britain and Northern Ireland",5775791.2826
+"2001","United Kingdom of Great Britain and Northern Ireland",5746532.7813
+"2002","United Kingdom of Great Britain and Northern Ireland",5608486.7413
+"2003","United Kingdom of Great Britain and Northern Ireland",5645213.4764
+"2004","United Kingdom of Great Britain and Northern Ireland",5613045.1816
+"2005","United Kingdom of Great Britain and Northern Ireland",5648905.3325
+"2006","United Kingdom of Great Britain and Northern Ireland",5598736.4509
+"2007","United Kingdom of Great Britain and Northern Ireland",5414346.527
+"2008","United Kingdom of Great Britain and Northern Ireland",5323433.8391
+"2009","United Kingdom of Great Britain and Northern Ireland",4941359.5376
+"2010","United Kingdom of Great Britain and Northern Ireland",5071911.7924
+"2011","United Kingdom of Great Britain and Northern Ireland",4774806.0233
+"2012","United Kingdom of Great Britain and Northern Ireland",4906078.7838
+"2013","United Kingdom of Great Britain and Northern Ireland",4837689.6122
+"2014","United Kingdom of Great Britain and Northern Ireland",4622649.7855
+"2015","United Kingdom of Great Britain and Northern Ireland",4539444.6983
+"2016","United Kingdom of Great Britain and Northern Ireland",4387919.0439
+"2017","United Kingdom of Great Britain and Northern Ireland",4319369.2837
+"2018","United Kingdom of Great Britain and Northern Ireland",4272342.5728
+"2019","United Kingdom of Great Britain and Northern Ireland",4176688.4935
+"2020","United Kingdom of Great Britain and Northern Ireland",3749773.0928
+"2000","United Republic of Tanzania",1486183.1414
+"2001","United Republic of Tanzania",1563684.9326
+"2002","United Republic of Tanzania",1653871.5272
+"2003","United Republic of Tanzania",1778034.3364
+"2004","United Republic of Tanzania",1759592.5869
+"2005","United Republic of Tanzania",1839296.5085
+"2006","United Republic of Tanzania",1763695.2131
+"2007","United Republic of Tanzania",1789838.6719
+"2008","United Republic of Tanzania",1832551.0023
+"2009","United Republic of Tanzania",1855597.2242
+"2010","United Republic of Tanzania",1897256.9584
+"2011","United Republic of Tanzania",1931978.7844
+"2012","United Republic of Tanzania",1978326.1242
+"2013","United Republic of Tanzania",2001545.3359
+"2014","United Republic of Tanzania",2023646.8275
+"2015","United Republic of Tanzania",2104637.5188
+"2016","United Republic of Tanzania",2265682.8885
+"2017","United Republic of Tanzania",2254857.6416
+"2018","United Republic of Tanzania",2232348.0534
+"2019","United Republic of Tanzania",2272393.9081
+"2020","United Republic of Tanzania",2321080.4288
+"2000","United States of America",47116930.6936
+"2001","United States of America",46252572.9357
+"2002","United States of America",46729151.8272
+"2003","United States of America",47094432.7108
+"2004","United States of America",48300430.7234
+"2005","United States of America",48435679.7631
+"2006","United States of America",48075627.1435
+"2007","United States of America",49047818.3233
+"2008","United States of America",47986265.09
+"2009","United States of America",45658833.8634
+"2010","United States of America",46656619.8441
+"2011","United States of America",45540671.6293
+"2012","United States of America",43991324.9932
+"2013","United States of America",44978313.3283
+"2014","United States of America",45422378.2582
+"2015","United States of America",45121808.0615
+"2016","United States of America",45911043.8667
+"2017","United States of America",46022072.9098
+"2018","United States of America",47162060.1682
+"2019","United States of America",46401680.7864
+"2020","United States of America",44172202.2769
+"2000","United States Virgin Islands",365.7448
+"2001","United States Virgin Islands",-275.7355
+"2002","United States Virgin Islands",91.3486
+"2003","United States Virgin Islands",239.7682
+"2004","United States Virgin Islands",340.6638
+"2005","United States Virgin Islands",410.4382
+"2006","United States Virgin Islands",456.7303
+"2007","United States Virgin Islands",488.8007
+"2008","United States Virgin Islands",507.9895
+"2009","United States Virgin Islands",521.2373
+"2010","United States Virgin Islands",530.629
+"2011","United States Virgin Islands",496.8654
+"2012","United States Virgin Islands",500.277
+"2013","United States Virgin Islands",501.1902
+"2014","United States Virgin Islands",501.1764
+"2015","United States Virgin Islands",501.969
+"2016","United States Virgin Islands",-481.7364
+"2017","United States Virgin Islands",-481.272
+"2018","United States Virgin Islands",-480.4266
+"2019","United States Virgin Islands",-479.2359
+"2020","United States Virgin Islands",-478.3434
+"2000","Uruguay",414918.573
+"2001","Uruguay",413668.0406
+"2002","Uruguay",460458.8167
+"2003","Uruguay",439214.3844
+"2004","Uruguay",496271.0326
+"2005","Uruguay",466446.1315
+"2006","Uruguay",539260.3989
+"2007","Uruguay",478328.0807
+"2008","Uruguay",569767.5268
+"2009","Uruguay",505747.78
+"2010","Uruguay",516814.3251
+"2011","Uruguay",511901.0248
+"2012","Uruguay",554833.8339
+"2013","Uruguay",510685.5759
+"2014","Uruguay",622166.9909
+"2015","Uruguay",517613.3472
+"2016","Uruguay",661811.5617
+"2017","Uruguay",671637.3789
+"2018","Uruguay",562366.109
+"2019","Uruguay",562646.3897
+"2020","Uruguay",555657.7805
+"2000","Uzbekistan",1553457.1488
+"2001","Uzbekistan",1504442.3589
+"2002","Uzbekistan",1587397.6538
+"2003","Uzbekistan",1573732.4633
+"2004","Uzbekistan",1559730.43
+"2005","Uzbekistan",1545086.7944
+"2006","Uzbekistan",1605400.0263
+"2007","Uzbekistan",1592864.6756
+"2008","Uzbekistan",1664456.814
+"2009","Uzbekistan",1533724.838
+"2010","Uzbekistan",1550936.4681
+"2011","Uzbekistan",1748741.587
+"2012","Uzbekistan",1801970.8823
+"2013","Uzbekistan",1666610.8005
+"2014","Uzbekistan",1643954.8652
+"2015","Uzbekistan",1642169.5376
+"2016","Uzbekistan",1663844.8167
+"2017","Uzbekistan",1671161.5218
+"2018","Uzbekistan",1744073.3289
+"2019","Uzbekistan",1768572.6457
+"2020","Uzbekistan",1767662.2285
+"2000","Vanuatu",-5776.1201
+"2001","Vanuatu",7308.4544
+"2002","Vanuatu",7278.5352
+"2003","Vanuatu",7585.1943
+"2004","Vanuatu",7521.5651
+"2005","Vanuatu",7742.9659
+"2006","Vanuatu",7763.1967
+"2007","Vanuatu",9425.4515
+"2008","Vanuatu",9529.4804
+"2009","Vanuatu",9156.5666
+"2010","Vanuatu",9399.3114
+"2011","Vanuatu",9751.7028
+"2012","Vanuatu",9701.3397
+"2013","Vanuatu",9707.5226
+"2014","Vanuatu",10179.1438
+"2015","Vanuatu",9168.792
+"2016","Vanuatu",7645.544
+"2017","Vanuatu",7979.3375
+"2018","Vanuatu",7847.6287
+"2019","Vanuatu",7407.9496
+"2020","Vanuatu",7196.5067
+"2000","Venezuela (Bolivarian Republic of)",4034890.8041
+"2001","Venezuela (Bolivarian Republic of)",3371217.3054
+"2002","Venezuela (Bolivarian Republic of)",3482748.5469
+"2003","Venezuela (Bolivarian Republic of)",3510478.7994
+"2004","Venezuela (Bolivarian Republic of)",3282287.4179
+"2005","Venezuela (Bolivarian Republic of)",3408339.4332
+"2006","Venezuela (Bolivarian Republic of)",3353226.8645
+"2007","Venezuela (Bolivarian Republic of)",3294587.9778
+"2008","Venezuela (Bolivarian Republic of)",3441405.0935
+"2009","Venezuela (Bolivarian Republic of)",3434854.2677
+"2010","Venezuela (Bolivarian Republic of)",3461542.0433
+"2011","Venezuela (Bolivarian Republic of)",3637958.4268
+"2012","Venezuela (Bolivarian Republic of)",3865570.7787
+"2013","Venezuela (Bolivarian Republic of)",3775640.3551
+"2014","Venezuela (Bolivarian Republic of)",3764109.1265
+"2015","Venezuela (Bolivarian Republic of)",3625140.8026
+"2016","Venezuela (Bolivarian Republic of)",2621358.4943
+"2017","Venezuela (Bolivarian Republic of)",2442287.2408
+"2018","Venezuela (Bolivarian Republic of)",2326632.8131
+"2019","Venezuela (Bolivarian Republic of)",2292936.8056
+"2020","Venezuela (Bolivarian Republic of)",2205320.6549
+"2000","Viet Nam",1417107.0275
+"2001","Viet Nam",1896185.0798
+"2002","Viet Nam",2031152.6183
+"2003","Viet Nam",2084644.3289
+"2004","Viet Nam",2247369.3857
+"2005","Viet Nam",2305268.2556
+"2006","Viet Nam",2335105.6419
+"2007","Viet Nam",2391915.9469
+"2008","Viet Nam",2419963.3859
+"2009","Viet Nam",2590782.4784
+"2010","Viet Nam",2923838.7669
+"2011","Viet Nam",2418742.833
+"2012","Viet Nam",2389830.9948
+"2013","Viet Nam",2729686.4611
+"2014","Viet Nam",2613312.828
+"2015","Viet Nam",2788470.9739
+"2016","Viet Nam",2861974.7689
+"2017","Viet Nam",2887587.1816
+"2018","Viet Nam",3127975.4932
+"2019","Viet Nam",3373766.0843
+"2020","Viet Nam",3332282.591
+"2000","Wallis and Futuna Islands",42.2236
+"2001","Wallis and Futuna Islands",46.0528
+"2002","Wallis and Futuna Islands",52.3862
+"2003","Wallis and Futuna Islands",50.672
+"2004","Wallis and Futuna Islands",51.1928
+"2005","Wallis and Futuna Islands",51.1544
+"2006","Wallis and Futuna Islands",51.1412
+"2007","Wallis and Futuna Islands",51.0896
+"2008","Wallis and Futuna Islands",49.9432
+"2009","Wallis and Futuna Islands",50.7588
+"2010","Wallis and Futuna Islands",51.0132
+"2011","Wallis and Futuna Islands",48.5006
+"2012","Wallis and Futuna Islands",47.9648
+"2013","Wallis and Futuna Islands",47.8434
+"2014","Wallis and Futuna Islands",47.6324
+"2015","Wallis and Futuna Islands",47.6284
+"2016","Wallis and Futuna Islands",8.302
+"2017","Wallis and Futuna Islands",7.9084
+"2018","Wallis and Futuna Islands",7.8248
+"2019","Wallis and Futuna Islands",7.7352
+"2020","Wallis and Futuna Islands",7.7352
+"2000","Western Africa",8363652.7141
+"2001","Western Africa",8060385.8072
+"2002","Western Africa",7900872.0459
+"2003","Western Africa",8064319.5175
+"2004","Western Africa",8146560.864
+"2005","Western Africa",8395674.2219
+"2006","Western Africa",8307463.2024
+"2007","Western Africa",8226700.8844
+"2008","Western Africa",8250103.4743
+"2009","Western Africa",8164856.2255
+"2010","Western Africa",8678145.9063
+"2011","Western Africa",8638511.3202
+"2012","Western Africa",8747626.6229
+"2013","Western Africa",8854355.3708
+"2014","Western Africa",9026514.6637
+"2015","Western Africa",9071380.0236
+"2016","Western Africa",9074265.9165
+"2017","Western Africa",9291137.9292
+"2018","Western Africa",9505470.91
+"2019","Western Africa",9607652.3338
+"2020","Western Africa",9777636.1122
+"2000","Western Asia",11419519.3867
+"2001","Western Asia",11238212.297
+"2002","Western Asia",11374430.0538
+"2003","Western Asia",12081820.5528
+"2004","Western Asia",12762674.5651
+"2005","Western Asia",13181369.007
+"2006","Western Asia",13912344.3711
+"2007","Western Asia",13988842.5801
+"2008","Western Asia",14917143.7305
+"2009","Western Asia",15421450.2821
+"2010","Western Asia",16150583.8534
+"2011","Western Asia",16704211.7114
+"2012","Western Asia",18107111.9947
+"2013","Western Asia",18252707.29
+"2014","Western Asia",18866863.0555
+"2015","Western Asia",19410067.7915
+"2016","Western Asia",19679917.6189
+"2017","Western Asia",19786344.2823
+"2018","Western Asia",20125252.2688
+"2019","Western Asia",20254099.262
+"2020","Western Asia",19874717.9907
+"2000","Western Europe",16673832.4036
+"2001","Western Europe",16926384.8538
+"2002","Western Europe",16542291.3984
+"2003","Western Europe",16604369.7928
+"2004","Western Europe",16577666.1249
+"2005","Western Europe",16404972.7413
+"2006","Western Europe",16391050.3576
+"2007","Western Europe",16115121.1647
+"2008","Western Europe",16067747.5979
+"2009","Western Europe",15471429.0535
+"2010","Western Europe",16022611.5037
+"2011","Western Europe",15402430.4068
+"2012","Western Europe",15368778.7743
+"2013","Western Europe",15548615.2386
+"2014","Western Europe",14988449.2136
+"2015","Western Europe",15148930.3675
+"2016","Western Europe",15008688.9621
+"2017","Western Europe",14982076.2528
+"2018","Western Europe",14573489.2434
+"2019","Western Europe",14146014.9813
+"2020","Western Europe",12837469.5817
+"2000","Western Sahara",-4863.112
+"2001","Western Sahara",-2328.4176
+"2002","Western Sahara",-2328.4176
+"2003","Western Sahara",-2328.4176
+"2004","Western Sahara",-2328.4176
+"2005","Western Sahara",-2328.4176
+"2006","Western Sahara",-2328.4176
+"2007","Western Sahara",-2328.4176
+"2008","Western Sahara",-2328.4176
+"2009","Western Sahara",-2328.4176
+"2010","Western Sahara",-2328.4176
+"2011","Western Sahara",-1062.1966
+"2012","Western Sahara",-1062.1966
+"2013","Western Sahara",-1062.1966
+"2014","Western Sahara",-1062.1966
+"2015","Western Sahara",-1062.1966
+"2016","Western Sahara",-836.5256
+"2017","Western Sahara",-836.5256
+"2018","Western Sahara",-836.5256
+"2019","Western Sahara",-836.5256
+"2020","Western Sahara",-836.5256
+"2000","World",371069904.8145
+"2001","World",361595050.5592
+"2002","World",375319891.2341
+"2003","World",381559579.0871
+"2004","World",400512085.9112
+"2005","World",404662156.5611
+"2006","World",416430797.3468
+"2007","World",416458315.3362
+"2008","World",423040523.0258
+"2009","World",424052604.7723
+"2010","World",429746989.3888
+"2011","World",427824608.5685
+"2012","World",433706014.464
+"2013","World",437292585.9747
+"2014","World",444974697.7829
+"2015","World",449181240.6539
+"2016","World",446029429.7906
+"2017","World",450706829.3506
+"2018","World",459279585.2103
+"2019","World",464416136.3594
+"2020","World",446610370.6838
+"2000","Yemen",317061.4513
+"2001","Yemen",308696.5229
+"2002","Yemen",310675.0627
+"2003","Yemen",345009.6282
+"2004","Yemen",358266.8416
+"2005","Yemen",380967.7843
+"2006","Yemen",418500.9352
+"2007","Yemen",428434.5238
+"2008","Yemen",430342.1235
+"2009","Yemen",443147.0453
+"2010","Yemen",482436.1769
+"2011","Yemen",420349.2966
+"2012","Yemen",436560.7098
+"2013","Yemen",470472.7187
+"2014","Yemen",457585.7038
+"2015","Yemen",316238.836
+"2016","Yemen",284419.1324
+"2017","Yemen",283826.1162
+"2018","Yemen",314638.2576
+"2019","Yemen",347508.8128
+"2020","Yemen",335021.417
+"2000","Zambia",799753.0671
+"2001","Zambia",810988.7054
+"2002","Zambia",864788.2122
+"2003","Zambia",962381.4803
+"2004","Zambia",972563.218
+"2005","Zambia",1014215.1364
+"2006","Zambia",933499.464
+"2007","Zambia",973110.3762
+"2008","Zambia",1015817.5198
+"2009","Zambia",953503.472
+"2010","Zambia",1057333.4074
+"2011","Zambia",1249560.7149
+"2012","Zambia",1297567.8637
+"2013","Zambia",1312950.5852
+"2014","Zambia",1317745.0319
+"2015","Zambia",1409710.187
+"2016","Zambia",1296399.7604
+"2017","Zambia",1376210.1952
+"2018","Zambia",1332916.4191
+"2019","Zambia",1347261.7479
+"2020","Zambia",1294206.8909
+"2000","Zimbabwe",479699.0913
+"2001","Zimbabwe",507189.6973
+"2002","Zimbabwe",478822.4639
+"2003","Zimbabwe",465214.5934
+"2004","Zimbabwe",463262.0908
+"2005","Zimbabwe",475240.7938
+"2006","Zimbabwe",345053.7042
+"2007","Zimbabwe",483163.3713
+"2008","Zimbabwe",466570.7466
+"2009","Zimbabwe",471055.6354
+"2010","Zimbabwe",490138.216
+"2011","Zimbabwe",502793.2888
+"2012","Zimbabwe",480929.7202
+"2013","Zimbabwe",495678.0094
+"2014","Zimbabwe",469376.5656
+"2015","Zimbabwe",490929.7052
+"2016","Zimbabwe",1070129.6883
+"2017","Zimbabwe",1096830.1294
+"2018","Zimbabwe",1081814.8871
+"2019","Zimbabwe",1081049.2815
+"2020","Zimbabwe",1057225.161
