@@ -51,7 +51,7 @@ oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/
 soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
 ```
 
-```{r}
+```{r col-names-soc-ref}
 colnames(soc_ref) = c('commodity_code', 'commodity_title', 'class_code', 'class_title', 'family_code', 'family_title', 'segment_code', 'segment_title')
 
 soc_ref = soc_ref |>
@@ -59,7 +59,7 @@ soc_ref = soc_ref |>
 ```
 
 
-```{r}
+```{r col-names-skills}
 colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 'scale_id', 'scale_name',
                      'value', 'n', 'se', 'lower_ci', 'upper_ci', 'recommend_suppress', 
                       'not_relevant', 'date', 'domain_source')
@@ -71,7 +71,7 @@ skills_df = skills |>
 
 
 
-```{r}
+```{r col-names-oes}
 colnames(oes) = c('industry', 'employment', 'employment_prct_relative_se',
                              'hr_wage_mean', 'annual_wage_mean', 'wage_prct_relative_se','hr_wage_10_prcentile',
                               'hr_wage_25_prcentile', 'hr_wage_median', 'hr_wage_75_prcentile',
@@ -92,8 +92,8 @@ oes_df = oes |>
 ```
 
 
-## industry tody normalized tables
-```{r}
+## industry tidy normalized tables
+```{r tbls-industry}
 family_hr_wage_df = 
   oes_df |>
   filter(is.na(segment_soc)) |>
@@ -119,7 +119,7 @@ family_annual_wage_df =
   mutate(dollars = substr(dollars, 2, length(dollars)))
 ```
 
-```{r}
+```{r wage-tbls}
 segemnt_hr_wage_df = oes_df |>
   drop_na(segment_soc) |>
   select(segment_soc, starts_with('hr')) |>
@@ -144,7 +144,7 @@ segemnt_annual_wage_df = oes_df |>
   mutate(dollars = substr(dollars, 2, length(dollars))) 
 ```
 
-```{r}
+```{r skills-tbls}
 element_ref=
   skills_df|>
   select(element_id, element_name) |>
@@ -160,6 +160,12 @@ level_skills_df = skills_df |>
   select(class_code, class_title, element_id, value)
 ```
 
+## Logical Model 
+To create the logical model, the [ReDaMoR](https://cran.r-project.org/web/packages/ReDaMoR/vignettes/ReDaMoR.html#1_Introduction) 
+R Package can be used. Logical models [insert purpose here].
+
+
+## Entity Relationship Diagram 
 
 
 
