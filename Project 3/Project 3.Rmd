@@ -1,0 +1,140 @@
+---
+title: "Project 3"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringi)
+```
+
+## Read Data
+```{r cars}
+skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
+oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
+                  skip = 6, nrows = 284,
+                  header = FALSE)
+
+soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
+```
+
+```{r}
+colnames(soc_ref) = c('commodity_code', 'commodity_title', 'class_code', 'class_title', 'family_code', 'family_title', 'segment_code', 'segment_title')
+
+soc_ref = soc_ref |>
+  mutate_all(as.character)
+```
+
+
+```{r}
+colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 'scale_id', 'scale_name',
+                     'value', 'n', 'se', 'lower_ci', 'upper_ci', 'recommend_suppress', 
+                      'not_relevant', 'date', 'domain_source')
+
+skills_df = skills |>
+  mutate(class_code = str_replace(str_replace(class_code, '\\.', ''), '-', ''))
+```
+
+
+
+
+```{r}
+colnames(oes) = c('industry', 'employment', 'employment_prct_relative_se',
+                             'hr_wage_mean', 'annual_wage_mean', 'wage_prct_relative_se','hr_wage_10_prcentile',
+                              'hr_wage_25_prcentile', 'hr_wage_median', 'hr_wage_75_prcentile',
+                              'hr_wage_90_prcentile', 'annual_wage_10_prcentile',
+                              'annual_wage_25_prcentile', 'annual_wage_median', 'annual_wage_75_prcentile',
+                              'annual_wage_90_prcentile')
+
+
+oes_df = oes |>
+  mutate(soc = str_match(industry, "\\s*(\\d{2}-\\d{2,}[A-Z]*\\d*)")[,2]) |>
+  mutate(soc = stri_pad_right(str_replace(soc, '-', ''), 8, 0)) |>
+  mutate(sector_soc_1 =  str_match(industry, "^Sector(s)*\\s{1}(.*)\\s-.*")[,3]) |>
+  mutate(sector_soc_2 = str_match(industry, "\\s*(\\d{2}---\\d{2})")[,2]) |>
+  mutate(sector_soc = ifelse(is.na(sector_soc_1), sector_soc_2, sector_soc_1)) |>
+  mutate(sector_soc = str_replace(str_replace(str_replace(sector_soc, '---', ', '), 'and', ', '), ', ,', ',')) |>
+  mutate(segment_soc = ifelse(is.na(sector_soc), sector_soc, stri_pad_right(sector_soc, 8, 0))) |>
+  mutate(industry = gsub( " \\(.*$", "", industry))
+```
+
+
+## industry tody normalized tables
+```{r}
+family_hr_wage_df = 
+  oes_df |>
+  filter(is.na(segment_soc)) |>
+  select(soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hourly_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars)))
+
+family_annual_wage_df = 
+  oes_df |>
+  filter(is.na(segment_soc)) |>
+  select(soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars)))
+```
+
+```{r}
+segemnt_hr_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hr_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+
+
+segemnt_annual_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+```
+
+```{r}
+element_ref=
+  skills_df|>
+  select(element_id, element_name) |>
+  distinct()
+
+
+im_skills_df = skills_df |>
+  filter(scale_id == 'IM') |>
+  select(class_code, class_title, element_id, value)
+
+level_skills_df = skills_df |>
+  filter(scale_id == 'LV') |>
+  select(class_code, class_title, element_id, value)
+```
+
+
+
+
