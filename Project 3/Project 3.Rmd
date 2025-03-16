@@ -16,8 +16,33 @@ library(tidyverse)
 library(stringi)
 ```
 
+# DATA 607 Project 3 Project Proposal 
+
+## Group Members 
+-Alina Vikhnevich 
+-Olivia Azevedo 
+-Alyssa Gurkas 
+-Musrat Jahan 
+
+## Collaboration Tools 
+
+-Text Group Chat – communication between team members 
+-GitHub – code sharing  
+-Microsoft Office 365 – project planning, documentation, and presentation development 
+-R Studio – tidying, transforming, and analyzing data 
+
+## Data Sources 
+
+[Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data source provides detailed information on computer and mathematical occupations. In this project, we may use the Bureau of Labor Statistics to identify occupational codes related to data science, and relevant information such as income.  
+
+[GitHub Archive](https://www.gharchive.org/) - This data source includes information about GitHub activity and may be used to track which languages developers are using, key terms in projects, and committed changes.  
+
+[Projections Central](https://projectionscentral.org/directdownloads) - This data source includes projections of industry and occupational employment by state and the US. This could be used to explore the projected outcome for certain occupations related to data science such as data scientists, analysts, data engineers, and data architects.  
+
+[O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The O\*NET database outlines various information that describe work and worker characteristics, including skill requirements for many occupations. This data source may be used to explore skillsets, applications, and programming languages used in occupations related to data science.  
+
 ## Read Data
-```{r cars}
+```{r load-data}
 skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
 oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
