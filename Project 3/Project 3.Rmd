@@ -26,10 +26,10 @@ library(stringi)
 
 ## Collaboration Tools 
 
--Text Group Chat – communication between team members 
--GitHub – code sharing  
--Microsoft Office 365 – project planning, documentation, and presentation development 
--R Studio – tidying, transforming, and analyzing data 
+-*Text Group Chat* – communication between team members 
+-*GitHub* – code sharing  
+-*Microsoft Office 365* – project planning, documentation, and presentation development 
+-*R Studio* – tidying, transforming, and analyzing data 
 
 ## Data Sources 
 
@@ -43,16 +43,29 @@ library(stringi)
 
 ## Read Data
 ```{r load-data}
+# load the O*NET Skills Dataset, data dictionary available here: 
+# https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
 skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
+
+# load the OES Data [insert info on where data came from]
 oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
                   header = FALSE)
 
+# load the United Nations Standard Products and Services Code [insert info on where data came from]
 soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
 ```
 
 ```{r col-names-soc-ref}
-colnames(soc_ref) = c('commodity_code', 'commodity_title', 'class_code', 'class_title', 'family_code', 'family_title', 'segment_code', 'segment_title')
+colnames(soc_ref) = c(
+                        'commodity_code', 
+                        'commodity_title', 
+                        'class_code', 
+                        'class_title', 
+                        'family_code', 
+                        'family_title', 
+                        'segment_code', 
+                        'segment_title')
 
 soc_ref = soc_ref |>
   mutate_all(as.character)
@@ -67,8 +80,6 @@ colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 
 skills_df = skills |>
   mutate(class_code = str_replace(str_replace(class_code, '\\.', ''), '-', ''))
 ```
-
-
 
 
 ```{r col-names-oes}
@@ -90,7 +101,6 @@ oes_df = oes |>
   mutate(segment_soc = ifelse(is.na(sector_soc), sector_soc, stri_pad_right(sector_soc, 8, 0))) |>
   mutate(industry = gsub( " \\(.*$", "", industry))
 ```
-
 
 ## industry tidy normalized tables
 ```{r tbls-industry}
@@ -150,7 +160,6 @@ element_ref=
   select(element_id, element_name) |>
   distinct()
 
-
 im_skills_df = skills_df |>
   filter(scale_id == 'IM') |>
   select(class_code, class_title, element_id, value)
@@ -161,11 +170,15 @@ level_skills_df = skills_df |>
 ```
 
 ## Logical Model 
-To create the logical model, the [ReDaMoR](https://cran.r-project.org/web/packages/ReDaMoR/vignettes/ReDaMoR.html#1_Introduction) 
-R Package can be used. Logical models [insert purpose here].
+Logical models can be used to visualize the structure of 
+data elements and the relationships among them.
 
+[insert image here]
 
 ## Entity Relationship Diagram 
+Entity Relationship Diagrams specify the nature of the relationship between 
+tables in a database.
 
+[insert image here]
 
 
