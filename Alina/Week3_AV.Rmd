@@ -1,0 +1,223 @@
+---
+title: 'Week 3 Assignment: Normalization and Character Manipulation'
+author: "Alina Vikhnevich"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+library(dplyr)
+library(stringr)
+library(DBI)
+library(RMySQL)
+library(ggplot2)
+```
+
+# **Introduction**
+
+Normalization and character manipulation are essential for structuring and analyzing data efficiently. Using MySQL in R, I normalized movie rating data into structured tables, ensuring consistency and reducing redundancy. For text analysis, I extracted majors containing "DATA" or "STATISTICS" and used regular expressions to detect word patterns. These techniques are valuable for data cleaning, querying, and preparing unstructured data for deeper analysis.
+
+## **Task #1: Normalization in R**
+
+**(Using MySQL Database)**
+
+```{r db_connection, echo=TRUE}
+# Secure connection to MySQL database
+password <- Sys.getenv("MYSQL_PWD")
+
+conn <- tryCatch(
+  dbConnect(MySQL(), 
+            user = "root", 
+            password = password, 
+            host = "127.0.0.1", 
+            dbname = "movies"),
+  error = function(e) {
+    message("Error: ", e$message)
+    return(NULL)
+  }
+)
+
+if (!is.null(conn)) {
+  print("Database connection successful.")
+  ratings_df <- dbGetQuery(conn, "SELECT * FROM ratings;")
+} else {
+  stop("Database connection failed. Check credentials and try again.")
+}
+```
+
+Normalization ensures data is stored in a structured and efficient way. Below are three normalized dataframes:
+
+**Users Table**
+
+```{r}
+users <- dbGetQuery(conn, "SELECT user_id, user_name, user_preference FROM users;")
+users
+```
+
+**Movies Table**
+
+```{r}
+movies <- dbGetQuery(conn, "SELECT movie_id, movie_title, movie_genre FROM movies;")
+movies
+```
+
+**Ratings Table**
+
+```{r}
+ratings <- dbGetQuery(conn, "SELECT rating_id, user_id, movie_id, rating FROM ratings_records;")
+ratings
+```
+
+This normalized structure prevents data redundancy and update anomalies. Each table represents a single entity and references other tables using foreign keys.
+
+------------------------------------------------------------------------
+
+## **Task #2: Character Manipulation:**
+
+**College Majors Dataset**
+
+We extract majors containing **DATA** or **STATISTICS** from the dataset available at FiveThirtyEight.
+
+```{r}
+# Read in the dataset
+majors <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv")
+
+# Find majors containing "DATA" or "STATISTICS"
+data_statistics_majors <- majors %>% 
+  filter(str_detect(Major, "DATA|STATISTICS")) %>% 
+  select(Major)
+
+data_statistics_majors
+```
+
+------------------------------------------------------------------------
+
+## **Task #3: Understanding Regular Expressions**
+
+``` r
+(.)\1\1
+```
+
+This pattern matches any single character repeated three times in a row.
+
+**Breakdown:**
+
+-   `(.)` → Captures any one character.
+-   `\1` → Refers back to the same captured character.
+-   `\1` → Again, repeats the captured character.
+
+**Examples that match:** `"aaa"`, `"111"`, `"ccc"`
+
+``` r
+"(.)(.)\\2\\1"
+```
+
+This pattern matches **four-character palindromes** (mirror patterns).
+
+**Breakdown:**
+
+-   `(.)` → Captures the first character.
+-   `(.)` → Captures the second character.
+-   `\2` → Must match the second captured character again.
+-   `\1` → Must match the first captured character again.
+
+**Examples that match:** `"abba"`, `"1221"`, `"boob"`
+
+``` r
+(..)\1
+```
+
+This pattern matches any **two-character sequence repeated twice in a row**.
+
+**Breakdown:**
+
+-   `(..)` → Captures two characters.
+-   `\1` → Must repeat the same two characters.
+
+**Examples that match:** `"abab"`, `"1212"`, `"cfcf"`
+
+``` r
+"(.).\\1.\\1"
+```
+
+This pattern matches a character appearing at positions 1, 3, and 5.
+
+**Breakdown:**
+
+-   `(.)` → Captures one character.
+-   `.` → Matches any character (acts as a placeholder).
+-   `\1` → Must match the first captured character.
+-   `.` → Matches any character.
+-   `\1` → Again, must match the first captured character.
+
+**Examples that match:** `"abaca"`, `"1x1x1"`, `"momom"`
+
+``` r
+"(.)(.)(.).*\\3\\2\\1"
+```
+
+This pattern matches a **six-character palindrome** (with any number of characters in between).
+
+**Breakdown:**
+
+-   `(.)` → Captures the first character.
+-   `(.)` → Captures the second character.
+-   `(.)` → Captures the third character.
+-   `.*` → Matches any number of characters in between.
+-   `\3` → Must match the third captured character.
+-   `\2` → Must match the second captured character.
+-   `\1` → Must match the first captured character.
+
+**Examples that match:** `"xyzzyx"`, `"123xx321"`, `"abcddcba"`
+
+------------------------------------------------------------------------
+
+## **Task #4: Constructing Regular Expressions**
+
+**Start and end with the same character**
+
+```{r}
+start_end_same <- "^(.).*\\1$"
+```
+
+**Contain a repeated pair of letters**
+
+```{r}
+repeated_pair <- "(..).*\\1"
+```
+
+**Contain one letter repeated in at least three places**
+
+```{r}
+letter_repeated_three <- "(.).*\\1.*\\1"
+```
+
+***Test:***
+
+```{r}
+# Sample test words
+words <- c("level", "noon", "church", "mississippi", "banana", "racecar")
+
+# Test each pattern
+matches_1 <- words[str_detect(words, start_end_same)]
+matches_2 <- words[str_detect(words, repeated_pair)]
+matches_3 <- words[str_detect(words, letter_repeated_three)]
+
+# Print results
+list(
+  "Start and end with the same character" = matches_1,
+  "Contains a repeated pair of letters" = matches_2,
+  "Contains a letter repeated 3 times" = matches_3
+)
+```
+
+------------------------------------------------------------------------
+
+## **Conclusion**
+
+This assignment focused on normalization, text filtering, and regular expressions to clean and structure data effectively. Using SQL in R, we normalized datasets to improve consistency and avoid redundancy. Character manipulation techniques helped extract relevant text data, while regex patterns allowed complex string analysis. These skills are crucial for efficient data processing and analysis.
+
+```{r cleanup, include=FALSE}
+dbDisconnect(conn)
+```

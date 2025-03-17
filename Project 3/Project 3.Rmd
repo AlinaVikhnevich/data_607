@@ -1,0 +1,184 @@
+---
+title: "Project 3"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringi)
+```
+
+# DATA 607 Project 3 Project Proposal 
+
+## Group Members 
+-Alina Vikhnevich 
+-Olivia Azevedo 
+-Alyssa Gurkas 
+-Musrat Jahan 
+
+## Collaboration Tools 
+
+-*Text Group Chat* – communication between team members 
+-*GitHub* – code sharing  
+-*Microsoft Office 365* – project planning, documentation, and presentation development 
+-*R Studio* – tidying, transforming, and analyzing data 
+
+## Data Sources 
+
+[Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data source provides detailed information on computer and mathematical occupations. In this project, we may use the Bureau of Labor Statistics to identify occupational codes related to data science, and relevant information such as income.  
+
+[GitHub Archive](https://www.gharchive.org/) - This data source includes information about GitHub activity and may be used to track which languages developers are using, key terms in projects, and committed changes.  
+
+[Projections Central](https://projectionscentral.org/directdownloads) - This data source includes projections of industry and occupational employment by state and the US. This could be used to explore the projected outcome for certain occupations related to data science such as data scientists, analysts, data engineers, and data architects.  
+
+[O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The O\*NET database outlines various information that describe work and worker characteristics, including skill requirements for many occupations. This data source may be used to explore skillsets, applications, and programming languages used in occupations related to data science.  
+
+## Read Data
+```{r load-data}
+# load the O*NET Skills Dataset, data dictionary available here: 
+# https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
+skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
+
+# load the OES Data [insert info on where data came from]
+oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
+                  skip = 6, nrows = 284,
+                  header = FALSE)
+
+# load the United Nations Standard Products and Services Code [insert info on where data came from]
+soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
+```
+
+```{r col-names-soc-ref}
+colnames(soc_ref) = c(
+                        'commodity_code', 
+                        'commodity_title', 
+                        'class_code', 
+                        'class_title', 
+                        'family_code', 
+                        'family_title', 
+                        'segment_code', 
+                        'segment_title')
+
+soc_ref = soc_ref |>
+  mutate_all(as.character)
+```
+
+
+```{r col-names-skills}
+colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 'scale_id', 'scale_name',
+                     'value', 'n', 'se', 'lower_ci', 'upper_ci', 'recommend_suppress', 
+                      'not_relevant', 'date', 'domain_source')
+
+skills_df = skills |>
+  mutate(class_code = str_replace(str_replace(class_code, '\\.', ''), '-', ''))
+```
+
+
+```{r col-names-oes}
+colnames(oes) = c('industry', 'employment', 'employment_prct_relative_se',
+                             'hr_wage_mean', 'annual_wage_mean', 'wage_prct_relative_se','hr_wage_10_prcentile',
+                              'hr_wage_25_prcentile', 'hr_wage_median', 'hr_wage_75_prcentile',
+                              'hr_wage_90_prcentile', 'annual_wage_10_prcentile',
+                              'annual_wage_25_prcentile', 'annual_wage_median', 'annual_wage_75_prcentile',
+                              'annual_wage_90_prcentile')
+
+
+oes_df = oes |>
+  mutate(soc = str_match(industry, "\\s*(\\d{2}-\\d{2,}[A-Z]*\\d*)")[,2]) |>
+  mutate(soc = stri_pad_right(str_replace(soc, '-', ''), 8, 0)) |>
+  mutate(sector_soc_1 =  str_match(industry, "^Sector(s)*\\s{1}(.*)\\s-.*")[,3]) |>
+  mutate(sector_soc_2 = str_match(industry, "\\s*(\\d{2}---\\d{2})")[,2]) |>
+  mutate(sector_soc = ifelse(is.na(sector_soc_1), sector_soc_2, sector_soc_1)) |>
+  mutate(sector_soc = str_replace(str_replace(str_replace(sector_soc, '---', ', '), 'and', ', '), ', ,', ',')) |>
+  mutate(segment_soc = ifelse(is.na(sector_soc), sector_soc, stri_pad_right(sector_soc, 8, 0))) |>
+  mutate(industry = gsub( " \\(.*$", "", industry))
+```
+
+## industry tidy normalized tables
+```{r tbls-industry}
+family_hr_wage_df = 
+  oes_df |>
+  filter(is.na(segment_soc)) |>
+  select(soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hourly_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars)))
+
+family_annual_wage_df = 
+  oes_df |>
+  filter(is.na(segment_soc)) |>
+  select(soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars)))
+```
+
+```{r wage-tbls}
+segemnt_hr_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hr_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+
+
+segemnt_annual_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+```
+
+```{r skills-tbls}
+element_ref=
+  skills_df|>
+  select(element_id, element_name) |>
+  distinct()
+
+im_skills_df = skills_df |>
+  filter(scale_id == 'IM') |>
+  select(class_code, class_title, element_id, value)
+
+level_skills_df = skills_df |>
+  filter(scale_id == 'LV') |>
+  select(class_code, class_title, element_id, value)
+```
+
+## Logical Model 
+Logical models can be used to visualize the structure of 
+data elements and the relationships among them.
+
+[insert image here]
+
+## Entity Relationship Diagram 
+Entity Relationship Diagrams specify the nature of the relationship between 
+tables in a database.
+
+[insert image here]
+
+
