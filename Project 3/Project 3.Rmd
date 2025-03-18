@@ -47,10 +47,9 @@ library(stringr)
     occupations. In this project, we may use the Bureau of Labor
     Statistics to identify occupational codes related to data science,
     and relevant information such as income.
--   [GitHub Archive](https://www.gharchive.org/) - This data source
-    includes information about GitHub activity and may be used to track
-    which languages developers are using, key terms in projects, and
-    committed changes.
+-   [United Nations Standard Products and Services Code](https://www.undp.org/unspsc) - 
+    This data source includes information about products and services and can be
+    used to analyze company expenditures.
 -   [Projections Central](https://projectionscentral.org/directdownloads) - This data
     source includes projections of industry and occupational employment
     by state and the US. This could be used to explore the projected
@@ -70,7 +69,7 @@ library(stringr)
 # https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
 skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
 
-# load the OES Data [insert info on where data came from]
+# load the OES Data, exported from here: https://www.bls.gov/oes/tables.htm
 oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
                   header = FALSE)
