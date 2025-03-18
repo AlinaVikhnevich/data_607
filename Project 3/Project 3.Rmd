@@ -21,9 +21,16 @@ library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(htmlwidgets)
 ```
 
-# Proposal
+```{r chunk-settings, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,      
+  results = "hide", 
+  warning = FALSE,  
+  error = FALSE,   
+  message = FALSE)
+```
 
 ## Group Members
 
@@ -62,9 +69,8 @@ library(stringr)
     applications, and programming languages used in occupations related
     to data science.
 
-## Read Data
-
 ```{r load-data}
+## Reading Data
 # load the O*NET Skills Dataset, data dictionary available here: 
 # https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
 skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
@@ -122,9 +128,8 @@ oes_df = oes |>
   mutate(industry = gsub( " \\(.*$", "", industry))
 ```
 
-## Industry tidy normalized tables
-
 ```{r tbls-industry}
+## Industry tidy normalized tables
 family_hr_wage_df = 
   oes_df |>
   dplyr::filter(is.na(segment_soc)) |>
@@ -210,7 +215,7 @@ statistics, and job market trends.
 -   **Employment_Statistics** (`job_id`, `industry_id`,
     `hourly_median_wage`, `annual_median_wage`, `employment_count`)
     
-```{r logical-model}   
+```{r logical-model, echo=FALSE, include=TRUE, results='asis'}   
 grViz("
 digraph Logical_Model {
 
@@ -253,21 +258,22 @@ digraph Logical_Model {
 Entity Relationship Diagrams specify the nature of the relationship
 between tables in a database.
 
-```{r er-diagram}
+```{r er-diagram, echo=FALSE, include=TRUE, results='asis'}
 grViz("
 digraph ER_Diagram {
   
-  graph [layout = dot, rankdir = LR]
+  # creating 'graph' statement
+  graph [layout = dot, rankdir = LR, fontsize=12]
 
   # Define node styles
-  node [shape = rectangle, style = filled, fillcolor = lightblue]
+  node [shape = rectangle, style = filled, fillcolor = lightblue,fixedsize=FALSE,fontname = Calibri]
 
   # Entities
-  Jobs [label = 'Jobs\\n(job_id, title, SOC_code, industry, median_salary, projected_growth)']
-  Skills [label = 'Skills\\n(skill_id, name, category, importance, level)']
-  Job_Skills [label = 'Job_Skills\\n(job_id, skill_id)']
-  Industries [label = 'Industries\\n(industry_id, name, description)']
-  Employment_Statistics [label = 'Employment_Statistics\\n(job_id, industry_id, hourly_median_wage, annual_median_wage, employment_count)']
+  Jobs [label = 'Jobs\\n(job_id, \\ntitle, \\nSOC_code, \\nindustry, \\nmedian_salary, \\nprojected_growth)']
+  Skills [label = 'Skills\\n(skill_id, \\nname, \\ncategory, \\nimportance, \\nlevel)']
+  Job_Skills [label = 'Job_Skills\\n(job_id, \\nskill_id)']
+  Industries [label = 'Industries\\n(industry_id, \\nname, \\ndescription)']
+  Employment_Statistics [label = 'Employment_Statistics\\n(job_id, \\nindustry_id, \\nhourly_median_wage, \\nannual_median_wage,\\nemployment_count)']
 
   # Relationships
   Jobs -> Job_Skills [label = 'Many-to-Many']
