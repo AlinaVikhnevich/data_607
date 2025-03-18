@@ -75,7 +75,7 @@ oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/
                   skip = 6, nrows = 284,
                   header = FALSE)
 
-# load the United Nations Standard Products and Services Code [insert info on where data came from]
+# load the United Nations Standard Products and Services Code, exported from here: https://www.ungm.org/public/unspsc
 soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
 ```
 
