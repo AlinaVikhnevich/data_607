@@ -1,0 +1,915 @@
+---
+title: 'Project 2: Data Transformation'
+author: 'Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan'
+date: "`r Sys.Date()`"
+output:
+  
+  html_document:
+    
+    theme: cerulean
+    toc: true
+    toc_float: true
+    number_sectons: false
+    toc_collapsed: true
+    toc_depth: 1
+  pdf_document:
+    toc: true
+    toc_depth: '1'
+always_allow_html: true    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+
+
+knit_table <- function(df, caption='', position = 'left') {
+  kbl(df, format = "html", escape = FALSE, caption = caption) |>
+    kable_styling(
+      full_width = F,
+      position = position,
+      bootstrap_options = c("striped")) |>
+    row_spec(0, bold = T,
+             color = "white",
+             background = "#327fac",
+             extra_css = "border: 2px solid #327fac;") |>
+    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #327fac;") |>
+    column_spec(1, extra_css = "border-left: 2px solid #327fac;") |>
+    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #327fac;")
+}
+```
+
+### Loading libraries:
+
+```{r load libraries, echo=TRUE}
+library(kableExtra)
+library(RSocrata)   
+library(tidyverse)
+library(viridis)
+library(readr)
+library(readxl)
+library(janitor) 
+library(lubridate)
+library(ggplot2)
+library(scales)
+library(stringr)
+library(forcats)
+```
+
+# **Introduction**
+
+### **Project Overview**
+
+The goal of this project is to tidy, transform, and analyze three different datasets using R, leveraging the `tidyverse`, `tidyr`, and `dplyr` packages. These datasets, originally in an untidy "wide" format, require cleaning, restructuring, and standardization before analysis can be performed.
+
+By the end of this project, we will:
+
+-   Convert three untidy datasets into a structured format for analysis.
+-   Perform data wrangling using `tidyr` and `dplyr` to clean and reshape the data.
+-   Conduct exploratory data analysis (EDA) to uncover insights and trends.
+-   Document the transformation process and provide meaningful conclusions.
+
+This project is a collaborative effort, and each dataset presents a unique challenge in terms of data cleaning, structuring, and interpretation. The final results will be published as an R Markdown report, demonstrating the power of data transformation techniques.
+
+### **Overview of Datasets**
+
+Each dataset represents a different domain and requires a unique transformation approach. Below is a summary of the datasets used in this project:
+
+1.  **Dataset #1: Emissions Data**
+
+-   **Description**: This dataset provides information on pollutant emissions over multiple years. The data includes various emission sources and their impact over time.
+-   **Data Issues**: The dataset is in wide format, with emissions spread across multiple columns by year.
+-   **Transformation Steps**: We will convert it into a long format, making it easier to analyze trends over time.
+
+2.  **Dataset #2: New York State Department of Environmental Conservation's Application Review & Tracking System from 2020-2025 (DART)**
+
+-   **Description**: This dataset contains public about environment permits issued by New York State's Department of Environmental Conservation. This report explores water permits, regulated under the National Pollutant Discharge Elimination System (NPDES).
+-   **Data Issues**: The dataset is not normalized, and some entries are duplicated.
+-   **Transformation Steps**: We will standardize date formats, remove redundant data, and ensure consistency across permit records.
+
+3.  **Dataset #3: Cheese Nutritional Data**
+
+-   **Description**: This dataset provides nutritional information on various types of cheese.
+-   **Data Issues**: The dataset is structured as a wide table, making it difficult to compare across different cheese types.
+-   **Transformation Steps**: We will reshape the data into a long format, making it easier to compare nutritional values across different cheese varieties.
+
+### **Relevance of These Datasets**
+
+Each dataset requires different data transformation techniques, making them ideal for practicing `tidyr` and `dplyr` functions. The common themes across these datasets include:
+
+-   Converting wide-format data into long format.
+-   Standardizing date and time fields.
+-   Handling missing values and duplicates.
+-   Preparing the data for downstream statistical analysis and visualization.
+
+By applying tidy data principles, we ensure that each dataset is structured, organized, and ready for analysis. The insights gained from this project can be used for policy recommendations, water quality analysis, and compliance to the Clean Water Act.
+
+\clearpage
+
+# **Data Preparation and Cleaning**
+
+## **Emissions Data:**
+
+```{r, echo=TRUE}
+df <- read.csv("https://raw.githubusercontent.com/justin-2028/Total-Emissions-Per-Country-2000-2020/refs/heads/main/Total%20Emissions%20Per%20Country%20(2000-2020).csv")
+
+colnames(df) <- gsub("^X", "", colnames(df))
+
+print(head(df))
+
+unique(df$Unit)
+```
+
+#### Make longer
+
+All the year columns were changed to one column under year. The dataset was made longer. The Unit column was deleted and I put the unit in parentheses in the column name for total emissions since there is just one unit and it is same for all the records. This is now a tidy dataset because every variable is its own column and every observation is its own row. If I add a new record, it will be a new row, not a new column. 
+
+```{r, echo=TRUE}
+df_longer <- df |> 
+  pivot_longer(
+    cols = starts_with("2"), 
+    names_to = "year", 
+    values_to = "total emissions (in kilotonnes)",
+    values_drop_na = TRUE
+  )
+df_longer$Unit <- NULL
+print(head(df_longer))
+
+```
+
+#### Total emissions per country for each year
+
+```{r, echo=TRUE, results='hide'}
+yearly_emissions_by_area <- aggregate(df_longer$'total emissions (in kilotonnes)', by = list(df_longer$year, df_longer$Area), FUN = sum)
+
+yearly_emissions_by_area
+
+#rename columns
+yearly_emissions_by_area <-
+yearly_emissions_by_area %>% 
+  rename(
+    year = Group.1,
+    country = Group.2,
+    emissions = x
+    )
+
+yearly_emissions_by_area
+
+print(head(df_longer))
+```
+
+#### Analyze overall total emissions per country for each year
+
+Too many different countries
+
+```{r, echo=TRUE}
+ggplot(yearly_emissions_by_area, aes(x = year, y = emissions, 
+                                     fill = country)) +
+  geom_tile()
+
+print(head(df))
+```
+
+#### Analyze total emissions over time
+
+As you can see from the graph, total emissions have gone up steadily from 2000 to 2019, but in 2020, it decreased a significant amount. This might be due to more awareness about climate change and global warming.
+
+```{r, echo=TRUE}
+yearly_emissions <- aggregate(df_longer$'total emissions (in kilotonnes)', by=list(df_longer$year), FUN = sum)
+yearly_emissions
+
+#rename columns
+yearly_emissions <-
+yearly_emissions %>% 
+  rename(
+    year = Group.1,
+    emissions = x
+    )
+
+ggplot(yearly_emissions, aes(x = year, y = emissions)) +
+  geom_point()
+```
+
+#### Total emissions per country
+
+Some of the top countries that contributed to emissions are China, USA, Brazil, India, Indonesia, and Democratic Republic of the Congo.
+
+```{r, echo=TRUE}
+emissions_by_area <- aggregate(df_longer$'total emissions (in kilotonnes)', by = list(df_longer$Area), FUN = sum)
+
+#rename columns
+emissions_by_area <-
+emissions_by_area %>% 
+  rename(
+    country = Group.1,
+    emissions = x
+    )
+
+top <- emissions_by_area[order(-emissions_by_area$emissions),]
+
+print(head(df))
+```
+
+#### Analysis of Total emissions per country
+
+too many countries, cant read
+
+```{r}
+ggplot(emissions_by_area, aes(x = country, y = emissions), label=NA)+ geom_point() 
+```
+
+#### Aanalyze by emission type
+
+Emissions (CO2eq) (AR5) are highest. They are over 200,000 kilotonnes. The second highest place is tied with emissions (N20) and emissions (CO2eq) from N20 (AR5). Lowest emissions are (CO2eq) from F-gases, less than 25,000 kilotonnes.
+
+```{r}
+ggplot(df_longer, aes(y=Element)) +
+         geom_bar()
+```
+
+#### USA emission types distribution
+
+The distribution looks very similar to the distribution with the data from all the regions. For USA, the counts are smaller. Highest are emissions (CO2eq) (AR5), a little less than 1250 kilotonnes. Lowest emissions are (CO2eq) from F-gases, around 125 kilotonnes. The second highest place is from emissions (N20), around 950 kilotonnes.
+
+```{r}
+usa <- df_longer %>%
+  filter(Area == "United States of America")
+
+ggplot(usa, aes(y=Element)) +
+         geom_bar()
+```
+
+#### Item Analysis
+
+Highest item is IPCC Agriculture. Second highest is farm gate emissions. Lowest is international bunkers.
+
+```{r}
+ggplot(df_longer, aes(y=Item)) +
+         geom_bar()
+```
+
+#### Item Analysis USA
+
+Highest item is IPCC Agriculture, just like in the overall data. Lowest is drained organic soils (C02) and drained organic soils.
+
+```{r}
+ggplot(usa, aes(y=Item)) +
+         geom_bar()
+```
+
+------------------------------------------------------------------------
+
+\clearpage
+
+## **NYSDEC Water Permit Data (DART):**
+
+#### Loading NYSDEC DART Data
+
+Data used in this section comes from [New York State Department of Environmental Conservation's Application Review & Tracking System (DART on the Web)](https://extapps.dec.ny.gov/cfmx/extapps/envapps/index.cfm).
+
+<br>
+
+DART is a web-based application and tracking system that is designed for the general public. DART hosts information about NYSDEC's processing and issuance of environmental permits under the Uniform Procedures Act. The data is updated daily, and more information about the data can be found in the [data dictionary](https://dev.socrata.com/foundry/data.ny.gov/mbk7-f2r2).
+
+<br> In this section, data was previously filtered to only include DART entries from 2020-2025, and will be focused on waste water permits that discharge to surface water.
+
+```{r load-dart-csv}
+library(readr)
+dart <- read_csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%202/dart_2020_2025.csv")
+```
+
+#### Defining Regex Patterns to Detect NPDES IDs
+
+To identify wastewater permits, there are three regex patterns to identify:
+
+1.  NPDES Permit (meaning a regular permit).
+2.  General Permit
+3.  Individual Permit (these are permits that are processed under general permits).
+
+For more information about permit types please see the question "What are the primary differences between a NODES individual permit and a NPDES general permit" under [EPA's NPDES Permit Basics Site](https://www.epa.gov/npdes/npdes-permit-basics).
+
+```{r defining-regex-patterns}
+# p_type = permit type, in this exercise we are filtering for wastewater permits
+p_type <- c("P/C/I SPDES - Surface Discharge",
+            "Municipal SPDES - Surface Discharge",
+            "Industrial SPDES - Surface Discharge")
+
+# defining the regex patterns for the IDs we want to track
+npdes_pattern <- "NY\\d{7}"
+gp_pattern <- "GP\\d{7}"
+individual_pattern <- "NY[A-Z]\\d{2}[A-Z]\\d{3}"
+all_patterns <- paste(npdes_pattern,gp_pattern,individual_pattern, sep="|")
+```
+
+#### Creating the NPDES Universe
+
+Creating the permit universe pulling from NYSDEC's DART System and detecting the string patterns within DART to assign permit type: npdes, individual(i.e., a permit covered under a general permit), general, or multi (meaning the DART entry had multiple associated IDs).
+
+```{r creating-universe-v1}
+universe <- dart |>  
+  filter(`permit_type` %in% p_type) |>  
+  mutate(
+    npdes = str_count(`other_known_ids`, npdes_pattern), # the str_counts are taking count of permit ID type
+    individual = str_count(`other_known_ids`, individual_pattern),
+    gp =  str_count(`other_known_ids`, gp_pattern),
+    sum_ids = rowSums(across(c(`npdes`, `individual`,`gp`))),
+    npdes_id = str_extract_all(`other_known_ids`, all_patterns),
+    date_received=as.Date(date_received, format = "%d-%m-%Y")
+    ) |> 
+  mutate(applicant_id =cur_group_id(),.by = applicant) |> # creating applicant id
+  mutate(facility_id = cur_group_id(),.by = c(facility,location,town_or_city)) |> # creating facility id
+  distinct() |> # removing duplicate rows 
+  mutate(
+          dart_p_type = case_when(sum_ids  > 1 ~ "multi", # if entry is associated with multiple ids, it is flagged as multi
+                               sum_ids & npdes == 1 ~ "npdes",
+                               sum_ids & individual == 1 ~ "individual",
+                               sum_ids & gp == 1 ~ "gp")) |>  
+  unnest_longer(npdes_id, keep_empty = FALSE) |> 
+  filter(!is.na(npdes_id))
+```
+
+Note: The code above filters entries that did not have a NPDES ID listed in the "Other Known IDs" column, however, were listed as NPDES permits in the Permit Type Column. However, out of 35,642 entries, only 69 were missing NPDES IDs.
+
+#### **Tidy Data**
+
+#### Table 1: Permit Level Data
+
+This table shows the most recent permit information
+
+```{r tbl1-permit-lvl}
+tbl1_permit_lvl <- universe  |> 
+  group_by(npdes_id) |> 
+  slice(which.max(date_received)) |>
+  select(npdes_id,facility_id,application_id,applicant,applicant_id,permit_type,
+         status,date_received,upa_class,seqr_class,seqr_determination,
+         lead_agency,coastal_zone_status, final_disposition,permit_effective_date,
+         permit_expration_date,dec_contact,shpa_status,enivronmental_justice)
+```
+```{r, echo=FALSE}
+knit_table(head(tbl1_permit_lvl), 'Permit Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
+
+#### Table 2: Permit Action Level Data
+
+This table shows the permit history. each observation in this table represents a permit action.
+
+```{r tbl2-permit-action-lvl}
+tbl2_permit_act_lvl <- universe |> 
+    mutate(action_id = paste(npdes_id,date_received, sep = "_")) |> 
+    distinct() |> 
+    mutate(dup_flag = duplicated(action_id),
+           transfer_flag=str_detect(toupper(short_description),"TRANSFER")) |> 
+  select(action_id,facility,facility_id,npdes_id,application_id,applicant,
+         application_type,date_received,status,short_description,
+         enb_publication_date,written_comments_due,dup_flag,transfer_flag)
+
+tbl2_permit_act_lvl$short_description <- tolower(tbl2_permit_act_lvl$short_description)
+```
+```{r, echo=FALSE}
+knit_table(head(tbl2_permit_act_lvl), 'Permit Action Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
+
+#### Table 3: Facility Level Data
+
+This table shows the facility information. Each observation in this table represents a facility associated with NPDES permits.
+
+```{r tbl3-facility-table}
+tbl3_facility_lvl <- universe |> 
+  select(facility_id,facility,
+         location,town_or_city) |> 
+  distinct() |> 
+  arrange(facility_id)
+```
+```{r, echo=FALSE}
+knit_table(head(tbl3_facility_lvl), 'Facility Data Head')
+```
+
+#### Table 4: NPDES Permit Applicant Table
+
+This table shows the applicant information. Each observation in this table represents a permit applicant for NPDES permits.
+
+```{r tbl4-applicant-table}
+tbl4_app_lvl <- universe |> 
+  group_by(applicant_id) |> 
+  slice(which.max(date_received)) |>
+  select(applicant_id,applicant,application_id)
+```
+```{r, echo=FALSE}
+knit_table(head(tbl4_app_lvl), 'NPDES Permit Applicant Data Head')
+```
+
+#### Data Tables and Structure
+
+```         
+(1) Table 1 - permit table: the purpose of this table is to have the most
+recent permit information. This will have one row per permit.
+
+(2) Table 2 - permit action table: the purpose of this table is to have a 
+table with every permit-action. This means there should be one row per
+permit action. 
+
+(3) Table 3 - facility table: the purpose of this table is to have 
+information on the facility. 
+
+(4) Table 4 - applicant table: the purpose of this table is to have 
+information about the applicant.  
+```
+
+#### Data Considerations:
+
+-   There was missing data, such as NPDES IDs. This means that some permit information may not be available.
+-   There may be facilities that are listed as different facilities due to address changes. This information should be verified. Databases like [EPA's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/)) may be helpful for verifying facility information.
+-   For entries that were made on the same day for a particular permit, it is not possible to identify which entry was made first. Permit transfer actions are largely affected by this. Due to this, duplicates and transfers are flagged for manual review.
+
+#### Analysis
+
+```{r permits-summaries}
+permit_status <- tbl1_permit_lvl |> 
+group_by(status) |> 
+  summarize(
+    Count = n(),
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) |> 
+  arrange(desc(Proportion)) |> 
+  head(5) |> 
+  rename("Status" = "status") 
+  
+permit_status$Proportion <- paste0(round(permit_status$Proportion, digits=1),"%")
+
+ggplot(permit_status,aes(x = reorder(Status, -Count), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    geom_text(aes(label=Proportion),
+              hjust=.35)+
+    theme_minimal()+
+    labs(title="Permits by Status",x="Status")+
+    theme(axis.text.y =element_text(angle = 55,hjust=1))+
+    coord_flip()
+
+upa_class <- tbl1_permit_lvl |> 
+group_by(upa_class) |> 
+  summarize(
+    Count = n(),
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) 
+
+upa_class$Proportion <- paste0(round(upa_class$Proportion, digits=1),"%")
+
+ggplot(upa_class,aes(x = reorder(upa_class, -Count), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    geom_text(aes(label=Proportion),
+              hjust=.5,
+              vjust=0.25)+
+    theme_minimal()+
+    labs(title="Permits by UPA Class",x="UPA Class")
+
+final_dis <- tbl1_permit_lvl |> 
+group_by(final_disposition) |> 
+  summarize(
+    Count = n(),
+    Proportion = (n()/nrow(tbl1_permit_lvl))*100
+  ) |> 
+  arrange(desc(Count)) |> 
+  head(5)
+
+final_dis$Proportion <- paste0(round(final_dis$Proportion, digits=1),"%")
+final_dis$Count <- as.numeric(final_dis$Count)
+
+final_dis <- final_dis |> 
+  clean_names("title")
+
+ggplot(final_dis,aes(x =reorder(`Final Disposition`,`Count`, .desc = TRUE), y= Count)) +
+    geom_bar(stat="identity", fill="lightblue", width=0.5)+
+    theme_minimal()+
+    labs(title="Permits by Final Disposition",x="Final Disposition")+
+    theme(axis.text.y =element_text(angle = 55,hjust=1))+
+    coord_flip()
+```
+
+```{r}
+app_type <- tbl2_permit_act_lvl |> 
+group_by(application_type) |> 
+  summarize(
+    Count = n(),
+    Proportion = n()/nrow(tbl2_permit_act_lvl)
+  ) |> 
+  clean_names("title") |> 
+  arrange(desc(Count))
+
+knitr::kable(app_type, format ="markdown")
+
+short_desc <- tbl2_permit_act_lvl |>
+  mutate(c_fast_track=coalesce(str_count(short_description,"fast track"),0)) |> 
+  summarize(
+    "Fast Tracked Renewal Actions" = sum(c_fast_track),
+    "Total Actions" = nrow(tbl2_permit_act_lvl),
+    Proportion = sum(c_fast_track)/nrow(tbl2_permit_act_lvl)
+  ) |> 
+  clean_names("title")
+
+knitr::kable(short_desc, format ="markdown")
+```
+
+------------------------------------------------------------------------
+
+\clearpage
+
+## **Cheese Dataset:**
+
+#### Import Data
+
+Read in raw csv file as data frame
+
+```{r load cheese data}
+data <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2024/2024-06-04/cheeses.csv")
+```
+##### View Raw Data
+```{r, echo=FALSE}
+knit_table(head(data), 'Raw Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
+
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(data)[1],
+    Column_Count = dim(data)[2],
+    Null_Count = sum(is.na(data))[1],
+    None_Str_Count = dim(data|>filter(apply(data, 1, function(x) any(x %in% "None"))))[1]
+    ), 'Raw Data Stats')
+```
+
+#### Data Handling
+
+-   select columns needed to tidy and for analysis
+-   fill empty strings and null values with 'None' string
+
+```{r}
+fill_empty_str = function(x){if_else(x=="", 'None' ,x)}
+
+df = data |>
+  select(cheese, milk, country, texture, aroma, flavor) |>
+  mutate_all(fill_empty_str) |>
+  mutate_all(replace_na, "None")
+```
+
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(df)[1],
+    Column_Count = dim(df)[2],
+    Null_Count = sum(is.na(df))[1],
+    None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
+    ), 'Data after Handling Stats')
+```
+
+#### Tidy Data
+
+Tidy data by ensuring each value has its own cell
+
+-   split out each row with listed values (milk, texture, aroma, flavor, country) into individual rows and lengthen the data frame
+
+```{r}
+df = df |>
+  mutate(cheese_id = row_number()) |>
+  separate_rows(country, sep = ', ') |>
+  separate_rows(milk, sep = ', ') |>
+  separate_rows(texture, sep = ', ') |>
+  separate_rows(aroma, sep = ', ') |>
+  separate_rows(flavor, sep = ', ')
+```
+
+##### View Tidy Data 
+```{r, echo=FALSE}
+knit_table(head(df), 'Tidy Data Head')
+```
+
+```{r, echo=FALSE}
+knit_table(tibble(
+    Row_Count = dim(df)[1],
+    Column_Count = dim(df)[2],
+    Null_Count = sum(is.na(df))[1],
+    None_Str_Count = dim(df|>filter(apply(df, 1, function(x) any(x %in% "None"))))[1]
+    ), 'Tidy Data Stats')
+```
+
+#### Normalize Data
+
+Normalize data to reduce redundancy and allow for more efficient analysis
+
+-   create a data frame for each column and create an associated id column for each
+-   replace all column values with respective id value in core data frame
+
+```{r results='hide'}
+create_id_dfs = function(id_prefix, col, df) {
+  id_df = df |>
+    select(all_of(col)) |>
+    distinct() |>
+    arrange(col) |>
+    mutate(id = paste0(id_prefix, row_number()))
+  return(id_df)
+}
+
+cheese_df = df |>
+  select(cheese, cheese_id) |>
+  distinct()
+
+country_df = create_id_dfs('C', 'country', df)
+colnames(country_df) = c('country', 'country_id')
+
+milk_df = create_id_dfs('M', 'milk', df)
+colnames(milk_df) = c('milk', 'milk_id')
+
+texture_df = create_id_dfs('T', 'texture', df)
+colnames(texture_df) = c('texture', 'texture_id')
+
+aroma_df = create_id_dfs('A', 'aroma', df)
+colnames(aroma_df) = c('aroma', 'aroma_id')
+
+flavor_df = create_id_dfs('F', 'flavor', df)
+colnames(flavor_df) = c('flavor', 'flavor_id')
+
+df = left_join(df, country_df, by = join_by(country))
+df = left_join(df, milk_df, by = join_by(milk))
+df = left_join(df, texture_df, by = join_by(texture))
+df = left_join(df, aroma_df, by = join_by(aroma))
+df = left_join(df, flavor_df, by = join_by(flavor))
+
+df = df |>
+  select(cheese_id, country_id, milk_id, texture_id, aroma_id, flavor_id)
+```
+
+##### View Tidy and Normalized Data
+```{r, echo=FALSE}
+knit_table(head(df), 'Normalized Tidy Data Head')
+knit_table(head(cheese_df), 'Cheese Table Head')
+knit_table(head(country_df), 'Country Table Head')
+knit_table(head(milk_df), 'Milk Table Head')
+knit_table(head(texture_df), 'Texture Table Head')
+knit_table(head(aroma_df), 'Aroma Table Head')
+knit_table(head(flavor_df), 'Flavor Table Head')
+```
+
+#### Analysis
+
+**Analysis Requested in Discussion Post:**
+
+1.  What are the most common milks used?
+2.  What are the more common textures associated with cheese?
+3.  Is there a country or region that produces more cheese?
+4.  Are there common aromas or flavors across cheeses made by different milks?
+
+##### 1. Most Common Milks Used
+
+```{r}
+df |>
+  select(cheese_id, milk_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(milk_df, by = join_by(milk_id)) |>
+  mutate(milk = str_to_title(milk)) |>
+  group_by(milk) |>
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(milk, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
+  labs(
+    title = "Most Common Cheese Milk Types",
+    x = "Milk",
+    y = "Count",
+    fill = 'Count Type'
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(size = 11, angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
+
+```
+
+##### 2. Most Common Textures Associated with Cheeses
+
+```{r}
+df |>
+  select(cheese_id, texture_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(texture_df, by = join_by(texture_id)) |>
+  mutate(texture = str_to_title(texture)) |>
+  group_by(texture) |>
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(texture, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.2, preserve = "single")) +
+  labs(
+    title = "Most Common Textures Associated with Cheeses",
+    x = "Texture",
+    y = "Count",
+    fill = 'Count Type'
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size = 8),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
+```
+
+##### 3. Countries Producing Most Cheese
+
+```{r}
+df |>
+  select(cheese_id, country_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(country_df, by = join_by(country_id)) |>
+  mutate(country = str_to_title(country)) |>
+  group_by(country) |>
+  summarise(
+    Total_Count = n(),
+    Unique_Cheese_Count = n_distinct(cheese)) |>
+  mutate(country = ifelse(Unique_Cheese_Count <= 5, 'Other', country)) |>
+  group_by(country) |>
+  summarise(
+    Total_Count = sum(Total_Count),
+    Unique_Cheese_Count = sum(Unique_Cheese_Count)) |>
+  pivot_longer(cols = c(Total_Count, Unique_Cheese_Count)) |>
+  ggplot(aes(x = reorder(country, -value), y = value, fill = name)) +
+  geom_col(position = position_dodge2(width = 0.2, preserve = "single")) +
+  labs(
+    title = "Countries Producing Most Cheese",
+    x = "Country",
+    y = "Count",
+    fill = 'Count Type'
+  ) +
+  theme_classic() + 
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "bottom")
+```
+
+##### 4a. Common Flavors Across Cheeses By Different Milks
+
+```{r}
+top_flavor_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(flavor_df, by = join_by(flavor_id)) |>
+  group_by(flavor, flavor_id) |>
+  summarise(cnt = n(), .groups = 'keep') |>
+  arrange(desc(cnt)) |>
+  head(12)
+
+milk_cnt_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_flavor_df, by = join_by(flavor_id)) |>
+  left_join(milk_df, by = join_by(milk_id)) |>
+  group_by(milk, milk_id) |>
+  summarise(milk_cnt = n(), .groups = 'keep') |>
+  filter(milk_cnt>10)
+  
+df |>
+  select(cheese_id, milk_id, flavor_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_flavor_df, by = join_by(flavor_id)) |>
+  inner_join(milk_cnt_df, by = join_by(milk_id)) |>
+  mutate(
+    flavor = str_to_title(flavor),
+    milk = str_to_title(milk)
+    ) |>
+  group_by(milk) |>
+  mutate(y= n()) |>
+  group_by(milk, flavor) |>
+  mutate(x = n()) |>
+  mutate(Unique_Cheese_Prct =  (x / y)*100) |>
+  select(milk, flavor, Unique_Cheese_Prct, x, milk_cnt, y) |>
+  distinct() |>
+  ggplot(aes(x = milk, y = Unique_Cheese_Prct, fill = flavor)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
+  labs(
+    title = "Top Cheese Flavors and Milk Distribution",
+    subtitle = 'Top 12 Flavors and Milk Types with a Count of at Least 10',
+    x = "Milk",
+    y = "Percent of Milk",
+    fill = 'Flavor'
+  ) +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"))
+```
+
+##### 4b. Common Aromas Across Cheeses By Different Milks
+
+```{r}
+top_aroma_df = df |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  left_join(aroma_df, by = join_by(aroma_id)) |>
+  group_by(aroma, aroma_id) |>
+  summarise(cnt = n(), .groups = 'keep') |>
+  arrange(desc(cnt)) |>
+  head(12)
+
+df |>
+  select(cheese_id, milk_id, aroma_id) |>
+  left_join(cheese_df, by = join_by(cheese_id)) |>
+  inner_join(top_aroma_df, by = join_by(aroma_id)) |>
+  inner_join(milk_cnt_df, by = join_by(milk_id)) |>
+  mutate(
+    aroma = str_to_title(aroma),
+    milk = str_to_title(milk)
+    ) |>
+  group_by(milk) |>
+  mutate(y= n()) |>
+  group_by(milk, aroma) |>
+  mutate(x = n()) |>
+  mutate(Unique_Cheese_Prct =  (x / y)*100) |>
+  select(milk, aroma, Unique_Cheese_Prct, x, milk_cnt, y) |>
+  distinct() |>
+  ggplot(aes(x = milk, y = Unique_Cheese_Prct, fill = aroma)) +
+  geom_col(position = position_dodge2(width = 0.3, preserve = "single")) +
+  labs(
+    title = "Top Cheese Aromas and Milk Distribution",
+    subtitle = 'Top 12 Aromas and Milk Types with a Count of at Least 10',
+    x = "Milk",
+    y = "Percent of Milk",
+    fill = 'Aroma'
+  ) +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    plot.title = element_text(size = 14, face = "bold"))
+```
+
+------------------------------------------------------------------------
+
+\clearpage
+
+# **Exporting Processed Data**
+
+```{r export to csv}
+# Export cleaned Emissions dataset
+write.csv(yearly_emissions_by_area, "yearly_emissions_by_area_cleaned.csv", row.names = FALSE)
+write.csv(yearly_emissions, "yearly_emissions_cleaned.csv", row.names = FALSE)
+write.csv(emissions_by_area, "emissions_by_area_cleaned.csv", row.names = FALSE)
+
+# Export cleaned DART water permit dataset
+write.csv(tbl1_permit_lvl, "tbl1_permit_lvl_cleaned.csv", row.names = FALSE)
+write.csv(tbl2_permit_act_lvl, "tbl2_permit_act_lvl_cleaned.csv", row.names = FALSE)
+write.csv(tbl3_facility_lvl, "tbl3_facility_lvl_cleaned.csv", row.names = FALSE)
+write.csv(tbl4_app_lvl, "tbl4_app_lvl_cleaned.csv", row.names = FALSE)
+
+# Export cleaned Cheese Quality dataset
+write.csv(cheese_df, "cheese_df_cleaned.csv", row.names = FALSE)
+write.csv(country_df, "country_df_cleaned.csv", row.names = FALSE)
+write.csv(milk_df, "milk_df_cleaned.csv", row.names = FALSE)
+write.csv(texture_df, "texture_df_cleaned.csv", row.names = FALSE)
+write.csv(aroma_df, "aroma_df_cleaned.csv", row.names = FALSE)
+write.csv(flavor_df, "flavor_df_cleaned.csv", row.names = FALSE)
+write.csv(df, "final_cheese_data_cleaned.csv", row.names = FALSE)
+
+# Confirm that the files were saved successfully
+list.files(pattern = "*.csv")
+```
+
+### **Why Exporting Matters?**
+
+-   **Preserving Cleaning Efforts:** Once data transformation is complete, saving the cleaned versions prevents the need to redo preprocessing each time.
+-   **Improving Reproducibility:** The structured datasets can be shared with other analysts or data scientists for further analysis.
+-   **Facilitating Advanced Analytics:** The exported `.csv` files are now ready for machine learning models, visualization dashboards, and predictive analytics.
+
+------------------------------------------------------------------------
+
+\clearpage
+
+# **Conclusion**
+
+This project focused on transforming and analyzing three diverse datasets, demonstrating the importance of data wrangling techniques in preparing raw information for meaningful insights. By leveraging `tidyr` and `dplyr`, we efficiently cleaned, structured, and transformed the datasets into a tidy format, making them suitable for downstream analysis.
+
+### **Key Takeaways from Each Dataset:**
+
+1.  **Emissions Data:**
+
+    -   The data was reshaped to a long format, making it easier to analyze changes over time.
+    -   Trends in emissions were identified, providing insights into pollution levels and their environmental implications.
+
+2.  **DART Water Permits Data:**
+
+    -   The dataset was transformed to facilitate trend analysis in water permit issuance from 2020 to 2025.
+    -   Cleaning and standardization helped address inconsistencies, ensuring accurate comparisons across years.
+
+3.  **Cheese Quality Data:**
+
+    -   The dataset was normalized to separate variables, improving its usability.
+    -   Various transformations allowed us to explore relationships between cheese characteristics, quality ratings, and production factors.
+
+### **Overall Insights and Future Applications:**
+
+-   **Data Preparation Matters:**
+
+The process of tidying and transforming data is crucial for accurate and meaningful analysis. Well-structured data improves efficiency in both visualization and modeling.
+
+-   **Standardization & Normalization:**
+
+Converting datasets to tidy formats ensured that values were easily accessible for statistical computation.
+
+-   **Potential for Further Analysis:**
+
+These datasets can now be used for deeper predictive modeling, trend forecasting, and policy recommendations based on their respective domains.
+
+Through this project, we reinforced the significance of data wrangling techniques in real-world data science applications. The ability to tidy, transform, and analyze raw data is a fundamental skill that enhances decision-making and unlocks valuable insights across different industries.
