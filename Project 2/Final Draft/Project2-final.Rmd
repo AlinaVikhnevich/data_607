@@ -119,7 +119,7 @@ print(head(df))
 unique(df$Unit)
 ```
 
-#### Make longer
+#### Tidy
 
 All the year columns were changed to one column under year. The dataset was made longer. The Unit column was deleted and I put the unit in parentheses in the column name for total emissions since there is just one unit and it is same for all the records. This is now a tidy dataset because every variable is its own column and every observation is its own row. If I add a new record, it will be a new row, not a new column. 
 
