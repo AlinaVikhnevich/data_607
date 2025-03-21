@@ -388,7 +388,6 @@ knit_table(head(tbl4_app_lvl), 'NPDES Permit Applicant Data Head')
 
 #### Data Tables and Structure
 
-```         
 (1) Table 1 - permit table: the purpose of this table is to have the most
 recent permit information. This will have one row per permit.
 
@@ -401,13 +400,21 @@ information on the facility.
 
 (4) Table 4 - applicant table: the purpose of this table is to have 
 information about the applicant.  
-```
+
+### Tidy Data
+
+By creating these tables, it will be easier to match this information to other
+datasets, such as the 
+[Environmental Protection Agency's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/) 
+database. For example, without extracting the NPDES ID, it would not be possible
+to look up the relevant permit information in ECHO. 
 
 #### Data Considerations:
 
 -   There was missing data, such as NPDES IDs. This means that some permit information may not be available.
 -   There may be facilities that are listed as different facilities due to address changes. This information should be verified. Databases like [EPA's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/)) may be helpful for verifying facility information.
 -   For entries that were made on the same day for a particular permit, it is not possible to identify which entry was made first. Permit transfer actions are largely affected by this. Due to this, duplicates and transfers are flagged for manual review.
+
 
 #### Analysis
 
