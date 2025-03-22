@@ -23,23 +23,6 @@ library(tidyr)
 library(stringr)
 ```
 
-# Proposal
-
-## Group Members
-
--   Alina Vikhnevich
--   Olivia Azevedo
--   Alyssa Gurkas
--   Musrat Jahan
-
-## Collaboration Tools
-
--   ***Group Chat*** **(Slack)** – communication between team members
--   ***GitHub*** – code sharing
--   ***Microsoft Office 365*** – project planning, documentation, and
-    presentation development
--   ***R Studio*** – tidying, transforming, and analyzing data
-
 ## Data Sources
 
 -   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data
@@ -68,15 +51,15 @@ library(stringr)
 ```{r load-data}
 # load the O*NET Skills Dataset, data dictionary available here: 
 # https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
-skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
+skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/Skills.csv")
 
 # load the OES Data [insert info on where data came from]
-oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
+oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
                   header = FALSE)
 
 # load the United Nations Standard Products and Services Code [insert info on where data came from]
-soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
+soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/UNSPSC%20Reference.csv")
 ```
 
 ```{r col-names-soc-ref}
