@@ -49,7 +49,7 @@ follow a similar cleaning process in the step four (6) develop a segment wage
 table by selecting values from the `soc` column that start with 'annual' and then
 follow a similar cleaning process in the step four.
 
-*Export to Database* - [insert sentence about where data is hosted]
+*Export to Database* - [insert sentence about where data is stored]
 
 *Data Analysis* - [insert sentence about the completed data analysis]
 
@@ -62,7 +62,7 @@ follow a similar cleaning process in the step four.
 
 ## Data Sources
 
--   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data source provides detailed information on computer and mathematical
+-   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data        source provides detailed information on computer and mathematical
     occupations. In this project, we may use the Bureau of Labor
     Statistics to identify occupational codes related to data science,
     and relevant information such as income.
