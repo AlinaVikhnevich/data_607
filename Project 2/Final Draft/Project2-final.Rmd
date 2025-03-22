@@ -4,6 +4,9 @@ author: 'Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat 
 date: "`r Sys.Date()`"
 output:
   
+  pdf_document:
+    toc: true
+    toc_depth: '1'
   html_document:
     
     theme: cerulean
@@ -12,9 +15,6 @@ output:
     number_sectons: false
     toc_collapsed: true
     toc_depth: 1
-  pdf_document:
-    toc: true
-    toc_depth: '1'
 always_allow_html: true    
 ---
 
@@ -124,22 +124,22 @@ unique(df$Unit)
 All the year columns were changed to one column under year. The dataset was made longer. The Unit column was deleted and I put the unit in parentheses in the column name for total emissions since there is just one unit and it is same for all the records. This is now a tidy dataset because every variable is its own column and every observation is its own row. If I add a new record, it will be a new row, not a new column. 
 
 ```{r, echo=TRUE}
-df_longer <- df |> 
+df <- df |> 
   pivot_longer(
     cols = starts_with("2"), 
     names_to = "year", 
     values_to = "total emissions (in kilotonnes)",
     values_drop_na = TRUE
   )
-df_longer$Unit <- NULL
-print(head(df_longer))
+df$Unit <- NULL
+print(head(df))
 
 ```
 
 #### Total emissions per country for each year
 
 ```{r, echo=TRUE, results='hide'}
-yearly_emissions_by_area <- aggregate(df_longer$'total emissions (in kilotonnes)', by = list(df_longer$year, df_longer$Area), FUN = sum)
+yearly_emissions_by_area <- aggregate(df$'total emissions (in kilotonnes)', by = list(df$year, df$Area), FUN = sum)
 
 yearly_emissions_by_area
 
@@ -154,7 +154,7 @@ yearly_emissions_by_area %>%
 
 yearly_emissions_by_area
 
-print(head(df_longer))
+print(head(df))
 ```
 
 #### Analyze overall total emissions per country for each year
@@ -174,7 +174,7 @@ print(head(df))
 As you can see from the graph, total emissions have gone up steadily from 2000 to 2019, but in 2020, it decreased a significant amount. This might be due to more awareness about climate change and global warming.
 
 ```{r, echo=TRUE}
-yearly_emissions <- aggregate(df_longer$'total emissions (in kilotonnes)', by=list(df_longer$year), FUN = sum)
+yearly_emissions <- aggregate(df$'total emissions (in kilotonnes)', by=list(df$year), FUN = sum)
 yearly_emissions
 
 #rename columns
@@ -194,7 +194,7 @@ ggplot(yearly_emissions, aes(x = year, y = emissions)) +
 Some of the top countries that contributed to emissions are China, USA, Brazil, India, Indonesia, and Democratic Republic of the Congo.
 
 ```{r, echo=TRUE}
-emissions_by_area <- aggregate(df_longer$'total emissions (in kilotonnes)', by = list(df_longer$Area), FUN = sum)
+emissions_by_area <- aggregate(df$'total emissions (in kilotonnes)', by = list(df$Area), FUN = sum)
 
 #rename columns
 emissions_by_area <-
@@ -222,7 +222,7 @@ ggplot(emissions_by_area, aes(x = country, y = emissions), label=NA)+ geom_point
 Emissions (CO2eq) (AR5) are highest. They are over 200,000 kilotonnes. The second highest place is tied with emissions (N20) and emissions (CO2eq) from N20 (AR5). Lowest emissions are (CO2eq) from F-gases, less than 25,000 kilotonnes.
 
 ```{r}
-ggplot(df_longer, aes(y=Element)) +
+ggplot(df, aes(y=Element)) +
          geom_bar()
 ```
 
@@ -231,7 +231,7 @@ ggplot(df_longer, aes(y=Element)) +
 The distribution looks very similar to the distribution with the data from all the regions. For USA, the counts are smaller. Highest are emissions (CO2eq) (AR5), a little less than 1250 kilotonnes. Lowest emissions are (CO2eq) from F-gases, around 125 kilotonnes. The second highest place is from emissions (N20), around 950 kilotonnes.
 
 ```{r}
-usa <- df_longer %>%
+usa <- df%>%
   filter(Area == "United States of America")
 
 ggplot(usa, aes(y=Element)) +
@@ -243,7 +243,7 @@ ggplot(usa, aes(y=Element)) +
 Highest item is IPCC Agriculture. Second highest is farm gate emissions. Lowest is international bunkers.
 
 ```{r}
-ggplot(df_longer, aes(y=Item)) +
+ggplot(df, aes(y=Item)) +
          geom_bar()
 ```
 
