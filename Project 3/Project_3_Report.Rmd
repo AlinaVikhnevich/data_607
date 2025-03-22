@@ -28,7 +28,7 @@ library(stringr)
 ```
 
 ## Introduction
-This project explores what are the most valued data science skills. To answer
+This project explores what are the most valuable data science skills. To answer
 this, the following methodology was followed:
 
 *Data Collection* - import data from sources [insert here] 
@@ -250,9 +250,9 @@ is structured, and how it was configured.]**
 
 ### Data Analysis and Visualization
 
-#### Question 1: [insert here]
+#### Question 1: Which skills are considered the most important in the data science field?
 
-#### Question 2: [insert here]
+#### Question 2: What are the
 
 #### Question 3: [insert here]
 
