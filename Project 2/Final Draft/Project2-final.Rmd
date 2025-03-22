@@ -569,7 +569,7 @@ knit_table(tibble(
 Tidy data by ensuring each value has its own cell
 
 -   transform the data from a wide to long format by splitting out each row with listed values into individual rows for each column containing listed values (milk, texture, aroma, flavor, country)
-    + **Note: \ he function `separate_rows` separates the listed values in the specified column and places each value in its own row. By applying this function to each column with listed values, the data becomes tidy. The tidy data is now a long data frame of the original untidy data with a row for each unique value; thus, each value has its own cell.
+    + **Note**: The function `separate_rows` separates the listed values in the specified column and places each value in its own row. By applying this function to each column with listed values, the data becomes tidy. The tidy data is now a long data frame of the original untidy data with a row for each unique value; thus, each value has its own cell.
 
 ```{r}
 df = df |>
