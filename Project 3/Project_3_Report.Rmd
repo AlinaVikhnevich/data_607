@@ -25,15 +25,29 @@ library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(jsonlite)
 ```
 
 ## Introduction
 This project explores what are the most valuable data science skills. To answer
 this, the following methodology was followed:
 
-*Data Collection* - import data from sources [insert here] 
+*Data Collection* - import data from Bureau of Labor Statistics, United Nations
+Standard Products and Services Code, Projections Central, and O*Net (data sources
+are listed below). 
 
-*Data Normalization* - [insert sentence about what data cleaning occurred]
+*Data Normalization* - clean and normalize the data by (1) removing unnecessary 
+strings in the skills data frame so that the values are uniform within the 
+`class_code` column, (2) replacing and matching strings within the OES Data 
+through regex patterns, (3) and pivot the OES dataset wider, and then longer,
+so that every row in the dataset is an observation (4) develop an hourly wage 
+table by selecting values from the `soc` column that start with 'hr'. Then, 
+remove NAs from the wage dataset, and pivot the data longer, and remove 
+characters so that it numeric values be analyzed (5) develop an annual wage
+table by selecting values from the `soc` column that start with 'annual' and then
+follow a similar cleaning process in the step four (6) develop a segment wage
+table by selecting values from the `soc` column that start with 'annual' and then
+follow a similar cleaning process in the step four.
 
 *Export to Database* - [insert sentence about where data is hosted]
 
@@ -42,14 +56,13 @@ this, the following methodology was followed:
 *Summary of Findings* - [insert sentence about summarizing findings]
 
 ### Research Questions
-1. [insert here]
-2. [insert here]
-3. [insert here]
+1. Which skills are considered the most important in the data science field?
+2. What is the relationship between skill importance and job compensation? How does this vary across industries?
+3. ***What is relationship between projected employment and the importance of job skills?***
 
 ## Data Sources
 
--   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data
-    source provides detailed information on computer and mathematical
+-   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data source provides detailed information on computer and mathematical
     occupations. In this project, we may use the Bureau of Labor
     Statistics to identify occupational codes related to data science,
     and relevant information such as income.
@@ -69,23 +82,28 @@ this, the following methodology was followed:
     to data science.
 
 ## Read Data
-
+**NOTE FOR GROUP: Can someone help identify where the link to the downloads for
+OES and SOC came from? I am having a hard time finding it -Alyssa**
 ```{r load-data}
 # load the O*NET Skills Dataset, data dictionary available here: 
 # https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
-skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/Skills.csv")
+skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/Skills.csv")
 
-# load the OES Data [insert info on where data came from]
-oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/OES_Report_Industries_with_DS_Employment.csv",
+# load the OES Data option to create custom table, then input data science and returned all related industries 
+oes <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
                   header = FALSE)
 
-# load the United Nations Standard Products and Services Code [insert info on where data came from]
-soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/UNSPSC%20Reference.csv")
+# load the United Nations Standard Products and Services Code - reference file for occupational codes in:
+soc_ref <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/UNSPSC%20Reference.csv")
+
+# load the projected long-term employment from Projections Central (https://projectionscentral.org/directdownloads) **this is only if we decide to include projections
+proj <- fromJSON("https://public.projectionscentral.org/Projections/LongTermRestJson")
+proj <- as.data.frame(proj)
 ```
 
 ```{r col-names-soc-ref}
-colnames(soc_ref) = c(
+colnames(soc_ref) <- c(
                         'commodity_code', 
                         'commodity_title', 
                         'class_code', 
@@ -95,7 +113,7 @@ colnames(soc_ref) = c(
                         'segment_code', 
                         'segment_title')
 
-soc_ref = soc_ref |>
+soc_ref <- soc_ref |>
   mutate_all(as.character)
 
 # Alyssa to do: include table in report that will be published (using kable package)
@@ -161,7 +179,7 @@ the data tidy. Feedback from Professor Kowalchuk: make sure you highlight the st
 ## Industry tidy normalized tables
 
 ```{r tbls-industry}
-family_hr_wage_df = 
+family_hr_wage_df <- 
   oes_df |>
   dplyr::filter(is.na(segment_soc)) |>
   select(soc, starts_with('hr')) |>
@@ -173,7 +191,7 @@ family_hr_wage_df =
   ) |>
   mutate(dollars = str_remove(dollars, "^\\$"))  # Removes "$"
 
-family_annual_wage_df = 
+family_annual_wage_df <- 
   oes_df |>
   dplyr::filter(is.na(segment_soc)) |>
   select(soc, starts_with('annual')) |>
@@ -187,7 +205,7 @@ family_annual_wage_df =
 ```
 
 ```{r wage-tbls}
-segemnt_hr_wage_df = oes_df |>
+segemnt_hr_wage_df <- oes_df |>
   drop_na(segment_soc) |>
   select(segment_soc, starts_with('hr')) |>
   pivot_longer(
@@ -199,7 +217,7 @@ segemnt_hr_wage_df = oes_df |>
   mutate(dollars = substr(dollars, 2, length(dollars))) 
 
 
-segemnt_annual_wage_df = oes_df |>
+segemnt_annual_wage_df <- oes_df |>
   drop_na(segment_soc) |>
   select(segment_soc, starts_with('annual')) |>
   pivot_longer(
@@ -212,16 +230,16 @@ segemnt_annual_wage_df = oes_df |>
 ```
 
 ```{r skills-tbls}
-element_ref = 
+element_ref <- 
   skills_df |>
   select(element_id, element_name) |>
   distinct()
 
-im_skills_df = skills_df |>
+im_skills_df <- skills_df |>
   dplyr::filter(scale_id == 'IM') |>
   select(class_code, class_title, element_id, value)
 
-level_skills_df = skills_df |>
+level_skills_df <- skills_df |>
   dplyr::filter(scale_id == 'LV') |>
   select(class_code, class_title, element_id, value)
 ```
@@ -252,9 +270,9 @@ is structured, and how it was configured.]**
 
 #### Question 1: Which skills are considered the most important in the data science field?
 
-#### Question 2: What are the
+#### Question 2: What is the relationship between skill importance and job compensation? How does this vary across industries?
 
-#### Question 3: [insert here]
+#### Question 3: What is relationship between projected employment and the importance of job skills?
 
 ### Summary of Findings
 [insert conclusion paragraph here].
