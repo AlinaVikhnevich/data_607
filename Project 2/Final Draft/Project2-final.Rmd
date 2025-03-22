@@ -4,17 +4,17 @@ author: 'Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat 
 date: "`r Sys.Date()`"
 output:
   
-  pdf_document:
-    toc: true
-    toc_depth: '1'
+  # pdf_document:
+  #   toc: true
+  #   toc_depth: '1'
+
   html_document:
-    
     theme: cerulean
     toc: true
     toc_float: true
     number_sectons: false
     toc_collapsed: true
-    toc_depth: 1
+    toc_depth: 3
 always_allow_html: true    
 ---
 
@@ -22,7 +22,7 @@ always_allow_html: true
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 
 
-knit_table <- function(df, caption='', position = 'left') {
+knit_table <- function(df, caption='', position = 'left', color = '#327fac') {
   kbl(df, format = "html", escape = FALSE, caption = caption) |>
     kable_styling(
       full_width = F,
@@ -30,15 +30,15 @@ knit_table <- function(df, caption='', position = 'left') {
       bootstrap_options = c("striped")) |>
     row_spec(0, bold = T,
              color = "white",
-             background = "#327fac",
-             extra_css = "border: 2px solid #327fac;") |>
-    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #327fac;") |>
-    column_spec(1, extra_css = "border-left: 2px solid #327fac;") |>
-    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #327fac;")
+             background = color,
+             extra_css = paste("border: 2px solid", color, ";")) |>
+    row_spec(dim(df)[1], extra_css = paste("border-bottom: 2px solid", color, ";")) |>
+    column_spec(1, extra_css = paste("border-left: 2px solid", color, ";")) |>
+    column_spec(dim(df)[2], extra_css = paste("border-right: 2px solid", color, ";"))
 }
 ```
 
-### Loading libraries:
+#### Loading libraries:
 
 ```{r load libraries, echo=TRUE}
 library(kableExtra)
@@ -57,7 +57,7 @@ library(forcats)
 
 # **Introduction**
 
-### **Project Overview**
+## **Project Overview**
 
 The goal of this project is to tidy, transform, and analyze three different datasets using R, leveraging the `tidyverse`, `tidyr`, and `dplyr` packages. These datasets, originally in an untidy "wide" format, require cleaning, restructuring, and standardization before analysis can be performed.
 
@@ -70,7 +70,7 @@ By the end of this project, we will:
 
 This project is a collaborative effort, and each dataset presents a unique challenge in terms of data cleaning, structuring, and interpretation. The final results will be published as an R Markdown report, demonstrating the power of data transformation techniques.
 
-### **Overview of Datasets**
+## **Overview of Datasets**
 
 Each dataset represents a different domain and requires a unique transformation approach. Below is a summary of the datasets used in this project:
 
@@ -92,7 +92,7 @@ Each dataset represents a different domain and requires a unique transformation 
 -   **Data Issues**: The dataset is structured as a wide table, making it difficult to compare across different cheese types.
 -   **Transformation Steps**: We will reshape the data into a long format, making it easier to compare nutritional values across different cheese varieties.
 
-### **Relevance of These Datasets**
+## **Relevance of These Datasets**
 
 Each dataset requires different data transformation techniques, making them ideal for practicing `tidyr` and `dplyr` functions. The common themes across these datasets include:
 
@@ -114,12 +114,13 @@ df <- read.csv("https://raw.githubusercontent.com/justin-2028/Total-Emissions-Pe
 
 colnames(df) <- gsub("^X", "", colnames(df))
 
-print(head(df))
-
 unique(df$Unit)
 ```
+```{r, echo=FALSE}
+knit_table(head(df), 'Emissions Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
 
-#### Tidy
+### **Emissions Tidy Data**
 
 All the year columns were changed to one column under year. The dataset was made longer. The Unit column was deleted and I put the unit in parentheses in the column name for total emissions since there is just one unit and it is same for all the records. This is now a tidy dataset because every variable is its own column and every observation is its own row. If I add a new record, it will be a new row, not a new column. 
 
@@ -132,16 +133,15 @@ df <- df |>
     values_drop_na = TRUE
   )
 df$Unit <- NULL
-print(head(df))
-
+```
+```{r, echo=FALSE}
+knit_table(head(df), 'Emissions Tidy Data Head', color = '#22a298') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Total emissions per country for each year
 
 ```{r, echo=TRUE, results='hide'}
 yearly_emissions_by_area <- aggregate(df$'total emissions (in kilotonnes)', by = list(df$year, df$Area), FUN = sum)
-
-yearly_emissions_by_area
 
 #rename columns
 yearly_emissions_by_area <-
@@ -151,10 +151,9 @@ yearly_emissions_by_area %>%
     country = Group.2,
     emissions = x
     )
-
-yearly_emissions_by_area
-
-print(head(df))
+```
+```{r, echo=FALSE}
+knit_table(head(yearly_emissions_by_area), 'Yearly Emissions by Country Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Analyze overall total emissions per country for each year
@@ -165,8 +164,6 @@ Too many different countries
 ggplot(yearly_emissions_by_area, aes(x = year, y = emissions, 
                                      fill = country)) +
   geom_tile()
-
-print(head(df))
 ```
 
 #### Analyze total emissions over time
@@ -175,7 +172,6 @@ As you can see from the graph, total emissions have gone up steadily from 2000 t
 
 ```{r, echo=TRUE}
 yearly_emissions <- aggregate(df$'total emissions (in kilotonnes)', by=list(df$year), FUN = sum)
-yearly_emissions
 
 #rename columns
 yearly_emissions <-
@@ -187,6 +183,9 @@ yearly_emissions %>%
 
 ggplot(yearly_emissions, aes(x = year, y = emissions)) +
   geom_point()
+```
+```{r, echo=FALSE}
+knit_table(head(yearly_emissions), 'Total Yearly Emissions  Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Total emissions per country
@@ -205,8 +204,9 @@ emissions_by_area %>%
     )
 
 top <- emissions_by_area[order(-emissions_by_area$emissions),]
-
-print(head(df))
+```
+```{r, echo=FALSE}
+knit_table(head(emissions_by_area), 'Total Emissions by Country Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Analysis of Total emissions per country
@@ -329,7 +329,7 @@ universe <- dart |>
 
 Note: The code above filters entries that did not have a NPDES ID listed in the "Other Known IDs" column, however, were listed as NPDES permits in the Permit Type Column. However, out of 35,642 entries, only 69 were missing NPDES IDs.
 
-#### **Tidy Data**
+### **NYSDEC Water Permit Tidy Data**
 
 #### Table 1: Permit Level Data
 
@@ -345,7 +345,7 @@ tbl1_permit_lvl <- universe  |>
          permit_expration_date,dec_contact,shpa_status,enivronmental_justice)
 ```
 ```{r, echo=FALSE}
-knit_table(head(tbl1_permit_lvl), 'Permit Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+knit_table(head(tbl1_permit_lvl), 'Permit Data Head', color = '#22a298') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Table 2: Permit Action Level Data
@@ -365,7 +365,7 @@ tbl2_permit_act_lvl <- universe |>
 tbl2_permit_act_lvl$short_description <- tolower(tbl2_permit_act_lvl$short_description)
 ```
 ```{r, echo=FALSE}
-knit_table(head(tbl2_permit_act_lvl), 'Permit Action Data Head') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+knit_table(head(tbl2_permit_act_lvl), 'Permit Action Data Head', color = '#22a298') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 #### Table 3: Facility Level Data
@@ -380,7 +380,7 @@ tbl3_facility_lvl <- universe |>
   arrange(facility_id)
 ```
 ```{r, echo=FALSE}
-knit_table(head(tbl3_facility_lvl), 'Facility Data Head')
+knit_table(head(tbl3_facility_lvl), 'Facility Data Head', color = '#22a298')
 ```
 
 #### Table 4: NPDES Permit Applicant Table
@@ -394,12 +394,11 @@ tbl4_app_lvl <- universe |>
   select(applicant_id,applicant,application_id)
 ```
 ```{r, echo=FALSE}
-knit_table(head(tbl4_app_lvl), 'NPDES Permit Applicant Data Head')
+knit_table(head(tbl4_app_lvl), 'NPDES Permit Applicant Data Head', color = '#22a298')
 ```
 
 #### Data Tables and Structure
 
-```         
 (1) Table 1 - permit table: the purpose of this table is to have the most
 recent permit information. This will have one row per permit.
 
@@ -412,7 +411,14 @@ information on the facility.
 
 (4) Table 4 - applicant table: the purpose of this table is to have 
 information about the applicant.  
-```
+
+#### Tidy Data
+
+By creating these tables, it will be easier to match this information to other
+datasets, such as the 
+[Environmental Protection Agency's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/) 
+database. For example, without extracting the NPDES ID, it would not be possible
+to look up the relevant permit information in ECHO. 
 
 #### Data Considerations:
 
@@ -558,11 +564,12 @@ knit_table(tibble(
     ), 'Data after Handling Stats')
 ```
 
-#### Tidy Data
+### **Cheese Tidy Data**
 
 Tidy data by ensuring each value has its own cell
 
--   split out each row with listed values (milk, texture, aroma, flavor, country) into individual rows and lengthen the data frame
+-   transform the data from a wide to long format by splitting out each row with listed values into individual rows for each column containing listed values (milk, texture, aroma, flavor, country)
+    + **Note: \ he function `separate_rows` separates the listed values in the specified column and places each value in its own row. By applying this function to each column with listed values, the data becomes tidy. The tidy data is now a long data frame of the original untidy data with a row for each unique value; thus, each value has its own cell.
 
 ```{r}
 df = df |>
@@ -576,7 +583,7 @@ df = df |>
 
 ##### View Tidy Data 
 ```{r, echo=FALSE}
-knit_table(head(df), 'Tidy Data Head')
+knit_table(head(df), 'Tidy Data Head', color = '#22a298')
 ```
 
 ```{r, echo=FALSE}
@@ -867,7 +874,7 @@ write.csv(df, "final_cheese_data_cleaned.csv", row.names = FALSE)
 list.files(pattern = "*.csv")
 ```
 
-### **Why Exporting Matters?**
+## **Why Exporting Matters?**
 
 -   **Preserving Cleaning Efforts:** Once data transformation is complete, saving the cleaned versions prevents the need to redo preprocessing each time.
 -   **Improving Reproducibility:** The structured datasets can be shared with other analysts or data scientists for further analysis.
@@ -881,7 +888,7 @@ list.files(pattern = "*.csv")
 
 This project focused on transforming and analyzing three diverse datasets, demonstrating the importance of data wrangling techniques in preparing raw information for meaningful insights. By leveraging `tidyr` and `dplyr`, we efficiently cleaned, structured, and transformed the datasets into a tidy format, making them suitable for downstream analysis.
 
-### **Key Takeaways from Each Dataset:**
+## **Key Takeaways from Each Dataset:**
 
 1.  **Emissions Data:**
 
@@ -898,7 +905,7 @@ This project focused on transforming and analyzing three diverse datasets, demon
     -   The dataset was normalized to separate variables, improving its usability.
     -   Various transformations allowed us to explore relationships between cheese characteristics, quality ratings, and production factors.
 
-### **Overall Insights and Future Applications:**
+## **Overall Insights and Future Applications:**
 
 -   **Data Preparation Matters:**
 
