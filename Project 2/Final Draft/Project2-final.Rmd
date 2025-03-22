@@ -414,11 +414,17 @@ information about the applicant.
 
 #### Tidy Data
 
-By creating these tables, it will be easier to match this information to other
-datasets, such as the 
-[Environmental Protection Agency's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/) 
-database. For example, without extracting the NPDES ID, it would not be possible
-to look up the relevant permit information in ECHO. 
+By creating these tables, each row represents a single observation, 
+and each column represents a distinct variable, which aligns with the 
+principles of tidy data. This structure makes it easier to analyze the data, 
+such as grouping and summarizing information across different datasets. For 
+example, extracting the NPDES ID ensures that each permit has its own unique 
+identifier (`npdes_id`) which makes it easier to match this information to 
+other datasets such as the 
+[Environmental Protection Agency's Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov/).
+Without tidying the data in this way, it would be difficult to join datasets or 
+analyze trends at the permit level.
+
 
 #### Data Considerations:
 
