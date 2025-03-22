@@ -1,0 +1,304 @@
+---
+title: "Project 3: Project Proposal"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringi)
+library(DiagrammeR)
+library(dplyr)
+library(tidyr)
+library(stringr)
+```
+
+# Proposal
+
+## Group Members
+
+-   Alina Vikhnevich
+-   Olivia Azevedo
+-   Alyssa Gurkas
+-   Musrat Jahan
+
+## Collaboration Tools
+
+-   ***Group Chat*** **(Slack)** – communication between team members
+-   ***GitHub*** – code sharing
+-   ***Microsoft Office 365*** – project planning, documentation, and
+    presentation development
+-   ***R Studio*** – tidying, transforming, and analyzing data
+
+## Data Sources
+
+-   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data
+    source provides detailed information on computer and mathematical
+    occupations. In this project, we may use the Bureau of Labor
+    Statistics to identify occupational codes related to data science,
+    and relevant information such as income.
+-   [GitHub Archive](https://www.gharchive.org/) - This data source
+    includes information about GitHub activity and may be used to track
+    which languages developers are using, key terms in projects, and
+    committed changes.
+-   [Projections Central](https://projectionscentral.org/directdownloads) - This data
+    source includes projections of industry and occupational employment
+    by state and the US. This could be used to explore the projected
+    outcome for certain occupations related to data science such as data
+    scientists, analysts, data engineers, and data architects.
+-   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
+    O\*NET database outlines various information that describe work and
+    worker characteristics, including skill requirements for many
+    occupations. This data source may be used to explore skillsets,
+    applications, and programming languages used in occupations related
+    to data science.
+
+## Read Data
+
+```{r load-data}
+# load the O*NET Skills Dataset, data dictionary available here: 
+# https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
+skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Skills.csv")
+
+# load the OES Data [insert info on where data came from]
+oes = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/OES_Report_Industries_with_DS_Employment.csv",
+                  skip = 6, nrows = 284,
+                  header = FALSE)
+
+# load the United Nations Standard Products and Services Code [insert info on where data came from]
+soc_ref = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/UNSPSC%20Reference.csv")
+```
+
+```{r col-names-soc-ref}
+colnames(soc_ref) = c(
+                        'commodity_code', 
+                        'commodity_title', 
+                        'class_code', 
+                        'class_title', 
+                        'family_code', 
+                        'family_title', 
+                        'segment_code', 
+                        'segment_title')
+
+soc_ref = soc_ref |>
+  mutate_all(as.character)
+
+head(soc_ref)
+```
+
+```{r col-names-skills}
+colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 'scale_id', 'scale_name',
+                     'value', 'n', 'se', 'lower_ci', 'upper_ci', 'recommend_suppress', 
+                      'not_relevant', 'date', 'domain_source')
+
+skills_df = skills |>
+  mutate(class_code = str_replace(str_replace(class_code, '\\.', ''), '-', ''))
+
+head(skills_df)
+```
+
+```{r col-names-oes}
+colnames(oes) = c('industry', 'employment', 'employment_prct_relative_se',
+                             'hr_wage_mean', 'annual_wage_mean', 'wage_prct_relative_se','hr_wage_10_prcentile',
+                              'hr_wage_25_prcentile', 'hr_wage_median', 'hr_wage_75_prcentile',
+                              'hr_wage_90_prcentile', 'annual_wage_10_prcentile',
+                              'annual_wage_25_prcentile', 'annual_wage_median', 'annual_wage_75_prcentile',
+                              'annual_wage_90_prcentile')
+
+
+oes_df = oes |>
+  mutate(soc = str_match(industry, "\\s*(\\d{2}-\\d{2,}[A-Z]*\\d*)")[,2]) |>
+  mutate(soc = stri_pad_right(str_replace(soc, '-', ''), 8, 0)) |>
+  mutate(sector_soc_1 =  str_match(industry, "^Sector(s)*\\s{1}(.*)\\s-.*")[,3]) |>
+  mutate(sector_soc_2 = str_match(industry, "\\s*(\\d{2}---\\d{2})")[,2]) |>
+  mutate(sector_soc = ifelse(is.na(sector_soc_1), sector_soc_2, sector_soc_1)) |>
+  mutate(sector_soc = str_replace(str_replace(str_replace(sector_soc, '---', ', '), 'and', ', '), ', ,', ',')) |>
+  mutate(segment_soc = ifelse(is.na(sector_soc), sector_soc, stri_pad_right(sector_soc, 8, 0))) |>
+  mutate(industry = gsub( " \\(.*$", "", industry))
+
+oes_df_tidy <- oes_df |> 
+  pivot_longer(
+    cols = starts_with("hr"), 
+    names_to = "hourly wage statistic", 
+    values_to = "hourly wage value",
+    )
+
+oes_df_tidy <- oes_df_tidy |> 
+  pivot_longer(
+    cols = starts_with("annual"), 
+    names_to = "annual wage statistic", 
+    values_to = "annual wage value")
+
+head(oes_df_tidy)
+industry_vector <- oes_df$industry
+str_view(industry_vector, "Computer")
+str_view(industry_vector, "Data")
+#unique(industry_vector)
+```
+
+## Industry tidy normalized tables
+
+```{r tbls-industry}
+family_hr_wage_df = 
+  oes_df |>
+  dplyr::filter(is.na(segment_soc)) |>
+  select(soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hourly_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+  ) |>
+  mutate(dollars = str_remove(dollars, "^\\$"))  # Removes "$"
+
+family_annual_wage_df = 
+  oes_df |>
+  dplyr::filter(is.na(segment_soc)) |>
+  select(soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+  ) |>
+  mutate(dollars = str_remove(dollars, "^\\$"))  # Removes "$"
+```
+
+```{r wage-tbls}
+segemnt_hr_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('hr')) |>
+  pivot_longer(
+    cols = starts_with('hr'),
+    names_to = 'hr_wage_stat',
+    names_prefix = 'hr_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+
+
+segemnt_annual_wage_df = oes_df |>
+  drop_na(segment_soc) |>
+  select(segment_soc, starts_with('annual')) |>
+  pivot_longer(
+    cols = starts_with('annual'),
+    names_to = 'annual_wage_stat',
+    names_prefix = 'annual_wage_',
+    values_to = 'dollars'
+    ) |>
+  mutate(dollars = substr(dollars, 2, length(dollars))) 
+```
+
+```{r skills-tbls}
+element_ref = 
+  skills_df |>
+  select(element_id, element_name) |>
+  distinct()
+
+im_skills_df = skills_df |>
+  dplyr::filter(scale_id == 'IM') |>
+  select(class_code, class_title, element_id, value)
+
+level_skills_df = skills_df |>
+  dplyr::filter(scale_id == 'LV') |>
+  select(class_code, class_title, element_id, value)
+```
+
+## Logical Model
+
+The logical model represents the relationships between different
+entities in the dataset, specifically focusing on skills, employment
+statistics, and job market trends.
+
+**Entities and Attributes:**
+
+-   **Jobs** (`job_id`, `title`, `SOC_code`, `industry`,
+    `median_salary`, `projected_growth`)
+
+-   **Skills** (`skill_id`, `name`, `category`, `importance`, `level`)
+
+-   **Job_Skills** (Bridge Table: `job_id`, `skill_id`)
+
+-   **Industries** (`industry_id`, `name`, `description`)
+
+-   **Employment_Statistics** (`job_id`, `industry_id`,
+    `hourly_median_wage`, `annual_median_wage`, `employment_count`)
+    
+```{r logical-model}   
+grViz("
+digraph Logical_Model {
+
+  graph [layout = dot, rankdir = TB]
+
+  # Define node styles
+  node [shape = rectangle, style = filled, fillcolor = lightblue]
+
+  # Data Sources
+  DataSources [label = 'Raw Data Sources', shape = parallelogram, fillcolor = lightgray]
+  ONET [label = 'O*NET Database \\n(Skills & Job Data)']
+  BLS [label = 'BLS Employment Statistics \\n(Job Salaries)']
+  SkillsCSV [label = 'Skills.csv \\n(Job-Skill Mapping)']
+  IndustryTrends [label = 'Industry Trends Data']
+
+  # Processing
+  Processing [label = 'Data Processing & Normalization', shape = ellipse, fillcolor = lightyellow]
+  Cleaning [label = 'Data Cleaning & \\n Transformation']
+  Normalization [label = 'Normalization of \\n Job & Skill Data']
+
+  # Structured Data Tables (Fixed Black Block)
+  StructuredData [label = 'Final Structured Data', shape = parallelogram, fillcolor = lightgray, style = filled]
+  Jobs [label = 'Jobs Table']
+  Skills [label = 'Skills Table']
+  Employment [label = 'Employment Statistics Table']
+  JobSkills [label = 'Job-Skills Mapping Table']
+
+  # Relationships
+  DataSources -> {ONET BLS SkillsCSV IndustryTrends}
+  {ONET BLS SkillsCSV IndustryTrends} -> Processing
+  Processing -> {Cleaning Normalization}
+  {Cleaning Normalization} -> StructuredData
+  StructuredData -> {Jobs Skills Employment JobSkills}
+}
+")
+```
+
+## Entity Relationship Diagram
+
+Entity Relationship Diagrams specify the nature of the relationship
+between tables in a database.
+
+```{r er-diagram}
+grViz("
+digraph ER_Diagram {
+  
+  graph [layout = dot, rankdir = LR]
+
+  # Define node styles
+  node [shape = rectangle, style = filled, fillcolor = lightblue]
+
+  # Entities
+  Jobs [label = 'Jobs\\n(job_id, title, SOC_code, industry, median_salary, projected_growth)']
+  Skills [label = 'Skills\\n(skill_id, name, category, importance, level)']
+  Job_Skills [label = 'Job_Skills\\n(job_id, skill_id)']
+  Industries [label = 'Industries\\n(industry_id, name, description)']
+  Employment_Statistics [label = 'Employment_Statistics\\n(job_id, industry_id, hourly_median_wage, annual_median_wage, employment_count)']
+
+  # Relationships
+  Jobs -> Job_Skills [label = 'Many-to-Many']
+  Skills -> Job_Skills [label = 'Many-to-Many']
+  Jobs -> Industries [label = 'Many-to-One']
+  Jobs -> Employment_Statistics [label = 'One-to-Many']
+  Industries -> Employment_Statistics [label = 'One-to-Many']
+}
+")
+```
