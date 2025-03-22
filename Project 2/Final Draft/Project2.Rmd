@@ -571,6 +571,9 @@ df = df |>
 ```
 
 ##### View Tidy Data 
+
+The function `separate_rows` separates the listed values in the specified column and places each value in its own row. By applying this function to each column with listed values, the data becomes tidy. The tidy data is now a long data frame of the original untidy data with a row for each unique value; thus, each value has its own cell.
+
 ```{r, echo=FALSE}
 knit_table(head(df), 'Tidy Data Head')
 ```
