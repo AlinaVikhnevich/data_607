@@ -232,7 +232,7 @@ Explain what makes the data tidy, and how it will be used to answer our
 research questions.]**
 
 ### MySQL Database
-**[insert 1-2 sentences here about where data is hosted, how the MySQL database 
+**[insert 1-2 sentences here about where data is stored, how the MySQL database 
 is structured, and how it was configured.]**
 
 #### Database Connection
