@@ -42,9 +42,9 @@ this, the following methodology was followed:
 *Summary of Findings* - [insert sentence about summarizing findings]
 
 ### Research Questions
-1. [insert here]
-2. [insert here]
-3. [insert here]
+1. Which skills are considered the most important in the data science field?
+2. What is the relationship between skill importance and job compensation? How does this vary across industries?
+3. What is relationship between projected employment and the importance of job skills?
 
 ## Data Sources
 
@@ -252,9 +252,9 @@ is structured, and how it was configured.]**
 
 #### Question 1: Which skills are considered the most important in the data science field?
 
-#### Question 2: What are the
+#### Question 2: What is the relationship between skill importance and job compensation? How does this vary across industries?
 
-#### Question 3: [insert here]
+#### Question 3: What is relationship between projected employment and the importance of job skills?
 
 ### Summary of Findings
 [insert conclusion paragraph here].
