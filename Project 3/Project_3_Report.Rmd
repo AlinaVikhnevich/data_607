@@ -13,8 +13,12 @@ editor_options:
     wrap: 72
 ---
 
-```{r setup, include=FALSE}
+```{r chunk-settings, include=FALSE}
+# to be updated 
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, include=FALSE}
 library(tidyverse)
 library(stringi)
 library(DiagrammeR)
@@ -23,6 +27,25 @@ library(tidyr)
 library(stringr)
 ```
 
+## Introduction
+This project explores what are the most valued data science skills. To answer
+this, the following methodology was followed:
+
+*Data Collection* - import data from sources [insert here] 
+
+*Data Normalization* - [insert sentence about what data cleaning occurred]
+
+*Export to Database* - [insert sentence about where data is hosted]
+
+*Data Analysis* - [insert sentence about the completed data analysis]
+
+*Summary of Findings* - [insert sentence about summarizing findings]
+
+### Research Questions
+1. [insert here]
+2. [insert here]
+3. [insert here]
+
 ## Data Sources
 
 -   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data
@@ -30,10 +53,9 @@ library(stringr)
     occupations. In this project, we may use the Bureau of Labor
     Statistics to identify occupational codes related to data science,
     and relevant information such as income.
--   [GitHub Archive](https://www.gharchive.org/) - This data source
-    includes information about GitHub activity and may be used to track
-    which languages developers are using, key terms in projects, and
-    committed changes.
+-   [United Nations Standard Products and Services Code](https://www.undp.org/unspsc) - 
+    This data source includes information about products and services and can be
+    used to analyze company expenditures.
 -   [Projections Central](https://projectionscentral.org/directdownloads) - This data
     source includes projections of industry and occupational employment
     by state and the US. This could be used to explore the projected
@@ -76,6 +98,7 @@ colnames(soc_ref) = c(
 soc_ref = soc_ref |>
   mutate_all(as.character)
 
+# Alyssa to do: include table in report that will be published (using kable package)
 head(soc_ref)
 ```
 
@@ -87,6 +110,7 @@ colnames(skills) = c('class_code', 'class_title', 'element_id', 'element_name', 
 skills_df = skills |>
   mutate(class_code = str_replace(str_replace(class_code, '\\.', ''), '-', ''))
 
+# Alyssa to do: include table in report that will be published (using kable package)
 head(skills_df)
 ```
 
@@ -122,12 +146,17 @@ oes_df_tidy <- oes_df_tidy |>
     names_to = "annual wage statistic", 
     values_to = "annual wage value")
 
+# Alyssa to do: include table in report that will be published (using kable package)
 head(oes_df_tidy)
 industry_vector <- oes_df$industry
 str_view(industry_vector, "Computer")
 str_view(industry_vector, "Data")
 #unique(industry_vector)
 ```
+
+**[Insert information about what the code about does, answer how does this makes
+the data tidy. Feedback from Professor Kowalchuk: make sure you highlight the structure 
+(tidy) of the analysis dataframe in the project submission.]**
 
 ## Industry tidy normalized tables
 
@@ -197,91 +226,35 @@ level_skills_df = skills_df |>
   select(class_code, class_title, element_id, value)
 ```
 
-## Logical Model
+### Data Processing and Normalization
+**[Insert information here about the data processing and normalization process.
+Explain what makes the data tidy, and how it will be used to answer our 
+research questions.]**
 
-The logical model represents the relationships between different
-entities in the dataset, specifically focusing on skills, employment
-statistics, and job market trends.
+### MySQL Database
+**[insert 1-2 sentences here about where data is hosted, how the MySQL database is
+structured, and how it was configured.]**
 
-**Entities and Attributes:**
+#### Database Connection
 
--   **Jobs** (`job_id`, `title`, `SOC_code`, `industry`,
-    `median_salary`, `projected_growth`)
+```{r establish-connection}
+# this is where we should establish the connection to the database
 
--   **Skills** (`skill_id`, `name`, `category`, `importance`, `level`)
-
--   **Job_Skills** (Bridge Table: `job_id`, `skill_id`)
-
--   **Industries** (`industry_id`, `name`, `description`)
-
--   **Employment_Statistics** (`job_id`, `industry_id`,
-    `hourly_median_wage`, `annual_median_wage`, `employment_count`)
-    
-```{r logical-model}   
-grViz("
-digraph Logical_Model {
-
-  graph [layout = dot, rankdir = TB]
-
-  # Define node styles
-  node [shape = rectangle, style = filled, fillcolor = lightblue]
-
-  # Data Sources
-  DataSources [label = 'Raw Data Sources', shape = parallelogram, fillcolor = lightgray]
-  ONET [label = 'O*NET Database \\n(Skills & Job Data)']
-  BLS [label = 'BLS Employment Statistics \\n(Job Salaries)']
-  SkillsCSV [label = 'Skills.csv \\n(Job-Skill Mapping)']
-  IndustryTrends [label = 'Industry Trends Data']
-
-  # Processing
-  Processing [label = 'Data Processing & Normalization', shape = ellipse, fillcolor = lightyellow]
-  Cleaning [label = 'Data Cleaning & \\n Transformation']
-  Normalization [label = 'Normalization of \\n Job & Skill Data']
-
-  # Structured Data Tables (Fixed Black Block)
-  StructuredData [label = 'Final Structured Data', shape = parallelogram, fillcolor = lightgray, style = filled]
-  Jobs [label = 'Jobs Table']
-  Skills [label = 'Skills Table']
-  Employment [label = 'Employment Statistics Table']
-  JobSkills [label = 'Job-Skills Mapping Table']
-
-  # Relationships
-  DataSources -> {ONET BLS SkillsCSV IndustryTrends}
-  {ONET BLS SkillsCSV IndustryTrends} -> Processing
-  Processing -> {Cleaning Normalization}
-  {Cleaning Normalization} -> StructuredData
-  StructuredData -> {Jobs Skills Employment JobSkills}
-}
-")
 ```
 
-## Entity Relationship Diagram
+### Data Cleaning
 
-Entity Relationship Diagrams specify the nature of the relationship
-between tables in a database.
-
-```{r er-diagram}
-grViz("
-digraph ER_Diagram {
-  
-  graph [layout = dot, rankdir = LR]
-
-  # Define node styles
-  node [shape = rectangle, style = filled, fillcolor = lightblue]
-
-  # Entities
-  Jobs [label = 'Jobs\\n(job_id, title, SOC_code, industry, median_salary, projected_growth)']
-  Skills [label = 'Skills\\n(skill_id, name, category, importance, level)']
-  Job_Skills [label = 'Job_Skills\\n(job_id, skill_id)']
-  Industries [label = 'Industries\\n(industry_id, name, description)']
-  Employment_Statistics [label = 'Employment_Statistics\\n(job_id, industry_id, hourly_median_wage, annual_median_wage, employment_count)']
-
-  # Relationships
-  Jobs -> Job_Skills [label = 'Many-to-Many']
-  Skills -> Job_Skills [label = 'Many-to-Many']
-  Jobs -> Industries [label = 'Many-to-One']
-  Jobs -> Employment_Statistics [label = 'One-to-Many']
-  Industries -> Employment_Statistics [label = 'One-to-Many']
-}
-")
+```{r data-analysis}
+# this is where we should analyze the data so that it can be visualized
 ```
+
+### Data Analysis and Visualization
+
+#### Question 1: [insert here]
+
+#### Question 2: [insert here]
+
+#### Question 3: [insert here]
+
+### Summary of Findings
+[insert conclusion paragraph here].
