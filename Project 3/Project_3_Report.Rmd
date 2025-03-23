@@ -78,13 +78,10 @@ follow a similar cleaning process in the step four.
 
 ## Data Sources
 
--   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data        source provides detailed information on computer and mathematical
-    occupations. In this project, we may use the Bureau of Labor
-    Statistics to identify occupational codes related to data science,
-    and relevant information such as income.
-    
-**NOTE [OLIVIA]:** the oes wage data we pulled in is specific to data science. The website verbiage   is "Industry profile for Data Scientists: a list of all industries with employment in Data Scientists
-    
+-   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - 
+    This data source provides detailed information on Data Scientists. This 
+    project uses the Bureau of Labor statistics to identify occupational codes
+    of data scientists and relevant information such as income.
 -   [United Nations Standard Products and Services Code](https://www.undp.org/unspsc) - 
     This data source includes information about products and services and can be
     used to analyze company expenditures.
@@ -131,8 +128,8 @@ proj <- fromJSON("https://public.projectionscentral.org/Projections/LongTermRest
 proj <- as.data.frame(proj)
 ```
 
-define data science occupation (SOC) code
 ```{r}
+# define data science occupation (SOC) code
 data_science_soc = '15-2051'
 ```
 
@@ -145,26 +142,23 @@ colnames(tech_skills) = c(
   'commodity_code', 'commodity_title', 'hot_technology',
   'in_demand')
 
-# Alyssa to do: include table in report that will be published (using kable package)
-```
-```{r, echo = FALSE}
 knit_table(head(tech_skills), 'View Raw Tech Skills Data')
 ```
 
 Normalized tech skills data 
-- create tech skills data reference tables
 ```{r skills-tech-tbls}
+# create tech skills data reference tables
 commodity_ref <- 
   tech_skills |>
   select(commodity_code, commodity_title, tech_skill_example) |>
   distinct()
 ```
-- remove reference table columns from main data frame
+
 ```{r}
+# remove reference table columns from main data frame
 tech_skills_df = tech_skills |>
   select('onet_soc','commodity_code', 'hot_technology','in_demand')
-```
-```{r, echo = FALSE}
+
 knit_table(head(tech_skills_df), 'View Tidy Tech Skills Data')
 ```
 
@@ -207,8 +201,7 @@ ep_skills_df = ep_project_skills |>
   select('soc', 'ep_skills_category_id', 'ep_skills_score',
          'onet_element_id', 'onet_rating_value') |>
   distinct()
-```
-```{r, echo = FALSE}
+
 knit_table(head(ep_skills_df), 'View Tidy Skills Data')
 ```
 
@@ -220,8 +213,7 @@ colnames(soc_industry_project) = c(
   'employment_2023', 'prct_industry_2023', 'prct_soc_2023', 
   'employment_2033', 'prct_industry_2033', 'prct_soc_2033',
   'employment_change_num_2023_33', 'employment_change_prct_2023_33')
-```
-```{r, echo = FALSE}
+
 knit_table(head(ep_skills_df), 'View Raw Industry and Occupation Projection Data')
 ```
 make employment columns to be in thousands as stated in raw data file 
@@ -236,7 +228,7 @@ soc_industry_lnk <-
   select(soc, industry_code) |>
   distinct()
 ```
-create industrya and soc code reference tables
+create industry and soc code reference tables
 ```{r}
 industry_ref <- 
   soc_industry_project |>
@@ -252,13 +244,13 @@ soc_industry_project_df = soc_industry_project |>
   select('industry_code', 'soc', 'employment_2023',
          'prct_industry_2023', 'prct_soc_2023', 'employment_2033', 'prct_industry_2033',
          'prct_soc_2033', 'employment_change_num_2023_33', 'employment_change_prct_2023_33')
-```
-```{r, echo = FALSE}
+
 knit_table(head(soc_industry_project_df), 'View Tidy Industry and Occupation Projection Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 ### OES Data
-**NOTE** this data provides an industry profile for data science meaning the data is specifically based on industries with employment in Data Scientists
+**NOTE** this data provides an industry profile for data science meaning the 
+data is specifically based on industries with employment in Data Scientists
 ```{r col-names-oes}
 colnames(oes) = c(
   'occupation', 'employment', 'employment_prct_relative_se',
@@ -267,8 +259,7 @@ colnames(oes) = c(
   'hr_wage_90_prcentile', 'annual_wage_10_prcentile',
   'annual_wage_25_prcentile', 'annual_wage_median', 'annual_wage_75_prcentile',
   'annual_wage_90_prcentile')
-```
-```{r, echo = FALSE}
+
 knit_table(head(ep_project_skills), 'View Raw Data Science OES Industry Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 - extract soc and industry codes from occupation string column
