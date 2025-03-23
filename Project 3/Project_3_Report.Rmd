@@ -82,9 +82,6 @@ follow a similar cleaning process in the step four. ****REVIEW THIS*****
     This data source provides detailed information on Data Scientists. This 
     project uses the Bureau of Labor statistics to identify occupational codes
     of data scientists and relevant information such as income.
--   [United Nations Standard Products and Services Code](https://www.undp.org/unspsc) - 
-    This data source includes information about products and services and can be
-    used to analyze company expenditures.
 -   [Projections Central](https://projectionscentral.org/directdownloads) - This data
     source includes projections of industry and occupational employment
     by state and the US. This could be used to explore the projected
