@@ -22,10 +22,10 @@ knitr::opts_chunk$set(echo = TRUE)
 This project explores what are the most valuable data science skills. To answer this, the following methodology was followed:
 
 - **Data Collection** - Import data from various sources such as Bureau of Labor Statistics, Projections Central, and O*Net.
-- **Data Normalization** - [Clean and normalize the data using various processing techniques.]
-- **Export to Database** - [Store the processed data.]
-- **Data Analysis** - [Conduct analysis on the structured data.]
-- **Summary of Findings** - [Summarize key insights.]
+- **Data Normalization** - Clean and normalize the data using various processing techniques.
+- **Export to Database** - Store the processed data.
+- **Data Analysis** - Conduct analysis on the structured data.
+- **Summary of Findings** - Summarize key insights.
 
 ### Research Questions
 
@@ -42,12 +42,35 @@ This project explores what are the most valuable data science skills. To answer 
 ## Logical Model
 
 ## Entity Relationship Diagram
+*Data Normalization* 
+To reduce redundancy and improve data integrity, the data in this project was 
+normalized. This helps to ensure that data is stored efficiently, avoiding 
+duplication and inconsistencies, and to have a better-managed database. To 
+normalize the datasets, five core tables were developed, and five reference 
+tables were developed. 
+
+## Unique Identifiers
+This project pulls data from three sources and matches on two IDs: the Standard 
+Occupational Classification (SOC) and the North American Industry Classification 
+System (NAICS) codes. The SOC codes work as a tree structure. The more digits 
+added to the 6-digit SOC code (or 6 digit with 2 decimals O*NET soc code), the 
+more in depth the occupation description becomes.  
 
 ## Load Data
 
 ```{r load-data}
 # insert connection to relational database
 ```
+
+
+
+## Tidy Data
+To tidy the data the team: 
+1. Renamed columns for more intuitive names 
+2. Developed reference tables to store distinct categorical values (e.g., skill categories).  
+3. Removed redundant columns from the core data tables, retaining only relevant fields. 
+4. Transformed certain datasets into a long format for better usability, such as restructuring wage statistics into separate columns for duration, type, and value.
+
 
 ## Data Analysis
 
