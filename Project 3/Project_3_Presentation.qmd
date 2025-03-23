@@ -65,11 +65,11 @@ more in depth the occupation description becomes.
 
 
 ## Tidy Data
-To tidy the data the team: 
-1. Renamed columns for more intuitive names 
-2. Developed reference tables to store distinct categorical values (e.g., skill categories).  
-3. Removed redundant columns from the core data tables, retaining only relevant fields. 
-4. Transformed certain datasets into a long format for better usability, such as restructuring wage statistics into separate columns for duration, type, and value.
+To tidy and normalize the data the team performed the following: 
+1. Renamed columns to allow for more intuitive names as well as ensure columns representing the same data values are referenced the same across all data frames. 
+2. Developed reference tables to store distinct categorical values (e.g., skill categories) and remove partial dependencies. 
+3. Removed redundant columns (such as columns that are represented in reference tables) from the core data tables, retaining only relevant fields for analysis. 
+4. Transformed the OES and Industry and Occupation Projection datasets from wide to  long  to make the data tidy and allow for better usability. By transforming these datasets each variable is its own column, and each observation is its own row (i.e., reducing multiple hourly and annual wage statistics columns into three columns for duration, type, and value); thus, making the data tidy.
 
 
 ## Data Analysis
