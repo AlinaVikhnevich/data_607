@@ -440,17 +440,15 @@ list(
   soc_summary = soc_summary,
   industry_summary = industry_summary
 )
-<<<<<<< HEAD
 ```
-
 ```{r data-analysis-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
 knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
 knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
 knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
-=======
->>>>>>> c4a1e4c7c2d610134304f1b95470039c2afe117f
 ```
+
+
 ```{r data-analysis-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
 knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
