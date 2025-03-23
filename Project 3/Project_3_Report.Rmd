@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r libraries, include=FALSE}
 library(tidyverse)
 library(stringi)
-# library(DiagrammeR)
+library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
