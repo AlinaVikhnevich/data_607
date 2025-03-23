@@ -18,11 +18,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction
+This project explores what are the most valuable data science skills. To answer 
+this, the following methodology was followed:
 
-This project explores what are the most valuable data science skills. To answer this, the following methodology was followed:
-
-- **Data Collection** - Import data from various sources such as Bureau of Labor Statistics, Projections Central, and O*Net.
-- **Data Normalization** - Clean and normalize the data using various processing techniques.
+- **Data Collection** - Import data from various sources such as Bureau of Labor 
+Statistics, Projections Central, and O*Net.
+- **Data Normalization** - Clean and normalize the data using various processing 
+                           techniques.
 - **Export to Database** - Store the processed data.
 - **Data Analysis** - Conduct analysis on the structured data.
 - **Summary of Findings** - Summarize key insights.
@@ -30,8 +32,10 @@ This project explores what are the most valuable data science skills. To answer 
 ### Research Questions
 
 1. Which skills are considered the most important in the data science field?
-2. What is the relationship between skill importance and job compensation? How does this vary across industries?
-3. What is the relationship between projected employment and the importance of job skills?
+2. What is the relationship between skill importance and job compensation? 
+   How does this vary across industries?
+3. What is the relationship between projected employment and the importance of 
+   job skills?
 
 ## Data Sources
 
@@ -62,14 +66,20 @@ more in depth the occupation description becomes.
 # insert connection to relational database
 ```
 
-
-
 ## Tidy Data
 To tidy and normalize the data the team performed the following: 
-1. Renamed columns to allow for more intuitive names as well as ensure columns representing the same data values are referenced the same across all data frames. 
-2. Developed reference tables to store distinct categorical values (e.g., skill categories) and remove partial dependencies. 
-3. Removed redundant columns (such as columns that are represented in reference tables) from the core data tables, retaining only relevant fields for analysis. 
-4. Transformed the OES and Industry and Occupation Projection datasets from wide to  long  to make the data tidy and allow for better usability. By transforming these datasets each variable is its own column, and each observation is its own row (i.e., reducing multiple hourly and annual wage statistics columns into three columns for duration, type, and value); thus, making the data tidy.
+1. Renamed columns to allow for more intuitive names as well as ensure columns 
+representing the same data values are referenced the same across all data 
+frames. 
+2. Developed reference tables to store distinct categorical values 
+(e.g., skill categories) and remove partial dependencies. 
+3. Removed redundant columns (such as columns that are represented in reference 
+tables) from the core data tables, retaining only relevant fields for analysis. 
+4. Transformed the OES and Industry and Occupation Projection datasets from wide 
+to  long  to make the data tidy and allow for better usability. By transforming 
+these datasets each variable is its own column, and each observation is its own 
+row (i.e., reducing multiple hourly and annual wage statistics columns into 
+three columns for duration, type, and value); thus, making the data tidy.
 
 
 ## Data Analysis
