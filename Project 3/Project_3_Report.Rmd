@@ -63,7 +63,7 @@ characters so that it numeric values be analyzed (5) develop an annual wage
 table by selecting values from the `soc` column that start with 'annual' and then
 follow a similar cleaning process in the step four (6) develop a segment wage
 table by selecting values from the `soc` column that start with 'annual' and then
-follow a similar cleaning process in the step four.
+follow a similar cleaning process in the step four. ****REVIEW THIS*****
 
 *Export to Database* - [insert sentence about where data is stored]
 
@@ -78,13 +78,10 @@ follow a similar cleaning process in the step four.
 
 ## Data Sources
 
--   [Computer and Mathematical Occupations – Profile Data](https://www.bls.gov/oes/current/oes150000.htm) - This data        source provides detailed information on computer and mathematical
-    occupations. In this project, we may use the Bureau of Labor
-    Statistics to identify occupational codes related to data science,
-    and relevant information such as income.
-    
-**NOTE [OLIVIA]:** the oes wage data we pulled in is specific to data science. The website verbiage   is "Industry profile for Data Scientists: a list of all industries with employment in Data Scientists
-    
+-   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - 
+    This data source provides detailed information on Data Scientists. This 
+    project uses the Bureau of Labor statistics to identify occupational codes
+    of data scientists and relevant information such as income.
 -   [United Nations Standard Products and Services Code](https://www.undp.org/unspsc) - 
     This data source includes information about products and services and can be
     used to analyze company expenditures.
@@ -102,8 +99,6 @@ follow a similar cleaning process in the step four.
 
 
 ## Read Data
-**NOTE FOR GROUP: Can someone help identify where the link to the downloads for
-OES and SOC came from? I am having a hard time finding it -Alyssa**
 ```{r load-data}
 # load the O*NET Skills Dataset, data dictionary available here: 
 # https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
@@ -131,135 +126,146 @@ proj <- fromJSON("https://public.projectionscentral.org/Projections/LongTermRest
 proj <- as.data.frame(proj)
 ```
 
-define data science occupation (SOC) code
-```{r}
+```{r ds-def}
+# define data science occupation (SOC) code
 data_science_soc = '15-2051'
 ```
 
 
 ### Tech Skills Data
-updated column names
 ```{r col-names-tech-skills}
+# updated column names
 colnames(tech_skills) = c(
   'onet_soc', 'onet_soc_title', 'tech_skill_example',
   'commodity_code', 'commodity_title', 'hot_technology',
   'in_demand')
 
-# Alyssa to do: include table in report that will be published (using kable package)
-```
-```{r, echo = FALSE}
+# rendering table 
 knit_table(head(tech_skills), 'View Raw Tech Skills Data')
 ```
 
 Normalized tech skills data 
-- create tech skills data reference tables
 ```{r skills-tech-tbls}
+# create tech skills data reference tables
 commodity_ref <- 
   tech_skills |>
   select(commodity_code, commodity_title, tech_skill_example) |>
   distinct()
 ```
-- remove reference table columns from main data frame
-```{r}
+
+```{r rem-ref-tbl}
+# remove reference table columns from main data frame
 tech_skills_df = tech_skills |>
   select('onet_soc','commodity_code', 'hot_technology','in_demand')
-```
-```{r, echo = FALSE}
+
+# rendering table 
 knit_table(head(tech_skills_df), 'View Tidy Tech Skills Data')
 ```
 
 
 ### Skills Data
-- update column names
-```{r}
+
+```{r skills-clean}
+# update col names
 colnames(ep_project_skills) = c(
   'soc_title', 'soc', 'employment_2023', 'employment_2033', 'employment_change_num_2023_33',
   'employment_change_prct_2023_33', 'ep_skills_category_id', 'ep_skills_category', 'ep_skills_score',
   'onet_soc', 'onet_element_id', 'onet_element_name', 'onet_rating_value'
   )
-```
-```{r, echo = FALSE}
+
+# rendering table
 knit_table(head(ep_project_skills), 'View Raw Skills Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
-Normalize skills data
-create skills data reference tables
-```{r}
+
+```{r skills-norm}
+# normalizing skills data 
 skills_element_ref <- 
   ep_project_skills |>
   select(onet_element_id, onet_element_name) |>
   distinct()
 
+# creating skills data reference tables
 skills_category_ref <- ep_project_skills |>
   select('ep_skills_category_id', 'ep_skills_category') |>
   distinct()
 ```
-create soc and onet soc link table
-```{r}
+
+```{r soc-onet-link}
+# create soc and onet soc link table
 soc_onet_soc_lnk <- 
   ep_project_skills |>
   select(soc, onet_soc) |>
   distinct()
 ```
-remove reference and link table columns from the main skills table
-```{r}
+
+```{r rem-ref-ep-skills}
+# remove reference and link table columns from the main skills table
 ep_skills_df = ep_project_skills |>
   select('soc', 'ep_skills_category_id', 'ep_skills_score',
          'onet_element_id', 'onet_rating_value') |>
   distinct()
-```
-```{r, echo = FALSE}
+
+# rendering table 
 knit_table(head(ep_skills_df), 'View Tidy Skills Data')
 ```
 
 ### Industry and Occupation Projection Data
-update column names
-```{r}
+
+```{r soc-industries}
+# update column names
 colnames(soc_industry_project) = c(
   'soc_type', 'industry_type', 'soc', 'soc_title', 'industry_code', 'industry_title',
   'employment_2023', 'prct_industry_2023', 'prct_soc_2023', 
   'employment_2033', 'prct_industry_2033', 'prct_soc_2033',
   'employment_change_num_2023_33', 'employment_change_prct_2023_33')
-```
-```{r, echo = FALSE}
+
+# rendering table 
 knit_table(head(ep_skills_df), 'View Raw Industry and Occupation Projection Data')
 ```
-make employment columns to be in thousands as stated in raw data file 
-```{r}
+
+```{r soc-ind-proj}
+# make employment columns to be in thousands as stated in raw data file 
 soc_industry_project = soc_industry_project |>
   mutate_at(c('employment_2023', 'employment_2033', 'employment_change_num_2023_33'), ~(. *1000))
 ```
-create soc and industry code link table
-```{r}
+
+```{r soc-ind-lnk}
+# create soc and industry code link table
 soc_industry_lnk <- 
   soc_industry_project |>
   select(soc, industry_code) |>
   distinct()
 ```
-create industrya and soc code reference tables
-```{r}
+
+```{r ind-ref}
+# create industry and soc code reference tables
 industry_ref <- 
   soc_industry_project |>
   select(industry_code, industry_title, industry_type) |>
   distinct()
 
+# removing dups
 soc_ref <- 
   soc_industry_project |>
   select(soc_title, soc, soc_type) |>
   distinct()
 
+# selecting cols to visualize 
 soc_industry_project_df = soc_industry_project |>
   select('industry_code', 'soc', 'employment_2023',
          'prct_industry_2023', 'prct_soc_2023', 'employment_2033', 'prct_industry_2033',
          'prct_soc_2033', 'employment_change_num_2023_33', 'employment_change_prct_2023_33')
-```
-```{r, echo = FALSE}
+
+# rendering table 
 knit_table(head(soc_industry_project_df), 'View Tidy Industry and Occupation Projection Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 ### OES Data
-**NOTE** this data provides an industry profile for data science meaning the data is specifically based on industries with employment in Data Scientists
+This data provides an industry profile for data science meaning the 
+data is specifically based on industries with employment in Data Scientists.
 ```{r col-names-oes}
+# changing col names
 colnames(oes) = c(
   'occupation', 'employment', 'employment_prct_relative_se',
   'hr_wage_mean', 'annual_wage_mean', 'wage_prct_relative_se','hr_wage_10_prcentile',
@@ -267,18 +273,18 @@ colnames(oes) = c(
   'hr_wage_90_prcentile', 'annual_wage_10_prcentile',
   'annual_wage_25_prcentile', 'annual_wage_median', 'annual_wage_75_prcentile',
   'annual_wage_90_prcentile')
-```
-```{r, echo = FALSE}
+
+# rendering table 
 knit_table(head(ep_project_skills), 'View Raw Data Science OES Industry Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
-- extract soc and industry codes from occupation string column
+
 - pivot data to transform all hourly and annual metric columns into three columns:
     + wage_stat_duration: states if the statistic for the row is hourly annual
     + wage_statistic: text explaining the metric calculation
     + wage_value: provides the wage metric value for the provided wage_stat_duration and wage_statistic
-```{r}
+```{r oes}
 oes_df = oes |>
-  # extract soc code from occupation
+  # extract soc and industry codes from occupation string column
   mutate(soc = str_match(occupation, "\\s*(\\d{2}-\\d{4})")[,2])
   # categorize soc codes by structure
   # mutate(
@@ -310,31 +316,31 @@ long_oes_df <- oes_df |>
     ) |>
   mutate(wage_value = str_remove(wage_value, "^\\$"))  # Removes "$"
 
-# Alyssa to do: include table in report that will be published (using kable package)
+
+knit_table(head(long_oes_df), 'View Data Science Wage Statistics Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
-Normalize data 
-- split data into soc and industry tables 
-- remove unneeded columns
-```{r}
+```{r soc-oes}
+# split data into soc and industry tables 
 soc_oes_df = long_oes_df |>
   # drop values not following soc structure (NAISC codes or sectors)
   drop_na(soc) |>
   select(soc, employment, wage_stat_duration, wage_statistic, wage_value)
 
+# remove unneeded columns
 industry_oes_df = long_oes_df |>
   filter(is.na(soc)) |>
   mutate(industry_code = str_replace(sector_naics, '---', '-')) |>
   select(industry_code, employment, wage_stat_duration, wage_statistic, wage_value)
-```
-```{r, echo = FALSE}
+
+# rendering tables
 knit_table(head(soc_oes_df), 'View Tidy SOC Data Science OES Industry Data')
 knit_table(head(industry_oes_df), 'View Tidy Industry Data Science OES Industry Data')
 ```
 
 
 temp data science soc dfs (could be used for analysis or deleted of not)
-```{r}
+```{r ep-skills}
 # ds_ep_skills = ep_skills_df |>
 #   filter(substr(soc, 0, str_count(data_science_soc)) == data_science_soc)
 # 
@@ -342,25 +348,20 @@ temp data science soc dfs (could be used for analysis or deleted of not)
 # left_join(ds_ep_skills, skills_category_ref)
 ```
 
-```{r}
+```{r soc-ind-proj}
 # soc_industry_project_df |>
 #   filter(substr(soc, 0, str_count(data_science_soc)) == data_science_soc)
 ```
 
 temp data science tech skills df
-```{r}
+```{r ds-tech-skills}
 # ds_tech_skills = tech_skills_df |>
 #   filter(substr(onet_soc, 0, str_count(data_science_soc)) == data_science_soc)
 # 
 # left_join(ds_tech_skills, commodity_ref)
 ```
 
-
-
-
-
-
-
+### Tidy Data
 **[Insert information about what the code about does, answer how does this makes
 the data tidy. Feedback from Professor Kowalchuk: make sure you highlight the structure 
 (tidy) of the analysis dataframe in the project submission.]**
