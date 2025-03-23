@@ -449,14 +449,6 @@ knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 ```
 
 
-```{r data-analysis-preview}
-knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
-knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
-knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
-knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
-```
-
-
 ### Data Analysis and Visualization
 
 #### Question 1: Which skills are considered the most important in the data science field?
