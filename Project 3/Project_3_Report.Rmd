@@ -63,7 +63,7 @@ characters so that it numeric values be analyzed (5) develop an annual wage
 table by selecting values from the `soc` column that start with 'annual' and then
 follow a similar cleaning process in the step four (6) develop a segment wage
 table by selecting values from the `soc` column that start with 'annual' and then
-follow a similar cleaning process in the step four.
+follow a similar cleaning process in the step four. ****REVIEW THIS*****
 
 *Export to Database* - [insert sentence about where data is stored]
 
