@@ -1,0 +1,69 @@
+---
+title: "Project 3: Project Proposal"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    theme: cerulean
+    toc: true
+    toc-depth: 2
+    slide-level: 2
+    transition: fade
+execute:
+  echo: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This project explores what are the most valuable data science skills. To answer this, the following methodology was followed:
+
+- **Data Collection** - Import data from various sources such as Bureau of Labor Statistics, Projections Central, and O*Net.
+- **Data Normalization** - [Clean and normalize the data using various processing techniques.]
+- **Export to Database** - [Store the processed data.]
+- **Data Analysis** - [Conduct analysis on the structured data.]
+- **Summary of Findings** - [Summarize key insights.]
+
+### Research Questions
+
+1. Which skills are considered the most important in the data science field?
+2. What is the relationship between skill importance and job compensation? How does this vary across industries?
+3. What is the relationship between projected employment and the importance of job skills?
+
+## Data Sources
+
+- [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm)
+- [Projections Central](https://projectionscentral.org/directdownloads)
+- [O\*Net Database](https://www.onetcenter.org/database.html#all-files)
+
+## Logical Model
+
+## Entity Relationship Diagram
+
+## Load Data
+
+```{r load-data}
+# insert connection to relational database
+```
+
+## Data Analysis
+
+```{r analyze-data}
+# insert code analyzing data 
+
+```
+
+## Findings
+
+```{r display-findings}
+# insert visualizations
+```
+
+## Conclusion
+
+Summarize the key insights and implications of the study.
+
+---
