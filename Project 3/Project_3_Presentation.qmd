@@ -42,11 +42,16 @@ Statistics, Projections Central, and O*Net.
 
 ### Research Questions
 
-1. Which skills are considered the most important in the data science field?
-2. What is the relationship between skill importance and job compensation? 
-   How does this vary across industries?
-3. What is the relationship between projected employment and the importance of 
-   job skills?
+1.  Which skills are considered the most important in the data science
+    field?
+2.  What is relationship between projected employment and the importance
+    of job skills?
+3.  How does the presence of 'hot technologies' relate to skill importance
+    in data science roles?
+4.  What types of technical skills (based on commodity categories) are
+    most commonly marked as in-demand or hot?
+5.  What is the distribution of skill importance across different skill
+    categories (e.g., cognitive, interpersonal)?
 
 ## Data Sources
 
@@ -55,7 +60,7 @@ Statistics, Projections Central, and O*Net.
 - [O\*Net Database](https://www.onetcenter.org/database.html#all-files)
 
 ## Logical Model
-***To be updated***
+
 ```{r logical-model}   
 grViz("
 digraph Logical_Model {

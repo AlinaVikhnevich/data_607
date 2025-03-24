@@ -468,11 +468,11 @@ knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 **Which skills are considered the most important in the data science
 field?**
 
-To explore the most critical skills in the data science field, I began
-by analyzing the `ep_skills_df_clean` dataset. The goal was to identify
-which skills consistently received the highest importance ratings across
-occupations. This was done by grouping the data by `onet_element_id` and
-calculating the average importance score for each skill.
+To identify the most critical skills in the data science field, the 
+`ep_skills_df_clean` dataset was analyzed to determine which skills consistently 
+received the highest importance ratings across occupations. This was achieved by 
+grouping the data by `onet_element_id` and calculating the average importance 
+score for each skill.
 
 ```{r q1-analysis}
 top_skills <- ep_skills_df_clean |>
@@ -491,24 +491,23 @@ top_skills_named <- left_join(top_skills, skills_element_ref, by = "onet_element
 knit_table(top_skills_named, 'Top 10 Important Data Science Skills (by Avg Score)')
 ```
 
-In this chunk, I calculated the average importance score
-(`ep_skills_score`) for each skill, which helped me identify the top ten
-based on their relevance to the role. I also included the
-`onet_rating_value` for added context. To make the output more readable,
-I merged these results with the skill labels from the
-`skills_element_ref` reference table. The resulting table displays the
-skill ID, the average importance score, its corresponding rating value,
-and the full name of the skill.
+In this analysis, the average importance score `ep_skills_score` for each skill 
+was calculated to identify the top ten based on their relevance to the role. 
+The `onet_rating_value` was also included for additional context. To enhance 
+readability, these results were merged with the skill labels from the 
+`skills_element_ref reference` table. The final table presents the skill ID, 
+average importance score, corresponding rating value, and the full name of each 
+skill.
 
-The results show that some of the highest-ranking skills include
-*Updating and Using Relevant Knowledge*, *Stress Tolerance*,
-*Self-Control*, and *Adaptability/Flexibility*. These reflect a strong
-demand not only for technical knowledge but also for cognitive and
-emotional stability, which are essential for navigating the dynamic
-challenges within data science roles.
+The results indicate that some of the highest-ranking skills include 
+Updating and Using Relevant Knowledge, Stress Tolerance, Self-Control, and 
+Adaptability/Flexibility. These findings highlight the strong demand not only for 
+technical expertise but also for cognitive and emotional resilience, both of 
+which are essential for navigating the dynamic challenges within data science 
+roles.
 
-To better visualize these insights, I created the following horizontal
-bar chart:
+To better illustrate these insights, the following horizontal bar chart was 
+created:
 
 ```{r q1-plot}
 ggplot(top_skills_named, aes(x = reorder(onet_element_name, avg_score), y = avg_score)) +
@@ -531,13 +530,12 @@ viewed as highly important across data science occupations.
 **What is relationship between projected employment and the importance
 of job skills?**
 
-To explore this question, I calculated the average importance score for
-each individual skill (`onet_element_id`) and compared it to the
-projected employment growth associated with the SOCs that require that
-skill. This method ensures we're analyzing at the skill level, rather
-than aggregating by occupation.
+To address this question, the average importance score for each individual skill 
+`onet_element_id` was calculated and compared to the projected employment growth 
+associated with the SOCs that require that skill. This approach ensures the 
+analysis is conducted at the skill level rather than aggregating by occupation.
 
-The analysis begins by computing the average skill importance per skill:
+The analysis begins by computing the average skill importance for each skill:
 
 ```{r q2-analysis}
 # Step 1: Average skill importance per SOC
@@ -554,7 +552,7 @@ proj_growth_by_soc <- soc_industry_project_df_clean |>
 skill_vs_growth_soc <- inner_join(avg_skill_by_soc, proj_growth_by_soc, by = "soc")
 ```
 
-This gives us a cleaned dataset that links each skill to both its
+This provides a cleaned dataset that links each skill to both its
 average importance and its associated employment growth projections. The
 merged data is visualized below:
 
@@ -676,10 +674,10 @@ tech_commodity_summary <- tech_skills_df_clean |>
 
 ```
 
-After calculating the counts, we isolate the 12 most frequently
+After calculating the counts, the 12 most frequently
 occurring commodity categories based on total references across both
-labels. The visualization plots these categories side-by-side by count
-and label:
+labels are isolated. The visualization plots these categories side-by-side by 
+count and label:
 
 ```{r q4-plot}
 # Visualization: bar chart
