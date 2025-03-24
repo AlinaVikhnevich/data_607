@@ -45,3 +45,11 @@ merge(x=commodity_ref, y=tech_skills_df_clean, by = "commodity_code", all=T)
 merge(ep_skills_df_clean, skills_category_ref, by="ep_skills_category_id",all=T)
 ```
 
+```{r}
+merge(ep_skills_df_clean, skills_element_ref,by="onet_element_id",all=T)
+```
+
+```{r}
+merge(ep_skills_df_clean, skills_category_ref, by="ep_skills_category_id",all=T)
+```
+
