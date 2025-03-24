@@ -47,22 +47,26 @@ knit_table <- function(df, caption='', position = 'left') {
 
 ## Introduction
 
-This project explores what are the most valuable data science skills. To
-answer this, the following methodology was followed:
+
+This project explores answering the question "Which are the most valued data science skills?". To
+answer this, the following methodology was followed: \
 - **Data Collection** - Import data from various sources such as Bureau of Labor 
-Statistics, Projections Central, and O*Net.
+Statistics, Projections Central, and O*Net. \
 - **Data Normalization** - Clean and normalize the data using various processing 
-                           techniques.
-- **Export to Database** - Store the processed data.
-- **Data Analysis** - Conduct analysis on the structured data.
+                           techniques. \
+- **Export to Database** - Store the processed data. \
+- **Data Analysis** - Conduct analysis on the structured data. \
+
 - **Summary of Findings** - Summarize key insights.
 
 ### Data Normalization
 To reduce redundancy and improve data integrity, the data 
 in this project was normalized. This helps to ensure that data is stored 
-efficiently, avoiding duplication and inconsistencies, and to have a 
-better-managed database. To normalize the datasets, five core tables were 
-developed, and five reference tables were developed.
+
+efficiently, avoids duplication and inconsistencies, and allows for
+better-managed database. To normalize the datasets, five core tables and reference tables were 
+developed.
+
 
 ### Research Questions
 
@@ -80,48 +84,38 @@ developed, and five reference tables were developed.
 ## Data Sources
 
 -   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - 
-    This data source provides detailed information on Data Scientists. This
-    project uses the Bureau of Labor statistics to identify occupational
-    codes of data scientists and relevant information such as income.
+    This data source provides detailed information on the data science occupation. This
+    project uses the Bureau of Labor Occupational Employment and Wage (OES) statistics
+    to identify industries with employment in Data Scientists and relevant information
+    such as income.
 -   [Projections Central](https://projectionscentral.org/directdownloads) - This 
     data source includes projections of industry and occupational employment
-    by state and the US. This could be used to explore the projected
-    outcome for certain occupations related to data science such as data
+    by state and the US. This data was used to explore the relationship of skills and
+    projected outcomes for certain occupations related to data science such as data
     scientists, analysts, data engineers, and data architects.
 -   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
-    worker characteristics, including skill requirements for many
-    occupations. This data source may be used to explore skillsets,
-    applications, and programming languages used in occupations related
-    to data science.
+    worker characteristics, including skill requirements for specific
+    occupations. This data source was used to explore various skill sets for
+    occupations related to data science.
 
 ## Read Data
 
-```{r load-data}
-# load the O*NET Skills Dataset, data dictionary available here: 
-# https://www.onetcenter.org/dictionary/25.1/excel/knowledge.html
-# skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/Skills.csv")
 
-# https://www.onetcenter.org/dictionary/29.2/excel/technology_skills.html
+```{r load-data}
+# Load the occupation technology skills data
 tech_skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/Technology%20Skills.csv")
 
+# load additional occupation skills data
 ep_project_skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/public-skills-data.csv", skip = 1)
 
+# load occupation project data
 soc_industry_project = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/National_Employment_Matrix_for_2023_and_projected_2033.csv")
 
-
-# load the OES Data option to create custom table, then input data science and returned all related industries 
+# load the OES Data
 oes <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/main/Project%203/Data/OES_Report_Industries_with_DS_Employment.csv",
                   skip = 6, nrows = 284,
                   header = FALSE)
-
-# load the O*NET-SOC and SOC structure - reference file for occupational codes in:
-# https://www.onetcenter.org/taxonomy/2019/structure.html
-# soc_ref <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/SOC_Structure.csv", skip = 3)
-
-# load the projected long-term employment from Projections Central (https://projectionscentral.org/directdownloads) **this is only if we decide to include projections
-proj <- fromJSON("https://public.projectionscentral.org/Projections/LongTermRestJson")
-proj <- as.data.frame(proj)
 ```
 
 ```{r ds-def}
@@ -129,7 +123,10 @@ proj <- as.data.frame(proj)
 data_science_soc = '15-2051'
 ```
 
-### Tech Skills Data
+
+### Technology Skills Data
+
+Updated column names
 
 ```{r col-names-tech-skills}
 # updated column names
@@ -142,7 +139,8 @@ colnames(tech_skills) = c(
 knit_table(head(tech_skills), 'View Raw Tech Skills Data')
 ```
 
-Normalized tech skills data
+
+Normalize Tech Skills Data
 
 ```{r skills-tech-tbls}
 # create tech skills data reference tables
@@ -152,14 +150,16 @@ commodity_ref <-
   distinct()
 ```
 
+Final Data Handling
+Note: this dataset maintained a tidy format and no additional transformations were needed
 ```{r rem-ref-tbl}
 # remove reference table columns from main data frame
 tech_skills_df = tech_skills |>
   select('onet_soc','commodity_code', 'hot_technology','in_demand')
 
 # rendering table 
-knit_table(head(tech_skills_df), 'View Tidy Tech Skills Data')
-```
+knit_table(head(tech_skills_df), 'View Normalized Tidy Tech Skills Data')
+
 
 ### Skills Data
 
@@ -171,24 +171,23 @@ colnames(ep_project_skills) = c(
   'onet_soc', 'onet_element_id', 'onet_element_name', 'onet_rating_value'
   )
 
-# rendering table
+
+# render table
 knit_table(head(ep_project_skills), 'View Raw Skills Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
+Normalize Skills Data 
 ```{r skills-norm}
-# normalizing skills data 
+# create skills data reference tables
+
 skills_element_ref <- 
   ep_project_skills |>
   select(onet_element_id, onet_element_name) |>
   distinct()
-
-# creating skills data reference tables
 skills_category_ref <- ep_project_skills |>
   select('ep_skills_category_id', 'ep_skills_category') |>
   distinct()
-```
 
-```{r soc-onet-link}
 # create soc and onet soc link table
 soc_onet_soc_lnk <- 
   ep_project_skills |>
@@ -196,16 +195,25 @@ soc_onet_soc_lnk <-
   distinct()
 ```
 
-```{r rem-ref-ep-skills}
-# remove reference and link table columns from the main skills table
+
+Final Data Handling - Remove Partial Dependencies
+Note: this dataset maintained a tidy format and no additional transformations were needed
+```{r}
+# split out skills values based on source (onet and ep)
+
 ep_skills_df = ep_project_skills |>
-  select('soc', 'ep_skills_category_id', 'ep_skills_score',
-         'onet_element_id', 'onet_rating_value') |>
+  select('soc', 'ep_skills_category_id', 'ep_skills_score') |>
   distinct()
 
-# rendering table 
-knit_table(head(ep_skills_df), 'View Tidy Skills Data')
+onet_skills_df = ep_project_skills |>
+  select('soc', 'onet_element_id', 'onet_rating_value') |>
+  distinct()
+
+knit_table(head(ep_skills_df), 'View Normalized Tidy EP Skills Data')
+knit_table(head(onet_skills_df), 'View Normalized Tidy ONET Skills Data')
+
 ```
+
 
 ### Industry and Occupation Projection Data
 
@@ -218,22 +226,10 @@ colnames(soc_industry_project) = c(
   'employment_change_num_2023_33', 'employment_change_prct_2023_33')
 
 # rendering table 
-knit_table(head(ep_skills_df), 'View Raw Industry and Occupation Projection Data')
+knit_table(head(soc_industry_project), 'View Raw Industry and Occupation Projection Data')
 ```
 
-```{r soc-ind-project}
-# make employment columns to be in thousands as stated in raw data file 
-soc_industry_project = soc_industry_project |>
-  mutate_at(c('employment_2023', 'employment_2033', 'employment_change_num_2023_33'), ~(. *1000))
-```
-
-```{r soc-ind-lnk}
-# create soc and industry code link table
-soc_industry_lnk <- 
-  soc_industry_project |>
-  select(soc, industry_code) |>
-  distinct()
-```
+Normalize Projection Data
 
 ```{r ind-ref}
 # create industry and soc code reference tables
@@ -248,20 +244,63 @@ soc_ref <-
   select(soc_title, soc, soc_type) |>
   distinct()
 
-# selecting cols to visualize 
-soc_industry_project_df = soc_industry_project |>
-  select('industry_code', 'soc', 'employment_2023',
-         'prct_industry_2023', 'prct_soc_2023', 'employment_2033', 'prct_industry_2033',
-         'prct_soc_2033', 'employment_change_num_2023_33', 'employment_change_prct_2023_33')
 
-# rendering table 
-knit_table(head(soc_industry_project_df), 'View Tidy Industry and Occupation Projection Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+# create soc and industry code link table
+soc_industry_lnk <- 
+  soc_industry_project |>
+  select(soc, industry_code) |>
+  distinct()
 ```
 
-### OES Data
+Data Handling
+```{r}
+# make employment columns to be in thousands as stated in raw data file 
+soc_industry_project = soc_industry_project |>
+  mutate_at(c('employment_2023', 'employment_2033', 'employment_change_num_2023_33'), ~(. *1000))
+```
 
-This data provides an industry profile for data science meaning the data
-is specifically based on industries with employment in Data Scientists.
+Tidy Data
+- Split out 2023 and 2033 employment data and stack dataframes to make each variable its own column
+```{r}
+# subset 2023 employment data
+soc_industry_project_2023 = soc_industry_project |>
+ select('industry_code', 'soc', 'employment_2023',
+       'prct_industry_2023', 'prct_soc_2023') |>
+mutate(year = '2023')
+colnames(soc_industry_project_2023) = c('industry_code', 'soc', 'employment', 'prct_industry', 'prct_soc', 'year')
+
+# subset 2033 projection employment data
+soc_industry_project_2033 = soc_industry_project |>
+ select('industry_code', 'soc', 'employment_2033',
+       'prct_industry_2033', 'prct_soc_2033') |>
+mutate(year = '2033')
+colnames(soc_industry_project_2033) = c('industry_code', 'soc', 'employment', 'prct_industry', 'prct_soc', 'year')
+
+# stack data to create final soc industry employemnt dataframe
+soc_industry_project_df = bind_rows(soc_industry_project_2023, soc_industry_project_2033)
+
+```
+
+- Create employment change dataframe by pivoting the employment change metrics columns from wide to long format
+```{r}
+# subset employment change data and pivot longer
+soc_industry_project_change_df = soc_industry_project |> 
+  select('industry_code', 'soc', 'employment_change_num_2023_33', 'employment_change_prct_2023_33') |>
+  pivot_longer(
+    cols = c('employment_change_num_2023_33', 'employment_change_prct_2023_33'),
+    names_to = 'employment_change_2023_33_stat', 
+    values_to = "employment_change_2023_33_value",
+    names_pattern="employment_change_(.*)_2023_33"
+  )
+
+# rendering table 
+knit_table(head(soc_industry_project_df), 'View Normalized Tidy Industry and Occupation Projection Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+
+knit_table(head(soc_industry_project_change_df), 'View Normalized Tidy Industry and Occupation Projection Change Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
+
+
+### OES Data
 
 ```{r col-names-oes}
 # changing col names
@@ -277,27 +316,11 @@ colnames(oes) = c(
 knit_table(head(ep_project_skills), 'View Raw Data Science OES Industry Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
--   pivot data to transform all hourly and annual metric columns into
-    three columns:
-
-    -   wage_stat_duration: states if the statistic for the row is
-        hourly annual
-    -   wage_statistic: text explaining the metric calculation
-    -   wage_value: provides the wage metric value for the provided
-        wage_stat_duration and wage_statistic
-
-    ```{r oes}
+Extract SOC and Industry Codes from text column
+```{r oes}
     oes_df = oes |>
       # extract soc and industry codes from occupation string column
       mutate(soc = str_match(occupation, "\\s*(\\d{2}-\\d{4})")[,2])
-      # categorize soc codes by structure
-      # mutate(
-      #   taxonomy = ifelse(
-      #     endsWith(soc, '-0000'),'major_group', ifelse(
-      #       grepl("\\d{2}-(1|2|3|4|5|6|7|8|9)\\d00", soc), 'minor_group', ifelse(
-      #         grepl("\\d{2}-\\d{2}(1|2|3|4|5|6|7|8|9)0", soc), 'broad_occupation', ifelse(
-      #           grepl("\\d{2}-\\d{3}(1|2|3|4|5|6|7|8|9)", soc), 'detailed_occupation', NA)))))
-
     oes_df = oes_df |>
       # extract naics or industry code from occupation str column
       mutate(sector_naics_1 = stri_pad_right(str_match(
@@ -310,6 +333,19 @@ knit_table(head(ep_project_skills), 'View Raw Data Science OES Industry Data') |
           !is.na(sector_naics_2), sector_naics_2, ifelse(
             !is.na(sector_naics_3), sector_naics_3, NA)))) |>
       mutate(occupation = gsub( " \\(.*$", "", occupation))
+```
+
+Tidy Data
+- pivot data to transform all hourly and annual metric columns into
+    three columns:
+
+    -   wage_stat_duration: states if the statistic for the row is
+        hourly annual
+    -   wage_statistic: text explaining the metric calculation
+    -   wage_value: provides the wage metric value for the provided
+        wage_stat_duration and wage_statistic
+
+    ```{r oes-pivot}
 
     long_oes_df <- oes_df |> 
       pivot_longer(
@@ -319,10 +355,9 @@ knit_table(head(ep_project_skills), 'View Raw Data Science OES Industry Data') |
         names_pattern="(hr|annual)_wage_(.*)"
         ) |>
       mutate(wage_value = str_remove(wage_value, "^\\$"))  # Removes "$"
-
-
-    knit_table(head(long_oes_df), 'View Data Science Wage Statistics Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
     ```
+
+Normalize Data
 
 ```{r soc-oes}
 # split data into soc and industry tables 
@@ -338,9 +373,10 @@ industry_oes_df = long_oes_df |>
   select(industry_code, employment, wage_stat_duration, wage_statistic, wage_value)
 
 # rendering tables
-knit_table(head(soc_oes_df), 'View Tidy SOC Data Science OES Industry Data')
-knit_table(head(industry_oes_df), 'View Tidy Industry Data Science OES Industry Data')
+knit_table(head(soc_oes_df), 'View Normalized Tidy SOC Data Science OES Industry Data')
+knit_table(head(industry_oes_df), 'View Normalized Tidy Industry Data Science OES Data')
 ```
+
 
 temp data science soc dfs (could be used for analysis or deleted of not)
 
@@ -465,14 +501,13 @@ knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 
 #### Question 1:
 
-**Which skills are considered the most important in the data science
-field?**
+**Which skills are considered the most important in the data science field?**
 
-To identify the most critical skills in the data science field, the 
-`ep_skills_df_clean` dataset was analyzed to determine which skills consistently 
-received the highest importance ratings across occupations. This was achieved by 
-grouping the data by `onet_element_id` and calculating the average importance 
-score for each skill.
+To explore the most critical skills in the data science field, I began
+by analyzing the `ep_skills_df_clean` dataset. The goal was to identify
+which skills consistently received the highest importance ratings across
+occupations. This was done by grouping the data by `onet_element_id` and
+calculating the average importance score for each skill.
 
 ```{r q1-analysis}
 top_skills <- ep_skills_df_clean |>
@@ -491,23 +526,24 @@ top_skills_named <- left_join(top_skills, skills_element_ref, by = "onet_element
 knit_table(top_skills_named, 'Top 10 Important Data Science Skills (by Avg Score)')
 ```
 
-In this analysis, the average importance score `ep_skills_score` for each skill 
-was calculated to identify the top ten based on their relevance to the role. 
-The `onet_rating_value` was also included for additional context. To enhance 
-readability, these results were merged with the skill labels from the 
-`skills_element_ref reference` table. The final table presents the skill ID, 
-average importance score, corresponding rating value, and the full name of each 
-skill.
+In this chunk, I calculated the average importance score
+(`ep_skills_score`) for each skill, which helped me identify the top ten skills
+based on their relevance to the role. I also included the
+`onet_rating_value` for added context. To make the output more readable,
+I merged these results with the skill labels from the
+`skills_element_ref` reference table. The resulting table displays the
+skill ID, the average importance score, its corresponding rating value,
+and the full name of the skill.
 
-The results indicate that some of the highest-ranking skills include 
-Updating and Using Relevant Knowledge, Stress Tolerance, Self-Control, and 
-Adaptability/Flexibility. These findings highlight the strong demand not only for 
-technical expertise but also for cognitive and emotional resilience, both of 
-which are essential for navigating the dynamic challenges within data science 
-roles.
+The results show that some of the highest-ranking skills include
+*Updating and Using Relevant Knowledge*, *Stress Tolerance*,
+*Self-Control*, and *Adaptability/Flexibility*. These reflect a strong
+demand not only for technical knowledge but also for cognitive and
+emotional stability, which are essential for navigating the dynamic
+challenges within data science roles.
 
-To better illustrate these insights, the following horizontal bar chart was 
-created:
+To better visualize these insights, I created the following horizontal
+bar chart:
 
 ```{r q1-plot}
 ggplot(top_skills_named, aes(x = reorder(onet_element_name, avg_score), y = avg_score)) +
@@ -527,21 +563,22 @@ viewed as highly important across data science occupations.
 
 #### Question 2:
 
-**What is relationship between projected employment and the importance
-of job skills?**
+**What is relationship between projected employment and the importance of job skills?**
 
-To address this question, the average importance score for each individual skill 
-`onet_element_id` was calculated and compared to the projected employment growth 
-associated with the SOCs that require that skill. This approach ensures the 
-analysis is conducted at the skill level rather than aggregating by occupation.
+To explore this question, I calculated the average importance score for
+each individual skill (`onet_element_id`) and compared it to the
+projected employment growth associated with the SOCs that require that
+skill. This method ensures we're analyzing at the skill level, rather
+than aggregating by occupation.
 
-The analysis begins by computing the average skill importance for each skill:
+The analysis begins by computing the average skill importance per skill:
 
 ```{r q2-analysis}
 # Step 1: Average skill importance per SOC
 avg_skill_by_soc <- ep_skills_df_clean |>
   group_by(soc) |>
   summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = 'drop')
+
 
 # Step 2: Projected employment growth per SOC
 proj_growth_by_soc <- soc_industry_project_df_clean |>
@@ -552,7 +589,9 @@ proj_growth_by_soc <- soc_industry_project_df_clean |>
 skill_vs_growth_soc <- inner_join(avg_skill_by_soc, proj_growth_by_soc, by = "soc")
 ```
 
-This provides a cleaned dataset that links each skill to both its
+
+This gives us a cleaned dataset that links each skill to both its
+
 average importance and its associated employment growth projections. The
 merged data is visualized below:
 
@@ -584,8 +623,9 @@ individual skills.
 
 #### Question 3:
 
-**How does the presence of 'hot technologies' relate to skill importance
-in data science roles?**
+
+**How does the presence of 'hot technologies' relate to skill importance in data science roles?**
+
 
 This analysis investigates whether skills associated with hot
 technologies tend to be considered more important in data science
@@ -641,8 +681,9 @@ recorded in this dataset.
 
 #### Question 4:
 
-**What types of technical skills (based on commodity categories) are
-most commonly marked as in-demand or hot?**
+
+**What types of technical skills (based on commodity categories) are most commonly marked as in-demand or hot?**
+
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
@@ -674,10 +715,11 @@ tech_commodity_summary <- tech_skills_df_clean |>
 
 ```
 
-After calculating the counts, the 12 most frequently
+
+After calculating the counts, we isolate the 12 most frequently
 occurring commodity categories based on total references across both
-labels are isolated. The visualization plots these categories side-by-side by 
-count and label:
+labels. The visualization plots these categories side-by-side by count
+and label:
 
 ```{r q4-plot}
 # Visualization: bar chart
@@ -708,8 +750,8 @@ needed across job roles.
 
 #### Question 5:
 
-**What is the distribution of skill importance across different skill
-categories (e.g., cognitive, interpersonal)?**
+
+**What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?**
 
 This final analysis examines how skill importance scores are distributed
 across various skill categories - such as communication, analytical
@@ -754,5 +796,5 @@ most critical competencies in the field and highlights the
 multidimensional nature of skill expectations - even in technical roles.
 
 ### Summary of Findings
-
 [insert conclusion paragraph here].
+
