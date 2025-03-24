@@ -27,6 +27,7 @@ library(tidyr)
 library(stringr)
 library(kableExtra)
 library(jsonlite)
+library(janitor)
 
 knit_table <- function(df, caption='', position = 'left') {
   kbl(df, format = "html", escape = FALSE, caption = caption) |>
@@ -48,56 +49,46 @@ knit_table <- function(df, caption='', position = 'left') {
 
 This project explores what are the most valuable data science skills. To
 answer this, the following methodology was followed:
+- **Data Collection** - Import data from various sources such as Bureau of Labor 
+Statistics, Projections Central, and O*Net.
+- **Data Normalization** - Clean and normalize the data using various processing 
+                           techniques.
+- **Export to Database** - Store the processed data.
+- **Data Analysis** - Conduct analysis on the structured data.
+- **Summary of Findings** - Summarize key insights.
 
-*Data Collection* - import data from Bureau of Labor Statistics, United
-Nations Standard Products and Services Code, Projections Central, and
-O\*Net (data sources are listed below).
-
-*Data Normalization* - clean and normalize the data by (1) removing
-unnecessary strings in the skills data frame so that the values are
-uniform within the `class_code` column, (2) replacing and matching
-strings within the OES Data through regex patterns, (3) and pivot the
-OES dataset wider, and then longer, so that every row in the dataset is
-an observation (4) develop an hourly wage table by selecting values from
-the `soc` column that start with 'hr'. Then, remove NAs from the wage
-dataset, and pivot the data longer, and remove characters so that it
-numeric values be analyzed (5) develop an annual wage table by selecting
-values from the `soc` column that start with 'annual' and then follow a
-similar cleaning process in the step four (6) develop a segment wage
-table by selecting values from the `soc` column that start with 'annual'
-and then follow a similar cleaning process in the step four.
-\*\*\*\*REVIEW THIS\*\*\*\*\*
-
-*Export to Database* - [insert sentence about where data is stored]
-
-*Data Analysis* - [insert sentence about the completed data analysis]
-
-*Summary of Findings* - [insert sentence about summarizing findings]
+### Data Normalization
+To reduce redundancy and improve data integrity, the data 
+in this project was normalized. This helps to ensure that data is stored 
+efficiently, avoiding duplication and inconsistencies, and to have a 
+better-managed database. To normalize the datasets, five core tables were 
+developed, and five reference tables were developed.
 
 ### Research Questions
 
 1.  Which skills are considered the most important in the data science
     field?
-2.  What is the relationship between skill importance and job
-    compensation? How does this vary across industries?
-3.  ***What is relationship between projected employment and the
-    importance of job skills?***
+2.  What is relationship between projected employment and the importance
+    of job skills?
+3.  How does the presence of 'hot technologies' relate to skill importance
+    in data science roles?
+4.  What types of technical skills (based on commodity categories) are
+    most commonly marked as in-demand or hot?
+5.  What is the distribution of skill importance across different skill
+    categories (e.g., cognitive, interpersonal)?
 
 ## Data Sources
 
--   [Industry Profile for Data
-    Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
-    data source provides detailed information on Data Scientists. This
+-   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - 
+    This data source provides detailed information on Data Scientists. This
     project uses the Bureau of Labor statistics to identify occupational
     codes of data scientists and relevant information such as income.
--   [Projections
-    Central](https://projectionscentral.org/directdownloads) - This data
-    source includes projections of industry and occupational employment
+-   [Projections Central](https://projectionscentral.org/directdownloads) - This 
+    data source includes projections of industry and occupational employment
     by state and the US. This could be used to explore the projected
     outcome for certain occupations related to data science such as data
     scientists, analysts, data engineers, and data architects.
--   [O\*Net
-    Database](https://www.onetcenter.org/database.html#all-files) – The
+-   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
     worker characteristics, including skill requirements for many
     occupations. This data source may be used to explore skillsets,
@@ -376,19 +367,23 @@ temp data science tech skills df
 ```
 
 ### Tidy Data
+To tidy and normalize the data the team performed the following: 
+1. Renamed columns to allow for more intuitive names as well as ensure columns 
+representing the same data values are referenced the same across all data frames. 
 
-**[Insert information about what the code about does, answer how does
-this makes the data tidy. Feedback from Professor Kowalchuk: make sure
-you highlight the structure (tidy) of the analysis dataframe in the
-project submission.]**
+2. Developed reference tables to store distinct categorical values (e.g., skill 
+categories) and remove partial dependencies. 
+
+3. Removed redundant columns (such as columns that are represented in reference 
+tables) from the core data tables, retaining only relevant fields for analysis. 
+
+4. Transformed the OES and Industry and Occupation Projection datasets from wide 
+to  long  to make the data tidy and allow for better usability. By transforming 
+these datasets each variable is its own column, and each observation is its own 
+row (i.e., reducing multiple hourly and annual wage statistics columns into three 
+columns for duration, type, and value); thus, making the data tidy.
 
 ## Industry tidy normalized tables
-
-### Data Processing and Normalization
-
-**[Insert information here about the data processing and normalization
-process. Explain what makes the data tidy, and how it will be used to
-answer our research questions.]**
 
 ### MySQL Database
 
