@@ -230,7 +230,7 @@ colnames(soc_industry_project) = c(
 knit_table(head(ep_skills_df), 'View Raw Industry and Occupation Projection Data')
 ```
 
-```{r soc-ind-proj}
+```{r soc-ind-project}
 # make employment columns to be in thousands as stated in raw data file 
 soc_industry_project = soc_industry_project |>
   mutate_at(c('employment_2023', 'employment_2033', 'employment_change_num_2023_33'), ~(. *1000))
@@ -545,21 +545,18 @@ than aggregating by occupation.
 The analysis begins by computing the average skill importance per skill:
 
 ```{r q2-analysis}
-# Step 1: Average skill importance per skill
-avg_skill <- ep_skills_df_clean |>
-  group_by(onet_element_id) |>
+# Step 1: Average skill importance per SOC
+avg_skill_by_soc <- ep_skills_df_clean |>
+  group_by(soc) |>
   summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = 'drop')
 
-# Step 2: Average employment growth per skill (via SOC)
-avg_growth <- ep_skills_df_clean |>
-  select(onet_element_id, soc) |>
-  distinct() |>  # avoid duplicated combinations
-  left_join(soc_industry_project_df_clean, by = "soc") |>
-  group_by(onet_element_id) |>
+# Step 2: Projected employment growth per SOC
+proj_growth_by_soc <- soc_industry_project_df_clean |>
+  group_by(soc) |>
   summarise(avg_growth = mean(employment_change_prct_2023_33, na.rm = TRUE), .groups = 'drop')
 
 # Step 3: Merge
-skill_vs_growth_cleaned <- inner_join(avg_skill, avg_growth, by = "onet_element_id")
+skill_vs_growth_soc <- inner_join(avg_skill_by_soc, proj_growth_by_soc, by = "soc")
 ```
 
 This gives us a cleaned dataset that links each skill to both its
@@ -567,12 +564,12 @@ average importance and its associated employment growth projections. The
 merged data is visualized below:
 
 ```{r q2-plot}
-ggplot(skill_growth_df, aes(x = avg_skill_score, y = avg_growth)) +
+ggplot(skill_vs_growth_soc, aes(x = avg_skill_score, y = avg_growth)) +
   geom_point(color = "#FF6666", size = 2, alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE, color = "black") +
   labs(
-    title = "Skill Importance vs. Projected Employment Growth",
-    x = "Average Skill Importance Score (by Skill)",
+    title = "Average Skill Importance vs. Employment Growth (by SOC)",
+    x = "Average Skill Importance Score (by SOC)",
     y = "Projected Employment Growth (%)"
   ) +
   theme_minimal()
