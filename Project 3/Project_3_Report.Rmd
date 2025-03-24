@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r libraries, include=FALSE}
 library(tidyverse)
 library(stringi)
-# library(DiagrammeR)
+library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -47,6 +47,7 @@ knit_table <- function(df, caption='', position = 'left') {
 
 ## Introduction
 
+
 This project explores answering the question "Which are the most valued data science skills?". To
 answer this, the following methodology was followed: \
 - **Data Collection** - Import data from various sources such as Bureau of Labor 
@@ -55,14 +56,17 @@ Statistics, Projections Central, and O*Net. \
                            techniques. \
 - **Export to Database** - Store the processed data. \
 - **Data Analysis** - Conduct analysis on the structured data. \
+
 - **Summary of Findings** - Summarize key insights.
 
 ### Data Normalization
 To reduce redundancy and improve data integrity, the data 
 in this project was normalized. This helps to ensure that data is stored 
+
 efficiently, avoids duplication and inconsistencies, and allows for
 better-managed database. To normalize the datasets, five core tables and reference tables were 
 developed.
+
 
 ### Research Questions
 
@@ -97,6 +101,7 @@ developed.
 
 ## Read Data
 
+
 ```{r load-data}
 # Load the occupation technology skills data
 tech_skills = read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/Technology%20Skills.csv")
@@ -118,9 +123,11 @@ oes <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs
 data_science_soc = '15-2051'
 ```
 
+
 ### Technology Skills Data
 
 Updated column names
+
 ```{r col-names-tech-skills}
 # updated column names
 colnames(tech_skills) = c(
@@ -132,7 +139,9 @@ colnames(tech_skills) = c(
 knit_table(head(tech_skills), 'View Raw Tech Skills Data')
 ```
 
+
 Normalize Tech Skills Data
+
 ```{r skills-tech-tbls}
 # create tech skills data reference tables
 commodity_ref <- 
@@ -150,7 +159,6 @@ tech_skills_df = tech_skills |>
 
 # rendering table 
 knit_table(head(tech_skills_df), 'View Normalized Tidy Tech Skills Data')
-```
 
 
 ### Skills Data
@@ -163,6 +171,7 @@ colnames(ep_project_skills) = c(
   'onet_soc', 'onet_element_id', 'onet_element_name', 'onet_rating_value'
   )
 
+
 # render table
 knit_table(head(ep_project_skills), 'View Raw Skills Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
@@ -170,6 +179,7 @@ knit_table(head(ep_project_skills), 'View Raw Skills Data') |> scroll_box(width 
 Normalize Skills Data 
 ```{r skills-norm}
 # create skills data reference tables
+
 skills_element_ref <- 
   ep_project_skills |>
   select(onet_element_id, onet_element_name) |>
@@ -185,10 +195,12 @@ soc_onet_soc_lnk <-
   distinct()
 ```
 
+
 Final Data Handling - Remove Partial Dependencies
 Note: this dataset maintained a tidy format and no additional transformations were needed
 ```{r}
 # split out skills values based on source (onet and ep)
+
 ep_skills_df = ep_project_skills |>
   select('soc', 'ep_skills_category_id', 'ep_skills_score') |>
   distinct()
@@ -199,6 +211,7 @@ onet_skills_df = ep_project_skills |>
 
 knit_table(head(ep_skills_df), 'View Normalized Tidy EP Skills Data')
 knit_table(head(onet_skills_df), 'View Normalized Tidy ONET Skills Data')
+
 ```
 
 
@@ -217,6 +230,7 @@ knit_table(head(soc_industry_project), 'View Raw Industry and Occupation Project
 ```
 
 Normalize Projection Data
+
 ```{r ind-ref}
 # create industry and soc code reference tables
 industry_ref <- 
@@ -224,10 +238,12 @@ industry_ref <-
   select(industry_code, industry_title, industry_type) |>
   distinct()
 
+# removing dups
 soc_ref <- 
   soc_industry_project |>
   select(soc_title, soc, soc_type) |>
   distinct()
+
 
 # create soc and industry code link table
 soc_industry_lnk <- 
@@ -262,6 +278,7 @@ colnames(soc_industry_project_2033) = c('industry_code', 'soc', 'employment', 'p
 
 # stack data to create final soc industry employemnt dataframe
 soc_industry_project_df = bind_rows(soc_industry_project_2023, soc_industry_project_2033)
+
 ```
 
 - Create employment change dataframe by pivoting the employment change metrics columns from wide to long format
@@ -304,7 +321,6 @@ Extract SOC and Industry Codes from text column
     oes_df = oes |>
       # extract soc and industry codes from occupation string column
       mutate(soc = str_match(occupation, "\\s*(\\d{2}-\\d{4})")[,2])
-    
     oes_df = oes_df |>
       # extract naics or industry code from occupation str column
       mutate(sector_naics_1 = stri_pad_right(str_match(
@@ -330,6 +346,7 @@ Tidy Data
         wage_stat_duration and wage_statistic
 
     ```{r oes-pivot}
+
     long_oes_df <- oes_df |> 
       pivot_longer(
         cols = matches('^(hr_|annual_)'), 
@@ -341,6 +358,7 @@ Tidy Data
     ```
 
 Normalize Data
+
 ```{r soc-oes}
 # split data into soc and industry tables 
 soc_oes_df = long_oes_df |>
@@ -358,6 +376,7 @@ industry_oes_df = long_oes_df |>
 knit_table(head(soc_oes_df), 'View Normalized Tidy SOC Data Science OES Industry Data')
 knit_table(head(industry_oes_df), 'View Normalized Tidy Industry Data Science OES Data')
 ```
+
 
 temp data science soc dfs (could be used for analysis or deleted of not)
 
@@ -560,6 +579,7 @@ avg_skill_by_soc <- ep_skills_df_clean |>
   group_by(soc) |>
   summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = 'drop')
 
+
 # Step 2: Projected employment growth per SOC
 proj_growth_by_soc <- soc_industry_project_df_clean |>
   group_by(soc) |>
@@ -569,7 +589,9 @@ proj_growth_by_soc <- soc_industry_project_df_clean |>
 skill_vs_growth_soc <- inner_join(avg_skill_by_soc, proj_growth_by_soc, by = "soc")
 ```
 
+
 This gives us a cleaned dataset that links each skill to both its
+
 average importance and its associated employment growth projections. The
 merged data is visualized below:
 
@@ -601,7 +623,9 @@ individual skills.
 
 #### Question 3:
 
+
 **How does the presence of 'hot technologies' relate to skill importance in data science roles?**
+
 
 This analysis investigates whether skills associated with hot
 technologies tend to be considered more important in data science
@@ -657,7 +681,9 @@ recorded in this dataset.
 
 #### Question 4:
 
+
 **What types of technical skills (based on commodity categories) are most commonly marked as in-demand or hot?**
+
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
@@ -688,6 +714,7 @@ tech_commodity_summary <- tech_skills_df_clean |>
                         count_demand = "In Demand"))
 
 ```
+
 
 After calculating the counts, we isolate the 12 most frequently
 occurring commodity categories based on total references across both
@@ -722,6 +749,7 @@ technologies that are currently trending and those that are persistently
 needed across job roles.
 
 #### Question 5:
+
 
 **What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?**
 
@@ -768,5 +796,5 @@ most critical competencies in the field and highlights the
 multidimensional nature of skill expectations - even in technical roles.
 
 ### Summary of Findings
-
 [insert conclusion paragraph here].
+
