@@ -1,0 +1,47 @@
+---
+title: "Project3_relations"
+author: "Musrat Jahan"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+
+
+
+```{r}
+skills<- merge(x=skills_element_ref, y=ep_skills_df_clean, by="onet_element_id")
+
+```
+
+```{r}
+names(tech_skills_df_clean)[names(tech_skills_df_clean) == 'onet_soc'] <- 'soc'
+
+  
+tech_and_ep_skills<- merge(x = tech_skills_df_clean, y = ep_skills_df_clean, by = "soc", all = TRUE)
+merge(x = tech_and_ep_skills, y = soc_oes_df_clean, skills, by = "soc", all = TRUE)
+
+```
+
+```{r}
+merge(soc_industry_project_df, industry_oes_df, soc_industry_lnk, industry_ref, by="industry_code", all=T)
+```
+
+```{r}
+merge(x=commodity_ref, y=tech_skills_df_clean, by = "commodity_code", all=T)
+```
+
+```{r}
+merge(ep_skills_df_clean, skills_category_ref, by="ep_skills_category_id",all=T)
+```
+
