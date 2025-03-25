@@ -159,7 +159,7 @@ tech_skills_df = tech_skills |>
 
 # rendering table 
 knit_table(head(tech_skills_df), 'View Normalized Tidy Tech Skills Data')
-
+```
 
 ### Skills Data
 
@@ -439,10 +439,11 @@ database is structured, and how it was configured.]**
 # Data Cleaning Phase
 
 # 1. ep_skills_df Cleaning
-# Remove NAs and ensure all key fields are correctly typed
-ep_skills_df_clean <- ep_skills_df |> 
-  drop_na() |> 
-  mutate(across(c(ep_skills_score, onet_rating_value), as.numeric)) |> 
+# Remove NAs, join with onet skills, ensure correct data types
+ep_skills_df_clean <- ep_skills_df |>
+  left_join(onet_skills_df, by = "soc") |>
+  drop_na() |>
+  mutate(across(c(ep_skills_score, onet_rating_value), as.numeric)) |>
   filter(ep_skills_score >= 0 & ep_skills_score <= 100)
 
 # 2. tech_skills_df Cleaning
@@ -466,35 +467,35 @@ soc_industry_project_df_clean <- soc_industry_project_df |>
   drop_na() |> 
   mutate(across(contains("employment"), as.numeric))
 
-# 4. soc_oes_df Cleaning
-soc_oes_df_clean <- soc_oes_df |> 
-  drop_na() |> 
-  mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
+# REMOVE: soc_oes_df_clean
+# soc_oes_df_clean <- soc_oes_df |> 
+#   drop_na() |> 
+#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
 
-# 5. industry_oes_df Cleaning
-industry_oes_df_clean <- industry_oes_df |> 
-  drop_na() |> 
-  mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
+# REMOVE: industry_oes_df_clean
+# industry_oes_df_clean <- industry_oes_df |> 
+#   drop_na() |> 
+#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
 
-# Output summaries
+# Output summaries (for validation)
 ep_summary <- summary(ep_skills_df_clean)
 technical_summary <- summary(tech_skills_df_clean)
-soc_summary <- summary(soc_oes_df_clean)
-industry_summary <- summary(industry_oes_df_clean)
+soc_summary <- summary(soc_industry_project_df_clean)
 
 list(
   ep_summary = ep_summary,
   tech_summary = technical_summary,
-  soc_summary = soc_summary,
-  industry_summary = industry_summary
+  soc_summary = soc_summary
 )
 ```
 
 ```{r data-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
 knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
-knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
-knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
+knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_project_df')
+# Removed:
+# knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
+# knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 ```
 
 ### Data Analysis and Visualization
@@ -581,7 +582,7 @@ avg_skill_by_soc <- ep_skills_df_clean |>
 
 
 # Step 2: Projected employment growth per SOC
-proj_growth_by_soc <- soc_industry_project_df_clean |>
+proj_growth_by_soc <- soc_industry_project |>
   group_by(soc) |>
   summarise(avg_growth = mean(employment_change_prct_2023_33, na.rm = TRUE), .groups = 'drop')
 
@@ -642,13 +643,18 @@ skill importance:
 
 ```{r q3-analysis}
 # Join skill data with tech data via SOC
+# Step 1: Deduplicate the mapping tables to avoid many-to-many joins
+soc_onet_soc_lnk_dedup <- soc_onet_soc_lnk |> distinct()
+tech_skills_df_dedup <- tech_skills_df_clean |> distinct()
+
+# Step 2: Apply more efficient join
 ep_tech_summary <- ep_skills_df_clean |>
-  left_join(soc_onet_soc_lnk, by = "soc") |>
-  left_join(tech_skills_df_clean, by = "onet_soc") |>
-  filter(!is.na(hot_technology)) |>
+  distinct(soc, ep_skills_score) |>  # keep only necessary columns
+  left_join(soc_onet_soc_lnk_dedup, by = "soc") |>
+  left_join(tech_skills_df_dedup, by = "onet_soc") |>
+  filter(!is.na(hot_technology), !is.na(commodity_code)) |>
   group_by(commodity_code, hot_technology) |>
   summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = "drop")
-
 ```
 
 The resulting table contains each commodity code and whether it’s
