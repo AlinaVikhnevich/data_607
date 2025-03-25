@@ -374,186 +374,243 @@ knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
 
 **Which skills are considered the most important in the data science field?**
 
-To explore the most critical skills in the data science field, I began
-by analyzing the `ep_skills_df_clean` dataset. The goal was to identify
-which skills consistently received the highest importance ratings across
-occupations. This was done by grouping the data by `onet_element_id` and
-calculating the average importance score for each skill.
+To explore the most critical skills in the data science field, we begin
+by analyzing the `ep_skills_df_clean` dataset. The goal is to identify
+which skills are disproportionately used in the data science field compared to all
+other occupations. This was done by calculating the percent of occupations having
+a lower skill importance score than data science for all EP skill categories.
 
-```{r q1-analysis}
-top_skills <- ep_skills_df_clean |>
-  group_by(onet_element_id) |>
-  summarise(
-    avg_score = mean(ep_skills_score),
-    avg_rating = mean(onet_rating_value),
-    .groups = 'drop'
-  ) |>
-  arrange(desc(avg_score)) |>
-  head(10)
+```{r}
+# create subset of skills data that only includes data science for comparison
+ds_ep_skills = ep_skills_df_clean |>
+  filter(soc == data_science_soc) |>
+  select(ep_skills_category_id, ep_skills_score)|>
+  arrange(desc(ep_skills_score))
+colnames(ds_ep_skills) = c('ep_skills_category_id', 'ds_ep_skills_score')
+  
+# create subset data frame that includes all occupations other than data science
+less_ds_ep_skills <- ep_skills_df_clean |>
+  filter(soc != data_science_soc) |>
+  left_join(skills_category_ref, by = join_by(ep_skills_category_id)) |>
+  left_join(soc_ref, by = join_by(soc)) |>
+  # join data science skills subset data
+  left_join(ds_ep_skills, by = join_by(ep_skills_category_id)) |>
+  # group by skill category
+  group_by(ep_skills_category) |>
+  # calculate percent of occupations with lower score
+  mutate(less_score = ifelse(ep_skills_score < ds_ep_skills_score, 1, 0)) |>
+  summarise(prct_less = mean(less_score)* 100) |>
+  arrange(desc(prct_less))
 
-# Join with element names
-top_skills_named <- left_join(top_skills, skills_element_ref, by = "onet_element_id")
-
-knit_table(top_skills_named, 'Top 10 Important Data Science Skills (by Avg Score)')
+knit_table(less_ds_ep_skills)
 ```
 
-In this chunk,the average importance score is calculated
-(`ep_skills_score`) for each skill, which helps identify the top ten skills
-based on their relevance to the role. The is included
-`onet_rating_value` for added context. To make the output more readable,
-results are merged with the skill labels from the
-`skills_element_ref` reference table. The resulting table displays the
-skill ID, the average importance score, its corresponding rating value,
-and the full name of the skill.
+In the above code chunk, we calculated the percent of occupations with
+lower skill importance scores (`ep_skills_score`) for each skill. This aided 
+in identifying the top three EP skill categories that are disproportionately
+utilized more than by data scientists. To make the output more readable,
+I merged these results with the skill labels from the
+`skills_category_ref` reference table. The resulting table displays the
+ep skill category and the percent of occupations with a skill importance score less
+than data science.
 
-The results show that some of the highest-ranking skills include
-*Updating and Using Relevant Knowledge*, *Stress Tolerance*,
-*Self-Control*, and *Adaptability/Flexibility*. These reflect a strong
-demand not only for technical knowledge but also for cognitive and
-emotional stability, which are essential for navigating the dynamic
-challenges within data science roles.
+The results highlight three skills in which the data scientist skill 
+importance value exceeds 90% of all other occupations. Those skills include
+**Mathematics'**, **'Critical and analytical thinking'**, and
+**'Computers and information technology**. These reflect a strong demand
+for a range of technical knowledge and cognitive stability,
+which are essential for navigating the dynamic challenges within data
+science roles.
 
-To better visualize these insights, the following horizontal
-bar chart was created:
+To better visualize these insights, we created the following horizontal
+bar chart:
 
-```{r q1-plot}
-ggplot(top_skills_named, aes(x = reorder(onet_element_name, avg_score), y = avg_score)) +
-  geom_col(fill = "steelblue") +
+```{r}
+less_ds_ep_skills <- less_ds_ep_skills |>
+  mutate(fill = ifelse(prct_less >= 90, "Yes", "No"))
+
+less_ds_ep_skills |>
+  ggplot(aes(x = reorder(ep_skills_category, prct_less), y = prct_less, fill = fill)) + 
+  geom_col() +
+  scale_fill_manual(values = c("steelblue", "indianred2")) +
   coord_flip() +
-  labs(title = "Top 10 Most Important Skills in Data Science",
-       x = "Skill", y = "Average Importance Score") +
-  theme_minimal()
+  labs(
+    title = "Percent of Occupations with EP Skill Importance
+    Scores Less Than Data Science",
+    x = "EP Skill Category",
+    y = "Percent",
+    fill = 'Data Science Skill Score Greater Than 90% Occupations'
+  ) +
+  theme_classic() +
+  theme(
+     plot.title = element_text(hjust = 0.5),
+     legend.position = 'bottom',
+     legend.justification = "left",
+     legend.title =element_text(size = 10))
 ```
-
-This plot highlights the same top ten skills and makes it easier to
-compare their relative importance. Ordering the bars by average score
+This plot highlights the same top three skills and makes it easier to
+compare their occupation proportions. Ordering the bars by average score
 and flipping the coordinates improves readability, especially for longer
 skill names. The visual reinforces the table’s insights, showing that
 technical knowledge, adaptability, precision, and decision-making are
 viewed as highly important across data science occupations.
 
+
+The same procedure employed above is applied below to the O\*Net skill
+rating scores data. Analyzing both occupation skill scores/ratings
+using the same methodology allows us to compare and verify accuracy of results,
+as well as gain a more comprehensive understanding of important data science 
+skills.
+```{r}
+# create subset of skills data that only includes data science for comparison
+ds_onet_skills = onet_skills_df |>
+  filter(soc == data_science_soc) |>
+  select(onet_element_id, onet_rating_value)|>
+  arrange(desc(onet_rating_value))
+colnames(ds_onet_skills) = c('onet_element_id', 'ds_onet_rating_value')
+
+# create subset data frame that includes all occupations other than data science
+less_ds_onet_skills <- onet_skills_df |>
+  filter(soc != data_science_soc) |>
+  left_join(skills_element_ref, by = join_by(onet_element_id)) |>
+  # join data science skills subset data
+  left_join(ds_onet_skills, by = join_by(onet_element_id)) |>
+  # group by skill category
+  group_by(onet_element_name) |>
+  # calculate percent of occupations with lower score
+  mutate(less_score = ifelse(onet_rating_value < ds_onet_rating_value, 1, 0)) |>
+  summarise(prct_less = mean(less_score)* 100) |>
+  arrange(desc(prct_less))
+
+knit_table(less_ds_onet_skills) |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+```
+
+The results highlight 11 skills in which the data scientist skill 
+importance value exceeds 90% of all other occupations. Four of these skills
+overlapped with the EP skill importance scores. The seven newly identified
+skills include **'Number Facility'**, **'Mathematical Reasoning'**,
+**'Analyzing Data or Information**, **'Programming'**,
+**'Interpreting the Meaning of Information for Others'**,
+**'Inductive Reasoning'**, and **'Science'**.
+
+To better visualize these insights, we created the following horizontal
+bar chart. For readability, only the top 24 skills are displayed. 
+
+```{r}
+less_ds_onet_skills <- less_ds_onet_skills |>
+  mutate(fill = ifelse(prct_less >= 90, "Yes", "No"))
+
+head(less_ds_onet_skills, 24) |>
+  ggplot(aes(x = reorder(onet_element_name, prct_less), y = prct_less, fill = fill)) + 
+  geom_col() +
+  scale_fill_manual(values = c("steelblue", "indianred2")) +
+  coord_flip() +
+  labs(
+    title = "Percent of Occupations with O*NET Skill Importance
+    Scores Less Than Data Science",
+    x = "O*NET Skill Category",
+    y = "Percent",
+    fill = 'Data Science Skill Score Greater Than 90% Occupations'
+  ) +
+  theme_classic() +
+  theme(
+     plot.title = element_text(hjust = 0.5),
+     legend.position = 'bottom',
+     legend.justification = "left",
+     legend.title =element_text(size = 8))
+```
+
+
 #### Question 2:
 
 **What is relationship between projected employment and the importance of job skills?**
 
-To explore this question, the average importance score is calculated for
-each individual skill (`onet_element_id`) and compared it to the
-projected employment growth associated with the SOCs that require that
-skill. This method ensures we're analyzing at the skill level, rather
-than aggregating by occupation.
-
-The analysis begins by computing the average skill importance per skill:
-
-```{r q2-analysis}
-# Step 1: Average skill importance per SOC
-avg_skill_by_soc <- ep_skills_df_clean |>
-  group_by(soc) |>
-  summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = 'drop')
+To explore this question, we examine how the need for different occupational
+skills may change in the future by comparing the average score of each EP skill
+category across all occupations and weighted by base (2023) and projected (2033)
+employment. 
 
 
-# Step 2: Projected employment growth per SOC
-proj_growth_by_soc <- soc_industry_project_df_clean |>
-  group_by(soc) |>
-  summarise(avg_growth = mean(employment_change_prct_2023_33, na.rm = TRUE), .groups = 'drop')
+The analysis begins by creating a function to calculate the weighted average
+of skills over the base and projection period. The weights reflect projected
+changes in employment. Applying the weights allows for us to compare projected
+skills for a variable that is has not projected.
 
-# Step 3: Merge
-skill_vs_growth_soc <- inner_join(avg_skill_by_soc, proj_growth_by_soc, by = "soc")
+```{r}
+weighted_avg <- function(skill, employment) {
+  return(sum(skill * employment) / sum(employment))
+}
+
+# get average weights skill scores
+skills_project = ep_project_skills |>
+  select(soc, ep_skills_category, employment_2023, employment_2033, ep_skills_score) |>
+  distinct() |>
+  group_by(ep_skills_category) |>
+  summarise(
+    wgt_23 = weighted_avg(ep_skills_score, employment_2023),
+    wgt_33 = weighted_avg(ep_skills_score, employment_2033),
+  ) |>
+  mutate(prct_diff = ((wgt_33-wgt_23)/wgt_23)*100) |>
+  arrange(desc(prct_diff))
 ```
 
+Percent change in projected weighted average skill importance is visualized below:
 
-This provides cleaned dataset that links each skill to both its
-average importance and its associated employment growth projections. The
-merged data is visualized below:
+```{r}
+skills_project = skills_project |>
+  mutate(fill = ifelse(
+    ep_skills_category %in% c(
+      'Mathematics', 'Critical and analytical thinking', 'Computers and information technology'
+      ), "Yes", "No"))
 
-```{r q2-plot}
-ggplot(skill_vs_growth_soc, aes(x = avg_skill_score, y = avg_growth)) +
-  geom_point(color = "#FF6666", size = 2, alpha = 0.7) +
-  geom_smooth(method = "lm", se = FALSE, color = "black") +
+skills_project |>
+  ggplot(aes(x = reorder(ep_skills_category, prct_diff), y = prct_diff, fill=fill)) + 
+  geom_col() +
+  scale_fill_manual(values = c("steelblue", "indianred2")) +
+  coord_flip() +
   labs(
-    title = "Average Skill Importance vs. Employment Growth (by SOC)",
-    x = "Average Skill Importance Score (by SOC)",
-    y = "Projected Employment Growth (%)"
-  ) +
-  theme_minimal()
+    title = "Percent Change in Skill Score per 
+    Projected Changes in Occupational Employment",
+    x = "EP Skill Category",
+    y = "Percent Change",
+    fill = 'Important Data Science EP Skills') +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = 'bottom',
+    legend.justification = "left",
+    legend.title =element_text(size = 10))
+
+
+
+# ep_project_skills |>
+#   # filter(soc == data_science_soc) |>
+#   select(soc, onet_element_name, employment_2023, employment_2033, onet_rating_value) |>
+#   distinct() |>
+#   group_by(onet_element_name) |>
+#   summarise(
+#     wgt_23 = weighted_avg(onet_rating_value, employment_2023),
+#     wgt_33 = weighted_avg(onet_rating_value, employment_2033),
+#   ) |>
+#   mutate(prct_diff = ((wgt_33-wgt_23)/wgt_23)*100) |>
+#   arrange(desc(prct_diff))
+
 ```
 
-This scatterplot helps us visually assess the relationship. Each point
-represents a skill, positioned according to its average importance score
-(x-axis) and the average projected employment growth of the SOCs where
-it’s used (y-axis). While there's a faint upward trend, the points are
-fairly scattered, and growth rates are tightly packed between 3.6% and
-4.0%. The fitted linear regression line suggests a weak positive
-relationship.
+This chart helps to visually assess the relationship between skills and
+projected changes in employment. The three bars in red call out the top three
+data science EP skills identified in question one. These three skills have
+varying levels of increase in projected skill score increase across all
+categories. The small increase in mathematics could be due to the world
+becoming more automated and technologically advanced that. In addition, the
+overall changes being relatively small across all occupations could be accounted
+for due to slow structural changes in the economy. Further analysis 
+is need to draw meaningful conclusions on causation from this analysis
 
-The takeaway is that while highly important skills are sometimes found
-in occupations with higher projected growth, the connection isn’t
-especially strong. This implies that projected growth is likely
-influenced by broader labor market factors beyond just the importance of
-individual skills.
 
 #### Question 3:
 
-
-**How does the presence of 'hot technologies' relate to skill importance in data science roles?**
-
-
-This analysis investigates whether skills associated with hot
-technologies tend to be considered more important in data science
-occupations. The goal was to see if the “hot” designation - typically
-linked to emerging or in-demand tools - also aligns with higher
-perceived importance scores.
-
-The first step merges skill data with the technology dataset. Since the
-`ep_skills_df_clean` dataset uses SOC codes and the tech skills are
-linked by O\*NET SOC codes, we first map the two using the
-`soc_onet_soc_lnk` reference. After joining, we group the skills by
-`commodity_code` and `hot_technology` status to compute the average
-skill importance:
-
-```{r q3-analysis}
-# Join skill data with tech data via SOC
-ep_tech_summary <- ep_skills_df_clean |>
-  left_join(soc_onet_soc_lnk, by = "soc") |>
-  left_join(tech_skills_df_clean, by = "onet_soc") |>
-  filter(!is.na(hot_technology)) |>
-  group_by(commodity_code, hot_technology) |>
-  summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = "drop")
-
-```
-
-The resulting table contains each commodity code and whether it’s
-considered a hot technology, alongside the average importance score of
-the associated skills. To visualize the comparison, we use a boxplot:
-
-```{r q3-plot}
-ggplot(ep_tech_summary, aes(x = hot_technology, y = avg_skill_score, fill = hot_technology)) +
-  geom_boxplot() +
-  labs(
-    title = "Average Skill Importance by Hot Technology Status",
-    x = "Hot Technology",
-    y = "Average Skill Importance Score"
-  ) +
-  theme_minimal() +
-  theme(legend.position = "none")
-```
-
-The boxplot compares the distribution of skill importance scores between
-technologies marked as "hot" and those that are not. Visually, the two
-groups appear quite similar. Both hot and non-hot technologies show
-comparable median importance scores and spread. This suggests that the
-“hot” label doesn’t necessarily translate to higher average importance
-in practice.
-
-From this, we can infer that skills linked to trendy or emerging
-technologies are not automatically considered more essential by
-employers or analysts - at least not in terms of the importance scores
-recorded in this dataset.
-
-#### Question 4:
-
-
 **What types of technical skills (based on commodity categories) are most commonly marked as in-demand or hot?**
-
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
@@ -570,6 +627,7 @@ reshaped into a long format for plotting:
 ```{r q4-analysis}
 # Join tech skills with commodity reference
 tech_commodity_summary <- tech_skills_df_clean |>
+  filter(onet_soc == '15-2051.00') |>
   left_join(commodity_ref, by = "commodity_code") |>
   group_by(commodity_title) |>
   summarise(
@@ -584,7 +642,6 @@ tech_commodity_summary <- tech_skills_df_clean |>
                         count_demand = "In Demand"))
 
 ```
-
 
 After calculating the counts, we isolate the 12 most frequently
 occurring commodity categories based on total references across both
@@ -606,20 +663,19 @@ ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = cou
   coord_flip() +
   labs(title = "Top 12 Hot and In-Demand Skills by Commodity Category",
        x = "Commodity Category", y = "Count", fill = "Label") +
-  theme_minimal()
+  theme_classic()
 ```
 
 From the plot, it's clear that data base user interface and query
 software and analytical or scientific software dominate in both "hot"
-and "in-demand" counts. These tools are fundamental to data handling,
-analysis, and model development—so their prominence isn’t surprising.
-Interestingly, many categories show up as either hot or in-demand, but
-not always both. This contrast may reflect the difference between
+and "in-demand" counts for data science occupations. These tools are
+fundamental to data handling, analysis, and model development—so their
+prominence isn’t surprising. Interestingly, many categories show up as
+either hot or in-demand, but not always both. This contrast may reflect the difference between
 technologies that are currently trending and those that are persistently
 needed across job roles.
 
-#### Question 5:
-
+#### Question 4:
 
 **What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?**
 
@@ -636,26 +692,29 @@ names:
 ```{r q5-analysis}
 # Join skills with category reference
 skills_by_category <- ep_skills_df_clean |>
-  left_join(skills_category_ref, by = "ep_skills_category_id")
+  left_join(skills_category_ref, by = "ep_skills_category_id") |>
+  filter(startsWith(soc, data_science_soc))
 ```
 
-To visualize the distribution, a horizontal boxplot is created. Each box
-represents a skill category, with the distribution of skill scores
+To visualize the distribution, a horizontal barrblot is created. Each bar
+represents a skill category, with the EP skill scores
 (ranging from 0 to 5) plotted vertically within each group:
 
 ```{r q5-plot}
 # Summary plot by skill category
-ggplot(skills_by_category, aes(x = ep_skills_category, y = ep_skills_score)) +
-  geom_boxplot(fill = "lightgreen") +
+ggplot(skills_by_category, aes(
+  x = reorder(ep_skills_category, ep_skills_score),
+  y = ep_skills_score)) +
+  geom_col() +
   coord_flip() +
-  labs(title = "Distribution of Skill Importance by Category",
+  labs(title = "EP Skill Importance by Category",
        x = "Skill Category", y = "Importance Score") +
-  theme_minimal()
+  theme_classic()
 ```
-
-The resulting plot reveals some clear patterns. Categories like
+The resulting plot reveals simiar results to our first analysis.
+some clear patterns. Categories like Reading and Writing,
 Adaptability, Computers and Information Technology, and Creativity and
-Innovation tend to have higher median importance scores, suggesting they
+Innovation tend to have higher importance scores, suggesting they
 are especially valued in data science-related roles. On the other hand,
 categories like Fine Motor, Customer Service, or Physical Strength and
 Stamina generally receive lower scores, which aligns with the nature of
