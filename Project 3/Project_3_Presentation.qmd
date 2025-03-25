@@ -73,7 +73,6 @@ digraph Logical_Model {
   # Data Sources
   DataSources [label = 'Raw Data Sources', shape = parallelogram, fillcolor = lightgray]
   ONET [label = 'O*NET Database \\n(Skills & Job Data)']
-  BLS [label = 'BLS Employment Statistics \\n(Job Salaries)']
   Projections [label = 'Projections \\n(Long-term projections for employment)']
   
 
@@ -130,14 +129,6 @@ digraph ER_Diagram {
                                                           \\nprct_soc_2023,
                                                           \\nemployment_2033,
                                                           \\nemployment_change_num)']
-  SocOES [label = 'soc_oes_df\\n(soc,
-                                \\nemployment,
-                                \\nwage_stat_duration,
-                                \\nwage_statistic,
-                                \\nwage_value)']
-  IndustryOES [label = 'industry_oes_df\\n(industry_code,
-                                           \\nemployment,
-                                           \\nwage_value)']
 
   # Link Tables
   SocOnetLink [label = 'soc_onet_soc_lnk\\n(soc,
@@ -172,11 +163,8 @@ digraph ER_Diagram {
   
   SocIndustryProject -> SocIndustryLink [label = 'soc']
   SocIndustryProject -> IndustryRef [label = 'industry_code']
-  SocOES -> SocRef [label = 'soc']
-  IndustryOES -> IndustryRef [label = 'industry_code']
 
   SocOnetLink -> SocRef [label = 'soc']
-  SocIndustryLink -> IndustryRef [label = 'industry_code']
 
   # Additional Joins
   TechSkills -> CommodityRef [label = 'commodity_code']
