@@ -352,7 +352,7 @@ soc_industry_project_df_clean <- soc_industry_project_df |>
   mutate(across(c("employment", 'year', 'prct_industry', 'prct_soc'), as.numeric))
 
 # 5. soc_industry_project_change_df Cleaning
-soc_industry_project_df_change_clean <- soc_industry_project_change_df |> 
+soc_industry_project_change_df_clean <- soc_industry_project_change_df |> 
   drop_na() |> 
   mutate(across(c("employment_change_2023_33_value"), as.numeric))
 
@@ -361,23 +361,23 @@ ep_skills_df_clean_summ <- summary(ep_skills_df_clean)
 onet_skills_df_clean_summ <- summary(onet_skills_df_clean)
 tech_skills_df_clean_summ <- summary(tech_skills_df_clean)
 soc_industry_project_df_clean_summ <- summary(soc_industry_project_df_clean)
-soc_industry_project_df_change_clean_summ <- summary(soc_industry_project_df_change_clean)
+soc_industry_project_change_df_clean_smm <- summary(soc_industry_project_change_df_clean)
 
 list(
   ep_skills_df_clean_summ = ep_skills_df_clean_summ,
   tech_skills_df_clean_summ = tech_skills_df_clean_summ,
   onet_skills_df_clean_summ = onet_skills_df_clean_summ,
   soc_industry_project_df_clean_summ = soc_industry_project_df_clean_summ,
-  soc_industry_project_df_change_clean_summ = soc_industry_project_df_change_clean_summ
+  soc_industry_project_change_df_clean_smm = soc_industry_project_change_df_clean_smm
 )
 ```
 
 ```{r data-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
-knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
 knit_table(head(onet_skills_df_clean), 'Preview Cleaned onet_skills_df')
+knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
 knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_project_df')
-knit_table(head(soc_industry_project_df_change), 'Preview Cleaned soc_industry_project_df')
+knit_table(head(soc_industry_project_change_df_clean), 'Preview Cleaned soc_industry_project_change_df')
 ```
 
 ### MySQL Database
@@ -411,24 +411,26 @@ a single environment.
 
 ```{r save-csv}
 write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
+write.csv(onet_skills_df_clean, "onet_skills_df_clean.csv", row.names = FALSE)
 write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
+write.csv(soc_industry_project_change_df_clean, "soc_industry_project_change_df_clean.csv", row.names = FALSE)
 ```
 
 ```{r establish-connection}
 # Securely fetching the password
-# password <- Sys.getenv("OliviaStrongPass123!")
+password <- Sys.getenv("")
 
 # Attempt to connect
 conn <- tryCatch({
   dbConnect(
     MySQL(),
-    user = "olivia",
-    password = 'OliviaStrongPass123!',
+    user = "root",
+    password = password,
     dbname = "project3_data",
     host= '192.168.1.52',
     port= 3306
-    # client.flag = CLIENT_LOCAL_FILES
+    client.flag = CLIENT_LOCAL_FILES
   )
 }, error = function(e) {
   message("Error: ", e$message)
@@ -445,8 +447,10 @@ if (!is.null(conn)) {
 
   # Inserting data frames
   dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "onet_skills", onet_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "tech_skills", tech_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_project", soc_industry_project_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "soc_industry_project_change", soc_industry_project_change_df_clean, row.names = FALSE, overwrite = TRUE)
 
   # Disconnect when done
   dbDisconnect(conn)
