@@ -28,6 +28,8 @@ library(stringr)
 library(kableExtra)
 library(jsonlite)
 library(janitor)
+library(RMySQL)
+library(DBI)
 
 knit_table <- function(df, caption='', position = 'left') {
   kbl(df, format = "html", escape = FALSE, caption = caption) |>
@@ -421,18 +423,6 @@ columns for duration, type, and value); thus, making the data tidy.
 
 ## Industry tidy normalized tables
 
-### MySQL Database
-
-**[insert 1-2 sentences here about where data is stored, how the MySQL
-database is structured, and how it was configured.]**
-
-#### Database Connection
-
-```{r establish-connection}
-# this is where we should establish the connection to the database
-
-```
-
 ### Data Cleaning
 
 ```{r data-cleaning, message=FALSE, warning=FALSE}
@@ -497,6 +487,61 @@ knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_pr
 # knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
 # knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 ```
+### MySQL Database
+
+**[insert 1-2 sentences here about where data is stored, how the MySQL
+database is structured, and how it was configured.]**
+
+#### Database Connection
+
+```{r save-csv}
+write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
+write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
+write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
+```
+
+
+```{r establish-connection}
+# Securely fetching the password
+password <- Sys.getenv("MYSQL_PWD")
+
+# Attempt to connect
+conn <- tryCatch({
+  dbConnect(
+    MySQL(),
+    user = "root",
+    password = password,
+    dbname = "project3_data",
+    host = "localhost",
+    port = 3306,
+    client.flag = CLIENT_LOCAL_FILES
+  )
+}, error = function(e) {
+  message("Error: ", e$message)
+  return(NULL)
+})
+
+# Proceed only if connection succeeded
+if (!is.null(conn)) {
+  print("Database connection successful.")
+
+  # Sample query
+  ep_sample <- dbGetQuery(conn, "SELECT * FROM ep_skills LIMIT 5;")
+  print(ep_sample)
+
+  # Inserting data frames
+  dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "tech_skills", tech_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "soc_industry_project", soc_industry_project_df_clean, row.names = FALSE, overwrite = TRUE)
+
+  # Disconnect when done
+  dbDisconnect(conn)
+
+} else {
+  stop("Database connection failed. Check credentials and try again.")
+}
+```
+
 
 ### Data Analysis and Visualization
 
