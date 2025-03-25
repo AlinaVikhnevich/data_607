@@ -47,25 +47,25 @@ knit_table <- function(df, caption='', position = 'left') {
 
 ## Introduction
 
+This project explores answering the question "Which are the most valued
+data science skills?". To answer this, the following methodology was
+followed:\
+- **Data Collection** - Import data from various sources such as Bureau
+of Labor Statistics, Projections Central, and O\*Net.\
+- **Data Normalization** - Clean and normalize the data using various
+processing techniques.\
+- **Export to Database** - Store the processed data.\
+- **Data Analysis** - Conduct analysis on the structured data.\
 
-This project explores answering the question "Which are the most valued data science skills?". To
-answer this, the following methodology was followed: \
-- **Data Collection** - Import data from various sources such as Bureau of Labor 
-Statistics, Projections Central, and O*Net. \
-- **Data Normalization** - Clean and normalize the data using various processing 
-                           techniques. \
-- **Export to Database** - Store the processed data. \
-- **Data Analysis** - Conduct analysis on the structured data. \
-
-- **Summary of Findings** - Summarize key insights.
+-   **Summary of Findings** - Summarize key insights.
 
 ### Data Normalization
-To reduce redundancy and improve data integrity, the data 
-in this project was normalized. This helps to ensure that data is stored 
-efficiently, avoids duplication and inconsistencies, and allows for
-better-managed database. To normalize the datasets, five core tables and reference tables were 
-developed.
 
+To reduce redundancy and improve data integrity, the data in this
+project was normalized. This helps to ensure that data is stored
+efficiently, avoids duplication and inconsistencies, and allows for
+better-managed database. To normalize the datasets, five core tables and
+reference tables were developed.
 
 ### Research Questions
 
@@ -73,8 +73,8 @@ developed.
     field?
 2.  What is relationship between projected employment and the importance
     of job skills?
-3.  How does the presence of 'hot technologies' relate to skill importance
-    in data science roles?
+3.  How does the presence of 'hot technologies' relate to skill
+    importance in data science roles?
 4.  What types of technical skills (based on commodity categories) are
     most commonly marked as in-demand or hot?
 5.  What is the distribution of skill importance across different skill
@@ -82,24 +82,28 @@ developed.
 
 ## Data Sources
 
--   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - 
-    This data source provides detailed information on the data science occupation. This
-    project uses the Bureau of Labor Occupational Employment and Wage (OES) statistics
-    to identify industries with employment in Data Scientists and relevant information
-    such as income.
--   [Projections Central](https://projectionscentral.org/directdownloads) - This 
-    data source includes projections of industry and occupational employment
-    by state and the US. This data was used to explore the relationship of skills and
-    projected outcomes for certain occupations related to data science such as data
-    scientists, analysts, data engineers, and data architects.
--   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
+-   [Industry Profile for Data
+    Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
+    data source provides detailed information on the data science
+    occupation. This project uses the Bureau of Labor Occupational
+    Employment and Wage (OES) statistics to identify industries with
+    employment in Data Scientists and relevant information such as
+    income.
+-   [Projections
+    Central](https://projectionscentral.org/directdownloads) - This data
+    source includes projections of industry and occupational employment
+    by state and the US. This data was used to explore the relationship
+    of skills and projected outcomes for certain occupations related to
+    data science such as data scientists, analysts, data engineers, and
+    data architects.
+-   [O\*Net
+    Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
     worker characteristics, including skill requirements for specific
-    occupations. This data source was used to explore various skill sets for
-    occupations related to data science.
+    occupations. This data source was used to explore various skill sets
+    for occupations related to data science.
 
 ## Read Data
-
 
 ```{r load-data}
 # Load the occupation technology skills data
@@ -117,7 +121,6 @@ soc_industry_project <- read.csv("https://raw.githubusercontent.com/AlinaVikhnev
 data_science_soc = '15-2051'
 ```
 
-
 ### Technology Skills Data
 
 Updated column names
@@ -133,7 +136,6 @@ colnames(tech_skills) <- c(
 knit_table(head(tech_skills), 'View Raw Tech Skills Data')
 ```
 
-
 Normalize Tech Skills Data
 
 ```{r skills-tech-tbls}
@@ -144,8 +146,9 @@ commodity_ref <-
   distinct()
 ```
 
-Final Data Handling
-Note: this dataset maintained a tidy format and no additional transformations were needed
+Final Data Handling Note: this dataset maintained a tidy format and no
+additional transformations were needed
+
 ```{r rem-ref-tbl}
 # remove reference table columns from main data frame
 tech_skills_df <- tech_skills |>
@@ -170,7 +173,8 @@ colnames(ep_project_skills) <- c(
 knit_table(head(ep_project_skills), 'View Raw Skills Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
-Normalize Skills Data 
+Normalize Skills Data
+
 ```{r skills-norm}
 # create skills data reference tables
 
@@ -189,8 +193,9 @@ soc_onet_soc_lnk <-
   distinct()
 ```
 
-Final Data Handling - Remove Partial Dependencies
-Note: this dataset maintained a tidy format and no additional transformations were needed
+Final Data Handling - Remove Partial Dependencies Note: this dataset
+maintained a tidy format and no additional transformations were needed
+
 ```{r}
 # split out skills values based on source (onet and ep)
 
@@ -205,7 +210,6 @@ onet_skills_df <- ep_project_skills |>
 knit_table(head(ep_skills_df), 'View Normalized Tidy EP Skills Data')
 knit_table(head(onet_skills_df), 'View Normalized Tidy ONET Skills Data')
 ```
-
 
 ### Industry and Occupation Projection Data
 
@@ -245,14 +249,16 @@ soc_industry_lnk <-
 ```
 
 Data Handling
+
 ```{r}
 # make employment columns to be in thousands as stated in raw data file 
 soc_industry_project <- soc_industry_project |>
   mutate_at(c('employment_2023', 'employment_2033', 'employment_change_num_2023_33'), ~(. *1000))
 ```
 
-Tidy Data
-- Split out 2023 and 2033 employment data and stack dataframes to make each variable its own column
+Tidy Data - Split out 2023 and 2033 employment data and stack dataframes
+to make each variable its own column
+
 ```{r}
 # subset 2023 employment data
 soc_industry_project_2023 <- soc_industry_project |>
@@ -273,7 +279,9 @@ soc_industry_project_df <- bind_rows(soc_industry_project_2023, soc_industry_pro
 
 ```
 
-- Create employment change dataframe by pivoting the employment change metrics columns from wide to long format
+-   Create employment change dataframe by pivoting the employment change
+    metrics columns from wide to long format
+
 ```{r}
 # subset employment change data and pivot longer
 soc_industry_project_change_df <- soc_industry_project |> 
@@ -292,15 +300,18 @@ knit_table(head(soc_industry_project_change_df), 'View Normalized Tidy Industry 
 ```
 
 ### Tidy Data
-To tidy and normalize the data the team performed the following: 
-1. Renamed columns to allow for more intuitive names as well as ensure columns 
-representing the same data values are referenced the same across all data frames. 
 
-2. Developed reference tables to store distinct categorical values (e.g., skill 
-categories) and remove partial dependencies. 
+To tidy and normalize the data the team performed the following: 1.
+Renamed columns to allow for more intuitive names as well as ensure
+columns representing the same data values are referenced the same across
+all data frames.
 
-3. Removed redundant columns (such as columns that are represented in reference 
-tables) from the core data tables, retaining only relevant fields for analysis. 
+2.  Developed reference tables to store distinct categorical values
+    (e.g., skill categories) and remove partial dependencies.
+
+3.  Removed redundant columns (such as columns that are represented in
+    reference tables) from the core data tables, retaining only relevant
+    fields for analysis.
 
 ## Industry tidy normalized tables
 
@@ -368,10 +379,33 @@ knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_pr
 # knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
 # knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 ```
+
 ### MySQL Database
 
-**[insert 1-2 sentences here about where data is stored, how the MySQL
-database is structured, and how it was configured.]**
+To ensure our processed data is securely stored and easily queryable for
+analysis, we structured and uploaded it into a MySQL relational
+database. We created a schema called project3_data using MySQL Workbench
+and defined tables for each of our core cleaned datasets: ep_skills,
+tech_skills, and soc_industry_project. This allows us to organize the
+data using normalized table structures and access it through SQL
+queries.
+
+Database Connection In this section, we:
+
+I.  Export the cleaned datasets to .csv files for transparency and
+    backup.
+II. Securely connect to the MySQL database from R using credentials
+    stored in environment variables (to protect sensitive information).
+III. Use R’s dbWriteTable() function to insert each dataset into its
+     corresponding SQL table.
+IV. Run a test query to verify the connection and ensure data was
+    inserted successfully.
+V.  Disconnect from the database once the upload is complete to free up
+    system resources and maintain good practice.
+
+This setup creates a reproducible and secure workflow for integrating R
+with SQL, allowing us to bridge data cleaning, storage, and analysis in
+a single environment.
 
 #### Database Connection
 
@@ -380,7 +414,6 @@ write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
 write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
 ```
-
 
 ```{r establish-connection}
 # Securely fetching the password
@@ -423,18 +456,19 @@ if (!is.null(conn)) {
 }
 ```
 
-
 ### Data Analysis and Visualization
 
 #### Question 1:
 
-**Which skills are considered the most important in the data science field?**
+**Which skills are considered the most important in the data science
+field?**
 
 To explore the most critical skills in the data science field, we begin
 by analyzing the `ep_skills_df_clean` dataset. The goal is to identify
-which skills are disproportionately used in the data science field compared to all
-other occupations. This was done by calculating the percent of occupations having
-a lower skill importance score than data science for all EP skill categories.
+which skills are disproportionately used in the data science field
+compared to all other occupations. This was done by calculating the
+percent of occupations having a lower skill importance score than data
+science for all EP skill categories.
 
 ```{r}
 # create subset of skills data that only includes data science for comparison
@@ -462,21 +496,21 @@ knit_table(less_ds_ep_skills)
 ```
 
 In the above code chunk, we calculated the percent of occupations with
-lower skill importance scores (`ep_skills_score`) for each skill. This aided 
-in identifying the top three EP skill categories that are disproportionately
-utilized more than by data scientists. To make the output more readable,
-I merged these results with the skill labels from the
-`skills_category_ref` reference table. The resulting table displays the
-ep skill category and the percent of occupations with a skill importance score less
-than data science.
+lower skill importance scores (`ep_skills_score`) for each skill. This
+aided in identifying the top three EP skill categories that are
+disproportionately utilized more than by data scientists. To make the
+output more readable, I merged these results with the skill labels from
+the `skills_category_ref` reference table. The resulting table displays
+the ep skill category and the percent of occupations with a skill
+importance score less than data science.
 
-The results highlight three skills in which the data scientist skill 
-importance value exceeds 90% of all other occupations. Those skills include
-**Mathematics'**, **'Critical and analytical thinking'**, and
+The results highlight three skills in which the data scientist skill
+importance value exceeds 90% of all other occupations. Those skills
+include **Mathematics'**, **'Critical and analytical thinking'**, and
 **'Computers and information technology**. These reflect a strong demand
-for a range of technical knowledge and cognitive stability,
-which are essential for navigating the dynamic challenges within data
-science roles.
+for a range of technical knowledge and cognitive stability, which are
+essential for navigating the dynamic challenges within data science
+roles.
 
 To better visualize these insights, we created the following horizontal
 bar chart:
@@ -504,6 +538,7 @@ less_ds_ep_skills |>
      legend.justification = "left",
      legend.title =element_text(size = 10))
 ```
+
 This plot highlights the same top three skills and makes it easier to
 compare their occupation proportions. Ordering the bars by average score
 and flipping the coordinates improves readability, especially for longer
@@ -511,12 +546,12 @@ skill names. The visual reinforces the table’s insights, showing that
 technical knowledge, adaptability, precision, and decision-making are
 viewed as highly important across data science occupations.
 
-
 The same procedure employed above is applied below to the O\*Net skill
-rating scores data. Analyzing both occupation skill scores/ratings
-using the same methodology allows us to compare and verify accuracy of results,
-as well as gain a more comprehensive understanding of important data science 
-skills.
+rating scores data. Analyzing both occupation skill scores/ratings using
+the same methodology allows us to compare and verify accuracy of
+results, as well as gain a more comprehensive understanding of important
+data science skills.
+
 ```{r}
 # create subset of skills data that only includes data science for comparison
 ds_onet_skills = onet_skills_df |>
@@ -541,16 +576,16 @@ less_ds_onet_skills <- onet_skills_df |>
 knit_table(less_ds_onet_skills) |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
-The results highlight 11 skills in which the data scientist skill 
-importance value exceeds 90% of all other occupations. Four of these skills
-overlapped with the EP skill importance scores. The seven newly identified
-skills include **'Number Facility'**, **'Mathematical Reasoning'**,
-**'Analyzing Data or Information**, **'Programming'**,
-**'Interpreting the Meaning of Information for Others'**,
-**'Inductive Reasoning'**, and **'Science'**.
+The results highlight 11 skills in which the data scientist skill
+importance value exceeds 90% of all other occupations. Four of these
+skills overlapped with the EP skill importance scores. The seven newly
+identified skills include **'Number Facility'**, **'Mathematical
+Reasoning'**, **'Analyzing Data or Information**, **'Programming'**,
+**'Interpreting the Meaning of Information for Others'**, **'Inductive
+Reasoning'**, and **'Science'**.
 
 To better visualize these insights, we created the following horizontal
-bar chart. For readability, only the top 24 skills are displayed. 
+bar chart. For readability, only the top 24 skills are displayed.
 
 ```{r}
 less_ds_onet_skills <- less_ds_onet_skills |>
@@ -576,21 +611,20 @@ head(less_ds_onet_skills, 24) |>
      legend.title =element_text(size = 8))
 ```
 
-
 #### Question 2:
 
-**What is relationship between projected employment and the importance of job skills?**
+**What is relationship between projected employment and the importance
+of job skills?**
 
-To explore this question, we examine how the need for different occupational
-skills may change in the future by comparing the average score of each EP skill
-category across all occupations and weighted by base (2023) and projected (2033)
-employment. 
+To explore this question, we examine how the need for different
+occupational skills may change in the future by comparing the average
+score of each EP skill category across all occupations and weighted by
+base (2023) and projected (2033) employment.
 
-
-The analysis begins by creating a function to calculate the weighted average
-of skills over the base and projection period. The weights reflect projected
-changes in employment. Applying the weights allows for us to compare projected
-skills for a variable that is has not projected.
+The analysis begins by creating a function to calculate the weighted
+average of skills over the base and projection period. The weights
+reflect projected changes in employment. Applying the weights allows for
+us to compare projected skills for a variable that is has not projected.
 
 ```{r}
 weighted_avg <- function(skill, employment) {
@@ -610,7 +644,8 @@ skills_project = ep_project_skills |>
   arrange(desc(prct_diff))
 ```
 
-Percent change in projected weighted average skill importance is visualized below:
+Percent change in projected weighted average skill importance is
+visualized below:
 
 ```{r}
 skills_project = skills_project |>
@@ -654,19 +689,20 @@ skills_project |>
 ```
 
 This chart helps to visually assess the relationship between skills and
-projected changes in employment. The three bars in red call out the top three
-data science EP skills identified in question one. These three skills have
-varying levels of increase in projected skill score increase across all
-categories. The small increase in mathematics could be due to the world
-becoming more automated and technologically advanced that. In addition, the
-overall changes being relatively small across all occupations could be accounted
-for due to slow structural changes in the economy. Further analysis 
-is need to draw meaningful conclusions on causation from this analysis
-
+projected changes in employment. The three bars in red call out the top
+three data science EP skills identified in question one. These three
+skills have varying levels of increase in projected skill score increase
+across all categories. The small increase in mathematics could be due to
+the world becoming more automated and technologically advanced that. In
+addition, the overall changes being relatively small across all
+occupations could be accounted for due to slow structural changes in the
+economy. Further analysis is need to draw meaningful conclusions on
+causation from this analysis
 
 #### Question 3:
 
-**What types of technical skills (based on commodity categories) are most commonly marked as in-demand or hot?**
+**What types of technical skills (based on commodity categories) are
+most commonly marked as in-demand or hot?**
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
@@ -727,13 +763,14 @@ software and analytical or scientific software dominate in both "hot"
 and "in-demand" counts for data science occupations. These tools are
 fundamental to data handling, analysis, and model development—so their
 prominence isn’t surprising. Interestingly, many categories show up as
-either hot or in-demand, but not always both. This contrast may reflect the difference between
-technologies that are currently trending and those that are persistently
-needed across job roles.
+either hot or in-demand, but not always both. This contrast may reflect
+the difference between technologies that are currently trending and
+those that are persistently needed across job roles.
 
 #### Question 4:
 
-**What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?**
+**What is the distribution of skill importance across different skill
+categories (e.g., cognitive, interpersonal)?**
 
 This final analysis examines how skill importance scores are distributed
 across various skill categories - such as communication, analytical
@@ -752,9 +789,9 @@ skills_by_category <- ep_skills_df_clean |>
   filter(startsWith(soc, data_science_soc))
 ```
 
-To visualize the distribution, a horizontal barrblot is created. Each bar
-represents a skill category, with the EP skill scores
-(ranging from 0 to 5) plotted vertically within each group:
+To visualize the distribution, a horizontal barrblot is created. Each
+bar represents a skill category, with the EP skill scores (ranging from
+0 to 5) plotted vertically within each group:
 
 ```{r q5-plot}
 # Summary plot by skill category
@@ -767,27 +804,29 @@ ggplot(skills_by_category, aes(
        x = "Skill Category", y = "Importance Score") +
   theme_classic()
 ```
-The resulting plot reveals simiar results to our first analysis.
-some clear patterns. Categories like Reading and Writing,
-Adaptability, Computers and Information Technology, and Creativity and
-Innovation tend to have higher importance scores, suggesting they
-are especially valued in data science-related roles. On the other hand,
-categories like Fine Motor, Customer Service, or Physical Strength and
-Stamina generally receive lower scores, which aligns with the nature of
-data-oriented work.
+
+The resulting plot reveals simiar results to our first analysis. some
+clear patterns. Categories like Reading and Writing, Adaptability,
+Computers and Information Technology, and Creativity and Innovation tend
+to have higher importance scores, suggesting they are especially valued
+in data science-related roles. On the other hand, categories like Fine
+Motor, Customer Service, or Physical Strength and Stamina generally
+receive lower scores, which aligns with the nature of data-oriented
+work.
 
 This distributional view helps distinguish which categories house the
 most critical competencies in the field and highlights the
 multidimensional nature of skill expectations - even in technical roles.
 
 ### Summary of Findings
-The analysis identified the top ten most important skills in data science, 
-highlighting both technical knowledge and cognitive abilities like adaptability 
-and decision-making. A weak positive correlation was found between skill 
-importance and projected employment growth, suggesting broader labor market 
-factors influence job demand. The presence of "hot technologies" did not 
-significantly impact skill importance, indicating that trendy tools are not 
-necessarily considered more essential. Finally, database query software and 
-analytical tools were the most frequently labeled as "hot" or "in-demand," while 
-skill importance varied across different skill categories.
 
+The analysis identified the top ten most important skills in data
+science, highlighting both technical knowledge and cognitive abilities
+like adaptability and decision-making. A weak positive correlation was
+found between skill importance and projected employment growth,
+suggesting broader labor market factors influence job demand. The
+presence of "hot technologies" did not significantly impact skill
+importance, indicating that trendy tools are not necessarily considered
+more essential. Finally, database query software and analytical tools
+were the most frequently labeled as "hot" or "in-demand," while skill
+importance varied across different skill categories.
