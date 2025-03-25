@@ -304,28 +304,17 @@ tables) from the core data tables, retaining only relevant fields for analysis.
 
 ## Industry tidy normalized tables
 
-### MySQL Database
-
-**[insert 1-2 sentences here about where data is stored, how the MySQL
-database is structured, and how it was configured.]**
-
-#### Database Connection
-
-```{r establish-connection}
-# this is where we should establish the connection to the database
-
-```
-
 ### Data Cleaning
 
 ```{r data-cleaning, message=FALSE, warning=FALSE}
 # Data Cleaning Phase
 
 # 1. ep_skills_df Cleaning
-# Remove NAs and ensure all key fields are correctly typed
-ep_skills_df_clean <- ep_skills_df |> 
-  drop_na() |> 
-  mutate(across(c(ep_skills_score, ep_skills_score), as.numeric)) |> 
+# Remove NAs, join with onet skills, ensure correct data types
+ep_skills_df_clean <- ep_skills_df |>
+  left_join(onet_skills_df, by = "soc") |>
+  drop_na() |>
+  mutate(across(c(ep_skills_score, onet_rating_value), as.numeric)) |>
   filter(ep_skills_score >= 0 & ep_skills_score <= 100)
 
 # 2. tech_skills_df Cleaning
@@ -349,24 +338,91 @@ soc_industry_project_df_clean <- soc_industry_project_df |>
   drop_na() |> 
   mutate(across(contains("employment"), as.numeric))
 
-# Output summaries
+# REMOVE: soc_oes_df_clean
+# soc_oes_df_clean <- soc_oes_df |> 
+#   drop_na() |> 
+#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
+
+# REMOVE: industry_oes_df_clean
+# industry_oes_df_clean <- industry_oes_df |> 
+#   drop_na() |> 
+#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
+
+# Output summaries (for validation)
 ep_summary <- summary(ep_skills_df_clean)
 technical_summary <- summary(tech_skills_df_clean)
-soc_summary <- summary(soc_oes_df_clean)
-industry_summary <- summary(industry_oes_df_clean)
+soc_summary <- summary(soc_industry_project_df_clean)
 
 list(
   ep_summary = ep_summary,
   tech_summary = technical_summary,
-  soc_summary = soc_summary,
-  industry_summary = industry_summary
+  soc_summary = soc_summary
 )
 ```
 
 ```{r data-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
 knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
+knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_project_df')
+# Removed:
+# knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
+# knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
 ```
+### MySQL Database
+
+**[insert 1-2 sentences here about where data is stored, how the MySQL
+database is structured, and how it was configured.]**
+
+#### Database Connection
+
+```{r save-csv}
+write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
+write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
+write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
+```
+
+
+```{r establish-connection}
+# Securely fetching the password
+password <- Sys.getenv("MYSQL_PWD")
+
+# Attempt to connect
+conn <- tryCatch({
+  dbConnect(
+    MySQL(),
+    user = "root",
+    password = password,
+    dbname = "project3_data",
+    host = "localhost",
+    port = 3306,
+    client.flag = CLIENT_LOCAL_FILES
+  )
+}, error = function(e) {
+  message("Error: ", e$message)
+  return(NULL)
+})
+
+# Proceed only if connection succeeded
+if (!is.null(conn)) {
+  print("Database connection successful.")
+
+  # Sample query
+  ep_sample <- dbGetQuery(conn, "SELECT * FROM ep_skills LIMIT 5;")
+  print(ep_sample)
+
+  # Inserting data frames
+  dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "tech_skills", tech_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "soc_industry_project", soc_industry_project_df_clean, row.names = FALSE, overwrite = TRUE)
+
+  # Disconnect when done
+  dbDisconnect(conn)
+
+} else {
+  stop("Database connection failed. Check credentials and try again.")
+}
+```
+
 
 ### Data Analysis and Visualization
 
