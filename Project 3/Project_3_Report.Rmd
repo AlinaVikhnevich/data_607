@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r libraries, include=FALSE}
 library(tidyverse)
 library(stringi)
-library(DiagrammeR)
+# library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -49,14 +49,14 @@ knit_table <- function(df, caption='', position = 'left') {
 
 This project explores answering the question "Which are the most valued
 data science skills?". To answer this, the following methodology was
-followed:\
-- **Data Collection** - Import data from various sources such as Bureau
-of Labor Statistics, Projections Central, and O\*Net.\
-- **Data Normalization** - Clean and normalize the data using various
-processing techniques.\
-- **Export to Database** - Store the processed data.\
-- **Data Analysis** - Conduct analysis on the structured data.\
+utilized:
 
+-   **Data Collection** - Import data from various sources such as
+    Bureau of Labor Statistics, Projections Central, and O\*Net.\
+-   **Data Normalization** - Clean and normalize the data using various
+    processing techniques.\
+-   **Export to Database** - Store the processed data.\
+-   **Data Analysis** - Conduct analysis on the structured data.\
 -   **Summary of Findings** - Summarize key insights.
 
 ### Data Normalization
@@ -142,12 +142,11 @@ Normalize Tech Skills Data
 # create tech skills data reference tables
 commodity_ref <- 
   tech_skills |>
-  select(commodity_code, commodity_title, tech_skill_example) |>
+  select(commodity_code, commodity_title) |>
   distinct()
 ```
 
-Final Data Handling Note: this dataset maintained a tidy format and no
-additional transformations were needed
+Final Data Handling Note: this dataset maintained a tidy format and no additional transformations were needed
 
 ```{r rem-ref-tbl}
 # remove reference table columns from main data frame
@@ -193,8 +192,7 @@ soc_onet_soc_lnk <-
   distinct()
 ```
 
-Final Data Handling - Remove Partial Dependencies Note: this dataset
-maintained a tidy format and no additional transformations were needed
+Final Data Handling - Remove Partial Dependencies Note: this dataset maintained a tidy format and no additional transformations were needed
 
 ```{r}
 # split out skills values based on source (onet and ep)
@@ -274,7 +272,7 @@ soc_industry_project_2033 <- soc_industry_project |>
 mutate(year = '2033')
 colnames(soc_industry_project_2033) = c('industry_code', 'soc', 'employment', 'prct_industry', 'prct_soc', 'year')
 
-# stack data to create final soc industry employemnt dataframe
+# stack data to create final soc industry employment dataframe
 soc_industry_project_df <- bind_rows(soc_industry_project_2023, soc_industry_project_2033)
 
 ```
@@ -301,19 +299,18 @@ knit_table(head(soc_industry_project_change_df), 'View Normalized Tidy Industry 
 
 ### Tidy Data
 
-To tidy and normalize the data the team performed the following: 1.
-Renamed columns to allow for more intuitive names as well as ensure
-columns representing the same data values are referenced the same across
-all data frames.
+To tidy and normalize the data the team performed the following
+
+1.  Renamed columns to allow for more intuitive names as well as ensure
+    columns representing the same data values are referenced the same
+    across all data frames.
 
 2.  Developed reference tables to store distinct categorical values
-    (e.g., skill categories) and remove partial dependencies.
+    (ex: skill categories) and remove partial dependencies.
 
 3.  Removed redundant columns (such as columns that are represented in
     reference tables) from the core data tables, retaining only relevant
     fields for analysis.
-
-## Industry tidy normalized tables
 
 ### Data Cleaning
 
@@ -323,12 +320,17 @@ all data frames.
 # 1. ep_skills_df Cleaning
 # Remove NAs, join with onet skills, ensure correct data types
 ep_skills_df_clean <- ep_skills_df |>
-  left_join(onet_skills_df, by = "soc") |>
   drop_na() |>
-  mutate(across(c(ep_skills_score, onet_rating_value), as.numeric)) |>
+  mutate(across(c(ep_skills_score), as.numeric)) |>
   filter(ep_skills_score >= 0 & ep_skills_score <= 100)
 
-# 2. tech_skills_df Cleaning
+# 2. onet_skills_df_clean Cleaning
+onet_skills_df_clean = onet_skills_df |>
+  drop_na() |>
+  mutate(across(c(onet_rating_value), as.numeric)) |>
+  filter(onet_rating_value >= 0 & onet_rating_value <= 100)
+
+# 3. tech_skills_df Cleaning
 tech_skills_df_clean <- tech_skills_df |> 
   drop_na(commodity_code) |> 
   mutate(
@@ -344,40 +346,38 @@ tech_skills_df_clean <- tech_skills_df |>
     )
   )
 
-# 3. soc_industry_project_df Cleaning
+# 4. soc_industry_project_df Cleaning
 soc_industry_project_df_clean <- soc_industry_project_df |> 
   drop_na() |> 
-  mutate(across(contains("employment"), as.numeric))
+  mutate(across(c("employment", 'year', 'prct_industry', 'prct_soc'), as.numeric))
 
-# REMOVE: soc_oes_df_clean
-# soc_oes_df_clean <- soc_oes_df |> 
-#   drop_na() |> 
-#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
-
-# REMOVE: industry_oes_df_clean
-# industry_oes_df_clean <- industry_oes_df |> 
-#   drop_na() |> 
-#   mutate(wage_value = as.numeric(str_remove_all(wage_value, ",")))
+# 5. soc_industry_project_change_df Cleaning
+soc_industry_project_df_change_clean <- soc_industry_project_change_df |> 
+  drop_na() |> 
+  mutate(across(c("employment_change_2023_33_value"), as.numeric))
 
 # Output summaries (for validation)
-ep_summary <- summary(ep_skills_df_clean)
-technical_summary <- summary(tech_skills_df_clean)
-soc_summary <- summary(soc_industry_project_df_clean)
+ep_skills_df_clean_summ <- summary(ep_skills_df_clean)
+onet_skills_df_clean_summ <- summary(onet_skills_df_clean)
+tech_skills_df_clean_summ <- summary(tech_skills_df_clean)
+soc_industry_project_df_clean_summ <- summary(soc_industry_project_df_clean)
+soc_industry_project_df_change_clean_summ <- summary(soc_industry_project_df_change_clean)
 
 list(
-  ep_summary = ep_summary,
-  tech_summary = technical_summary,
-  soc_summary = soc_summary
+  ep_skills_df_clean_summ = ep_skills_df_clean_summ,
+  tech_skills_df_clean_summ = tech_skills_df_clean_summ,
+  onet_skills_df_clean_summ = onet_skills_df_clean_summ,
+  soc_industry_project_df_clean_summ = soc_industry_project_df_clean_summ,
+  soc_industry_project_df_change_clean_summ = soc_industry_project_df_change_clean_summ
 )
 ```
 
 ```{r data-preview}
 knit_table(head(ep_skills_df_clean), 'Preview Cleaned ep_skills_df')
 knit_table(head(tech_skills_df_clean), 'Preview Cleaned tech_skills_df')
+knit_table(head(onet_skills_df_clean), 'Preview Cleaned onet_skills_df')
 knit_table(head(soc_industry_project_df_clean), 'Preview Cleaned soc_industry_project_df')
-# Removed:
-# knit_table(head(soc_oes_df_clean), 'Preview Cleaned soc_oes_df')
-# knit_table(head(industry_oes_df_clean), 'Preview Cleaned industry_oes_df')
+knit_table(head(soc_industry_project_df_change), 'Preview Cleaned soc_industry_project_df')
 ```
 
 ### MySQL Database
@@ -407,7 +407,7 @@ This setup creates a reproducible and secure workflow for integrating R
 with SQL, allowing us to bridge data cleaning, storage, and analysis in
 a single environment.
 
-#### Database Connection
+#### Database Connection 
 
 ```{r save-csv}
 write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
@@ -417,18 +417,18 @@ write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", ro
 
 ```{r establish-connection}
 # Securely fetching the password
-password <- Sys.getenv("MYSQL_PWD")
+# password <- Sys.getenv("OliviaStrongPass123!")
 
 # Attempt to connect
 conn <- tryCatch({
   dbConnect(
     MySQL(),
-    user = "root",
-    password = password,
+    user = "olivia",
+    password = 'OliviaStrongPass123!',
     dbname = "project3_data",
-    host = "localhost",
-    port = 3306,
-    client.flag = CLIENT_LOCAL_FILES
+    host= '192.168.1.52',
+    port= 3306
+    # client.flag = CLIENT_LOCAL_FILES
   )
 }, error = function(e) {
   message("Error: ", e$message)
