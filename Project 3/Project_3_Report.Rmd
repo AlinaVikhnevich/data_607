@@ -325,7 +325,7 @@ database is structured, and how it was configured.]**
 # Remove NAs and ensure all key fields are correctly typed
 ep_skills_df_clean <- ep_skills_df |> 
   drop_na() |> 
-  mutate(across(c(ep_skills_score, onet_rating_value), as.numeric)) |> 
+  mutate(across(c(ep_skills_score, ep_skills_score), as.numeric)) |> 
   filter(ep_skills_score >= 0 & ep_skills_score <= 100)
 
 # 2. tech_skills_df Cleaning
