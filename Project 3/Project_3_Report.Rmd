@@ -1,6 +1,6 @@
 ---
 title: "Project 3: Project Proposal"
-author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -15,13 +15,16 @@ editor_options:
 
 ```{r chunk-settings, include=FALSE}
 # to be updated 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      results = "hide", 
+                      warning = FALSE,  
+                      error = FALSE,   
+                      message = FALSE)
 ```
 
 ```{r libraries, include=FALSE}
 library(tidyverse)
 library(stringi)
-# library(DiagrammeR)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -93,9 +96,8 @@ reference tables were developed.
     occupations. This data source was used to explore various skill sets
     for occupations related to data science.
 
+```{r load-data, include=FALSE}
 ## Read Data
-
-```{r load-data}
 # Load the occupation technology skills data
 tech_skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/Technology%20Skills.csv")
 
@@ -106,7 +108,7 @@ ep_project_skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich
 soc_industry_project <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/National_Employment_Matrix_for_2023_and_projected_2033.csv")
 ```
 
-```{r ds-def}
+```{r ds-def, include=FALSE}
 # define data science occupation (SOC) code
 data_science_soc = '15-2051'
 ```
