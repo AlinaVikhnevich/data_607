@@ -1,14 +1,17 @@
 ---
 title: "Project 3: Project Presentation"
-author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas"
 date: "`r Sys.Date()`"
 format:
   revealjs:
-    theme: default
+    theme: simple
     toc: false
     transition: fade
 execute:
   echo: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -26,46 +29,49 @@ library(kableExtra)
 library(jsonlite)
 ```
 
-# Introduction {.smaller}
-This project explores what are the most valuable data science skills. To answer 
-this, the following methodology was followed:
+## Introduction {.smaller}
 
-- **Data Collection** - Import data from various sources such as Bureau of Labor 
-Statistics, Projections Central, and O*Net.
-- **Data Normalization** - Clean and normalize the data using various processing 
-                           techniques.
-- **Export to Database** - Store the processed data.
-- **Data Analysis** - Conduct analysis on the structured data.
-- **Summary of Findings** - Summarize key insights.
+This project explores what are the most valuable data science skills. To
+answer this, the following methodology was followed:
 
-# Research Questions {.smaller}
+-   **Data Collection** - Import data from various sources such as
+    Bureau of Labor Statistics, Projections Central, and O\*Net.
+-   **Data Normalization** - Clean and normalize the data using various
+    processing techniques.
+-   **Export to Database** - Store the processed data.
+-   **Data Analysis** - Conduct analysis on the structured data.
+-   **Summary of Findings** - Summarize key insights.
+
+## Research Questions {.smaller}
+
 1.  Which skills are considered the most important in the data science
     field?
 2.  What is relationship between projected employment and the importance
     of job skills?
-3.  How does the presence of 'hot technologies' relate to skill
-    importance in data science roles?
-4.  What types of technical skills (based on commodity categories) are
-    most commonly marked as in-demand or hot?
-5.  What is the distribution of skill importance across different skill
+3.  What types of technical skills (based on commodity categories) are
+    most frequently included on data science job postings (in-demand or
+    hot)?
+4.  What is the distribution of skill importance across different skill
     categories (e.g., cognitive, interpersonal)?
 
-# Data Sources {.smaller}
+## Data Sources {.smaller}
 
--   [Industry Profile for Data Scientists](https://www.bls.gov/emp/data/occupational-data.htm) - This
-    data source provides detailed information on the data science
-    occupation and projected employment. 
--   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
+-   [Industry Profile for Data
+    Scientists](https://www.bls.gov/emp/data/occupational-data.htm) -
+    This data source provides detailed information on the data science
+    occupation and projected employment.
+-   [O\*Net
+    Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
     worker characteristics, including skill requirements for specific
     occupations. This data source was used to explore various skill sets
     for occupations related to data science.
 
-# Logical Model {.smaller}
+# 
 
-```{r logical-model}   
-#| render: "manual"
-#| engine: "knitr"
+![Logic Model](Images/logic_model.png)
+
+```{r logical-model, eval=FALSE}
 grViz("
 digraph Logical_Model {
 
@@ -99,20 +105,17 @@ digraph Logical_Model {
   {Cleaning Normalization} -> StructuredData
   StructuredData -> {Core Link Ref}
 }
-") %>% 
+")
 
-htmlwidgets::onRender("
-    function(el) {
-      el.querySelector('svg').style.cursor = 'grab';
-    }
-  ")
+
+
 ```
 
+# 
 
-# Entity Relationship Diagram {.smaller}
-```{r erd}
-#| render: "manual"
-#| engine: "knitr"
+![Entity Relationship Diagram](Images/ERD.png)
+
+```{r erd, eval=FALSE}
 grViz("
 digraph ER_Diagram {
   graph [layout = dot, rankdir = LR, fontname = 'Helvetica']
@@ -191,12 +194,13 @@ htmlwidgets::onRender("
   ")
 ```
 
-# Data Normalization
-To reduce redundancy and improve data integrity, the data in this project was 
-normalized. This helps to ensure that data is stored efficiently, avoiding 
-duplication and inconsistencies, and to have a better-managed database. To 
-normalize the datasets, five core tables were developed, and five reference 
-tables were developed. 
+## Data Normalization
+
+To reduce redundancy and improve data integrity, the data in this
+project was normalized. This helps to ensure that data is stored
+efficiently, avoiding duplication and inconsistencies, and to have a
+better-managed database. To normalize the datasets, five core tables
+were developed, and five reference tables were developed.
 
 ```{r load-data, include=FALSE}
 # Core tables
@@ -249,7 +253,8 @@ conn <- tryCatch({
 })
 ```
 
-# Connecting to MySQL Database
+## Connecting to MySQL Database
+
 ```{r database-load}
 #| eval: false                   # Prevents execution
 #| echo: true                    # check if this will make the code appear in slide
@@ -291,26 +296,32 @@ if (!is.null(conn)) {
 }
 ```
 
-# Tidy Data {.smaller}
+## Tidy Data {.smaller}
+
 To tidy and normalize the data the team performed the following
-1.  Renamed columns to allow for more intuitive names as well as ensure
-    columns representing the same data values are referenced the same
-    across all data frames.
-2.  Developed reference tables to store distinct categorical values
-    (ex: skill categories) and remove partial dependencies.
-3.  Removed redundant columns (such as columns that are represented in
-    reference tables) from the core data tables, retaining only relevant
-    fields for analysis.
 
-# Research Question 1 {.smaller}
+1\. Renamed columns to allow for more intuitive names as well as ensure
+columns representing the same data values are referenced the same across
+all data frames.
 
-*Which skills are considered the most important in the data science field?*
+2\. Developed reference tables to store distinct categorical values (ex:
+skill categories) and remove partial dependencies.
 
-To explore the most critical skills in the data science field, we begin by 
-analyzing the ep_skills_df_clean dataset. The goal is to identify which skills 
-are disproportionately used in the data science field compared to all 
-other occupations. This is done by calculating the percent of occupations having 
-a lower skill importance score than data science for all EP skill categories.
+3\. Removed redundant columns (such as columns that are represented in
+reference tables) from the core data tables, retaining only relevant
+fields for analysis.
+
+## Research Question 1 {.smaller}
+
+**Which skills are considered the most important in the data science
+field?**
+
+To explore the most critical skills in the data science field, we begin
+by analyzing the ep_skills_df_clean dataset. The goal is to identify
+which skills are disproportionately used in the data science field
+compared to all other occupations. This is done by calculating the
+percent of occupations having a lower skill importance score than data
+science for all EP skill categories.
 
 ```{r ds-def, include=FALSE}
 # define data science occupation (SOC) code
@@ -341,6 +352,7 @@ less_ds_ep_skills <- ep_skills_df_clean |>
 ```
 
 # 
+
 ```{r ds-skills-comp-other}
 # question 1 visualization
 #| echo: false         # Hide code
@@ -371,9 +383,10 @@ less_ds_ep_skills |>
      legend.title =element_text(size = 10))
 ```
 
-# Research Question 2 {.smaller} 
+## Research Question 2 {.smaller}
 
-*What is relationship between projected employment and the importance of job skills?*
+**What is relationship between projected employment and the importance
+of job skills?**
 
 To explore this question, we examine how the need for different
 occupational skills may change in the future by comparing the average
@@ -399,6 +412,7 @@ skills_project <- ep_project_skills |>
 ```
 
 # 
+
 ```{r q2-vis}
 # question 2 visualization
 #| echo: false         # Hide code
@@ -430,17 +444,20 @@ skills_project |>
     legend.title =element_text(size = 10))
 ```
 
-# Research Question 3 {.smaller}
+## Research Question 3 {.smaller}
 
-*What types of technical skills (based on commodity categories) are most frequently included on data science job postings (in-demand or hot)?*
+**What types of technical skills (based on commodity categories) are
+most frequently included on data science job postings (in-demand or
+hot)?**
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
 used in the job posting requirements. Commodities labeled as “hot
-technologies” indicate they are frequently included across all employer job
-postings, and “in-demand” indicate they are frequently included across job
-postings for a specific occupation. The goal is to understand what kinds of
-software or systems are frequently required for data science-related roles.
+technologies” indicate they are frequently included across all employer
+job postings, and “in-demand” indicate they are frequently included
+across job postings for a specific occupation. The goal is to understand
+what kinds of software or systems are frequently required for data
+science-related roles.
 
 ```{r q3-analysis, include=FALSE}
 # Join tech skills with commodity reference
@@ -460,7 +477,8 @@ tech_commodity_summary <- tech_skills_df_clean |>
                         count_demand = "In Demand"))
 ```
 
-#
+# 
+
 ```{r q3-vis}
 # Question 3 - Visualization
 #| echo: false         # Hide code
@@ -490,9 +508,10 @@ ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = cou
     legend.title =element_text(size = 10))
 ```
 
-# Research Question 4 {.smaller}
+## Research Question 4 {.smaller}
 
-*What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?*
+**What is the distribution of skill importance across different skill
+categories (e.g., cognitive, interpersonal)?**
 
 This final analysis examines how skill importance scores are distributed
 across various skill categories - such as communication, analytical
@@ -507,7 +526,8 @@ skills_by_category <- ep_skills_df_clean |>
   filter(startsWith(soc, data_science_soc))
 ```
 
-#
+# 
+
 ```{r q4-plot}
 # question 4 visualization
 #| echo: false         # Hide code
@@ -525,14 +545,32 @@ ggplot(skills_by_category, aes(
   theme_classic()
 ```
 
-# Findings {.smaller}
-The analysis identified the top ten most important skills in data
+## Findings: Top Twelve Skills {.smaller}
+
+The analysis identified the top twelve most important skills in data
 science, highlighting both technical knowledge and cognitive abilities
-like adaptability and decision-making. A weak positive correlation was
-found between skill importance and projected employment growth,
-suggesting broader labor market factors influence job demand. The
-presence of "hot technologies" did not significantly impact skill
-importance, indicating that trendy tools are not necessarily considered
-more essential. Finally, database query software and analytical tools
-were the most frequently labeled as "hot" or "in-demand," while skill
-importance varied across different skill categories. {.smaller}
+like adaptability and reasoning. While the majority of the skills are
+technical, there was a wide range of skills to be found valuable.
+
+## Findings: Projections {.smaller}
+
+Three of the top valued data science skills are projected to increase
+slightly overtime across all occupations based on 2033 employment
+projection data. This supports the trend of data science growing and
+evolving rapidly with new emerging trends such as AI.
+
+## Findings: Skills Found in Job Postings {.smaller}
+
+Finally, the following commodities were also found to be of value in the
+data science field due frequently occurring on job posting over 50% of
+the time when compared to job postings for all occupations.
+
+-   Object or component-oriented development software
+
+-   Data base user interface and query software
+
+-   Development environment software
+
+-   Business intelligence and data analysis software
+
+-   Analytically or scientific software
