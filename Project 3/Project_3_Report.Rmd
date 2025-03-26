@@ -412,11 +412,21 @@ a single environment.
 #### Database Connection 
 
 ```{r save-csv}
+# Core tables
 write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
 write.csv(onet_skills_df_clean, "onet_skills_df_clean.csv", row.names = FALSE)
 write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_change_df_clean, "soc_industry_project_change_df_clean.csv", row.names = FALSE)
+# Link tables
+write.csv(soc_onet_soc_lnk, "soc_onet_soc_lnk.csv", row.names = FALSE)
+write.csv(soc_industry_lnk, "soc_industry_lnk.csv", row.names = FALSE)
+# Reference tables
+write.csv(commodity_ref, "commodity_ref.csv", row.names = FALSE)
+write.csv(skills_element_ref, "skills_element_ref.csv", row.names = FALSE)
+write.csv(soc_ref, "soc_ref.csv", row.names = FALSE)
+write.csv(skills_category_ref, "skills_category_ref.csv", row.names = FALSE)
+write.csv(industry_ref, "industry_ref.csv", row.names = FALSE)
 ```
 
 ```{r establish-connection}
