@@ -793,8 +793,8 @@ data base user interface and query software and analytically or scientific
 software dominate in both "hot" and "in-demand" counts for data science
 occupations. These tools are fundamental to data handling, analysis, and model
 development—so their prominence isn’t surprising. In addition to those
-commodity categories, development environment software business intelligence
-and data analysis software and analytically or scientific software all have
+commodity categories, development environment software, business intelligence
+and data analysis software, and analytically or scientific software all have
 a "in-demand" proportion that is over 50% of "hot". This means that these
 categories for data science frequently occur over 50% of the time on job
 postings when compared to the frequency of **all** job postings. Thus, these
