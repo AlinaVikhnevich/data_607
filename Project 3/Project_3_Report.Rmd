@@ -431,7 +431,7 @@ conn <- tryCatch({
     password = password,
     dbname = "project3_data",
     host= '192.168.1.52',
-    port= 3306
+    port= 3306,
     client.flag = CLIENT_LOCAL_FILES
   )
 }, error = function(e) {
@@ -448,11 +448,22 @@ if (!is.null(conn)) {
   print(ep_sample)
 
   # Inserting data frames
+  # Core tables
   dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "onet_skills", onet_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "tech_skills", tech_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_project", soc_industry_project_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_project_change", soc_industry_project_change_df_clean, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
+  # Link tables
+  dbWriteTable(conn, "soc_onet_soc_lnk", soc_onet_soc_lnk, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "soc_industry_lnk", soc_industry_lnk, row.names = FALSE, overwrite = TRUE)
+  # Reference tables
+  dbWriteTable(conn, "commodity_ref", commodity_ref, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "skills_element_ref", skills_element_ref, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "soc_ref", soc_ref, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "skills_category_ref", skills_category_ref, row.names = FALSE, overwrite = TRUE)
+  dbWriteTable(conn, "industry_ref", industry_ref, row.names = FALSE, overwrite = TRUE)
 
   # Disconnect when done
   dbDisconnect(conn)
@@ -750,7 +761,7 @@ and label:
 # Visualization: bar chart
 top_commodities <- tech_commodity_summary |>
   group_by(commodity_title) |>
-  summarise(total_count = sum(count)) |>
+  summarise(total_count = count/total) |>
   top_n(12, total_count)
 
 filtered_commodity_plot <- tech_commodity_summary |>
@@ -761,7 +772,12 @@ ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = cou
   coord_flip() +
   labs(title = "Top 12 Hot and In-Demand Skills by Commodity Category",
        x = "Commodity Category", y = "Count", fill = "Label") +
-  theme_classic()
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = 'bottom',
+    legend.justification = "left",
+    legend.title =element_text(size = 10))
 ```
 
 From the plot, it's clear that data base user interface and query
@@ -795,7 +811,7 @@ skills_by_category <- ep_skills_df_clean |>
   filter(startsWith(soc, data_science_soc))
 ```
 
-To visualize the distribution, a horizontal barrblot is created. Each
+To visualize the distribution, a horizontal barplot is created. Each
 bar represents a skill category, with the EP skill scores (ranging from
 0 to 5) plotted vertically within each group:
 
