@@ -1,13 +1,11 @@
 ---
-title: "Project 3: Project Proposal"
+title: "Project 3: Project Presentation"
 author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
 date: "`r Sys.Date()`"
 format:
   revealjs:
     theme: default
-    toc: true
-    toc-depth: 2
-    slide-level: 2
+    toc: false
     transition: fade
 execute:
   echo: true
@@ -63,7 +61,7 @@ Statistics, Projections Central, and O*Net.
     occupations. This data source was used to explore various skill sets
     for occupations related to data science.
 
-## Logical Model {.smaller}
+# Logical Model {.smaller}
 
 ```{r logical-model}   
 #| render: "manual"
@@ -205,8 +203,8 @@ tables were developed.
 ep_skills_df_clean <- read_csv("Data/ep_skills_df_clean.csv")
 onet_skills_df_clean <- read_csv("Data/onet_skills_df_clean.csv")
 tech_skills_df_clean <- read_csv("Data/tech_skills_df_clean.csv")
-soc_industry_project_df_clean <- read_csv("soc_industry_project_df_clean.csv")
-soc_industry_project_change_df_clean <- read_csv("soc_industry_project_change_df_clean.csv")
+soc_industry_project_df_clean <- read_csv("Data/soc_industry_project_df_clean.csv")
+soc_industry_project_change_df_clean <- read_csv("Data/soc_industry_project_change_df_clean.csv")
 
 # Link tables
 soc_onet_soc_lnk <- read_csv("Data/soc_onet_soc_lnk.csv")
@@ -215,7 +213,7 @@ soc_industry_lnk <- read_csv("Data/soc_industry_lnk.csv")
 # Reference tables
 commodity_ref <- read_csv("Data/commodity_ref.csv")
 skills_element_ref <- read_csv("Data/skills_element_ref.csv")
-soc_ref <- read_csv("soc_ref.csv")
+soc_ref <- read_csv("Data/soc_ref.csv")
 skills_category_ref <- read_csv("Data/skills_category_ref.csv")
 industry_ref <- read_csv("Data/industry_ref.csv")
 
@@ -254,6 +252,7 @@ conn <- tryCatch({
 # Connecting to MySQL Database
 ```{r database-load}
 #| eval: false                   # Prevents execution
+#| echo: true                    # check if this will make the code appear in slide
 #| code-line-numbers: true       # line numbers
 #| code-height: 300px            # Fixed height for scroll
 #| code-summary: "Click to expand code"  # Optional label
@@ -303,7 +302,9 @@ To tidy and normalize the data the team performed the following
     reference tables) from the core data tables, retaining only relevant
     fields for analysis.
 
-# Question 1: Which skills are considered the most important in the data science field? {.smaller}
+# Research Question 1 {.smaller}
+
+*Which skills are considered the most important in the data science field?*
 
 To explore the most critical skills in the data science field, we begin by 
 analyzing the ep_skills_df_clean dataset. The goal is to identify which skills 
@@ -339,8 +340,9 @@ less_ds_ep_skills <- ep_skills_df_clean |>
   arrange(desc(prct_less))
 ```
 
-# Question 1 - Visualization
+# 
 ```{r ds-skills-comp-other}
+# question 1 visualization
 #| echo: false         # Hide code
 #| fig-width: 10       # Adjust width
 #| fig-height: 6       # Adjust height
@@ -369,7 +371,9 @@ less_ds_ep_skills |>
      legend.title =element_text(size = 10))
 ```
 
-# Question 2: What is relationship between projected employment and the importance of job skills?
+# Research Question 2 {.smaller} 
+
+*What is relationship between projected employment and the importance of job skills?*
 
 To explore this question, we examine how the need for different
 occupational skills may change in the future by comparing the average
@@ -394,8 +398,9 @@ skills_project <- ep_project_skills |>
   arrange(desc(prct_diff))
 ```
 
-# Question 2 - Visualization 
+# 
 ```{r q2-vis}
+# question 2 visualization
 #| echo: false         # Hide code
 #| fig-width: 10       # Adjust width
 #| fig-height: 6       # Adjust height
@@ -425,7 +430,9 @@ skills_project |>
     legend.title =element_text(size = 10))
 ```
 
-# Question 3: What types of technical skills (based on commodity categories) are most frequently included on data science job postings (in-demand or hot)? {.smaller}
+# Research Question 3 {.smaller}
+
+*What types of technical skills (based on commodity categories) are most frequently included on data science job postings (in-demand or hot)?*
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
@@ -453,8 +460,9 @@ tech_commodity_summary <- tech_skills_df_clean |>
                         count_demand = "In Demand"))
 ```
 
-# Question 3 - Visualization
+#
 ```{r q3-vis}
+# Question 3 - Visualization
 #| echo: false         # Hide code
 #| fig-width: 10       # Adjust width
 #| fig-height: 6       # Adjust height
@@ -482,7 +490,9 @@ ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = cou
     legend.title =element_text(size = 10))
 ```
 
-# Question 4: What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?
+# Research Question 4 {.smaller}
+
+*What is the distribution of skill importance across different skill categories (e.g., cognitive, interpersonal)?*
 
 This final analysis examines how skill importance scores are distributed
 across various skill categories - such as communication, analytical
@@ -497,7 +507,9 @@ skills_by_category <- ep_skills_df_clean |>
   filter(startsWith(soc, data_science_soc))
 ```
 
+#
 ```{r q4-plot}
+# question 4 visualization
 #| echo: false         # Hide code
 #| fig-width: 10       # Adjust width
 #| fig-height: 6       # Adjust height
@@ -513,7 +525,7 @@ ggplot(skills_by_category, aes(
   theme_classic()
 ```
 
-# Findings
+# Findings {.smaller}
 The analysis identified the top ten most important skills in data
 science, highlighting both technical knowledge and cognitive abilities
 like adaptability and decision-making. A weak positive correlation was
@@ -523,5 +535,4 @@ presence of "hot technologies" did not significantly impact skill
 importance, indicating that trendy tools are not necessarily considered
 more essential. Finally, database query software and analytical tools
 were the most frequently labeled as "hot" or "in-demand," while skill
-importance varied across different skill categories.
----
+importance varied across different skill categories. {.smaller}
