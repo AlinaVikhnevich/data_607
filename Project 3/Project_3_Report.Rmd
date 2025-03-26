@@ -856,13 +856,26 @@ multidimensional nature of skill expectations - even in technical roles.
 
 ### Summary of Findings
 
-The analysis identified the top ten most important skills in data
-science, highlighting both technical knowledge and cognitive abilities
-like adaptability and decision-making. A weak positive correlation was
-found between skill importance and projected employment growth,
-suggesting broader labor market factors influence job demand. The
-presence of "hot technologies" did not significantly impact skill
-importance, indicating that trendy tools are not necessarily considered
-more essential. Finally, database query software and analytical tools
-were the most frequently labeled as "hot" or "in-demand," while skill
-importance varied across different skill categories.
+The analysis identified a variety of valued data science skills based on skill importance, skill ranking, projected employment, and frequency of skills in job posting requirements (hot and in demand skills). Overall, the following data science skills were found to be of value  
+
+•	Mathematics
+•	Critical and analytical thinking
+•	Computers and information technology
+•	Number Facility
+•	Analyzing Data or Information
+•	Programming
+•	Interpreting the Meaning of Information for Other
+•	Inductive Reasoning
+•	Science
+•	Reading and Writing
+•	Adaptability
+•	Creativity and Innovation
+While majority of these skills are technical, there is much diversity in the range of skills found to be of value. This combination of technical knowledge, cognitive abilities, communication, and creativity in skills highlights that data science is both a science and an art.
+Three of the top valued data science skills are projected to increase slightly overtime across all occupations based on 2033 employment projection data. This supports the trend of data science growing and evolving rapidly with new emerging trends such as AI. The presence of "hot technologies" did not significantly impact skill importance, indicating that trendy tools are not necessarily considered more essential. 
+Finally, the following commodities were also found to be of value in the data science field due frequently occurring on job posting over 50% of the time when compared to job postings for all occupations.
+•	Object or component-oriented development software
+•	Data base user interface and query software
+•	Development environment software
+•	Business intelligence and data analysis software
+•	Analytically or scientific software
+
