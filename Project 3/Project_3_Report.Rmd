@@ -28,6 +28,8 @@ library(stringr)
 library(kableExtra)
 library(jsonlite)
 library(janitor)
+library(DBI)
+library(RMySQL)
 
 knit_table <- function(df, caption='', position = 'left') {
   kbl(df, format = "html", escape = FALSE, caption = caption) |>
