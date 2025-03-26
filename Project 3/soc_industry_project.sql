@@ -1,1 +1,0 @@
-SELECT * FROM project3_data.soc_industry_project;

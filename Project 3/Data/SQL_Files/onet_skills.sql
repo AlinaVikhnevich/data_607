@@ -1,0 +1,1 @@
+SELECT * FROM project3_data.onet_skills;

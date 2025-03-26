@@ -84,18 +84,9 @@ reference tables were developed.
 
 ## Data Sources
 
--   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
+-   [Industry Profile for Data Scientists](https://www.bls.gov/emp/data/occupational-data.htm) - This
     data source provides detailed information on the data science
-    occupation. This project uses the Bureau of Labor Occupational
-    Employment and Wage (OES) statistics to identify industries with
-    employment in Data Scientists and relevant information such as
-    income.
--   [Projections Central](https://projectionscentral.org/directdownloads) - This data
-    source includes projections of industry and occupational employment
-    by state and the US. This data was used to explore the relationship
-    of skills and projected outcomes for certain occupations related to
-    data science such as data scientists, analysts, data engineers, and
-    data architects.
+    occupation and projected employment. 
 -   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
     worker characteristics, including skill requirements for specific
