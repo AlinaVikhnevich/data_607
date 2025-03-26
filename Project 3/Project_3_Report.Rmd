@@ -729,13 +729,15 @@ causation from this analysis
 #### Question 3:
 
 **What types of technical skills (based on commodity categories) are
-most commonly marked as in-demand or hot?**
+most frequently included on data science job postings (in-demand or hot)?**
 
 This analysis explores which categories of technical tools or
 platforms - referred to as *commodity categories* - are most frequently
-associated with either “hot technologies” or “in-demand” labels in the
-job market. The goal is to understand what kinds of software or systems
-are commonly emphasized in data science-related roles.
+used in the job posting requirements. Commodities labeled as “hot
+technologies” indicate they are frequently included across all employer job
+postings, and “in-demand” indicate they are frequently included across job
+postings for a specific occupation. The goal is to understand what kinds of
+software or systems are frequently required for data science-related roles.
 
 The analysis begins by joining the cleaned `tech_skills_df` with its
 corresponding `commodity_ref` descriptions. Then, for each unique
@@ -771,7 +773,7 @@ and label:
 # Visualization: bar chart
 top_commodities <- tech_commodity_summary |>
   group_by(commodity_title) |>
-  summarise(total_count = count/total) |>
+  summarise(total_count = sum(count)) |>
   top_n(12, total_count)
 
 filtered_commodity_plot <- tech_commodity_summary |>
@@ -790,14 +792,18 @@ ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = cou
     legend.title =element_text(size = 10))
 ```
 
-From the plot, it's clear that data base user interface and query
-software and analytical or scientific software dominate in both "hot"
-and "in-demand" counts for data science occupations. These tools are
-fundamental to data handling, analysis, and model development—so their
-prominence isn’t surprising. Interestingly, many categories show up as
-either hot or in-demand, but not always both. This contrast may reflect
-the difference between technologies that are currently trending and
-those that are persistently needed across job roles.
+From the plot, it's clear that object or component oriented development software and 
+data base user interface and query software and analytically or scientific
+software dominate in both "hot" and "in-demand" counts for data science
+occupations. These tools are fundamental to data handling, analysis, and model
+development—so their prominence isn’t surprising. In addition to those
+commodity categories, development environment software business intelligence
+and data analysis software and analytically or scientific software all have
+a "in-demand" proportion that is over 50% of "hot". This means that these
+categories for data science frequently occur over 50% of the time on job
+postings when compared to the frequency of **all** job postings. Thus, these
+commodities can be seen as valuable to the data science field.
+
 
 #### Question 4:
 
