@@ -84,22 +84,19 @@ reference tables were developed.
 
 ## Data Sources
 
--   [Industry Profile for Data
-    Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
+-   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
     data source provides detailed information on the data science
     occupation. This project uses the Bureau of Labor Occupational
     Employment and Wage (OES) statistics to identify industries with
     employment in Data Scientists and relevant information such as
     income.
--   [Projections
-    Central](https://projectionscentral.org/directdownloads) - This data
+-   [Projections Central](https://projectionscentral.org/directdownloads) - This data
     source includes projections of industry and occupational employment
     by state and the US. This data was used to explore the relationship
     of skills and projected outcomes for certain occupations related to
     data science such as data scientists, analysts, data engineers, and
     data architects.
--   [O\*Net
-    Database](https://www.onetcenter.org/database.html#all-files) – The
+-   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
     O\*NET database outlines various information that describe work and
     worker characteristics, including skill requirements for specific
     occupations. This data source was used to explore various skill sets
@@ -413,20 +410,20 @@ a single environment.
 
 ```{r save-csv}
 # Core tables
-write.csv(ep_skills_df_clean, "ep_skills_df_clean.csv", row.names = FALSE)
-write.csv(onet_skills_df_clean, "onet_skills_df_clean.csv", row.names = FALSE)
-write.csv(tech_skills_df_clean, "tech_skills_df_clean.csv", row.names = FALSE)
+write.csv(ep_skills_df_clean, "Data/ep_skills_df_clean.csv", row.names = FALSE)
+write.csv(onet_skills_df_clean, "Data/onet_skills_df_clean.csv", row.names = FALSE)
+write.csv(tech_skills_df_clean, "Data/tech_skills_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_df_clean, "soc_industry_project_df_clean.csv", row.names = FALSE)
 write.csv(soc_industry_project_change_df_clean, "soc_industry_project_change_df_clean.csv", row.names = FALSE)
 # Link tables
-write.csv(soc_onet_soc_lnk, "soc_onet_soc_lnk.csv", row.names = FALSE)
-write.csv(soc_industry_lnk, "soc_industry_lnk.csv", row.names = FALSE)
+write.csv(soc_onet_soc_lnk, "Data/soc_onet_soc_lnk.csv", row.names = FALSE)
+write.csv(soc_industry_lnk, "Data/soc_industry_lnk.csv", row.names = FALSE)
 # Reference tables
-write.csv(commodity_ref, "commodity_ref.csv", row.names = FALSE)
-write.csv(skills_element_ref, "skills_element_ref.csv", row.names = FALSE)
+write.csv(commodity_ref, "Data/commodity_ref.csv", row.names = FALSE)
+write.csv(skills_element_ref, "Data/skills_element_ref.csv", row.names = FALSE)
 write.csv(soc_ref, "soc_ref.csv", row.names = FALSE)
-write.csv(skills_category_ref, "skills_category_ref.csv", row.names = FALSE)
-write.csv(industry_ref, "industry_ref.csv", row.names = FALSE)
+write.csv(skills_category_ref, "Data/skills_category_ref.csv", row.names = FALSE)
+write.csv(industry_ref, "Data/industry_ref.csv", row.names = FALSE)
 ```
 
 ```{r establish-connection}
@@ -464,7 +461,6 @@ if (!is.null(conn)) {
   dbWriteTable(conn, "tech_skills", tech_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_project", soc_industry_project_df_clean, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_project_change", soc_industry_project_change_df_clean, row.names = FALSE, overwrite = TRUE)
-  dbWriteTable(conn, "ep_skills", ep_skills_df_clean, row.names = FALSE, overwrite = TRUE)
   # Link tables
   dbWriteTable(conn, "soc_onet_soc_lnk", soc_onet_soc_lnk, row.names = FALSE, overwrite = TRUE)
   dbWriteTable(conn, "soc_industry_lnk", soc_industry_lnk, row.names = FALSE, overwrite = TRUE)
