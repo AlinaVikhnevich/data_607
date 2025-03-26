@@ -1,0 +1,595 @@
+---
+title: "Project 3: Project Proposal"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas, Musrat Jahan"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    theme: cerulean
+    toc: true
+    toc-depth: 2
+    slide-level: 2
+    transition: fade
+execute:
+  echo: true
+---
+
+```{r load-libraries}
+library(tidyverse)
+library(stringi)
+library(DiagrammeR)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(kableExtra)
+library(jsonlite)
+
+
+knit_table <- function(df, caption='', position = 'left') {
+  kbl(df, format = "html", escape = FALSE, caption = caption) |>
+    kable_styling(
+      full_width = F,
+      position = position,
+      bootstrap_options = c("striped")) |>
+    row_spec(0, bold = T,
+             color = "white",
+             background = "#327fac",
+             extra_css = "border: 2px solid #327fac;") |>
+    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #327fac;") |>
+    column_spec(1, extra_css = "border-left: 2px solid #327fac;") |>
+    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #327fac;")
+}
+```
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+This project explores what are the most valuable data science skills. To answer 
+this, the following methodology was followed:
+
+- **Data Collection** - Import data from various sources such as Bureau of Labor 
+Statistics, Projections Central, and O*Net.
+- **Data Normalization** - Clean and normalize the data using various processing 
+                           techniques.
+- **Export to Database** - Store the processed data.
+- **Data Analysis** - Conduct analysis on the structured data.
+- **Summary of Findings** - Summarize key insights.
+
+### Research Questions
+
+1.  Which skills are considered the most important in the data science
+    field?
+2.  What is relationship between projected employment and the importance
+    of job skills?
+3.  How does the presence of 'hot technologies' relate to skill importance
+    in data science roles?
+4.  What types of technical skills (based on commodity categories) are
+    most commonly marked as in-demand or hot?
+5.  What is the distribution of skill importance across different skill
+    categories (e.g., cognitive, interpersonal)?
+
+## Data Sources
+
+- [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm)
+- [Projections Central](https://projectionscentral.org/directdownloads)
+- [O\*Net Database](https://www.onetcenter.org/database.html#all-files)
+
+## Logical Model
+
+```{r logical-model}   
+grViz("
+digraph Logical_Model {
+
+  graph [layout = dot, rankdir = TB]
+
+  # Define node styles
+  node [shape = rectangle, style = filled, fillcolor = lightblue]
+
+  # Data Sources
+  DataSources [label = 'Raw Data Sources', shape = parallelogram, fillcolor = lightgray]
+  ONET [label = 'O*NET Database \\n(Skills & Job Data)']
+  Projections [label = 'Projections \\n(Long-term projections for employment)']
+  
+
+  # Processing
+  Processing [label = 'Data Processing & Normalization', shape = ellipse, fillcolor = lightyellow]
+  Cleaning [label = 'Data Cleaning & \\n Transformation']
+  Normalization [label = 'Normalization of \\n Job & Skill Data']
+
+  # Structured Data Tables (Fixed Black Block)
+  StructuredData [label = 'Final Structured Data', shape = parallelogram, fillcolor = lightgray, style = filled]
+  Core [label = 'Core Tables']
+  Link [label = 'Link Tables']
+  Ref [label = 'Reference Tables']
+  
+
+  # Relationships
+  DataSources -> {ONET BLS Projections}
+  {ONET BLS Projections} -> Processing
+  Processing -> {Cleaning Normalization}
+  {Cleaning Normalization} -> StructuredData
+  StructuredData -> {Core Link Ref}
+}
+")
+```
+
+
+## Entity Relationship Diagram
+```{r erd}
+grViz("
+digraph ER_Diagram {
+  
+  graph [layout = dot, rankdir = LR]
+  
+  # Define node styles
+  node [shape = rectangle, 
+        style = filled, 
+        fillcolor = lightblue]
+
+  # Core Tables
+  TechSkills [label = 'tech_skills\\n(onet_soc,
+                                      \\ncommodity_code,
+                                      \\nhot_technology,
+                                      \\nin_demand)']
+                                      
+  EpSkills [label = 'ep_skills_df\\n(soc,
+                                     \\nep_skills_category_id,
+                                     \\nep_skills_score,
+                                     \\nonet_element_id,
+                                     \\nonet_rating_value)']
+                                     
+  SocIndustryProject [label = 'soc_industry_project_df\\n(industry_code,
+                                                          \\nsoc,
+                                                          \\nemployment_2023,
+                                                          \\nprct_soc_2023,
+                                                          \\nemployment_2033,
+                                                          \\nemployment_change_num)']
+
+  # Link Tables
+  SocOnetLink [label = 'soc_onet_soc_lnk\\n(soc,
+                                            \\nonet_soc)']
+  SocIndustryLink [label = 'soc_industry_lnk\\n(soc,
+                                                \\nindustry_code)']
+
+  # Reference Tables
+  CommodityRef [label = 'commodity_ref\\n(commodity_code,
+                                          \\ncommodity_title)', 
+                                          fillcolor = lightgray]
+  SkillsElementRef [label = 'skills_element_ref\\n(onet_element_id,
+                                                    \\nonet_element_name)', 
+                                                    fillcolor = lightgray]
+  SocRef [label = 'soc_ref\\n(soc,
+                              \\nsoc_title,
+                              \\nsoc_type)', 
+                              fillcolor = lightgray]
+  SkillsCategoryRef [label = 'skills_category_ref\\n(ep_skills_category_id,
+                                                      \\nep_skills_category)', 
+                                                      fillcolor = lightgray]
+  IndustryRef [label = 'industry_ref\\n(industry_code,
+                                        \\nindustry_title,
+                                        \\nindustry_type)', 
+                                        fillcolor = lightgray]
+
+  # Relationships (Many-to-Many)
+  TechSkills -> SocOnetLink [label = 'onet_soc']
+  EpSkills -> SocOnetLink [label = 'soc']
+  EpSkills -> SkillsElementRef [label = 'onet_element_id']
+  EpSkills -> SkillsCategoryRef [label = 'ep_skills_category_id']
+  
+  SocIndustryProject -> SocIndustryLink [label = 'soc']
+  SocIndustryProject -> IndustryRef [label = 'industry_code']
+
+  SocOnetLink -> SocRef [label = 'soc']
+
+  # Additional Joins
+  TechSkills -> CommodityRef [label = 'commodity_code']
+}
+")
+```
+
+
+## Data Normalization* 
+-To reduce redundancy and improve data integrity 
+-Helps to ensure that data is stored efficiently
+-Avoid duplication and inconsistencies
+-Better-managed database
+-5 core tables 
+-5 reference tables 
+
+## Unique Identifiers
+-Pull data from three sources and match on two IDs: 
+  -the Standard Occupational Classification (SOC) codes
+  -the North American Industry Classification 
+System (NAICS) codes
+-The SOC codes work as a tree structure
+-More digits means more detailed 
+added to the 6-digit SOC code (or 6 digit with 2 decimals O*NET soc code), the 
+more in depth the occupation description becomes.  
+
+## Load Data
+
+
+
+
+## Tidy Data
+To tidy and normalize the data, the team performed the following: 
+1. Renamed columns to allow for more intuitive names as well as ensure columns 
+representing the same data values are referenced the same across all data 
+frames. 
+2. Developed reference tables to store distinct categorical values 
+(e.g., skill categories) and remove partial dependencies. 
+3. Removed redundant columns (such as columns that are represented in reference 
+tables) from the core data tables, retaining only relevant fields for analysis. 
+4. Transformed the OES and Industry and Occupation Projection datasets from wide 
+to  long  to make the data tidy and allow for better usability. By transforming 
+these datasets each variable is its own column, and each observation is its own 
+row (i.e., reducing multiple hourly and annual wage statistics columns into 
+three columns for duration, type, and value); thus, making the data tidy.
+
+```{r}
+knit_table(head(ep_skills_df), 'View Normalized Tidy EP Skills Data')
+knit_table(head(onet_skills_df), 'View Normalized Tidy ONET Skills Data')
+
+# rendering table 
+knit_table(head(soc_industry_project_df), 'View Tidy Industry and Occupation Projection Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
+
+knit_table(head(soc_oes_df), 'View Tidy SOC Data Science OES Industry Data')
+```
+
+
+
+## Data Analysis
+
+#### Question 1:
+
+**Which skills are considered the most important in the data science
+field?**
+
+To explore the most critical skills in the data science field, we begin
+by analyzing the `ep_skills_df_clean` dataset. The goal is to identify
+which skills are disproportionately used in the data science field
+compared to all other occupations. This was done by calculating the
+percent of occupations having a lower skill importance score than data
+science for all EP skill categories.
+
+
+```{r analyze-data}
+# insert code analyzing data 
+# create subset of skills data that only includes data science for comparison
+ds_ep_skills = ep_skills_df_clean |>
+  filter(soc == data_science_soc) |>
+  select(ep_skills_category_id, ep_skills_score)|>
+  arrange(desc(ep_skills_score))
+colnames(ds_ep_skills) = c('ep_skills_category_id', 'ds_ep_skills_score')
+  
+# create subset data frame that includes all occupations other than data science
+less_ds_ep_skills <- ep_skills_df_clean |>
+  filter(soc != data_science_soc) |>
+  left_join(skills_category_ref, by = join_by(ep_skills_category_id)) |>
+  left_join(soc_ref, by = join_by(soc)) |>
+  # join data science skills subset data
+  left_join(ds_ep_skills, by = join_by(ep_skills_category_id)) |>
+  # group by skill category
+  group_by(ep_skills_category) |>
+  # calculate percent of occupations with lower score
+  mutate(less_score = ifelse(ep_skills_score < ds_ep_skills_score, 1, 0)) |>
+  summarise(prct_less = mean(less_score)* 100) |>
+  arrange(desc(prct_less))
+
+knit_table(less_ds_ep_skills)
+```
+
+## Findings
+### Top 10 Important Data Science Skills (by Avg Score)
+```{r display-findings}
+# insert visualizations
+```{r q1-analysis}
+top_skills <- ep_skills_df_clean |>
+  group_by(onet_element_id) |>
+  summarise(
+    avg_score = mean(ep_skills_score),
+    avg_rating = mean(onet_rating_value),
+    .groups = 'drop'
+  ) |>
+  arrange(desc(avg_score)) |>
+  head(10)
+
+# Join with element names
+top_skills_named <- left_join(top_skills, skills_element_ref, by = "onet_element_id")
+
+knit_table(top_skills_named, 'Top 10 Important Data Science Skills (by Avg Score)')
+```
+
+-I calculated the average importance score
+(`ep_skills_score`) for each skill, which helped me identify the top ten
+based on their relevance to the role. 
+-I also included the `onet_rating_value` for added context. 
+-To make the output more readable, I merged these results with the skill labels from the
+`skills_element_ref` reference table. 
+-The resulting table displays the skill ID, the average importance score, its corresponding rating value, and the full name of the skill.
+
+#### Results
+The results show that some of the highest-ranking skills include:
+-*Updating and Using Relevant Knowledge*
+-*Stress Tolerance*
+-*Self-Control*
+-*Adaptability/Flexibility*
+These reflect a strong demand not only for technical knowledge but also for cognitive and
+emotional stability, which are essential for navigating the dynamic challenges within data science roles.
+
+```{r q1-plot}
+ggplot(top_skills_named, aes(x = reorder(onet_element_name, avg_score), y = avg_score)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Most Important Skills in Data Science",
+       x = "Skill", y = "Average Importance Score") +
+  theme_minimal()
+```
+
+-This plot highlights the same top ten skills and makes it easier to
+compare their relative importance.
+-Ordering the bars by average score and flipping the coordinates improves readability, especially for longer skill names. 
+-The visual reinforces the table’s insights, showing that
+technical knowledge, adaptability, precision, and decision-making are
+viewed as highly important across data science occupations.
+
+#### Question 2:
+
+**What is relationship between projected employment and the importance
+of job skills?**
+
+-I calculated the average importance score for
+each individual skill (`onet_element_id`) 
+-Compared it to the
+projected employment growth associated with the SOCs that require that
+skill. 
+-This method ensures we're analyzing at the skill level, rather
+than aggregating by occupation.
+
+The analysis begins by computing the average skill importance per skill:
+
+```{r q2-analysis}
+# Step 1: Average skill importance per skill
+avg_skill <- ep_skills_df_clean |>
+  group_by(onet_element_id) |>
+  summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = 'drop')
+
+# Step 2: Average employment growth per skill (via SOC)
+avg_growth <- ep_skills_df_clean |>
+  select(onet_element_id, soc) |>
+  distinct() |>  # avoid duplicated combinations
+  left_join(soc_industry_project_df_clean, by = "soc") |>
+  group_by(onet_element_id) |>
+  summarise(avg_growth = mean(employment_change_prct_2023_33, na.rm = TRUE), .groups = 'drop')
+
+# Step 3: Merge
+skill_vs_growth_cleaned <- inner_join(avg_skill, avg_growth, by = "onet_element_id")
+```
+
+This gives us a cleaned dataset that links each skill to both its
+average importance and its associated employment growth projections.
+
+```{r q2-plot}
+ggplot(skill_vs_growth_cleaned, aes(x = avg_skill_score, y = avg_growth)) +
+  geom_point(color = "#FF6666", size = 2, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(
+    title = "Skill Importance vs. Projected Employment Growth",
+    x = "Average Skill Importance Score (by Skill)",
+    y = "Projected Employment Growth (%)"
+  ) +
+  theme_minimal()
+```
+
+-This scatterplot helps us visually assess the relationship.
+-Each point represents a skill, positioned according to its average importance score
+(x-axis) and the average projected employment growth of the SOCs where
+it’s used (y-axis)
+-While there's a faint upward trend, the points are
+fairly scattered, and growth rates are tightly packed between 3.6% and
+4.0%. 
+-The fitted linear regression line suggests a weak positive
+relationship.
+
+-The takeaway is that while highly important skills are sometimes found
+in occupations with higher projected growth, the connection isn’t
+especially strong. 
+-This implies that projected growth is likely
+influenced by broader labor market factors beyond just the importance of
+individual skills.
+
+#### Question 3:
+
+**How does the presence of 'hot technologies' relate to skill importance
+in data science roles?**
+
+-This analysis investigates whether skills associated with hot
+technologies tend to be considered more important in data science
+occupations. 
+-The goal was to see if the “hot” designation - typically
+linked to emerging or in-demand tools - also aligns with higher
+perceived importance scores.
+
+-The first step merges skill data with the technology dataset. 
+-Since the `ep_skills_df_clean` dataset uses SOC codes and the tech skills are
+linked by O\*NET SOC codes, we first map the two using the
+`soc_onet_soc_lnk` reference. 
+-After joining, we group the skills by`commodity_code` and `hot_technology` status to compute the average skill importance.
+
+```{r q3-analysis}
+# Join skill data with tech data via SOC
+ep_tech_summary <- ep_skills_df_clean |>
+  left_join(soc_onet_soc_lnk, by = "soc") |>
+  left_join(tech_skills_df_clean, by = "onet_soc") |>
+  filter(!is.na(hot_technology)) |>
+  group_by(commodity_code, hot_technology) |>
+  summarise(avg_skill_score = mean(ep_skills_score, na.rm = TRUE), .groups = "drop")
+
+```
+
+The resulting table contains each commodity code and whether it’s
+considered a hot technology, alongside the average importance score of
+the associated skills. 
+
+```{r q3-plot}
+ggplot(ep_tech_summary, aes(x = hot_technology, y = avg_skill_score, fill = hot_technology)) +
+  geom_boxplot() +
+  labs(
+    title = "Average Skill Importance by Hot Technology Status",
+    x = "Hot Technology",
+    y = "Average Skill Importance Score"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+-The boxplot compares the distribution of skill importance scores between
+technologies marked as "hot" and those that are not. 
+-Visually, the two
+groups appear quite similar. 
+-Both hot and non-hot technologies show
+comparable median importance scores and spread. 
+-This suggests that the
+“hot” label doesn’t necessarily translate to higher average importance
+in practice.
+
+From this, we can infer that skills linked to trendy or emerging
+technologies are not automatically considered more essential by
+employers or analysts - at least not in terms of the importance scores
+recorded in this dataset.
+
+#### Question 4:
+
+**What types of technical skills (based on commodity categories) are
+most commonly marked as in-demand or hot?**
+
+-This analysis explores which categories of technical tools or
+platforms - referred to as *commodity categories* - are most frequently
+associated with either “hot technologies” or “in-demand” labels in the
+job market. 
+-The goal is to understand what kinds of software or systems
+are commonly emphasized in data science-related roles.
+
+The analysis begins by joining the cleaned `tech_skills_df` with its
+corresponding `commodity_ref` descriptions. 
+-Then, for each unique
+`commodity_title`, we count how many times it appears with
+`hot_technology = TRUE` and `in_demand = TRUE`. 
+-These counts are
+reshaped into a long format for plotting.
+
+
+
+```{r q4-analysis}
+# Join tech skills with commodity reference
+tech_commodity_summary <- tech_skills_df_clean |>
+  left_join(commodity_ref, by = "commodity_code") |>
+  group_by(commodity_title) |>
+  summarise(
+    count_hot = sum(hot_technology == TRUE, na.rm = TRUE),
+    count_demand = sum(in_demand == TRUE, na.rm = TRUE),
+    total = n()
+  ) |>
+  pivot_longer(cols = c(count_hot, count_demand),
+               names_to = "label", values_to = "count") |>
+  mutate(label = recode(label, 
+                        count_hot = "Hot Technology",
+                        count_demand = "In Demand"))
+
+```
+
+-After calculating the counts, we isolate the 12 most frequently
+occurring commodity categories based on total references across both
+labels. 
+-The visualization plots these categories side-by-side by count
+and label:
+
+```{r q4-plot}
+# Visualization: bar chart
+top_commodities <- tech_commodity_summary |>
+  group_by(commodity_title) |>
+  summarise(total_count = sum(count)) |>
+  top_n(12, total_count)
+
+filtered_commodity_plot <- tech_commodity_summary |>
+  filter(commodity_title %in% top_commodities$commodity_title)
+
+ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = count, fill = label)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(title = "Top 12 Hot and In-Demand Skills by Commodity Category",
+       x = "Commodity Category", y = "Count", fill = "Label") +
+  theme_minimal()
+```
+
+-From the plot, it's clear that data base user interface and query
+software and analytical or scientific software dominate in both "hot"
+and "in-demand" counts. 
+-These tools are fundamental to data handling,
+analysis, and model development—so their prominence isn’t surprising.
+-Interestingly, many categories show up as either hot or in-demand, but
+not always both. 
+-This contrast may reflect the difference between
+technologies that are currently trending and those that are persistently
+needed across job roles.
+
+#### Question 5:
+
+**What is the distribution of skill importance across different skill
+categories (e.g., cognitive, interpersonal)?**
+
+-This final analysis examines how skill importance scores are distributed
+across various skill categories - such as communication, analytical
+thinking, adaptability, and more.
+-It’s an attempt to identify which
+broad categories of skills tend to receive higher importance ratings in
+data science-related occupations.
+
+The analysis begins by joining the cleaned `ep_skills_df_clean` dataset
+with the `skills_category_ref` lookup to pull in readable category
+names:
+
+```{r q5-analysis}
+# Join skills with category reference
+skills_by_category <- ep_skills_df_clean |>
+  left_join(skills_category_ref, by = "ep_skills_category_id")
+```
+
+-To visualize the distribution, a horizontal boxplot is created. 
+-Each box
+represents a skill category, with the distribution of skill scores
+(ranging from 0 to 5) plotted vertically within each group:
+
+```{r q5-plot}
+# Summary plot by skill category
+ggplot(skills_by_category, aes(x = ep_skills_category, y = ep_skills_score)) +
+  geom_boxplot(fill = "lightgreen") +
+  coord_flip() +
+  labs(title = "Distribution of Skill Importance by Category",
+       x = "Skill Category", y = "Importance Score") +
+  theme_minimal()
+```
+
+-The resulting plot reveals some clear patterns. 
+-Categories like
+Adaptability, Computers and Information Technology, and Creativity and
+Innovation tend to have higher median importance scores, 
+-This suggests they
+are especially valued in data science-related roles. 
+-On the other hand,
+categories like Fine Motor, Customer Service, or Physical Strength and
+Stamina generally receive lower scores, which aligns with the nature of
+data-oriented work.
+
+This distributional view helps distinguish which categories house the
+most critical competencies in the field and highlights the
+multidimensional nature of skill expectations - even in technical roles.
+## Conclusion
+
+Summarize the key insights and implications of the study.
+
+---
