@@ -754,8 +754,9 @@ tech_commodity_summary <- tech_skills_df_clean |>
   summarise(
     count_hot = sum(hot_technology == TRUE, na.rm = TRUE),
     count_demand = sum(in_demand == TRUE, na.rm = TRUE),
-    total = n()
+    total = sum(in_demand == TRUE | hot_technology == TRUE, na.rm = TRUE),
   ) |>
+  top_n(12, total) |>
   pivot_longer(cols = c(count_hot, count_demand),
                names_to = "label", values_to = "count") |>
   mutate(label = recode(label, 
@@ -764,7 +765,7 @@ tech_commodity_summary <- tech_skills_df_clean |>
 
 ```
 
-After calculating the counts, we isolate the 12 most frequently
+After calculating the counts, we isolate the most frequently
 occurring commodity categories based on total references across both
 labels. The visualization plots these categories side-by-side by count
 and label:
@@ -773,8 +774,7 @@ and label:
 # Visualization: bar chart
 top_commodities <- tech_commodity_summary |>
   group_by(commodity_title) |>
-  summarise(total_count = sum(count)) |>
-  top_n(12, total_count)
+  summarise(total_count = sum(count))
 
 filtered_commodity_plot <- tech_commodity_summary |>
   filter(commodity_title %in% top_commodities$commodity_title)
@@ -782,7 +782,7 @@ filtered_commodity_plot <- tech_commodity_summary |>
 ggplot(filtered_commodity_plot, aes(x = reorder(commodity_title, count), y = count, fill = label)) +
   geom_col(position = "dodge") +
   coord_flip() +
-  labs(title = "Top 12 Hot and In-Demand Skills by Commodity Category",
+  labs(title = "Top Hot and In-Demand Skills by Commodity Category",
        x = "Commodity Category", y = "Count", fill = "Label") +
   theme_classic() +
   theme(
@@ -802,8 +802,10 @@ and data analysis software and analytically or scientific software all have
 a "in-demand" proportion that is over 50% of "hot". This means that these
 categories for data science frequently occur over 50% of the time on job
 postings when compared to the frequency of **all** job postings. Thus, these
-commodities can be seen as valuable to the data science field.
-
+commodities can be seen as valuable to the data science field. Interestingly,
+many categories show up as "hot" but not "in-demand". This contrast may reflect
+the difference between technologies that are currently trending and
+those that are persistently needed across job roles.
 
 #### Question 4:
 
