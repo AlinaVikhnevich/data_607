@@ -78,14 +78,13 @@ reference tables were developed.
     field?
 2.  What is relationship between projected employment and the importance
     of job skills?
-3.  How does the presence of 'hot technologies' relate to skill
-    importance in data science roles?
-4.  What types of technical skills (based on commodity categories) are
-    most commonly marked as in-demand or hot?
-5.  What is the distribution of skill importance across different skill
+3.  What types of technical skills (based on commodity categories) are
+    most frequently included on data science job postings (in-demand or
+    hot)?
+4.  What is the distribution of skill importance across different skill
     categories (e.g., cognitive, interpersonal)?
 
-## Data Sources
+### Data Sources
 
 -   [Industry Profile for Data Scientists](https://www.bls.gov/emp/data/occupational-data.htm) - This
     data source provides detailed information on the data science
@@ -287,7 +286,7 @@ knit_table(head(soc_industry_project_df), 'View Normalized Tidy Industry and Occ
 knit_table(head(soc_industry_project_change_df), 'View Normalized Tidy Industry and Occupation Projection Change Data') |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
-### Tidy Data
+## Tidy Data
 
 To tidy and normalize the data the team performed the following:
 
@@ -470,7 +469,7 @@ write.csv(industry_ref, "Data/industry_ref.csv", row.names = FALSE)
 # }
 ```
 
-### Data Analysis and Visualization
+## Data Analysis and Visualization
 
 #### Question 1:
 
@@ -834,7 +833,7 @@ This distributional view helps distinguish which categories house the
 most critical competencies in the field and highlights the
 multidimensional nature of skill expectations - even in technical roles.
 
-### Summary of Findings
+## Summary of Findings
 
 The analysis identified a variety of valued data science skills based on
 skill importance, skill ranking, projected employment, and frequency of
