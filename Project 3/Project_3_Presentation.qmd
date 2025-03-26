@@ -28,6 +28,30 @@ library(jsonlite)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, include=FALSE}
+tech_skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/Technology%20Skills.csv")
+
+# load additional occupation skills data
+ep_project_skills <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/public-skills-data.csv", skip = 1)
+
+# load occupation project data
+soc_industry_project <- read.csv("https://raw.githubusercontent.com/AlinaVikhnevich/data_607/refs/heads/tidy_normalize_data_oa/Project%203/Data/National_Employment_Matrix_for_2023_and_projected_2033.csv")
+
+# defining
+data_science_soc = '15-2051'
+
+# updated column names
+colnames(tech_skills) <- c(
+  'onet_soc', 'onet_soc_title', 'tech_skill_example',
+  'commodity_code', 'commodity_title', 'hot_technology',
+  'in_demand')
+
+# rendering table 
+knit_table(head(tech_skills), 'View Raw Tech Skills Data')
+
+```
+
+
 ## Introduction
 This project explores what are the most valuable data science skills. To answer 
 this, the following methodology was followed:
@@ -46,8 +70,8 @@ Statistics, Projections Central, and O*Net.
     field?
 2.  What is relationship between projected employment and the importance
     of job skills?
-3.  How does the presence of 'hot technologies' relate to skill importance
-    in data science roles?
+3.  How does the presence of 'hot technologies' relate to skill
+    importance in data science roles?
 4.  What types of technical skills (based on commodity categories) are
     most commonly marked as in-demand or hot?
 5.  What is the distribution of skill importance across different skill
@@ -55,9 +79,23 @@ Statistics, Projections Central, and O*Net.
 
 ## Data Sources
 
-- [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm)
-- [Projections Central](https://projectionscentral.org/directdownloads)
-- [O\*Net Database](https://www.onetcenter.org/database.html#all-files)
+-   [Industry Profile for Data Scientists](https://www.bls.gov/oes/current/oes150000.htm) - This
+    data source provides detailed information on the data science
+    occupation. This project uses the Bureau of Labor Occupational
+    Employment and Wage (OES) statistics to identify industries with
+    employment in Data Scientists and relevant information such as
+    income.
+-   [Projections Central](https://projectionscentral.org/directdownloads) - This data
+    source includes projections of industry and occupational employment
+    by state and the US. This data was used to explore the relationship
+    of skills and projected outcomes for certain occupations related to
+    data science such as data scientists, analysts, data engineers, and
+    data architects.
+-   [O\*Net Database](https://www.onetcenter.org/database.html#all-files) – The
+    O\*NET database outlines various information that describe work and
+    worker characteristics, including skill requirements for specific
+    occupations. This data source was used to explore various skill sets
+    for occupations related to data science.
 
 ## Logical Model
 
@@ -73,8 +111,8 @@ digraph Logical_Model {
   # Data Sources
   DataSources [label = 'Raw Data Sources', shape = parallelogram, fillcolor = lightgray]
   ONET [label = 'O*NET Database \\n(Skills & Job Data)']
+  BLS [label = 'Bureau of Labor Statistics \\n(Employment Statistics for Data Scientists)']
   Projections [label = 'Projections \\n(Long-term projections for employment)']
-  
 
   # Processing
   Processing [label = 'Data Processing & Normalization', shape = ellipse, fillcolor = lightyellow]
@@ -103,71 +141,72 @@ digraph Logical_Model {
 ```{r erd}
 grViz("
 digraph ER_Diagram {
-  
-  graph [layout = dot, rankdir = LR]
-  
-  # Define node styles
-  node [shape = rectangle, 
-        style = filled, 
-        fillcolor = lightblue]
+  graph [layout = dot, rankdir = LR, fontname = 'Helvetica']
+  node [shape = rectangle, style = filled, fontname = 'Helvetica']
 
-  # Core Tables
-  TechSkills [label = 'tech_skills\\n(onet_soc,
-                                      \\ncommodity_code,
-                                      \\nhot_technology,
-                                      \\nin_demand)']
-                                      
-  EpSkills [label = 'ep_skills_df\\n(soc,
-                                     \\nep_skills_category_id,
-                                     \\nep_skills_score,
-                                     \\nonet_element_id,
-                                     \\nonet_rating_value)']
-                                     
-  SocIndustryProject [label = 'soc_industry_project_df\\n(industry_code,
-                                                          \\nsoc,
-                                                          \\nemployment_2023,
-                                                          \\nprct_soc_2023,
-                                                          \\nemployment_2033,
-                                                          \\nemployment_change_num)']
+  // Core Tables Container
+  subgraph cluster_core {
+    label = 'Core Tables';
+    style = 'rounded,filled';
+    color = gray;
+    fillcolor = white;
+    // Nodes in Core cluster
+    EpSkills [label = 'ep_skills\\n(soc,\\nep_skills_category_id,\\nep_skills_score)', fillcolor = '#4F7942', fontcolor = white]
+    ONETSkills [label = 'onet_skills\\n(soc,\\nonet_element_id,\\nonet_rating_value)', fillcolor = '#4F7942', fontcolor = white]
+    TechSkills [label = 'tech_skills\\n(soc,\\ncommodity_code,\\nhot_technology,\\nin_demand)', fillcolor = '#4F7942', fontcolor = white]
+    SocIndustryProject [label = 'soc_industry_project\\n(industry_code,\\nsoc,\\nemployment,\\nprct_industry,\\nprct_soc,\\nyear)', fillcolor = '#4F7942', fontcolor = white]
+    SocIndustryProjectChange [label = 'soc_industry_project_change\\n(industry_code,\\nsoc,\\nemployment_2023,\\nprct_soc_2023,\\nemployment_2033,\\nemployment_change_num)', fillcolor = '#4F7942', fontcolor = white]
+  }
 
-  # Link Tables
-  SocOnetLink [label = 'soc_onet_soc_lnk\\n(soc,
-                                            \\nonet_soc)']
-  SocIndustryLink [label = 'soc_industry_lnk\\n(soc,
-                                                \\nindustry_code)']
+  // Reference Tables Container
+  subgraph cluster_ref {
+    label = 'Reference Tables';
+    style = 'rounded,filled';
+    color = gray;
+    fillcolor = white;
+    // Nodes in Reference cluster
+    CommodityRef [label = 'commodity_ref\\n(commodity_code,\\ncommodity_title)', fillcolor = '#8fc0a9', fontcolor = black]
+    SkillsElementRef [label = 'skills_element_ref\\n(onet_element_id,\\nonet_element_name)', fillcolor = '#8fc0a9', fontcolor = black]
+    SocRef [label = 'soc_ref\\n(soc_title,\\nsoc,\\nsoc_type)', fillcolor = '#8fc0a9', fontcolor = black]
+    SkillsCategoryRef [label = 'skills_category_ref\\n(ep_skills_category_id,\\nep_skills_category)', fillcolor = '#8fc0a9', fontcolor = black]
+    IndustryRef [label = 'industry_ref\\n(industry_code,\\nindustry_title,\\nindustry_type)', fillcolor = '#8fc0a9', fontcolor = black]
+  }
 
-  # Reference Tables
-  CommodityRef [label = 'commodity_ref\\n(commodity_code,
-                                          \\ncommodity_title)', 
-                                          fillcolor = lightgray]
-  SkillsElementRef [label = 'skills_element_ref\\n(onet_element_id,
-                                                    \\nonet_element_name)', 
-                                                    fillcolor = lightgray]
-  SocRef [label = 'soc_ref\\n(soc,
-                              \\nsoc_title,
-                              \\nsoc_type)', 
-                              fillcolor = lightgray]
-  SkillsCategoryRef [label = 'skills_category_ref\\n(ep_skills_category_id,
-                                                      \\nep_skills_category)', 
-                                                      fillcolor = lightgray]
-  IndustryRef [label = 'industry_ref\\n(industry_code,
-                                        \\nindustry_title,
-                                        \\nindustry_type)', 
-                                        fillcolor = lightgray]
+  // Link Tables Container
+  subgraph cluster_link {
+    label = 'Link Tables';
+    style = 'rounded,filled';
+    color = gray;
+    fillcolor = white;
+    // Nodes in Link cluster
+    SocOnetLink [label = 'soc_onet_soc_lnk\\n(soc,\\nonet_soc)', fillcolor = '#faf3dd', fontcolor = black]
+    SocIndustryLink [label = 'soc_industry_lnk\\n(soc,\\nindustry_code)', fillcolor = '#faf3dd', fontcolor = black]
+  }
 
-  # Relationships (Many-to-Many)
-  TechSkills -> SocOnetLink [label = 'onet_soc']
-  EpSkills -> SocOnetLink [label = 'soc']
-  EpSkills -> SkillsElementRef [label = 'onet_element_id']
-  EpSkills -> SkillsCategoryRef [label = 'ep_skills_category_id']
-  
-  SocIndustryProject -> SocIndustryLink [label = 'soc']
-  SocIndustryProject -> IndustryRef [label = 'industry_code']
+  // Ensure horizontal alignment for nodes within each cluster
+  { rank = same; EpSkills; ONETSkills; TechSkills; SocIndustryProject; SocIndustryProjectChange; }
+  { rank = same; CommodityRef; SkillsElementRef; SocRef; SkillsCategoryRef; IndustryRef; }
+  { rank = same; SocOnetLink; SocIndustryLink; }
 
-  SocOnetLink -> SocRef [label = 'soc']
+  // Relationships: All tables with a 'soc' column link to SocRef
+  EpSkills -> SocRef [label = 'soc', fontcolor = blue]
+  ONETSkills -> SocRef [label = 'soc', fontcolor = blue]
+  TechSkills -> SocRef [label = 'soc', fontcolor = blue]
+  SocIndustryProject -> SocRef [label = 'soc', fontcolor = blue]
+  SocIndustryProjectChange -> SocRef [label = 'soc', fontcolor = blue]
+  SocOnetLink -> SocRef [label = 'soc', fontcolor = blue]
+  SocIndustryLink -> SocRef [label = 'soc', fontcolor = blue]
 
-  # Additional Joins
-  TechSkills -> CommodityRef [label = 'commodity_code']
+  // Other Relationships
+  EpSkills -> SkillsCategoryRef [label = 'ep_skills_category_id', fontcolor = blue]
+  ONETSkills -> SkillsElementRef [label = 'onet_element_id', fontcolor = blue]
+  TechSkills -> CommodityRef [label = 'commodity_code', fontcolor = blue]
+  SocIndustryProject -> IndustryRef [label = 'industry_code', fontcolor = blue]
+  SocIndustryProjectChange -> IndustryRef [label = 'industry_code', fontcolor = blue]
+
+  // Link Tables relationships
+  SocOnetLink -> ONETSkills [label = 'onet_soc', fontcolor = blue]
+  SocIndustryLink -> IndustryRef [label = 'industry_code', fontcolor = blue]
 }
 ")
 ```
@@ -188,26 +227,95 @@ added to the 6-digit SOC code (or 6 digit with 2 decimals O*NET soc code), the
 more in depth the occupation description becomes.  
 
 ## Load Data
+```{r load-data, include=FALSE}
+# Core tables
+ep_skills_df_clean <- read_csv("Data/ep_skills_df_clean.csv")
+onet_skills_df_clean <- read_csv("Data/onet_skills_df_clean.csv")
+tech_skills_df_clean <- read_csv("Data/tech_skills_df_clean.csv")
+soc_industry_project_df_clean <- read_csv("soc_industry_project_df_clean.csv")
+soc_industry_project_change_df_clean <- read_csv("soc_industry_project_change_df_clean.csv")
 
-```{r load-data}
-# insert connection to relational database
+# Link tables
+soc_onet_soc_lnk <- read_csv("Data/soc_onet_soc_lnk.csv")
+soc_industry_lnk <- read_csv("Data/soc_industry_lnk.csv")
+
+# Reference tables
+commodity_ref <- read_csv("Data/commodity_ref.csv")
+skills_element_ref <- read_csv("Data/skills_element_ref.csv")
+soc_ref <- read_csv("soc_ref.csv")
+skills_category_ref <- read_csv("Data/skills_category_ref.csv")
+industry_ref <- read_csv("Data/industry_ref.csv")
 ```
 
-## Tidy Data
-To tidy and normalize the data the team performed the following: 
-1. Renamed columns to allow for more intuitive names as well as ensure columns 
-representing the same data values are referenced the same across all data 
-frames. 
-2. Developed reference tables to store distinct categorical values 
-(e.g., skill categories) and remove partial dependencies. 
-3. Removed redundant columns (such as columns that are represented in reference 
-tables) from the core data tables, retaining only relevant fields for analysis. 
-4. Transformed the OES and Industry and Occupation Projection datasets from wide 
-to  long  to make the data tidy and allow for better usability. By transforming 
-these datasets each variable is its own column, and each observation is its own 
-row (i.e., reducing multiple hourly and annual wage statistics columns into 
-three columns for duration, type, and value); thus, making the data tidy.
+```{r database-connect, include=FALSE}
+# Securely fetching the password (ensure your environment variable is set)
+password <- Sys.getenv("MYSQL_PASSWORD")
 
+# Attempt to connect
+conn <- tryCatch({
+  dbConnect(
+    MySQL(),
+    user = "root",
+    password = password,
+    dbname = "project3_data",
+    host= '192.168.1.52',
+    port= 3306,
+    client.flag = CLIENT_LOCAL_FILES
+  )
+}, error = function(e) {
+  message("Error: ", e$message)
+  return(NULL)
+})
+```
+
+```{r database-load, scroll: true}
+# Proceed only if connection succeeded
+if (!is.null(conn)) {
+  print("Database connection successful.")
+  
+  # Load Core tables
+  ep_skills_df_clean <- dbReadTable(conn, "ep_skills")
+  onet_skills_df_clean <- dbReadTable(conn, "onet_skills")
+  tech_skills_df_clean <- dbReadTable(conn, "tech_skills")
+  soc_industry_project_df_clean <- dbReadTable(conn, "soc_industry_project")
+  soc_industry_project_change_df_clean <- dbReadTable(conn, "soc_industry_project_change")
+  
+  # Load Link tables
+  soc_onet_soc_lnk <- dbReadTable(conn, "soc_onet_soc_lnk")
+  soc_industry_lnk <- dbReadTable(conn, "soc_industry_lnk")
+  
+  # Load Reference tables
+  commodity_ref <- dbReadTable(conn, "commodity_ref")
+  skills_element_ref <- dbReadTable(conn, "skills_element_ref")
+  soc_ref <- dbReadTable(conn, "soc_ref")
+  skills_category_ref <- dbReadTable(conn, "skills_category_ref")
+  industry_ref <- dbReadTable(conn, "industry_ref")
+  
+  # Optionally, print a sample from one table for verification
+  print(head(ep_skills_df_clean))
+  
+  # Disconnect when done
+  dbDisconnect(conn)
+  
+} else {
+  stop("Database connection failed. Check credentials and try again.")
+}
+```
+
+### Tidy Data
+
+To tidy and normalize the data the team performed the following
+
+1.  Renamed columns to allow for more intuitive names as well as ensure
+    columns representing the same data values are referenced the same
+    across all data frames.
+
+2.  Developed reference tables to store distinct categorical values
+    (ex: skill categories) and remove partial dependencies.
+
+3.  Removed redundant columns (such as columns that are represented in
+    reference tables) from the core data tables, retaining only relevant
+    fields for analysis.
 
 ## Data Analysis
 
