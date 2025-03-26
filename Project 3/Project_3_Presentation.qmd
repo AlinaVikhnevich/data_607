@@ -352,9 +352,8 @@ less_ds_ep_skills <- ep_skills_df_clean |>
 ```
 
 # 
-
-```{r ds-skills-comp-other}
-# question 1 visualization
+```{r}
+# question 1 visualization #1
 #| echo: false         # Hide code
 #| fig-width: 10       # Adjust width
 #| fig-height: 6       # Adjust height
@@ -381,6 +380,60 @@ less_ds_ep_skills |>
      legend.position = 'bottom',
      legend.justification = "left",
      legend.title =element_text(size = 10))
+```
+
+#
+```{r ds-skills-comp-other}
+# question 1 visualization #2
+#| echo: false         # Hide code
+#| fig-width: 10       # Adjust width
+#| fig-height: 6       # Adjust height
+#| fig-asp: 0.618      # ratio
+
+onet_skills_df <- ep_project_skills |>
+  select('soc', 'onet_element_id', 'onet_rating_value') |>
+  distinct()
+
+ds_onet_skills = onet_skills_df |>
+  filter(soc == data_science_soc) |>
+  select(onet_element_id, onet_rating_value)|>
+  arrange(desc(onet_rating_value))
+colnames(ds_onet_skills) = c('onet_element_id', 'ds_onet_rating_value')
+
+less_ds_onet_skills <- onet_skills_df |>
+  filter(soc != data_science_soc) |>
+  left_join(skills_element_ref, by = join_by(onet_element_id)) |>
+  # join data science skills subset data
+  left_join(ds_onet_skills, by = join_by(onet_element_id)) |>
+  # group by skill category
+  group_by(onet_element_name) |>
+  # calculate percent of occupations with lower score
+  mutate(less_score = ifelse(onet_rating_value < ds_onet_rating_value, 1, 0)) |>
+  summarise(prct_less = mean(less_score)* 100) |>
+  arrange(desc(prct_less))
+
+less_ds_onet_skills <- less_ds_onet_skills |>
+  mutate(fill = ifelse(prct_less >= 90, "Yes", "No"))
+
+
+head(less_ds_onet_skills, 24) |>
+  ggplot(aes(x = reorder(onet_element_name, prct_less), y = prct_less, fill = fill)) + 
+  geom_col() +
+  scale_fill_manual(values = c("steelblue", "indianred2")) +
+  coord_flip() +
+  labs(
+    title = "Percent of Occupations with O*NET Skill Importance
+    Scores Less Than Data Science",
+    x = "O*NET Skill Category",
+    y = "Percent",
+    fill = 'Data Science Skill Score Greater Than 90% Occupations'
+  ) +
+  theme_classic() +
+  theme(
+     plot.title = element_text(hjust = 0.5),
+     legend.position = 'bottom',
+     legend.justification = "left",
+     legend.title =element_text(size = 8))
 ```
 
 ## Research Question 2 {.smaller}
@@ -410,6 +463,7 @@ skills_project <- ep_project_skills |>
   mutate(prct_diff = ((wgt_33-wgt_23)/wgt_23)*100) |>
   arrange(desc(prct_diff))
 ```
+
 
 # 
 
