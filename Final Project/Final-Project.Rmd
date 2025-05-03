@@ -1,5 +1,5 @@
 ---
-title: "Final Project: Criminal Behavior & Digital Search Patterns"
+title: "DATA 607 Final Project: Pop Culture & Public Search Behavior"
 author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas"
 date: "`r Sys.Date()`"
 output:
@@ -14,117 +14,221 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-# Global chunk options
-knitr::opts_chunk$set(
-  echo = TRUE,
-  warning = FALSE,
-  message = FALSE
-)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
-
-# Introduction
-
-This project investigates the potential relationship between violent crimes and online search behaviors across the United States. By analyzing trends in Google search terms and publicly reported crime data, we aim to explore whether disturbing or deviant search queries cluster around areas or times of elevated criminal activity. We will also examine how such digital behaviors could aid investigations or support predictive modeling.
-
-## Data Sources
-
-We will use the following data sources:
-- **Google BigQuery – Top 25 Search Terms**: Querying daily U.S. search trends via the `bigrquery` package.
-- **FBI Crime Data Explorer / National Crime Victimization Survey**: Aggregated violent crime data by state and year.
-- **U.S. Census API** (for population normalization)
-- Optional: **Wikipedia Pageviews** for additional context
 
 ## Packages
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(bigrquery)
 library(DBI)
-library(tidyverse)
-library(lubridate)
-library(httr)
-library(jsonlite)
-library(sf)
+library(dplyr)
 library(ggplot2)
-library(knitr)
-library(gtrendsR)
+library(tidyr)
+library(tidytext)
+library(lubridate)
+library(stringr)
+library(wordcloud)
+library(topicmodels)
+library(readr)
 ```
+
+This project uses several R packages to support data acquisition,
+cleaning, analysis, and visualization. For example, `bigrquery` and
+`DBI` are used to query data from Google BigQuery, `tidytext` enables
+text mining and topic modeling, and `ggplot2` is used for data
+visualization.
+
+# Introduction
+
+In this project, we explore how search behavior in the United States
+reflects interest in major pop culture events. Using unsupervised topic
+modeling, we analyze Google’s top search terms to identify recurring
+themes and trends. By linking search activity with globally documented
+events, we aim to uncover how societal attention manifests in digital
+behavior.
+
+## Data Sources
+
+-   **Google BigQuery – Top 25 Search Terms**\
+    Google’s public dataset on the top 25 search queries per day,
+    available via BigQuery.
+-   **GDELT 2.0 – Our Global World in Realtime**\
+    A large-scale global event database tracking news events from around
+    the world in real time, including media coverage of pop culture,
+    conflict, disasters, and more.
 
 ## Data Acquisition
 
 ### 1. Google BigQuery – Top 25 Search Terms
 
-We use the `bigrquery` package to access Google’s public dataset of the most popular daily search terms. Make sure you have a Google Cloud project set up with billing enabled and a BigQuery API key.
+We use the `bigrquery` package to access Google’s public dataset of the
+most popular daily search terms. Make sure you have a Google Cloud
+project set up with billing enabled and a BigQuery API key.
 
 ```{r bigquery-auth, eval=FALSE}
 # Authenticate with Google Cloud (interactive)
-bq_auth()
+bq_auth(path = "data607finalproject-6c666e5b6214.json")
 ```
 
-```{r}
+```{r google-bigquery-api}
 project_id <- "data607finalproject"
 
-# Step 1: Query a large batch of search data
-sql <- "
-SELECT
-  dma_name,
-  term,
-  week,
-  rank,
-  refresh_date
-FROM
-  `bigquery-public-data.google_trends.top_terms`
-WHERE
-  term IS NOT NULL
-  AND week >= '2023-01-01'
-LIMIT 10000
-"
-
-query_job <- bq_project_query(project_id, sql)
-search_raw <- bq_table_download(query_job)
-
-# Step 2: Define criminal/violent keywords
-criminal_terms <- c(
-  "how to kill", "how to stab", "how to strangle", "how to hide a body",
-  "make a bomb", "how to poison", "how to make meth", "homemade gun",
-  "how to rob a bank", "get away with murder", "bury body", "clean blood",
-  "chloroform recipe", "kill neighbor", "commit arson", "how to hack phone",
-  "how to blackmail", "how to steal identity", "forged documents",
-  "kill my husband", "kill my wife", "how to join gang", "shooting guide",
-  "silencer DIY", "how to get revenge", "how to break into a house",
-  "how to disable camera", "deep web hitman", "contract killer site",
-  "how to escape police", "how to destroy evidence", "how to erase phone",
-  "how to disappear", "how to commit fraud", "hacking tutorial"
+query <- "
+WITH rising AS (
+  SELECT
+    week,
+    refresh_date,
+    ARRAY_AGG(DISTINCT term) AS terms
+  FROM `bigquery-public-data.google_trends.top_rising_terms`
+  WHERE refresh_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  GROUP BY week, refresh_date
 )
 
-# Step 3: Filter rows where the term includes any criminal keyword
-criminal_searches <- search_raw %>%
-  filter(str_detect(tolower(term), str_c(criminal_terms, collapse = "|")))
+SELECT
+  top.refresh_date,
+  top.week,
+  top.dma_name,
+  top.dma_id,
+  top.term AS top_term,
+  top.score AS top_score,
+  top.rank AS top_rank,
+  rising.terms AS rising_terms
+FROM `bigquery-public-data.google_trends.top_terms` top
+JOIN rising
+ON top.refresh_date = rising.refresh_date AND top.week = rising.week
+ORDER BY week DESC, refresh_date DESC
+"
 
-# Preview results
-print(criminal_searches)
+google_search_data <- bq_project_query(project_id, query)
+google_search_df <- bq_table_download(google_search_data)
+
+head(google_search_df)
 ```
 
+**Unnest the `rising_terms` list column**
 
-### 2. National Crime Data – FBI Crime Data Explorer API
+This will create a long-format dataframe where each rising term is a
+separate row.
 
-This section connects to an endpoint that returns violent crime data by state. You may need to create an account or get an API key depending on the source.
+```{r rising-unnest}
+# Unnesting the 'rising_terms' column so each term has its own row
+rising_df <- google_search_df |>
+  unnest(rising_terms)
 
-```{r fbi-api-load, eval=FALSE}
-# Example: Pulling crime data using httr + jsonlite
-
-# Define endpoint (customize for your data source)
-url <- "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/violent-crime/states/NY/count?API_KEY=your_api_key"
-
-# Make GET request
-response <- httr::GET(url)
-
-# Parse JSON response
-crime_data <- jsonlite::fromJSON(content(response, "text"))
-
-# Preview structure
-str(crime_data)
+head(rising_df)
 ```
+
+**Count frequency of top search terms**
+
+This shows how often each top-ranked term appeared across all DMAs and
+dates in your sample.
+
+```{r top-term-frequency}
+# Count appearances of each top term
+top_term_counts <- google_search_df |>
+  count(top_term, sort = TRUE)
+
+head(top_term_counts)
+```
+
+**Count frequency of rising terms**
+
+This does the same for rising terms, now that we’ve unnested them.
+
+```{r rising-term-frequency}
+rising_term_counts <- rising_df |>
+  count(rising_terms, sort = TRUE)
+
+head(rising_term_counts)
+```
+
+**Preview which terms are most common**
+
+These previews help you quickly spot which types of trends (e.g.,
+sports, celebrity) show up the most.
+
+```{r preview-trending-terms}
+# View most frequent top and rising terms side-by-side
+top_term_counts |> head(10)
+rising_term_counts |> head(10)
+```
+
+### 2. GDELT 2.0: Our Global World in Realtime
+
+**Getting the latest file name:**
+
+```{r gdelt-latest-link}
+# Get the name of the most recent GDELT CSV file
+latest_file <- read_lines("http://data.gdeltproject.org/gdeltv2/lastupdate.txt")
+latest_file
+```
+
+**Download and Unzip:**
+
+```{r gdelt-download}
+# Constructing the full URL to download the ZIP file
+export_url_line <- latest_file[1]
+
+# Extract the URL from the line using strsplit
+export_url <- strsplit(export_url_line, " ")[[1]][3]
+export_url
+
+# Download the export ZIP file to your working directory
+download.file(export_url, destfile = "gdelt_latest.zip", mode = "wb")
+
+# Unzip the file
+unzip("gdelt_latest.zip")
+```
+
+**Read CSV into R:**
+
+```{r gdelt-read}
+# Extract filename only from URL
+csv_file <- gsub(".zip", "", basename(export_url))
+
+# Read the CSV file with correct case-sensitive name
+gdelt_df <- read_csv(csv_file, col_names = FALSE)
+
+# Preview data
+head(gdelt_df)
+```
+
+**GDELT 2.0 – Structured Load & Exploration**
+
+GDELT 2.0 is a massive global event database that captures media
+coverage of events in real time from across the world. The export files
+are updated every 15 minutes and are tab-delimited without column
+headers, so we must assign names manually using the GDELT schema.
+
+In this chunk, we load the most recent export file and apply column
+names for easier exploration:
 
 ```{r}
+# Column names based on GDELT 2.0 schema (first 10 for demo, full list has 58+)
+gdelt_cols <- c(
+  "GLOBALEVENTID", "Day", "MonthYear", "Year", "FractionDate", 
+  "Actor1Code", "Actor1Name", "Actor1CountryCode", "Actor1KnownGroupCode", 
+  "Actor1EthnicCode", "Actor1Religion1Code", "Actor1Religion2Code", 
+  "Actor1Type1Code", "Actor1Type2Code", "Actor1Type3Code",
+  "Actor2Code", "Actor2Name", "Actor2CountryCode", "Actor2KnownGroupCode", 
+  "Actor2EthnicCode", "Actor2Religion1Code", "Actor2Religion2Code", 
+  "Actor2Type1Code", "Actor2Type2Code", "Actor2Type3Code",
+  "IsRootEvent", "EventCode", "EventBaseCode", "EventRootCode", 
+  "QuadClass", "GoldsteinScale", "NumMentions", "NumSources", 
+  "NumArticles", "AvgTone", "Actor1Geo_Type", "Actor1Geo_FullName", 
+  "Actor1Geo_CountryCode", "Actor1Geo_ADM1Code", "Actor1Geo_Lat", 
+  "Actor1Geo_Long", "Actor1Geo_FeatureID", "Actor2Geo_Type", 
+  "Actor2Geo_FullName", "Actor2Geo_CountryCode", "Actor2Geo_ADM1Code", 
+  "Actor2Geo_Lat", "Actor2Geo_Long", "Actor2Geo_FeatureID", 
+  "ActionGeo_Type", "ActionGeo_FullName", "ActionGeo_CountryCode", 
+  "ActionGeo_ADM1Code", "ActionGeo_Lat", "ActionGeo_Long", 
+  "ActionGeo_FeatureID", "DATEADDED", "SOURCEURL"
+)
 
+# Read the file with tab delimiter and custom column names
+gdelt_df <- read_delim(csv_file, delim = "\t", col_names = gdelt_cols, show_col_types = FALSE)
+
+# Preview first rows
+head(gdelt_df)
 ```
