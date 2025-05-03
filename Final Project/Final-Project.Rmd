@@ -1,0 +1,130 @@
+---
+title: "Final Project: Criminal Behavior & Digital Search Patterns"
+author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# Global chunk options
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Introduction
+
+This project investigates the potential relationship between violent crimes and online search behaviors across the United States. By analyzing trends in Google search terms and publicly reported crime data, we aim to explore whether disturbing or deviant search queries cluster around areas or times of elevated criminal activity. We will also examine how such digital behaviors could aid investigations or support predictive modeling.
+
+## Data Sources
+
+We will use the following data sources:
+- **Google BigQuery – Top 25 Search Terms**: Querying daily U.S. search trends via the `bigrquery` package.
+- **FBI Crime Data Explorer / National Crime Victimization Survey**: Aggregated violent crime data by state and year.
+- **U.S. Census API** (for population normalization)
+- Optional: **Wikipedia Pageviews** for additional context
+
+## Packages
+
+```{r setup, message=FALSE, warning=FALSE}
+library(bigrquery)
+library(DBI)
+library(tidyverse)
+library(lubridate)
+library(httr)
+library(jsonlite)
+library(sf)
+library(ggplot2)
+library(knitr)
+library(gtrendsR)
+```
+
+## Data Acquisition
+
+### 1. Google BigQuery – Top 25 Search Terms
+
+We use the `bigrquery` package to access Google’s public dataset of the most popular daily search terms. Make sure you have a Google Cloud project set up with billing enabled and a BigQuery API key.
+
+```{r bigquery-auth, eval=FALSE}
+# Authenticate with Google Cloud (interactive)
+bq_auth()
+```
+
+```{r}
+project_id <- "data607finalproject"
+
+# Step 1: Query a large batch of search data
+sql <- "
+SELECT
+  dma_name,
+  term,
+  week,
+  rank,
+  refresh_date
+FROM
+  `bigquery-public-data.google_trends.top_terms`
+WHERE
+  term IS NOT NULL
+  AND week >= '2023-01-01'
+LIMIT 10000
+"
+
+query_job <- bq_project_query(project_id, sql)
+search_raw <- bq_table_download(query_job)
+
+# Step 2: Define criminal/violent keywords
+criminal_terms <- c(
+  "how to kill", "how to stab", "how to strangle", "how to hide a body",
+  "make a bomb", "how to poison", "how to make meth", "homemade gun",
+  "how to rob a bank", "get away with murder", "bury body", "clean blood",
+  "chloroform recipe", "kill neighbor", "commit arson", "how to hack phone",
+  "how to blackmail", "how to steal identity", "forged documents",
+  "kill my husband", "kill my wife", "how to join gang", "shooting guide",
+  "silencer DIY", "how to get revenge", "how to break into a house",
+  "how to disable camera", "deep web hitman", "contract killer site",
+  "how to escape police", "how to destroy evidence", "how to erase phone",
+  "how to disappear", "how to commit fraud", "hacking tutorial"
+)
+
+# Step 3: Filter rows where the term includes any criminal keyword
+criminal_searches <- search_raw %>%
+  filter(str_detect(tolower(term), str_c(criminal_terms, collapse = "|")))
+
+# Preview results
+print(criminal_searches)
+```
+
+
+### 2. National Crime Data – FBI Crime Data Explorer API
+
+This section connects to an endpoint that returns violent crime data by state. You may need to create an account or get an API key depending on the source.
+
+```{r fbi-api-load, eval=FALSE}
+# Example: Pulling crime data using httr + jsonlite
+
+# Define endpoint (customize for your data source)
+url <- "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/violent-crime/states/NY/count?API_KEY=your_api_key"
+
+# Make GET request
+response <- httr::GET(url)
+
+# Parse JSON response
+crime_data <- jsonlite::fromJSON(content(response, "text"))
+
+# Preview structure
+str(crime_data)
+```
+
+```{r}
+
+```
