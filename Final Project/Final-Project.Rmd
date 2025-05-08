@@ -33,6 +33,7 @@ library(stringr)
 library(wordcloud)
 library(topicmodels)
 library(readr)
+library(countrycode)
 ```
 
 This project uses several R packages to support data acquisition,
@@ -81,7 +82,7 @@ WITH rising AS (
   SELECT
     week,
     refresh_date,
-    ARRAY_AGG(DISTINCT term) AS terms
+    ARRAY_AGG(DISTINCT CONCAT(term, '-', percent_gain)) AS rising_terms_gains
   FROM `bigquery-public-data.google_trends.top_rising_terms`
   WHERE refresh_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
   GROUP BY week, refresh_date
@@ -95,10 +96,11 @@ SELECT
   top.term AS top_term,
   top.score AS top_score,
   top.rank AS top_rank,
-  rising.terms AS rising_terms
+  rising.rising_terms_gains
 FROM `bigquery-public-data.google_trends.top_terms` top
 JOIN rising
 ON top.refresh_date = rising.refresh_date AND top.week = rising.week
+WHERE top.week >= '2025-04-01'
 ORDER BY week DESC, refresh_date DESC
 "
 
@@ -108,53 +110,6 @@ google_search_df <- bq_table_download(google_search_data)
 head(google_search_df)
 ```
 
-**Unnest the `rising_terms` list column**
-
-This will create a long-format dataframe where each rising term is a
-separate row.
-
-```{r rising-unnest}
-# Unnesting the 'rising_terms' column so each term has its own row
-rising_df <- google_search_df |>
-  unnest(rising_terms)
-
-head(rising_df)
-```
-
-**Count frequency of top search terms**
-
-This shows how often each top-ranked term appeared across all DMAs and
-dates in your sample.
-
-```{r top-term-frequency}
-# Count appearances of each top term
-top_term_counts <- google_search_df |>
-  count(top_term, sort = TRUE)
-
-head(top_term_counts)
-```
-
-**Count frequency of rising terms**
-
-This does the same for rising terms, now that we’ve unnested them.
-
-```{r rising-term-frequency}
-rising_term_counts <- rising_df |>
-  count(rising_terms, sort = TRUE)
-
-head(rising_term_counts)
-```
-
-**Preview which terms are most common**
-
-These previews help you quickly spot which types of trends (e.g.,
-sports, celebrity) show up the most.
-
-```{r preview-trending-terms}
-# View most frequent top and rising terms side-by-side
-top_term_counts |> head(10)
-rising_term_counts |> head(10)
-```
 
 ### 2. GDELT 2.0: Our Global World in Realtime
 
@@ -177,17 +132,17 @@ export_url <- strsplit(export_url_line, " ")[[1]][3]
 export_url
 
 # Download the export ZIP file to your working directory
-download.file(export_url, destfile = "gdelt_latest.zip", mode = "wb")
+download.file(export_url, destfile = "data/GDELT/gdelt_latest.zip", mode = "wb")
 
 # Unzip the file
-unzip("gdelt_latest.zip")
+unzip("data/GDELT/gdelt_latest.zip", exdir='data/GDELT')
 ```
 
 **Read CSV into R:**
 
-```{r gdelt-read}
+```{r gdelt-extract}
 # Extract filename only from URL
-csv_file <- gsub(".zip", "", basename(export_url))
+csv_file <- paste0('data/GDELT/', gsub(".zip", "", basename(export_url)))
 
 # Read the CSV file with correct case-sensitive name
 gdelt_df <- read_csv(csv_file, col_names = FALSE)
@@ -196,7 +151,7 @@ gdelt_df <- read_csv(csv_file, col_names = FALSE)
 head(gdelt_df)
 ```
 
-**GDELT 2.0 – Structured Load & Exploration**
+**GDELT 2.0 – Structured Load**
 
 GDELT 2.0 is a massive global event database that captures media
 coverage of events in real time from across the world. The export files
@@ -206,7 +161,7 @@ headers, so we must assign names manually using the GDELT schema.
 In this chunk, we load the most recent export file and apply column
 names for easier exploration:
 
-```{r}
+```{r gdelt-read}
 # Column names based on GDELT 2.0 schema (first 10 for demo, full list has 58+)
 gdelt_cols <- c(
   "GLOBALEVENTID", "Day", "MonthYear", "Year", "FractionDate", 
@@ -219,12 +174,12 @@ gdelt_cols <- c(
   "IsRootEvent", "EventCode", "EventBaseCode", "EventRootCode", 
   "QuadClass", "GoldsteinScale", "NumMentions", "NumSources", 
   "NumArticles", "AvgTone", "Actor1Geo_Type", "Actor1Geo_FullName", 
-  "Actor1Geo_CountryCode", "Actor1Geo_ADM1Code", "Actor1Geo_Lat", 
-  "Actor1Geo_Long", "Actor1Geo_FeatureID", "Actor2Geo_Type", 
-  "Actor2Geo_FullName", "Actor2Geo_CountryCode", "Actor2Geo_ADM1Code", 
-  "Actor2Geo_Lat", "Actor2Geo_Long", "Actor2Geo_FeatureID", 
+  "Actor1Geo_CountryCode", "Actor1Geo_ADM1Code", "Actor1Geo_ADM2Code",
+  "Actor1Geo_Lat", "Actor1Geo_Long", "Actor1Geo_FeatureID", "Actor2Geo_Type", 
+  "Actor2Geo_FullName", "Actor2Geo_CountryCode", "Actor2Geo_ADM1Code",
+  "Actor2Geo_ADM2Code", "Actor2Geo_Lat", "Actor2Geo_Long", "Actor2Geo_FeatureID", 
   "ActionGeo_Type", "ActionGeo_FullName", "ActionGeo_CountryCode", 
-  "ActionGeo_ADM1Code", "ActionGeo_Lat", "ActionGeo_Long", 
+  "ActionGeo_ADM1Code", "Action2Geo_ADM2Code", "ActionGeo_Lat", "ActionGeo_Long", 
   "ActionGeo_FeatureID", "DATEADDED", "SOURCEURL"
 )
 
@@ -234,3 +189,267 @@ gdelt_df <- read_delim(csv_file, delim = "\t", col_names = gdelt_cols, show_col_
 # Preview first rows
 head(gdelt_df)
 ```
+
+**Load GDELT Reference Table Data**
+
+Define reference table data file sources
+```{r}
+cameo_country_code_txt = "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt"
+fips_country_code_txt = 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt'
+cameo_code_type_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt'
+cameo_known_code_groups_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.knowngroup.txt'
+cameo_ethnic_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.ethnic.txt'
+cameo_religion_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.religion.txt'
+cameo_event_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt'
+cameo_gold_stein_scale_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.goldsteinscale.txt'
+adm1_codes_txt = 'http://efele.net/maps/fips-10/data/fips-414.txt'
+adm2_codes_txt = 'https://download.geonames.org/export/dump/admin2Codes.txt'
+```
+
+Actor Data Reference Tables
+```{r actor-ref}
+# Actor Country Code column reference values
+cameo_country_ref = read.csv(
+  cameo_country_code_txt, sep="\t", header=T,
+  col.names = c('Country', 'Country_Desc'))
+
+# Actor Known Code Group column reference values
+cameo_known_code_groups_ref = read.csv(
+  cameo_known_code_groups_txt, sep="\t", header=T,
+  col.names = c('KnownGroup', 'KnownGroup_Desc'))
+
+# Actor Ethnic Code column reference values
+cameo_ethnic_ref = read.csv(cameo_ethnic_code_txt, sep="\t", header=T,
+                            col.names = c('Ethnic', 'Ethnic_Desc'))
+
+# Actor Religion Code (1 and 2) column reference values
+cameo_religion_ref = read.csv(cameo_religion_code_txt, sep="\t", header=T,
+                              col.names = c('Religion', 'Religion_Desc'))
+
+# Actor Type Code (1, 2, and 3) column reference values
+cameo_type_ref = read.csv(cameo_code_type_txt, sep="\t", header=T,
+                                col.names = c('TypeCode', 'Type'))
+```
+
+Event Data Reference Tables
+```{r}
+# Event Code (including base and root event codes) column reference values
+cameo_event_ref = read.csv(cameo_event_code_txt, sep="\t", header=T ,
+                           colClasses = "character",
+                                col.names = c('EventCode', 'Event'))
+
+# Event Gold Stein Scale column reference values
+cameo_gold_stein_ref = read.csv(cameo_gold_stein_scale_txt, sep="\t", header=T,
+                                col.names = c('EventCode', 'GoldSteinScale'))
+
+# Event quad class (primary classification) column reference values
+quadclass_ref = tribble(
+  ~"QuadClass", ~"Quad",
+  1, 'Verbal Cooperation',
+  2, 'Material Cooperation',
+  3, 'Verbal Conflict',
+  4,' Material Conflict'
+)
+```
+
+Event Geography Data Reference Tables
+```{r event-ref}
+# Event geographic resolution column reference values
+geo_type_ref = tribble(
+  ~"Geo_Type", ~"Geo_Type_Desc",
+  1, 'COUNTRY',
+  2, 'USSTATE',
+  3, 'USCITY',
+  4,' WORLDCITY',
+  5, 'WORLDSTATE'
+)
+
+# FIPS country column reference values
+fips_country_ref = read.csv(fips_country_code_txt, sep="\t", header=F,
+                            col.names = c('GEO_Country', 'GEO_Country_Desc'))
+
+# GEO ADM1 code column reference values
+# create U.S. adm1 codes using 'US' followed by the state abbreviation
+us_fips_adm1_ref = tibble(
+  'Country' = 'US',
+  'division' = 'state',
+  fips_adm1 = state.name,
+  state_abb = state.abb
+  ) |>
+  mutate(fips_adm1_code = paste0(Country, state_abb)) |>
+  select(fips_adm1_code, division, fips_adm1)
+
+# read in global adm1 codes and join to custom U.S. codes
+fips_adm1_ref = read.csv(
+  adm1_codes_txt, sep="_", header=F, na.strings = "",
+  col.names = c('fips_adm1_code',
+                'first fips version',
+                'last fips version',
+                'division',
+                'designation_2',
+                'designation_3',
+                'designation4',
+                'fips_adm1',
+                'convential name',
+                'former name')) |>
+  select('fips_adm1_code', 'division', 'fips_adm1') |>
+  rbind(us_fips_adm1_ref)
+```
+
+
+## Tidy & Clean Data
+
+### 1. Google BigQuery – Top 25 Search Terms
+
+**Google Search Data Cleaning**
+
+  - Transforms `dma_id` into a string dtype
+  - Fills Null top_score values with zero
+  - Unnests `rising_terms_gains` column to create a long-format dataframe where
+    each rising term and associated percent gain is a separate row.
+  - Splits `rising_terms_gains` into `rising_term` and `rising_percent_gain` to
+    make each value its own column
+
+```{r google-data-cleaning}
+long_google_search_df = google_search_df |>
+  mutate(
+    dma_id = as.character(dma_id),
+    top_score = replace_na(top_score, 0)
+    ) |>
+  # Unnesting rising_terms_gains colum so each term has its own row
+  unnest(rising_terms_gains) |>
+  # splitting rising_terms_gains column into rising term and percent gain
+  separate_wider_delim(rising_terms_gains, '-', names = c('rising_term', 'rising_percent_gain')) |>
+  distinct()
+
+head(long_google_search_df)
+```
+
+**Google Search Data Tidying**
+
+Subset refresh date into its own table for reference. This is the same for all
+rows so only one value is needed to store,
+```{r google-refresh-date-ref-table}
+refresh_date_ref = long_google_search_df |>
+  select(refresh_date) |>
+  distinct()
+
+head(refresh_date_df)
+```
+
+Create Designated Market Area (DMA) reference table.
+```{r google-dma-ref-table}
+dma_ref = long_google_search_df |>
+  select(dma_id, dma_name) |>
+  distinct()
+
+head(dma_ref_df)
+```
+
+Create final Google top term dateframe
+```{r google-top-term-table}
+top_term_df = long_google_search_df |>
+  select(
+      week,
+      dma_id,
+      top_term,
+      top_score,
+      top_rank
+      ) |>
+  distinct()
+
+head(top_term_df)
+```
+
+Create final Google rising term dataframe
+```{r google-rising-term-table}
+rising_term_df = long_google_search_df |>
+  select(
+      week,
+      dma_id,
+      rising_term,
+      rising_percent_gain
+      ) |>
+  distinct() |>
+  arrange(desc(week), dma_id, desc(rising_percent_gain))
+
+head(rising_term_df)
+```
+
+
+--
+### 2. GDELT 2.0: Our Global World in Realtime
+
+**GDELT Data Cleaning**
+
+  - Transforms `Day` into date data type
+  - Transforms `MonthYear` into datetime string format
+  - Transforms `GLOBALEVENTID` into strings
+  - Transforms all categorical columns into factor data type
+
+```{r gdelt-data-cleaning}
+gdelt_df = gdelt_df |>
+  mutate_at(vars(contains('Code')), ~as.factor(.)) |>
+  mutate_at(vars(contains('Geo_Type')), ~as.factor(.)) |>
+  mutate(
+    GLOBALEVENTID = as.character(GLOBALEVENTID),
+    Day = as.Date(as.character(Day), '%Y%m%d'),
+    MonthYear = format(Day, '%Y-%m'),
+    QuadClass = as.factor(QuadClass),
+  )
+```
+
+**GDELT Data Tidying**
+
+No tidying was needed on this dataframe.
+
+
+---
+
+
+## EDA
+
+
+[OA - The below code was added by Alina. I moved it to the EDA section. I think we may need to look at score/rank rather than count since I think week-dma will all have the same or close to the same top terms.]
+
+### 1. Google BigQuery – Top 25 Search Terms
+
+**Count frequency of top search terms**
+
+This shows how often each top-ranked term appeared across all DMAs and
+dates in your sample.
+
+```{r top-term-frequency}
+# Count appearances of each top term
+top_term_counts <- top_term_df |>
+  count(top_term, sort = TRUE)
+
+head(top_term_counts)
+```
+
+**Count frequency of rising terms**
+
+This does the same for rising terms, now that we’ve unnested them.
+
+```{r rising-term-frequency}
+rising_term_counts <- rising_term_df |>
+  count(rising_term, sort = TRUE)
+
+head(rising_term_counts)
+```
+
+**Preview which terms are most common**
+
+These previews help you quickly spot which types of trends (e.g.,
+sports, celebrity) show up the most.
+
+```{r preview-trending-terms}
+# View most frequent top and rising terms side-by-side
+top_term_counts |> head(10)
+rising_term_counts |> head(10)
+```
+
+
+
+
+
