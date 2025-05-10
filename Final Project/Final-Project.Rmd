@@ -34,6 +34,7 @@ library(wordcloud)
 library(topicmodels)
 library(readr)
 library(countrycode)
+library(topicmodels)
 ```
 
 This project uses several R packages to support data acquisition,
@@ -77,6 +78,10 @@ bq_auth(path = "data607finalproject-6c666e5b6214.json")
 ```{r google-bigquery-api}
 project_id <- "data607finalproject"
 
+# gbigquery is in GMT so if we do sub date -1 that means that it is taking the 
+# data from today, need to do -2
+# need to specify that the date is in America/NY time: CURRENT_DATE(‘America/New_York’)
+
 query <- "
 WITH rising AS (
   SELECT
@@ -84,8 +89,7 @@ WITH rising AS (
     refresh_date,
     ARRAY_AGG(DISTINCT CONCAT(term, '-', percent_gain)) AS rising_terms_gains
   FROM `bigquery-public-data.google_trends.top_rising_terms`
-  WHERE refresh_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
-  GROUP BY week, refresh_date
+  GROUP BY ALL
 )
 
 SELECT
@@ -97,10 +101,14 @@ SELECT
   top.score AS top_score,
   top.rank AS top_rank,
   rising.rising_terms_gains
-FROM `bigquery-public-data.google_trends.top_terms` top
+FROM (
+  select *
+  from `bigquery-public-data.google_trends.top_terms`
+) top
 JOIN rising
-ON top.refresh_date = rising.refresh_date AND top.week = rising.week
-WHERE top.week >= '2025-04-01'
+  USING(week, refresh_date)
+WHERE top.week >= '2024-01-01'
+GROUP BY ALL
 ORDER BY week DESC, refresh_date DESC
 "
 
@@ -108,6 +116,49 @@ google_search_data <- bq_project_query(project_id, query)
 google_search_df <- bq_table_download(google_search_data)
 
 head(google_search_df)
+```
+
+```{r test-queries}
+# TO TEST BILLING AMOUNT: RUN THE CODE BELOW
+
+test_qy <- as.character(
+  "WITH rising AS (
+  SELECT
+    week,
+    refresh_date,
+    ARRAY_AGG(term) AS rising_terms
+  FROM `bigquery-public-data.google_trends.top_rising_terms`
+  WHERE refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+  GROUP BY week, refresh_date
+)
+
+SELECT
+  top.refresh_date,
+  top.week,
+  top.dma_name,
+  top.term,
+  top.score,
+  top.rank,
+  rising.rising_terms
+FROM (
+  SELECT week, refresh_date, dma_name, term, score, rank
+  FROM `bigquery-public-data.google_trends.top_terms`
+  WHERE refresh_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)
+) top
+JOIN rising
+  USING(week, refresh_date)
+ORDER BY week DESC, refresh_date DESC"
+)
+
+# test_search_data <- bq_project_query(project_id, test_qy)
+# test_search_df <- bq_table_download(test_search_data)
+
+# Run dry run query to estimate billing
+job <- bq_perform_query_dry_run(
+  billing = project_id,
+  query = test_qy,
+  use_legacy_sql = FALSE
+)
 ```
 
 
@@ -132,21 +183,22 @@ export_url <- strsplit(export_url_line, " ")[[1]][3]
 export_url
 
 # Download the export ZIP file to your working directory
-download.file(export_url, destfile = "data/GDELT/gdelt_latest.zip", mode = "wb")
+download.file(export_url, destfile = "Data/GDELT/gdelt_latest.zip", mode = "wb")
 
 # Unzip the file
-unzip("data/GDELT/gdelt_latest.zip", exdir='data/GDELT')
+unzip("Data/GDELT/gdelt_latest.zip", exdir='Data/GDELT')
 ```
 
 **Read CSV into R:**
 
 ```{r gdelt-extract}
 # Extract filename only from URL
-csv_file <- paste0('data/GDELT/', gsub(".zip", "", basename(export_url)))
+# csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url)))
+csv_file <- "Data/GDELT/20250507000000.export.CSV"
 
 # Read the CSV file with correct case-sensitive name
-gdelt_df <- read_csv(csv_file, col_names = FALSE)
-
+# gdelt_df <- read_csv(csv_file, col_names = FALSE)
+gdelt_df <- read_csv("Data/GDELT/20250507000000.export.CSV")
 # Preview data
 head(gdelt_df)
 ```
@@ -194,56 +246,56 @@ head(gdelt_df)
 
 Define reference table data file sources
 ```{r}
-cameo_country_code_txt = "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt"
-fips_country_code_txt = 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt'
-cameo_code_type_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt'
-cameo_known_code_groups_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.knowngroup.txt'
-cameo_ethnic_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.ethnic.txt'
-cameo_religion_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.religion.txt'
-cameo_event_code_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt'
-cameo_gold_stein_scale_txt = 'https://www.gdeltproject.org/data/lookups/CAMEO.goldsteinscale.txt'
-adm1_codes_txt = 'http://efele.net/maps/fips-10/data/fips-414.txt'
-adm2_codes_txt = 'https://download.geonames.org/export/dump/admin2Codes.txt'
+cameo_country_code_txt <- "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt"
+fips_country_code_txt <- 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt'
+cameo_code_type_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt'
+cameo_known_code_groups_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.knowngroup.txt'
+cameo_ethnic_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.ethnic.txt'
+cameo_religion_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.religion.txt'
+cameo_event_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt'
+cameo_gold_stein_scale_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.goldsteinscale.txt'
+adm1_codes_txt <- 'http://efele.net/maps/fips-10/data/fips-414.txt'
+adm2_codes_txt <- 'https://download.geonames.org/export/dump/admin2Codes.txt'
 ```
 
 Actor Data Reference Tables
 ```{r actor-ref}
 # Actor Country Code column reference values
-cameo_country_ref = read.csv(
+cameo_country_ref <- read.csv(
   cameo_country_code_txt, sep="\t", header=T,
   col.names = c('Country', 'Country_Desc'))
 
 # Actor Known Code Group column reference values
-cameo_known_code_groups_ref = read.csv(
+cameo_known_code_groups_ref <- read.csv(
   cameo_known_code_groups_txt, sep="\t", header=T,
   col.names = c('KnownGroup', 'KnownGroup_Desc'))
 
 # Actor Ethnic Code column reference values
-cameo_ethnic_ref = read.csv(cameo_ethnic_code_txt, sep="\t", header=T,
+cameo_ethnic_ref <- read.csv(cameo_ethnic_code_txt, sep="\t", header=T,
                             col.names = c('Ethnic', 'Ethnic_Desc'))
 
 # Actor Religion Code (1 and 2) column reference values
-cameo_religion_ref = read.csv(cameo_religion_code_txt, sep="\t", header=T,
+cameo_religion_ref <- read.csv(cameo_religion_code_txt, sep="\t", header=T,
                               col.names = c('Religion', 'Religion_Desc'))
 
 # Actor Type Code (1, 2, and 3) column reference values
-cameo_type_ref = read.csv(cameo_code_type_txt, sep="\t", header=T,
+cameo_type_ref <- read.csv(cameo_code_type_txt, sep="\t", header=T,
                                 col.names = c('TypeCode', 'Type'))
 ```
 
 Event Data Reference Tables
 ```{r}
 # Event Code (including base and root event codes) column reference values
-cameo_event_ref = read.csv(cameo_event_code_txt, sep="\t", header=T ,
+cameo_event_ref <- read.csv(cameo_event_code_txt, sep="\t", header=T ,
                            colClasses = "character",
                                 col.names = c('EventCode', 'Event'))
 
 # Event Gold Stein Scale column reference values
-cameo_gold_stein_ref = read.csv(cameo_gold_stein_scale_txt, sep="\t", header=T,
+cameo_gold_stein_ref <- read.csv(cameo_gold_stein_scale_txt, sep="\t", header=T,
                                 col.names = c('EventCode', 'GoldSteinScale'))
 
 # Event quad class (primary classification) column reference values
-quadclass_ref = tribble(
+quadclass_ref <- tribble(
   ~"QuadClass", ~"Quad",
   1, 'Verbal Cooperation',
   2, 'Material Cooperation',
@@ -255,7 +307,7 @@ quadclass_ref = tribble(
 Event Geography Data Reference Tables
 ```{r event-ref}
 # Event geographic resolution column reference values
-geo_type_ref = tribble(
+geo_type_ref <- tribble(
   ~"Geo_Type", ~"Geo_Type_Desc",
   1, 'COUNTRY',
   2, 'USSTATE',
@@ -265,12 +317,12 @@ geo_type_ref = tribble(
 )
 
 # FIPS country column reference values
-fips_country_ref = read.csv(fips_country_code_txt, sep="\t", header=F,
+fips_country_ref <- read.csv(fips_country_code_txt, sep="\t", header=F,
                             col.names = c('GEO_Country', 'GEO_Country_Desc'))
 
 # GEO ADM1 code column reference values
 # create U.S. adm1 codes using 'US' followed by the state abbreviation
-us_fips_adm1_ref = tibble(
+us_fips_adm1_ref <- tibble(
   'Country' = 'US',
   'division' = 'state',
   fips_adm1 = state.name,
@@ -280,7 +332,7 @@ us_fips_adm1_ref = tibble(
   select(fips_adm1_code, division, fips_adm1)
 
 # read in global adm1 codes and join to custom U.S. codes
-fips_adm1_ref = read.csv(
+fips_adm1_ref <- read.csv(
   adm1_codes_txt, sep="_", header=F, na.strings = "",
   col.names = c('fips_adm1_code',
                 'first fips version',
@@ -311,7 +363,7 @@ fips_adm1_ref = read.csv(
     make each value its own column
 
 ```{r google-data-cleaning}
-long_google_search_df = google_search_df |>
+long_google_search_df <-  google_search_df |>
   mutate(
     dma_id = as.character(dma_id),
     top_score = replace_na(top_score, 0)
@@ -330,16 +382,16 @@ head(long_google_search_df)
 Subset refresh date into its own table for reference. This is the same for all
 rows so only one value is needed to store,
 ```{r google-refresh-date-ref-table}
-refresh_date_ref = long_google_search_df |>
+refresh_date_ref <- long_google_search_df |>
   select(refresh_date) |>
   distinct()
 
-head(refresh_date_df)
+head(refresh_date_ref)
 ```
 
 Create Designated Market Area (DMA) reference table.
 ```{r google-dma-ref-table}
-dma_ref = long_google_search_df |>
+dma_ref_df <- long_google_search_df |>
   select(dma_id, dma_name) |>
   distinct()
 
@@ -348,7 +400,7 @@ head(dma_ref_df)
 
 Create final Google top term dateframe
 ```{r google-top-term-table}
-top_term_df = long_google_search_df |>
+top_term_df <- long_google_search_df |>
   select(
       week,
       dma_id,
@@ -363,7 +415,7 @@ head(top_term_df)
 
 Create final Google rising term dataframe
 ```{r google-rising-term-table}
-rising_term_df = long_google_search_df |>
+rising_term_df <- long_google_search_df |>
   select(
       week,
       dma_id,
@@ -388,7 +440,7 @@ head(rising_term_df)
   - Transforms all categorical columns into factor data type
 
 ```{r gdelt-data-cleaning}
-gdelt_df = gdelt_df |>
+gdelt_df <- gdelt_df |>
   mutate_at(vars(contains('Code')), ~as.factor(.)) |>
   mutate_at(vars(contains('Geo_Type')), ~as.factor(.)) |>
   mutate(
@@ -397,6 +449,8 @@ gdelt_df = gdelt_df |>
     MonthYear = format(Day, '%Y-%m'),
     QuadClass = as.factor(QuadClass),
   )
+
+
 ```
 
 **GDELT Data Tidying**
@@ -408,7 +462,24 @@ No tidying was needed on this dataframe.
 
 
 ## EDA
+```{r dtm-top-term}
+# creating document term matrix 
+dtm_top_term <- top_term_df |> 
+  count(week, top_term) |> 
+  cast_dtm(document = week, term = top_term, value = n)
+```
 
+```{r lda-top-term}
+lda_top_term_model <- LDA(dtm_top_term, k = 6, control = list(seed = 1234))
+topics_top_term <- tidy(lda_top_term_model, matrix = "beta")
+
+# Top terms per topic
+top_terms <- topics_top_term |>   
+  group_by(topic) |> 
+  top_n(10, beta) |> 
+  ungroup()
+
+```
 
 [OA - The below code was added by Alina. I moved it to the EDA section. I think we may need to look at score/rank rather than count since I think week-dma will all have the same or close to the same top terms.]
 
