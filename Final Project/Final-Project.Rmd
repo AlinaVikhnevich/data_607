@@ -137,6 +137,29 @@ GROUP BY ALL
 ORDER BY
     (select week from unnest(x)) desc,
     (SELECT rank FROM UNNEST(x)),
+    refresh_date desc
+
+union  all
+
+SELECT
+  term,
+  refresh_date,
+  ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
+FROM
+    `bigquery-public-data.google_trends.top_rising_terms`
+WHERE
+    refresh_date in
+        (SELECT
+            refresh_date
+        FROM
+        `bigquery-public-data.google_trends.top_rising_terms`
+        where refresh_date > '2025-01-01'
+        group by all
+        )
+GROUP BY ALL
+ORDER BY
+    (select week from unnest(x)) desc,
+    (SELECT rank FROM UNNEST(x)),
     refresh_date desc"
 )
 
@@ -466,13 +489,12 @@ gsearch_gdelt <-
             by=c('refresh_date'='Day'))
 ```
 
-
 ## EDA
 ```{r dtm-top-term}
 # creating document term matrix 
-dtm_top_term <- top_term_df |> 
-  count(week, top_term) |> 
-  cast_dtm(document = week, term = top_term, value = n)
+dtm_top_term <- gsearch_gdelt |> 
+  count(refresh_date, term) |> 
+  cast_dtm(document = refresh_date, term = term, value = n)
 ```
 
 ```{r lda-top-term}
