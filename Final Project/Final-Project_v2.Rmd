@@ -29,6 +29,7 @@ library(lubridate)
 library(wordcloud)
 library(topicmodels)
 library(countrycode)
+library(textmineR)
 ```
 
 This project uses several R packages to support data acquisition,
@@ -564,14 +565,69 @@ A document term matrix represents the frequency of terms that appear in the
 collect of text. 
 ```{r dtm-top-term}
 # creating document term matrix 
-dtm_top_term <- wrd_stem |> 
+dtm_tokenized_terms <- wrd_stem |> 
   count(refresh_date, word) |> 
   cast_dtm(document = refresh_date, term = word, value = n)
+
+# Convert to reg matrix
+mat <- as.matrix(dtm_tokenized_terms)
+# Convert to sparse Matrix (dgCMatrix) so can use in lapply below
+dtm_mat <- Matrix(mat, sparse = TRUE)
+```
+
+*Latent Dirichlet Allocation (LDA)* 
+LDA is a topic modeling method that can be used to identify central topics and
+distributions across a corpus.
+
+**Corpus**: a corpus is a collection of text that is used in natural language 
+processing.
+
+In LDA, the value k is defined as the number of topics that appear in the corpus.
+To determine k, some additional analysis should be completed. 
+
+```{r determine-k}
+# developing list of potential k values to fit in LDA model
+k_list <- seq(2, 10, by = 1)
+
+# testing fit for k values in LDA models
+fit_test_k_models <- lapply(k_list, function(k) {
+  FitLdaModel(dtm = dtm_mat, #using converted matrix
+              k = k,
+              iterations = 200,
+              burnin = 175,
+              alpha = 0.1,
+              beta = 0.05,
+              optimize_alpha = TRUE,
+              calc_likelihood = TRUE,
+              calc_coherence = TRUE,
+              calc_r2 = TRUE)
+})
+names(fit_test_k_models) <- paste0("k_", k_list)
+
+# Extracting final log-likelihood value
+log_likelihood_list <- sapply(fit_test_k_models, function(x) tail(x$log_likelihood, 1)[2])
+log_likelihood <- as.numeric(log_likelihood_list)
+
+# generating summary of model perf.
+model_summary <- data.frame(
+  k = k_list,
+  coherence = sapply(fit_test_k_models, function(x) mean(x$coherence)), # topic coherence
+  r2 = sapply(fit_test_k_models, function(x) x$r2), #residuals squared - how different are the expected versus obs.
+  log_likelihood = log_likelihood # probability that the model generated obs. data
+)
+
+ggplot(model_summary, aes(x = k)) +
+  geom_line(aes(y = coherence), color = "blue") +
+  geom_line(aes(y = r2 * max(coherence)), color = "green", linetype = "dashed") +
+  geom_line(aes(y = log_likelihood / max(abs(log_likelihood)) * max(coherence)), 
+            color = "red", linetype = "dotted") +
+  ylab("Normalized Metric (for comparison)") +
+  ggtitle("LDA Tuning: Coherence, R2, and Log-Likelihood")
 ```
 
 ```{r lda-top-term}
 # this is where we use a LDA model - the number of topics is defined as K. 
-lda_top_term_model <- LDA(dtm_top_term, k = 6, control = list(seed = 1234))
+lda_top_term_model <- LDA(dtm_top_term, k = 9, control = list(seed = 1234))
 topics_top_term <- tidy(lda_top_term_model, matrix = "beta")
 
 # Top terms per topic
@@ -581,6 +637,7 @@ top_terms <- topics_top_term |>
   ungroup()
 ```
 
+## Analyzing with GDELT Data
 
 
 
