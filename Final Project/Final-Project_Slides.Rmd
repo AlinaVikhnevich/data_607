@@ -2,25 +2,14 @@
 title: "DATA 607 Final Project: Pop Culture & Public Search Behavior"
 author: "Group Members: Alina Vikhnevich, Olivia Azevedo, Alyssa Gurkas"
 date: "`r Sys.Date()`"
-output:
-  html_document:
-    theme: cerulean
-    toc: true
-    toc_float: true
-    toc_collapsed: true
-    code_folding: show
-editor_options: 
-  markdown: 
-    wrap: 72
+output: 
+  ioslides_presentation:
+    smaller: true
+    widescreen: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-```
-
-## Packages
-
-```{r setup, message=FALSE, warning=FALSE}
 library(bigrquery)
 library(DBI)
 library(tidyverse)
@@ -29,42 +18,49 @@ library(lubridate)
 library(wordcloud)
 library(topicmodels)
 library(countrycode)
-library(textmineR)
-library(stm)
+# library(textmineR)
+# library(stm)
 ```
 
-This project uses several R packages to support data acquisition,
-cleaning, analysis, and visualization. For example, `bigrquery` and
-`DBI` are used to query data from Google BigQuery, `tidytext` enables
-text mining and topic modeling, and `ggplot2` is used for data
-visualization.
+<!-- This project uses several R packages to support data acquisition, -->
+<!-- cleaning, analysis, and visualization. For example, `bigrquery` and -->
+<!-- `DBI` are used to query data from Google BigQuery, `tidytext` enables -->
+<!-- text mining and topic modeling, and `ggplot2` is used for data -->
+<!-- visualization. -->
 
-# Introduction
+## Introduction
 
 In this project, we explore how search behavior in the United States
-reflects interest in major pop culture events. Using unsupervised topic
-modeling, we analyze Google’s top search terms to identify recurring
-themes and trends. By linking search activity with globally documented
+reflects interest in major pop culture events.  
+
+Using unsupervised topic modeling, we analyze Google’s top search terms to
+identify recurring themes and trends.  
+
+By linking search activity with globally documented
 events, we aim to uncover how societal attention manifests in digital
 behavior.
 
 ## Data Sources
 
--   **Google BigQuery – Top 25 Search Terms**\
-    Google’s public dataset on the top 25 search queries per day,
-    available via BigQuery.
--   **GDELT 2.0 – Our Global World in Realtime**\
-    A large-scale global event database tracking news events from around
-    the world in real time, including media coverage of pop culture,
-    conflict, disasters, and more.
+### Google BigQuery – Top 25 Search Term
+Google’s public dataset on the top 25 search queries per day available via BigQuery. \
 
-## Data Acquisition
+    
+    
+### GDELT 2.0 – Our Global World in Realtime\
+A large-scale global event database tracking news events from around
+the world in real time, including media coverage of pop culture,
+conflict, disasters, and more.
 
-### 1. Google BigQuery – Top 25 Search Terms
+
+# Data Acquisition
+
+##  Google BigQuery – Top 25 Search Terms
 
 We use the `bigrquery` package to access Google’s public dataset of the
 most popular daily search terms. Make sure you have a Google Cloud
 project set up with billing enabled and a BigQuery API key.
+
 
 ```{r bigquery-auth, eval=FALSE}
 # Authenticate with Google Cloud (interactive)
@@ -74,7 +70,7 @@ bq_auth(path = "data607finalproject-6c666e5b6214.json")
 ```{r google-bigquery-api}
 project_id <- "data607finalproject"
 
-# gbigquery is in GMT so if we do sub date -1 that means that it is taking the 
+# gbigquery is in GMT so if we do sub date -1 that means that it is taking the
 # data from today, need to do -2
 # need to specify that the date is in America/NY time: CURRENT_DATE(‘America/New_York’)
 
@@ -86,7 +82,7 @@ query <- as.character(
   term,
   score,
   refresh_date,
-  dma_id,
+  dma_id,s
   dma_name,
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
@@ -126,7 +122,7 @@ job <- bq_perform_query_dry_run(
 
 google_search_data <- bq_project_query(project_id, query)
 google_search_df <- bq_table_download(google_search_data)
-unnest_google_search_df <- google_search_df  |> 
+unnest_google_search_df <- google_search_df  |>
   unnest(x)
 
 head(unnest_google_search_df)
@@ -136,585 +132,585 @@ head(unnest_google_search_df)
 
 **Getting the latest file name:**
 
-```{r gdelt-latest-link}
-# Get the name of the most recent GDELT CSV file
-latest_file <- read_lines("http://data.gdeltproject.org/gdeltv2/lastupdate.txt")
-latest_file
-```
-
-**Download and Unzip:**
-
-```{r gdelt-download}
-# Constructing the full URL to download the ZIP file
-export_url_line <- latest_file[1]
-
-# Extract the URL from the line using strsplit
-export_url <- strsplit(export_url_line, " ")[[1]][3]
-export_url
-
-# Download the export ZIP file to your working directory
-download.file(export_url, destfile = "Data/GDELT/gdelt_latest.zip", mode = "wb")
-
-# Unzip the file
-unzip("Data/GDELT/gdelt_latest.zip", exdir='Data/GDELT')
-```
-
-**Read CSV into R:**
-
-```{r gdelt-extract}
-# Extract filename only from URL
-csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url)))
-
-
-# Read the CSV file with correct case-sensitive name
-gdelt_df <- read_csv(csv_file, col_names = FALSE)
-
-# Preview data
-head(gdelt_df)
-```
-
-**GDELT 2.0 – Structured Load**
-
-GDELT 2.0 is a massive global event database that captures media
-coverage of events in real time from across the world. The export files
-are updated every 15 minutes and are tab-delimited without column
-headers, so we must assign names manually using the GDELT schema.
-
-In this chunk, we load the most recent export file and apply column
-names for easier exploration:
-
-```{r gdelt-read}
-# Column names based on GDELT 2.0 schema (first 10 for demo, full list has 58+)
-gdelt_cols <- c(
-  "GLOBALEVENTID", "Day", "MonthYear", "Year", "FractionDate", 
-  "Actor1Code", "Actor1Name", "Actor1CountryCode", "Actor1KnownGroupCode", 
-  "Actor1EthnicCode", "Actor1Religion1Code", "Actor1Religion2Code", 
-  "Actor1Type1Code", "Actor1Type2Code", "Actor1Type3Code",
-  "Actor2Code", "Actor2Name", "Actor2CountryCode", "Actor2KnownGroupCode", 
-  "Actor2EthnicCode", "Actor2Religion1Code", "Actor2Religion2Code", 
-  "Actor2Type1Code", "Actor2Type2Code", "Actor2Type3Code",
-  "IsRootEvent", "EventCode", "EventBaseCode", "EventRootCode", 
-  "QuadClass", "GoldsteinScale", "NumMentions", "NumSources", 
-  "NumArticles", "AvgTone", "Actor1Geo_Type", "Actor1Geo_FullName", 
-  "Actor1Geo_CountryCode", "Actor1Geo_ADM1Code", "Actor1Geo_ADM2Code",
-  "Actor1Geo_Lat", "Actor1Geo_Long", "Actor1Geo_FeatureID", "Actor2Geo_Type", 
-  "Actor2Geo_FullName", "Actor2Geo_CountryCode", "Actor2Geo_ADM1Code",
-  "Actor2Geo_ADM2Code", "Actor2Geo_Lat", "Actor2Geo_Long", "Actor2Geo_FeatureID", 
-  "ActionGeo_Type", "ActionGeo_FullName", "ActionGeo_CountryCode", 
-  "ActionGeo_ADM1Code", "Action2Geo_ADM2Code", "ActionGeo_Lat", "ActionGeo_Long", 
-  "ActionGeo_FeatureID", "DATEADDED", "SOURCEURL"
-)
-
-# Read the file with tab delimiter and custom column names
-gdelt_df <- read_delim(csv_file, delim = "\t", col_names = gdelt_cols, show_col_types = FALSE)
-
-# Preview first rows
-head(gdelt_df)
-```
-
-**Load GDELT Reference Table Data**
-
-Define reference table data file sources
-```{r}
-cameo_country_code_txt <- "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt"
-fips_country_code_txt <- 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt'
-cameo_code_type_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt'
-cameo_known_code_groups_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.knowngroup.txt'
-cameo_ethnic_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.ethnic.txt'
-cameo_religion_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.religion.txt'
-cameo_event_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt'
-cameo_gold_stein_scale_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.goldsteinscale.txt'
-adm1_codes_txt <- 'http://efele.net/maps/fips-10/data/fips-414.txt'
-adm2_codes_txt <- 'https://download.geonames.org/export/dump/admin2Codes.txt'
-```
-
-Actor Data Reference Tables
-```{r actor-ref}
-# Actor Country Code column reference values
-cameo_country_ref <- read.csv(
-  cameo_country_code_txt, sep="\t", header=T,
-  col.names = c('Country', 'Country_Desc'))
-
-# Actor Known Code Group column reference values
-cameo_known_code_groups_ref <- read.csv(
-  cameo_known_code_groups_txt, sep="\t", header=T,
-  col.names = c('KnownGroup', 'KnownGroup_Desc'))
-
-# Actor Ethnic Code column reference values
-cameo_ethnic_ref <- read.csv(cameo_ethnic_code_txt, sep="\t", header=T,
-                            col.names = c('Ethnic', 'Ethnic_Desc'))
-
-# Actor Religion Code (1 and 2) column reference values
-cameo_religion_ref <- read.csv(cameo_religion_code_txt, sep="\t", header=T,
-                              col.names = c('Religion', 'Religion_Desc'))
-
-# Actor Type Code (1, 2, and 3) column reference values
-cameo_type_ref <- read.csv(cameo_code_type_txt, sep="\t", header=T,
-                                col.names = c('TypeCode', 'Type'))
-```
-
-Event Data Reference Tables
-```{r}
-# Event Code (including base and root event codes) column reference values
-cameo_event_ref <- read.csv(cameo_event_code_txt, sep="\t", header=T ,
-                           colClasses = "character",
-                                col.names = c('EventCode', 'Event'))
-
-# Event Gold Stein Scale column reference values
-cameo_gold_stein_ref <- read.csv(cameo_gold_stein_scale_txt, sep="\t", header=T,
-                                col.names = c('EventCode', 'GoldSteinScale'))
-
-# Event quad class (primary classification) column reference values
-quadclass_ref <- tribble(
-  ~"QuadClass", ~"Quad",
-  1, 'Verbal Cooperation',
-  2, 'Material Cooperation',
-  3, 'Verbal Conflict',
-  4,' Material Conflict'
-)
-```
-
-Event Geography Data Reference Tables
-```{r event-ref}
-# Event geographic resolution column reference values
-geo_type_ref <- tribble(
-  ~"Geo_Type", ~"Geo_Type_Desc",
-  1, 'COUNTRY',
-  2, 'USSTATE',
-  3, 'USCITY',
-  4,' WORLDCITY',
-  5, 'WORLDSTATE'
-)
-
-# FIPS country column reference values
-fips_country_ref <- read.csv(fips_country_code_txt, sep="\t", header=F,
-                            col.names = c('GEO_Country', 'GEO_Country_Desc'))
-
-# GEO ADM1 code column reference values
-# create U.S. adm1 codes using 'US' followed by the state abbreviation
-us_fips_adm1_ref <- tibble(
-  'Country' = 'US',
-  'division' = 'state',
-  fips_adm1 = state.name,
-  state_abb = state.abb
-  ) |>
-  mutate(fips_adm1_code = paste0(Country, state_abb)) |>
-  select(fips_adm1_code, division, fips_adm1)
-
-# read in global adm1 codes and join to custom U.S. codes
-fips_adm1_ref <- read.csv(
-  adm1_codes_txt, sep="_", header=F, na.strings = "",
-  col.names = c('fips_adm1_code',
-                'first fips version',
-                'last fips version',
-                'division',
-                'designation_2',
-                'designation_3',
-                'designation4',
-                'fips_adm1',
-                'convential name',
-                'former name')) |>
-  select('fips_adm1_code', 'division', 'fips_adm1') |>
-  rbind(us_fips_adm1_ref)
-```
-
-
-## Tidy & Clean Data
-
-### 1. Google BigQuery – Top 25 Search Terms
-
-**Google Search Data Cleaning**
-
-  - Transforms `dma_id` into a string dtype
-  - Fills Null top_score values with zero
-  - Unnests `rising_terms_gains` column to create a long-format dataframe where
-    each rising term and associated percent gain is a separate row.
-  - Splits `rising_terms_gains` into `rising_term` and `rising_percent_gain` to
-    make each value its own column
-
-```{r google-data-cleaning}
-long_google_search_df <-  unnest_google_search_df |>
-  mutate(
-    score = replace_na(score, 0)
-    ) |> 
-  mutate(search_id = row_number())
-
-head(long_google_search_df)
-```
-
-**Google Search Data Tidying**
-
-Subset refresh date into its own table for reference. This is the same for all
-rows so only one value is needed to store,
-```{r google-refresh-date-ref-table}
-refresh_date_ref <- long_google_search_df |>
-  select(refresh_date) |>
-  distinct()
-
-head(refresh_date_ref)
-```
-
-Create Designated Market Area (DMA) reference table.
-```{r google-dma-ref-table}
-dma_ref_df <- long_google_search_df |>
-  select(dma_id, dma_name) |>
-  distinct()
-
-head(dma_ref_df)
-```
-
-Create final Google top term dateframe
-```{r google-top-term-table}
-top_term_df <- long_google_search_df |>
-  filter(term_type == "top_terms")
-
-head(top_term_df)
-```
-
-Create final Google rising term dataframe
-```{r google-rising-term-table}
-rising_term_df <- long_google_search_df |>
-  filter(term_type == "rising_terms")
-
-head(rising_term_df)
-```
-
-
---
-### 2. GDELT 2.0: Our Global World in Realtime
-
-**GDELT Data Cleaning**
-
-  - Transforms `Day` into date data type
-  - Transforms `MonthYear` into datetime string format
-  - Transforms `GLOBALEVENTID` into strings
-  - Transforms all categorical columns into factor data type
-
-```{r gdelt-data-cleaning}
-gdelt_df_cleaned <- gdelt_df |>
-  mutate_at(vars(contains('Code')), ~as.factor(.)) |>
-  mutate_at(vars(contains('Geo_Type')), ~as.factor(.)) |>
-  mutate(
-    GLOBALEVENTID = as.character(GLOBALEVENTID),
-    Day = as.Date(as.character(Day), '%Y%m%d'),
-    MonthYear = format(Day, '%Y-%m'),
-    QuadClass = as.factor(QuadClass),
-  ) |> 
-  filter(Day >= today() - days(14) & Day <= today())
-```
-
-**GDELT Data Tidying**
-
-No tidying was needed on this dataframe.
-
-
----
-## Matching the Google Big Query Data with the GDELT Data
-```{r join-tbls}
-gsearch_gdelt <- 
-  left_join(long_google_search_df, 
-            gdelt_df_cleaned,
-            by=c('refresh_date'='Day'))
-```
-
-## Exploratory Data Analysis
-
-*Stop Words* 
-Stop words are words that should be excluded in text analysis, such as "the",
-"a", "and", etc. Within the 'tidytext' package, stop words can be removed in 
-multiple languages. In this analysis, stop words were removed in English and 
-Spanish.
-
-```{r stop-words}
-# getting stop words for english and spanish 
-multi_lang_stopwords <- bind_rows(
-  get_stopwords(language = "en"),
-  get_stopwords(language = "es")
-)
-```
-
-*Tokenization*
-In text mining, tokenization refers to breaking down text into smaller units.
-The google search data was already broken in to short text, therefore, when 
-tokenizing the text, the unit of our text becomes a word. 
-
-```{r tokenization}
-tokenized_gsearch_gdelt <- gsearch_gdelt |> 
-  unnest_tokens(output = word, input = term) |> 
-  anti_join(multi_lang_stopwords, by = "word") |> 
-  relocate(search_id, word)
-```
-
-*Frequency Analysis* 
-After tokenizing the text, a freqency analysis is conducted to better understand
-which searches appear most frequently, at the word level, and at the Google 
-search level. 
-```{r count-most-freq-words}
-most_freq_tokens <- tokenized_gsearch_gdelt |> 
-  count(word, sort = TRUE) |> 
-  slice_max(order_by = n, n = 25) 
-
-most_freq_searches <- gsearch_gdelt |> 
-  count(term, sort = TRUE) |> 
-  slice_max(order_by = n, n = 25)
-```
-
-```{r 25-most-freq-tokens-plot}
-ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n))+
-  geom_bar(stat="identity")+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-   labs(y = "Count",
-       x = "Tokenized Terms (Words)",
-       title = "Word Frequency in Google Searches",
-       subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
-  guides(fill=FALSE)
-```
-
-```{r}
-ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n))+
-  geom_bar(stat="identity")+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-   labs(y = "Count",
-       x = "Google Searches",
-       title = "Google Searches Frequency",
-       subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
-  guides(fill=FALSE)
-```
-
-## Frequency Plots
-
-```{r plot-most-freq-tokens}
-tokenized_gsearch_gdelt |> 
-  group_by(refresh_date) |> 
-  count(word, sort = TRUE) |> 
-  top_n(5) |> 
-  ungroup() |> 
-  mutate(word = reorder_within(word, n, refresh_date),
-         date = factor(refresh_date, levels=sort(unique(tokenized_gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|>
-  ggplot(aes(x = word, y = n, fill = word)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ date, scales = "free_y") +
-  coord_flip() +
-  scale_x_reordered() +
-  scale_y_continuous(expand = c(0,0)) +
-  theme_minimal()+
-  labs(y = "Count",
-       x = "Unique words",
-       title = "Most frequently googled words in past two weeks",
-       subtitle = "Stop words removed from the list")
-```
-
-```{r plot-most-freq-top-searches}
-gsearch_gdelt |> 
-  filter(term_type == "top_terms") |> 
-  group_by(refresh_date) |> 
-  count(term, sort = TRUE) |> 
-  top_n(3) |> 
-  ungroup() |> 
-  mutate(word = reorder_within(term, n, refresh_date),
-         date = factor(refresh_date, levels=sort(unique(gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|>
-  ggplot(aes(x = term, y = n, fill = word)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ date, scales = "free_y") +
-  coord_flip() +
-  scale_x_reordered() +
-  scale_y_continuous(expand = c(0,0)) +
-  theme_minimal()+
-  labs(y = "Count",
-       x = "Top Searched Terms",
-       title = "Top Google Searches in Past Two Weeks in LA and NYC",
-       subtitle = "")
-```
-
-```{r plot-most-freq-rising-searches}
-gsearch_gdelt |> 
-  filter(term_type == "rising_terms") |> 
-  group_by(refresh_date) |> 
-  count(term, sort = TRUE) |> 
-  top_n(3) |> 
-  ungroup() |> 
-  mutate(word = reorder_within(term, n, refresh_date),
-         date = factor(refresh_date, levels=sort(unique(gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|>
-  ggplot(aes(x = term, y = n, fill = word)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ date, scales = "free_y") +
-  coord_flip() +
-  scale_x_reordered() +
-  scale_y_continuous(expand = c(0,0)) +
-  theme_minimal()+
-  labs(y = "Count",
-       x = "Top Searched Terms",
-       title = "Rising Google Searches in Past Two Weeks in LA and NYC",
-       subtitle = "")
-```
-
-*Word Stemming* 
-Another technique that can be used in text mining is word stemming. When word 
-stemming, it takes the text, or token, and reduces the term to the root form 
-(also known as the stem). This can help normalize the terms, so that terms like
-play, playing, played, plays, would all be stemmed to play. 
-
-```{r word-stem}
-wrd_stem <- tokenized_gsearch_gdelt %>% 
-  mutate(word = SnowballC::wordStem(word))
-```
-
-*Document Term Matrix*
-A document term matrix represents the frequency of terms that appear in the 
-collect of text. 
-```{r dtm-top-term}
-# creating document term matrix 
-dtm_tokenized_terms <- wrd_stem |> 
-  count(refresh_date, word) |> 
-  cast_dtm(document = refresh_date, term = word, value = n)
-
-# Convert to reg matrix
-mat <- as.matrix(dtm_tokenized_terms)
-# Convert to sparse Matrix (dgCMatrix) so can use in lapply below
-dtm_mat <- Matrix(mat, sparse = TRUE)
-```
-
-*Latent Dirichlet Allocation (LDA)* 
-LDA is a topic modeling method that can be used to identify central topics and
-distributions across a corpus.
-
-**Corpus**: a corpus is a collection of text that is used in natural language 
-processing.
-
-In LDA, the value k is defined as the number of topics that appear in the corpus.
-To determine k, some additional analysis should be completed. 
-
-```{r determine-k}
-# developing list of potential k values to fit in LDA model
-k_list <- seq(2, 20, by = 1)
-
-# testing fit for k values in LDA models
-fit_test_k_models <- lapply(k_list, function(k) {
-  FitLdaModel(dtm = dtm_mat, #using converted matrix
-              k = k,
-              iterations = 200,
-              burnin = 175,
-              alpha = 0.1,
-              beta = 0.05,
-              optimize_alpha = TRUE,
-              calc_likelihood = TRUE,
-              calc_coherence = TRUE,
-              calc_r2 = TRUE)
-})
-names(fit_test_k_models) <- paste0("k_", k_list)
-
-# Extracting final log-likelihood value
-log_likelihood_list <- sapply(fit_test_k_models, function(x) tail(x$log_likelihood, 1)[2])
-log_likelihood <- as.numeric(log_likelihood_list)
-
-# generating summary of model perf.
-model_summary <- data.frame(
-  k = k_list,
-  coherence = sapply(fit_test_k_models, function(x) mean(x$coherence)), # topic coherence
-  r2 = sapply(fit_test_k_models, function(x) x$r2), #residuals squared - how different are the expected versus obs.
-  log_likelihood = log_likelihood # probability that the model generated obs. data
-)
-
-ggplot(model_summary, aes(x = k)) +
-  geom_line(aes(y = coherence), color = "blue") +
-  geom_line(aes(y = r2 * max(coherence)), color = "green", linetype = "dashed") +
-  geom_line(aes(y = log_likelihood / max(abs(log_likelihood)) * max(coherence)), 
-            color = "red", linetype = "dotted") +
-  ylab("Normalized Metric (for comparison)") +
-  ggtitle("LDA Tuning: Coherence, R2, and Log-Likelihood")
-```
-
-```{r lda-top-term-k15}
-# this is where we use a LDA model - the number of topics is defined as K. 
-lda_model_k15 <- LDA(dtm_tokenized_terms, k = 15, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
-
-# Top terms per topic
-top_words_k15 <- topics_lda_model |>   
-  group_by(topic) |> 
-  top_n(10, beta) |> 
-  ungroup()
-```
-
-```{r plot-k15}
-top_terms_lda_k15 <- topics_lda_model |> 
-  group_by(topic) |> 
-  slice_max(beta, n = 3, with_ties = FALSE) |> 
-  ungroup() |> 
-  arrange(topic, -beta)
-
-top_terms_lda_k15 |> 
-  mutate(term = reorder_within(term, beta, topic)) |> 
-  group_by(topic, term) |>     
-  arrange(desc(beta)) |>   
-  ungroup() |> 
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
-```
-```{r lda-top-term-k11}
-# this is where we use a LDA model - the number of topics is defined as K. 
-lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
-
-# Top terms per topic
-top_words_k11 <- topics_lda_model |>   
-  group_by(topic) |> 
-  top_n(10, beta) |> 
-  ungroup()
-```
-
-```{r plot-k11}
-top_terms_lda_k11 <- topics_lda_model |> 
-  group_by(topic) |> 
-  slice_max(beta, n = 3, with_ties = FALSE) |> 
-  ungroup() |> 
-  arrange(topic, -beta)
-
-top_terms_lda_k11 |> 
-  mutate(term = reorder_within(term, beta, topic)) |> 
-  group_by(topic, term) |>     
-  arrange(desc(beta)) |>   
-  ungroup() |> 
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
-```
-## STM Modeling
-```{r stm-model}
-# temp <- textProcessor(gsearch_gdelt$term, 
-#                       metadata = NULL,  
-#                       lowercase=TRUE, 
-#                       removestopwords=TRUE, 
-#                       removenumbers=TRUE,  
-#                       removepunctuation=TRUE, 
-#                       wordLengths=c(3,Inf),
-#                       stem=TRUE,
-#                       onlycharacter= FALSE, 
-#                       striphtml=TRUE, 
-#                       customstopwords=NULL)
-# 
-# docs <- temp$documents 
-# vocab <- temp$vocab 
-# 
-# tds_stm <- stm(documents=docs, 
-#                vocab=vocab, 
-#                data = NULL,
-#                K=11,
-#                max.em.its=25,
-#                verbose = FALSE,
-#                gamma.prior='L1')
-```
-
-## Analyzing with GDELT Data
+<!-- ```{r gdelt-latest-link} -->
+<!-- # Get the name of the most recent GDELT CSV file -->
+<!-- latest_file <- read_lines("http://data.gdeltproject.org/gdeltv2/lastupdate.txt") -->
+<!-- latest_file -->
+<!-- ``` -->
+
+<!-- **Download and Unzip:** -->
+
+<!-- ```{r gdelt-download} -->
+<!-- # Constructing the full URL to download the ZIP file -->
+<!-- export_url_line <- latest_file[1] -->
+
+<!-- # Extract the URL from the line using strsplit -->
+<!-- export_url <- strsplit(export_url_line, " ")[[1]][3] -->
+<!-- export_url -->
+
+<!-- # Download the export ZIP file to your working directory -->
+<!-- download.file(export_url, destfile = "Data/GDELT/gdelt_latest.zip", mode = "wb") -->
+
+<!-- # Unzip the file -->
+<!-- unzip("Data/GDELT/gdelt_latest.zip", exdir='Data/GDELT') -->
+<!-- ``` -->
+
+<!-- **Read CSV into R:** -->
+
+<!-- ```{r gdelt-extract} -->
+<!-- # Extract filename only from URL -->
+<!-- csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url))) -->
+
+
+<!-- # Read the CSV file with correct case-sensitive name -->
+<!-- gdelt_df <- read_csv(csv_file, col_names = FALSE) -->
+
+<!-- # Preview data -->
+<!-- head(gdelt_df) -->
+<!-- ``` -->
+
+<!-- **GDELT 2.0 – Structured Load** -->
+
+<!-- GDELT 2.0 is a massive global event database that captures media -->
+<!-- coverage of events in real time from across the world. The export files -->
+<!-- are updated every 15 minutes and are tab-delimited without column -->
+<!-- headers, so we must assign names manually using the GDELT schema. -->
+
+<!-- In this chunk, we load the most recent export file and apply column -->
+<!-- names for easier exploration: -->
+
+<!-- ```{r gdelt-read} -->
+<!-- # Column names based on GDELT 2.0 schema (first 10 for demo, full list has 58+) -->
+<!-- gdelt_cols <- c( -->
+<!--   "GLOBALEVENTID", "Day", "MonthYear", "Year", "FractionDate",  -->
+<!--   "Actor1Code", "Actor1Name", "Actor1CountryCode", "Actor1KnownGroupCode",  -->
+<!--   "Actor1EthnicCode", "Actor1Religion1Code", "Actor1Religion2Code",  -->
+<!--   "Actor1Type1Code", "Actor1Type2Code", "Actor1Type3Code", -->
+<!--   "Actor2Code", "Actor2Name", "Actor2CountryCode", "Actor2KnownGroupCode",  -->
+<!--   "Actor2EthnicCode", "Actor2Religion1Code", "Actor2Religion2Code",  -->
+<!--   "Actor2Type1Code", "Actor2Type2Code", "Actor2Type3Code", -->
+<!--   "IsRootEvent", "EventCode", "EventBaseCode", "EventRootCode",  -->
+<!--   "QuadClass", "GoldsteinScale", "NumMentions", "NumSources",  -->
+<!--   "NumArticles", "AvgTone", "Actor1Geo_Type", "Actor1Geo_FullName",  -->
+<!--   "Actor1Geo_CountryCode", "Actor1Geo_ADM1Code", "Actor1Geo_ADM2Code", -->
+<!--   "Actor1Geo_Lat", "Actor1Geo_Long", "Actor1Geo_FeatureID", "Actor2Geo_Type",  -->
+<!--   "Actor2Geo_FullName", "Actor2Geo_CountryCode", "Actor2Geo_ADM1Code", -->
+<!--   "Actor2Geo_ADM2Code", "Actor2Geo_Lat", "Actor2Geo_Long", "Actor2Geo_FeatureID",  -->
+<!--   "ActionGeo_Type", "ActionGeo_FullName", "ActionGeo_CountryCode",  -->
+<!--   "ActionGeo_ADM1Code", "Action2Geo_ADM2Code", "ActionGeo_Lat", "ActionGeo_Long",  -->
+<!--   "ActionGeo_FeatureID", "DATEADDED", "SOURCEURL" -->
+<!-- ) -->
+
+<!-- # Read the file with tab delimiter and custom column names -->
+<!-- gdelt_df <- read_delim(csv_file, delim = "\t", col_names = gdelt_cols, show_col_types = FALSE) -->
+
+<!-- # Preview first rows -->
+<!-- head(gdelt_df) -->
+<!-- ``` -->
+
+<!-- **Load GDELT Reference Table Data** -->
+
+<!-- Define reference table data file sources -->
+<!-- ```{r} -->
+<!-- cameo_country_code_txt <- "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt" -->
+<!-- fips_country_code_txt <- 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt' -->
+<!-- cameo_code_type_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt' -->
+<!-- cameo_known_code_groups_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.knowngroup.txt' -->
+<!-- cameo_ethnic_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.ethnic.txt' -->
+<!-- cameo_religion_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.religion.txt' -->
+<!-- cameo_event_code_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt' -->
+<!-- cameo_gold_stein_scale_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.goldsteinscale.txt' -->
+<!-- adm1_codes_txt <- 'http://efele.net/maps/fips-10/data/fips-414.txt' -->
+<!-- adm2_codes_txt <- 'https://download.geonames.org/export/dump/admin2Codes.txt' -->
+<!-- ``` -->
+
+<!-- Actor Data Reference Tables -->
+<!-- ```{r actor-ref} -->
+<!-- # Actor Country Code column reference values -->
+<!-- cameo_country_ref <- read.csv( -->
+<!--   cameo_country_code_txt, sep="\t", header=T, -->
+<!--   col.names = c('Country', 'Country_Desc')) -->
+
+<!-- # Actor Known Code Group column reference values -->
+<!-- cameo_known_code_groups_ref <- read.csv( -->
+<!--   cameo_known_code_groups_txt, sep="\t", header=T, -->
+<!--   col.names = c('KnownGroup', 'KnownGroup_Desc')) -->
+
+<!-- # Actor Ethnic Code column reference values -->
+<!-- cameo_ethnic_ref <- read.csv(cameo_ethnic_code_txt, sep="\t", header=T, -->
+<!--                             col.names = c('Ethnic', 'Ethnic_Desc')) -->
+
+<!-- # Actor Religion Code (1 and 2) column reference values -->
+<!-- cameo_religion_ref <- read.csv(cameo_religion_code_txt, sep="\t", header=T, -->
+<!--                               col.names = c('Religion', 'Religion_Desc')) -->
+
+<!-- # Actor Type Code (1, 2, and 3) column reference values -->
+<!-- cameo_type_ref <- read.csv(cameo_code_type_txt, sep="\t", header=T, -->
+<!--                                 col.names = c('TypeCode', 'Type')) -->
+<!-- ``` -->
+
+<!-- Event Data Reference Tables -->
+<!-- ```{r} -->
+<!-- # Event Code (including base and root event codes) column reference values -->
+<!-- cameo_event_ref <- read.csv(cameo_event_code_txt, sep="\t", header=T , -->
+<!--                            colClasses = "character", -->
+<!--                                 col.names = c('EventCode', 'Event')) -->
+
+<!-- # Event Gold Stein Scale column reference values -->
+<!-- cameo_gold_stein_ref <- read.csv(cameo_gold_stein_scale_txt, sep="\t", header=T, -->
+<!--                                 col.names = c('EventCode', 'GoldSteinScale')) -->
+
+<!-- # Event quad class (primary classification) column reference values -->
+<!-- quadclass_ref <- tribble( -->
+<!--   ~"QuadClass", ~"Quad", -->
+<!--   1, 'Verbal Cooperation', -->
+<!--   2, 'Material Cooperation', -->
+<!--   3, 'Verbal Conflict', -->
+<!--   4,' Material Conflict' -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- Event Geography Data Reference Tables -->
+<!-- ```{r event-ref} -->
+<!-- # Event geographic resolution column reference values -->
+<!-- geo_type_ref <- tribble( -->
+<!--   ~"Geo_Type", ~"Geo_Type_Desc", -->
+<!--   1, 'COUNTRY', -->
+<!--   2, 'USSTATE', -->
+<!--   3, 'USCITY', -->
+<!--   4,' WORLDCITY', -->
+<!--   5, 'WORLDSTATE' -->
+<!-- ) -->
+
+<!-- # FIPS country column reference values -->
+<!-- fips_country_ref <- read.csv(fips_country_code_txt, sep="\t", header=F, -->
+<!--                             col.names = c('GEO_Country', 'GEO_Country_Desc')) -->
+
+<!-- # GEO ADM1 code column reference values -->
+<!-- # create U.S. adm1 codes using 'US' followed by the state abbreviation -->
+<!-- us_fips_adm1_ref <- tibble( -->
+<!--   'Country' = 'US', -->
+<!--   'division' = 'state', -->
+<!--   fips_adm1 = state.name, -->
+<!--   state_abb = state.abb -->
+<!--   ) |> -->
+<!--   mutate(fips_adm1_code = paste0(Country, state_abb)) |> -->
+<!--   select(fips_adm1_code, division, fips_adm1) -->
+
+<!-- # read in global adm1 codes and join to custom U.S. codes -->
+<!-- fips_adm1_ref <- read.csv( -->
+<!--   adm1_codes_txt, sep="_", header=F, na.strings = "", -->
+<!--   col.names = c('fips_adm1_code', -->
+<!--                 'first fips version', -->
+<!--                 'last fips version', -->
+<!--                 'division', -->
+<!--                 'designation_2', -->
+<!--                 'designation_3', -->
+<!--                 'designation4', -->
+<!--                 'fips_adm1', -->
+<!--                 'convential name', -->
+<!--                 'former name')) |> -->
+<!--   select('fips_adm1_code', 'division', 'fips_adm1') |> -->
+<!--   rbind(us_fips_adm1_ref) -->
+<!-- ``` -->
+
+
+<!-- ## Tidy & Clean Data -->
+
+<!-- ### 1. Google BigQuery – Top 25 Search Terms -->
+
+<!-- **Google Search Data Cleaning** -->
+
+<!--   - Transforms `dma_id` into a string dtype -->
+<!--   - Fills Null top_score values with zero -->
+<!--   - Unnests `rising_terms_gains` column to create a long-format dataframe where -->
+<!--     each rising term and associated percent gain is a separate row. -->
+<!--   - Splits `rising_terms_gains` into `rising_term` and `rising_percent_gain` to -->
+<!--     make each value its own column -->
+
+<!-- ```{r google-data-cleaning} -->
+<!-- long_google_search_df <-  unnest_google_search_df |> -->
+<!--   mutate( -->
+<!--     score = replace_na(score, 0) -->
+<!--     ) |>  -->
+<!--   mutate(search_id = row_number()) -->
+
+<!-- head(long_google_search_df) -->
+<!-- ``` -->
+
+<!-- **Google Search Data Tidying** -->
+
+<!-- Subset refresh date into its own table for reference. This is the same for all -->
+<!-- rows so only one value is needed to store, -->
+<!-- ```{r google-refresh-date-ref-table} -->
+<!-- refresh_date_ref <- long_google_search_df |> -->
+<!--   select(refresh_date) |> -->
+<!--   distinct() -->
+
+<!-- head(refresh_date_ref) -->
+<!-- ``` -->
+
+<!-- Create Designated Market Area (DMA) reference table. -->
+<!-- ```{r google-dma-ref-table} -->
+<!-- dma_ref_df <- long_google_search_df |> -->
+<!--   select(dma_id, dma_name) |> -->
+<!--   distinct() -->
+
+<!-- head(dma_ref_df) -->
+<!-- ``` -->
+
+<!-- Create final Google top term dateframe -->
+<!-- ```{r google-top-term-table} -->
+<!-- top_term_df <- long_google_search_df |> -->
+<!--   filter(term_type == "top_terms") -->
+
+<!-- head(top_term_df) -->
+<!-- ``` -->
+
+<!-- Create final Google rising term dataframe -->
+<!-- ```{r google-rising-term-table} -->
+<!-- rising_term_df <- long_google_search_df |> -->
+<!--   filter(term_type == "rising_terms") -->
+
+<!-- head(rising_term_df) -->
+<!-- ``` -->
+
+
+<!-- -- -->
+<!-- ### 2. GDELT 2.0: Our Global World in Realtime -->
+
+<!-- **GDELT Data Cleaning** -->
+
+<!--   - Transforms `Day` into date data type -->
+<!--   - Transforms `MonthYear` into datetime string format -->
+<!--   - Transforms `GLOBALEVENTID` into strings -->
+<!--   - Transforms all categorical columns into factor data type -->
+
+<!-- ```{r gdelt-data-cleaning} -->
+<!-- gdelt_df_cleaned <- gdelt_df |> -->
+<!--   mutate_at(vars(contains('Code')), ~as.factor(.)) |> -->
+<!--   mutate_at(vars(contains('Geo_Type')), ~as.factor(.)) |> -->
+<!--   mutate( -->
+<!--     GLOBALEVENTID = as.character(GLOBALEVENTID), -->
+<!--     Day = as.Date(as.character(Day), '%Y%m%d'), -->
+<!--     MonthYear = format(Day, '%Y-%m'), -->
+<!--     QuadClass = as.factor(QuadClass), -->
+<!--   ) |>  -->
+<!--   filter(Day >= today() - days(14) & Day <= today()) -->
+<!-- ``` -->
+
+<!-- **GDELT Data Tidying** -->
+
+<!-- No tidying was needed on this dataframe. -->
+
+
+<!-- --- -->
+<!-- ## Matching the Google Big Query Data with the GDELT Data -->
+<!-- ```{r join-tbls} -->
+<!-- gsearch_gdelt <-  -->
+<!--   left_join(long_google_search_df,  -->
+<!--             gdelt_df_cleaned, -->
+<!--             by=c('refresh_date'='Day')) -->
+<!-- ``` -->
+
+<!-- ## Exploratory Data Analysis -->
+
+<!-- *Stop Words*  -->
+<!-- Stop words are words that should be excluded in text analysis, such as "the", -->
+<!-- "a", "and", etc. Within the 'tidytext' package, stop words can be removed in  -->
+<!-- multiple languages. In this analysis, stop words were removed in English and  -->
+<!-- Spanish. -->
+
+<!-- ```{r stop-words} -->
+<!-- # getting stop words for english and spanish  -->
+<!-- multi_lang_stopwords <- bind_rows( -->
+<!--   get_stopwords(language = "en"), -->
+<!--   get_stopwords(language = "es") -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- *Tokenization* -->
+<!-- In text mining, tokenization refers to breaking down text into smaller units. -->
+<!-- The google search data was already broken in to short text, therefore, when  -->
+<!-- tokenizing the text, the unit of our text becomes a word.  -->
+
+<!-- ```{r tokenization} -->
+<!-- tokenized_gsearch_gdelt <- gsearch_gdelt |>  -->
+<!--   unnest_tokens(output = word, input = term) |>  -->
+<!--   anti_join(multi_lang_stopwords, by = "word") |>  -->
+<!--   relocate(search_id, word) -->
+<!-- ``` -->
+
+<!-- *Frequency Analysis*  -->
+<!-- After tokenizing the text, a freqency analysis is conducted to better understand -->
+<!-- which searches appear most frequently, at the word level, and at the Google  -->
+<!-- search level.  -->
+<!-- ```{r count-most-freq-words} -->
+<!-- most_freq_tokens <- tokenized_gsearch_gdelt |>  -->
+<!--   count(word, sort = TRUE) |>  -->
+<!--   slice_max(order_by = n, n = 25)  -->
+
+<!-- most_freq_searches <- gsearch_gdelt |>  -->
+<!--   count(term, sort = TRUE) |>  -->
+<!--   slice_max(order_by = n, n = 25) -->
+<!-- ``` -->
+
+<!-- ```{r 25-most-freq-tokens-plot} -->
+<!-- ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n))+ -->
+<!--   geom_bar(stat="identity")+ -->
+<!--   theme_minimal()+ -->
+<!--   theme(axis.text.x = element_text(angle = 90, hjust = 1))+ -->
+<!--    labs(y = "Count", -->
+<!--        x = "Tokenized Terms (Words)", -->
+<!--        title = "Word Frequency in Google Searches", -->
+<!--        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+ -->
+<!--   guides(fill=FALSE) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n))+ -->
+<!--   geom_bar(stat="identity")+ -->
+<!--   theme_minimal()+ -->
+<!--   theme(axis.text.x = element_text(angle = 90, hjust = 1))+ -->
+<!--    labs(y = "Count", -->
+<!--        x = "Google Searches", -->
+<!--        title = "Google Searches Frequency", -->
+<!--        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+ -->
+<!--   guides(fill=FALSE) -->
+<!-- ``` -->
+
+<!-- ## Frequency Plots -->
+
+<!-- ```{r plot-most-freq-tokens} -->
+<!-- tokenized_gsearch_gdelt |>  -->
+<!--   group_by(refresh_date) |>  -->
+<!--   count(word, sort = TRUE) |>  -->
+<!--   top_n(5) |>  -->
+<!--   ungroup() |>  -->
+<!--   mutate(word = reorder_within(word, n, refresh_date), -->
+<!--          date = factor(refresh_date, levels=sort(unique(tokenized_gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|> -->
+<!--   ggplot(aes(x = word, y = n, fill = word)) + -->
+<!--   geom_col(show.legend = FALSE) + -->
+<!--   facet_wrap(~ date, scales = "free_y") + -->
+<!--   coord_flip() + -->
+<!--   scale_x_reordered() + -->
+<!--   scale_y_continuous(expand = c(0,0)) + -->
+<!--   theme_minimal()+ -->
+<!--   labs(y = "Count", -->
+<!--        x = "Unique words", -->
+<!--        title = "Most frequently googled words in past two weeks", -->
+<!--        subtitle = "Stop words removed from the list") -->
+<!-- ``` -->
+
+<!-- ```{r plot-most-freq-top-searches} -->
+<!-- gsearch_gdelt |>  -->
+<!--   filter(term_type == "top_terms") |>  -->
+<!--   group_by(refresh_date) |>  -->
+<!--   count(term, sort = TRUE) |>  -->
+<!--   top_n(3) |>  -->
+<!--   ungroup() |>  -->
+<!--   mutate(word = reorder_within(term, n, refresh_date), -->
+<!--          date = factor(refresh_date, levels=sort(unique(gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|> -->
+<!--   ggplot(aes(x = term, y = n, fill = word)) + -->
+<!--   geom_col(show.legend = FALSE) + -->
+<!--   facet_wrap(~ date, scales = "free_y") + -->
+<!--   coord_flip() + -->
+<!--   scale_x_reordered() + -->
+<!--   scale_y_continuous(expand = c(0,0)) + -->
+<!--   theme_minimal()+ -->
+<!--   labs(y = "Count", -->
+<!--        x = "Top Searched Terms", -->
+<!--        title = "Top Google Searches in Past Two Weeks in LA and NYC", -->
+<!--        subtitle = "") -->
+<!-- ``` -->
+
+<!-- ```{r plot-most-freq-rising-searches} -->
+<!-- gsearch_gdelt |>  -->
+<!--   filter(term_type == "rising_terms") |>  -->
+<!--   group_by(refresh_date) |>  -->
+<!--   count(term, sort = TRUE) |>  -->
+<!--   top_n(3) |>  -->
+<!--   ungroup() |>  -->
+<!--   mutate(word = reorder_within(term, n, refresh_date), -->
+<!--          date = factor(refresh_date, levels=sort(unique(gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|> -->
+<!--   ggplot(aes(x = term, y = n, fill = word)) + -->
+<!--   geom_col(show.legend = FALSE) + -->
+<!--   facet_wrap(~ date, scales = "free_y") + -->
+<!--   coord_flip() + -->
+<!--   scale_x_reordered() + -->
+<!--   scale_y_continuous(expand = c(0,0)) + -->
+<!--   theme_minimal()+ -->
+<!--   labs(y = "Count", -->
+<!--        x = "Top Searched Terms", -->
+<!--        title = "Rising Google Searches in Past Two Weeks in LA and NYC", -->
+<!--        subtitle = "") -->
+<!-- ``` -->
+
+<!-- *Word Stemming*  -->
+<!-- Another technique that can be used in text mining is word stemming. When word  -->
+<!-- stemming, it takes the text, or token, and reduces the term to the root form  -->
+<!-- (also known as the stem). This can help normalize the terms, so that terms like -->
+<!-- play, playing, played, plays, would all be stemmed to play.  -->
+
+<!-- ```{r word-stem} -->
+<!-- wrd_stem <- tokenized_gsearch_gdelt %>%  -->
+<!--   mutate(word = SnowballC::wordStem(word)) -->
+<!-- ``` -->
+
+<!-- *Document Term Matrix* -->
+<!-- A document term matrix represents the frequency of terms that appear in the  -->
+<!-- collect of text.  -->
+<!-- ```{r dtm-top-term} -->
+<!-- # creating document term matrix  -->
+<!-- dtm_tokenized_terms <- wrd_stem |>  -->
+<!--   count(refresh_date, word) |>  -->
+<!--   cast_dtm(document = refresh_date, term = word, value = n) -->
+
+<!-- # Convert to reg matrix -->
+<!-- mat <- as.matrix(dtm_tokenized_terms) -->
+<!-- # Convert to sparse Matrix (dgCMatrix) so can use in lapply below -->
+<!-- dtm_mat <- Matrix(mat, sparse = TRUE) -->
+<!-- ``` -->
+
+<!-- *Latent Dirichlet Allocation (LDA)*  -->
+<!-- LDA is a topic modeling method that can be used to identify central topics and -->
+<!-- distributions across a corpus. -->
+
+<!-- **Corpus**: a corpus is a collection of text that is used in natural language  -->
+<!-- processing. -->
+
+<!-- In LDA, the value k is defined as the number of topics that appear in the corpus. -->
+<!-- To determine k, some additional analysis should be completed.  -->
+
+<!-- ```{r determine-k} -->
+<!-- # developing list of potential k values to fit in LDA model -->
+<!-- k_list <- seq(2, 20, by = 1) -->
+
+<!-- # testing fit for k values in LDA models -->
+<!-- fit_test_k_models <- lapply(k_list, function(k) { -->
+<!--   FitLdaModel(dtm = dtm_mat, #using converted matrix -->
+<!--               k = k, -->
+<!--               iterations = 200, -->
+<!--               burnin = 175, -->
+<!--               alpha = 0.1, -->
+<!--               beta = 0.05, -->
+<!--               optimize_alpha = TRUE, -->
+<!--               calc_likelihood = TRUE, -->
+<!--               calc_coherence = TRUE, -->
+<!--               calc_r2 = TRUE) -->
+<!-- }) -->
+<!-- names(fit_test_k_models) <- paste0("k_", k_list) -->
+
+<!-- # Extracting final log-likelihood value -->
+<!-- log_likelihood_list <- sapply(fit_test_k_models, function(x) tail(x$log_likelihood, 1)[2]) -->
+<!-- log_likelihood <- as.numeric(log_likelihood_list) -->
+
+<!-- # generating summary of model perf. -->
+<!-- model_summary <- data.frame( -->
+<!--   k = k_list, -->
+<!--   coherence = sapply(fit_test_k_models, function(x) mean(x$coherence)), # topic coherence -->
+<!--   r2 = sapply(fit_test_k_models, function(x) x$r2), #residuals squared - how different are the expected versus obs. -->
+<!--   log_likelihood = log_likelihood # probability that the model generated obs. data -->
+<!-- ) -->
+
+<!-- ggplot(model_summary, aes(x = k)) + -->
+<!--   geom_line(aes(y = coherence), color = "blue") + -->
+<!--   geom_line(aes(y = r2 * max(coherence)), color = "green", linetype = "dashed") + -->
+<!--   geom_line(aes(y = log_likelihood / max(abs(log_likelihood)) * max(coherence)),  -->
+<!--             color = "red", linetype = "dotted") + -->
+<!--   ylab("Normalized Metric (for comparison)") + -->
+<!--   ggtitle("LDA Tuning: Coherence, R2, and Log-Likelihood") -->
+<!-- ``` -->
+
+<!-- ```{r lda-top-term-k15} -->
+<!-- # this is where we use a LDA model - the number of topics is defined as K.  -->
+<!-- lda_model_k15 <- LDA(dtm_tokenized_terms, k = 15, control = list(seed = 1234)) -->
+<!-- topics_lda_model_k15 <- tidy(lda_model, matrix = "beta") -->
+
+<!-- # Top terms per topic -->
+<!-- top_words_k15 <- topics_lda_model |>    -->
+<!--   group_by(topic) |>  -->
+<!--   top_n(10, beta) |>  -->
+<!--   ungroup() -->
+<!-- ``` -->
+
+<!-- ```{r plot-k15} -->
+<!-- top_terms_lda_k15 <- topics_lda_model |>  -->
+<!--   group_by(topic) |>  -->
+<!--   slice_max(beta, n = 3, with_ties = FALSE) |>  -->
+<!--   ungroup() |>  -->
+<!--   arrange(topic, -beta) -->
+
+<!-- top_terms_lda_k15 |>  -->
+<!--   mutate(term = reorder_within(term, beta, topic)) |>  -->
+<!--   group_by(topic, term) |>      -->
+<!--   arrange(desc(beta)) |>    -->
+<!--   ungroup() |>  -->
+<!--   ggplot(aes(beta, term, fill = as.factor(topic))) + -->
+<!--   geom_col(show.legend = FALSE) + -->
+<!--   scale_y_reordered() + -->
+<!--   labs(title = "Top 5 terms in each LDA topic", -->
+<!--        x = expression(beta), y = NULL) + -->
+<!--   facet_wrap(~ topic, ncol = 4, scales = "free") -->
+<!-- ``` -->
+<!-- ```{r lda-top-term-k11} -->
+<!-- # this is where we use a LDA model - the number of topics is defined as K.  -->
+<!-- lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234)) -->
+<!-- topics_lda_model_k15 <- tidy(lda_model, matrix = "beta") -->
+
+<!-- # Top terms per topic -->
+<!-- top_words_k11 <- topics_lda_model |>    -->
+<!--   group_by(topic) |>  -->
+<!--   top_n(10, beta) |>  -->
+<!--   ungroup() -->
+<!-- ``` -->
+
+<!-- ```{r plot-k11} -->
+<!-- top_terms_lda_k11 <- topics_lda_model |>  -->
+<!--   group_by(topic) |>  -->
+<!--   slice_max(beta, n = 3, with_ties = FALSE) |>  -->
+<!--   ungroup() |>  -->
+<!--   arrange(topic, -beta) -->
+
+<!-- top_terms_lda_k11 |>  -->
+<!--   mutate(term = reorder_within(term, beta, topic)) |>  -->
+<!--   group_by(topic, term) |>      -->
+<!--   arrange(desc(beta)) |>    -->
+<!--   ungroup() |>  -->
+<!--   ggplot(aes(beta, term, fill = as.factor(topic))) + -->
+<!--   geom_col(show.legend = FALSE) + -->
+<!--   scale_y_reordered() + -->
+<!--   labs(title = "Top 5 terms in each LDA topic", -->
+<!--        x = expression(beta), y = NULL) + -->
+<!--   facet_wrap(~ topic, ncol = 4, scales = "free") -->
+<!-- ``` -->
+<!-- ## STM Modeling -->
+<!-- ```{r stm-model} -->
+<!-- # temp <- textProcessor(gsearch_gdelt$term,  -->
+<!-- #                       metadata = NULL,   -->
+<!-- #                       lowercase=TRUE,  -->
+<!-- #                       removestopwords=TRUE,  -->
+<!-- #                       removenumbers=TRUE,   -->
+<!-- #                       removepunctuation=TRUE,  -->
+<!-- #                       wordLengths=c(3,Inf), -->
+<!-- #                       stem=TRUE, -->
+<!-- #                       onlycharacter= FALSE,  -->
+<!-- #                       striphtml=TRUE,  -->
+<!-- #                       customstopwords=NULL) -->
+<!-- #  -->
+<!-- # docs <- temp$documents  -->
+<!-- # vocab <- temp$vocab  -->
+<!-- #  -->
+<!-- # tds_stm <- stm(documents=docs,  -->
+<!-- #                vocab=vocab,  -->
+<!-- #                data = NULL, -->
+<!-- #                K=11, -->
+<!-- #                max.em.its=25, -->
+<!-- #                verbose = FALSE, -->
+<!-- #                gamma.prior='L1') -->
+<!-- ``` -->
+
+<!-- ## Analyzing with GDELT Data -->
 
 
 
