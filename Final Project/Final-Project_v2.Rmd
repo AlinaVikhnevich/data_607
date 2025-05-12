@@ -457,7 +457,6 @@ tokenized_gsearch_gdelt |>
        subtitle = "Stop words removed from the list")
 ```
 
-
 ```{r word-stem}
 wrd_stem <- tokenized_gsearch_gdelt %>% 
   mutate(word = SnowballC::wordStem(word))
