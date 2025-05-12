@@ -11,8 +11,6 @@ output:
 editor_options: 
   markdown: 
     wrap: 72
-    
-    
 ---
 
 ```{r setup, include=FALSE}
@@ -77,108 +75,59 @@ project_id <- "data607finalproject"
 # data from today, need to do -2
 # need to specify that the date is in America/NY time: CURRENT_DATE(‘America/New_York’)
 
-#dma = designated market area
-query <- "
-WITH rising AS (
-  SELECT
-    week,
-    refresh_date,
-    ARRAY_AGG(DISTINCT CONCAT(term, '-', percent_gain)) AS rising_terms_gains
-  FROM `bigquery-public-data.google_trends.top_rising_terms`
-  GROUP BY ALL
-)
-
-SELECT
-  top.refresh_date,
-  top.week,
-  top.dma_name,
-  top.dma_id,
-  top.term AS top_term,
-  top.score AS top_score,
-  top.rank AS top_rank,
-  rising.rising_terms_gains
-FROM (
-  select *
-  from `bigquery-public-data.google_trends.top_terms`
-) top
-JOIN rising
-  USING(week, refresh_date)
-WHERE top.week >= '2024-01-01'
-GROUP BY ALL
-ORDER BY week DESC, refresh_date DESC
-"
-
-google_search_data <- bq_project_query(project_id, query)
-google_search_df <- bq_table_download(google_search_data)
-
-head(google_search_df)
-```
-
-```{r test-queries}
-# TO TEST BILLING AMOUNT: RUN THE CODE BELOW
-
-test_qy <- as.character(
+# dma = designated market area
+# need to pick two dmas if want to use score **
+query <- as.character(
   "SELECT
+  'top_terms' as term_type,
   term,
+  score,
   refresh_date,
+  dma_id,
+  dma_name,
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
     `bigquery-public-data.google_trends.top_terms`
-WHERE
-    refresh_date in
-        (SELECT
-            refresh_date
-        FROM
-        `bigquery-public-data.google_trends.top_terms`
-        where refresh_date > '2025-01-01'
-        group by all
-        )
+WHERE refresh_date >= date_add(current_date('America/New_York'),interval - 2 week)
+AND regexp_contains(dma_name, 'New York|Los Angeles')
+GROUP BY ALL
+
+union  all
+
+SELECT
+  'rising_terms' as term_type,
+  term as term_rising,
+  score as score_rising,
+  refresh_date,
+  dma_id,
+  dma_name,
+  ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
+FROM
+    `bigquery-public-data.google_trends.top_rising_terms`
+WHERE refresh_date >= date_add(current_date('America/New_York'),interval - 2 week)
+AND regexp_contains(dma_name, 'New York|Los Angeles')
 GROUP BY ALL
 ORDER BY
     (select week from unnest(x)) desc,
     (SELECT rank FROM UNNEST(x)),
     refresh_date desc
-
-union  all
-
-SELECT
-  term,
-  refresh_date,
-  ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
-FROM
-    `bigquery-public-data.google_trends.top_rising_terms`
-WHERE
-    refresh_date in
-        (SELECT
-            refresh_date
-        FROM
-        `bigquery-public-data.google_trends.top_rising_terms`
-        where refresh_date > '2025-01-01'
-        group by all
-        )
-GROUP BY ALL
-ORDER BY
-    (select week from unnest(x)) desc,
-    (SELECT rank FROM UNNEST(x)),
-    refresh_date desc"
+"
 )
 
-# to add rising - enter union all and add the other table 
-
-#Run dry run query to estimate billing
+# Run dry run query to estimate billing
 job <- bq_perform_query_dry_run(
   billing = project_id,
-  query = test_qy,
+  query = query,
   use_legacy_sql = FALSE
 )
 
-test_search_data <- bq_project_query(project_id, test_qy)
-test_search_df <- bq_table_download(test_search_data) 
-
-unnest_test_search_df <- test_search_df |> 
+google_search_data <- bq_project_query(project_id, query)
+google_search_df <- bq_table_download(google_search_data)
+unnest_google_search_df <- google_search_df  |> 
   unnest(x)
-```
 
+head(unnest_google_search_df)
+```
 
 ### 2. GDELT 2.0: Our Global World in Realtime
 
@@ -211,12 +160,12 @@ unzip("Data/GDELT/gdelt_latest.zip", exdir='Data/GDELT')
 
 ```{r gdelt-extract}
 # Extract filename only from URL
-# csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url)))
-csv_file <- "Data/GDELT/20250507000000.export.CSV"
+csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url)))
+
 
 # Read the CSV file with correct case-sensitive name
-# gdelt_df <- read_csv(csv_file, col_names = FALSE)
-gdelt_df <- read_csv("Data/GDELT/20250507000000.export.CSV")
+gdelt_df <- read_csv(csv_file, col_names = FALSE)
+
 # Preview data
 head(gdelt_df)
 ```
@@ -381,16 +330,11 @@ fips_adm1_ref <- read.csv(
     make each value its own column
 
 ```{r google-data-cleaning}
-long_google_search_df <-  google_search_df |>
+long_google_search_df <-  unnest_google_search_df |>
   mutate(
-    dma_id = as.character(dma_id),
-    top_score = replace_na(top_score, 0)
-    ) |>
-  # Unnesting rising_terms_gains colum so each term has its own row
-  unnest(rising_terms_gains) |>
-  # splitting rising_terms_gains column into rising term and percent gain
-  separate_wider_delim(rising_terms_gains, '-', names = c('rising_term', 'rising_percent_gain')) |>
-  distinct()
+    score = replace_na(score, 0)
+    ) |> 
+  mutate(search_id = row_number())
 
 head(long_google_search_df)
 ```
@@ -419,14 +363,7 @@ head(dma_ref_df)
 Create final Google top term dateframe
 ```{r google-top-term-table}
 top_term_df <- long_google_search_df |>
-  select(
-      week,
-      dma_id,
-      top_term,
-      top_score,
-      top_rank
-      ) |>
-  distinct()
+  filter(term_type == "top_terms")
 
 head(top_term_df)
 ```
@@ -434,14 +371,7 @@ head(top_term_df)
 Create final Google rising term dataframe
 ```{r google-rising-term-table}
 rising_term_df <- long_google_search_df |>
-  select(
-      week,
-      dma_id,
-      rising_term,
-      rising_percent_gain
-      ) |>
-  distinct() |>
-  arrange(desc(week), dma_id, desc(rising_percent_gain))
+  filter(term_type == "rising_terms")
 
 head(rising_term_df)
 ```
@@ -458,7 +388,7 @@ head(rising_term_df)
   - Transforms all categorical columns into factor data type
 
 ```{r gdelt-data-cleaning}
-gdelt_df <- gdelt_df |>
+gdelt_df_cleaned <- gdelt_df |>
   mutate_at(vars(contains('Code')), ~as.factor(.)) |>
   mutate_at(vars(contains('Geo_Type')), ~as.factor(.)) |>
   mutate(
@@ -466,9 +396,8 @@ gdelt_df <- gdelt_df |>
     Day = as.Date(as.character(Day), '%Y%m%d'),
     MonthYear = format(Day, '%Y-%m'),
     QuadClass = as.factor(QuadClass),
-  )
-
-
+  ) |> 
+  filter(Day >= today() - days(14) & Day <= today())
 ```
 
 **GDELT Data Tidying**
@@ -480,17 +409,65 @@ No tidying was needed on this dataframe.
 ## Matching the Google Big Query Data with the GDELT Data
 ```{r join-tbls}
 gsearch_gdelt <- 
-  left_join(unnest_test_search_df, 
-            gdelt_df,
+  left_join(long_google_search_df, 
+            gdelt_df_cleaned,
             by=c('refresh_date'='Day'))
 ```
 
 ## EDA
+Reference here: https://rpubs.com/jmhardaw/eci588-final-project
+
+```{r tokenize-words}
+# getting stop words for english and spanish 
+multi_lang_stopwords <- bind_rows(
+  get_stopwords(language = "en"),
+  get_stopwords(language = "es")
+)
+
+tokenized_gsearch_gdelt <- gsearch_gdelt |> 
+  unnest_tokens(output = word, input = term) |> 
+  anti_join(multi_lang_stopwords, by = "word") |> 
+  relocate(search_id, word)
+```
+
+```{r count-most-freq-words}
+most_freq_tokens <- tokenized_gsearch_gdelt |> 
+  count(word, sort = TRUE) |> 
+  slice_max(order_by = n, n = 25)
+```
+
+```{r}
+tokenized_gsearch_gdelt |> 
+  group_by(refresh_date) |> 
+  count(word, sort = TRUE) |> 
+  top_n(5) |> 
+  ungroup() |> 
+  mutate(word = reorder_within(word, n, refresh_date),
+         date = factor(refresh_date, levels=sort(unique(tokenized_gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|>
+  ggplot(aes(x = word, y = n, fill = word)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ date, scales = "free_y") +
+  coord_flip() +
+  scale_x_reordered() +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_minimal()+
+  labs(y = "Count",
+       x = "Unique words",
+       title = "Most frequently googled words in past two weeks",
+       subtitle = "Stop words removed from the list")
+```
+
+
+```{r word-stem}
+wrd_stem <- tokenized_gsearch_gdelt %>% 
+  mutate(word = SnowballC::wordStem(word))
+```
+
 ```{r dtm-top-term}
 # creating document term matrix 
-dtm_top_term <- gsearch_gdelt |> 
-  count(refresh_date, term) |> 
-  cast_dtm(document = refresh_date, term = term, value = n)
+dtm_top_term <- wrd_stem |> 
+  count(refresh_date, word) |> 
+  cast_dtm(document = refresh_date, term = word, value = n)
 ```
 
 ```{r lda-top-term}
@@ -502,7 +479,6 @@ top_terms <- topics_top_term |>
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
-
 ```
 
 [OA - The below code was added by Alina. I moved it to the EDA section. I think we may need to look at score/rank rather than count since I think week-dma will all have the same or close to the same top terms.]
