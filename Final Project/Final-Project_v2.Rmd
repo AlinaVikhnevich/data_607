@@ -415,31 +415,73 @@ gsearch_gdelt <-
             by=c('refresh_date'='Day'))
 ```
 
-## EDA
-Reference here: https://rpubs.com/jmhardaw/eci588-final-project
+## Exploratory Data Analysis
 
-```{r tokenize-words}
+*Stop Words* 
+Stop words are words that should be excluded in text analysis, such as "the",
+"a", "and", etc. Within the 'tidytext' package, stop words can be removed in 
+multiple languages. In this analysis, stop words were removed in English and 
+Spanish.
+
+```{r stop-words}
 # getting stop words for english and spanish 
 multi_lang_stopwords <- bind_rows(
   get_stopwords(language = "en"),
   get_stopwords(language = "es")
 )
+```
 
+*Tokenization*
+In text mining, tokenization refers to breaking down text into smaller units.
+The google search data was already broken in to short text, therefore, when 
+tokenizing the text, the unit of our text becomes a word. 
+
+```{r tokenization}
 tokenized_gsearch_gdelt <- gsearch_gdelt |> 
   unnest_tokens(output = word, input = term) |> 
   anti_join(multi_lang_stopwords, by = "word") |> 
   relocate(search_id, word)
 ```
 
+*Frequency Analysis* 
+After tokenizing the text, a freqency analysis is conducted to better understand
+which searches appear most frequently, at the word level, and at the Google 
+search level. 
 ```{r count-most-freq-words}
 most_freq_tokens <- tokenized_gsearch_gdelt |> 
   count(word, sort = TRUE) |> 
-  slice_max(order_by = n, n = 25)
+  slice_max(order_by = n, n = 25) 
 
 most_freq_searches <- gsearch_gdelt |> 
   count(term, sort = TRUE) |> 
   slice_max(order_by = n, n = 25)
 ```
+
+```{r 25-most-freq-tokens-plot}
+ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n))+
+  geom_bar(stat="identity")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+   labs(y = "Count",
+       x = "Tokenized Terms (Words)",
+       title = "Word Frequency in Google Searches",
+       subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
+  guides(fill=FALSE)
+```
+
+```{r}
+ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n))+
+  geom_bar(stat="identity")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+   labs(y = "Count",
+       x = "Google Searches",
+       title = "Google Searches Frequency",
+       subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
+  guides(fill=FALSE)
+```
+
+## Frequency Plots
 
 ```{r plot-most-freq-tokens}
 tokenized_gsearch_gdelt |> 
@@ -462,7 +504,7 @@ tokenized_gsearch_gdelt |>
        subtitle = "Stop words removed from the list")
 ```
 
-```{r plot-most-freq-searches}
+```{r plot-most-freq-top-searches}
 gsearch_gdelt |> 
   filter(term_type == "top_terms") |> 
   group_by(refresh_date) |> 
@@ -480,15 +522,46 @@ gsearch_gdelt |>
   theme_minimal()+
   labs(y = "Count",
        x = "Top Searched Terms",
-       title = "Most frequently googled words in past two weeks",
-       subtitle = "Geographic area is LA and NYC")
+       title = "Top Google Searches in Past Two Weeks in LA and NYC",
+       subtitle = "")
 ```
+
+```{r plot-most-freq-rising-searches}
+gsearch_gdelt |> 
+  filter(term_type == "rising_terms") |> 
+  group_by(refresh_date) |> 
+  count(term, sort = TRUE) |> 
+  top_n(3) |> 
+  ungroup() |> 
+  mutate(word = reorder_within(term, n, refresh_date),
+         date = factor(refresh_date, levels=sort(unique(gsearch_gdelt$refresh_date),decreasing=TRUE),ordered = TRUE))|>
+  ggplot(aes(x = term, y = n, fill = word)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ date, scales = "free_y") +
+  coord_flip() +
+  scale_x_reordered() +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_minimal()+
+  labs(y = "Count",
+       x = "Top Searched Terms",
+       title = "Rising Google Searches in Past Two Weeks in LA and NYC",
+       subtitle = "")
+```
+
+*Word Stemming* 
+Another technique that can be used in text mining is word stemming. When word 
+stemming, it takes the text, or token, and reduces the term to the root form 
+(also known as the stem). This can help normalize the terms, so that terms like
+play, playing, played, plays, would all be stemmed to play. 
 
 ```{r word-stem}
 wrd_stem <- tokenized_gsearch_gdelt %>% 
   mutate(word = SnowballC::wordStem(word))
 ```
 
+*Document Term Matrix*
+A document term matrix represents the frequency of terms that appear in the 
+collect of text. 
 ```{r dtm-top-term}
 # creating document term matrix 
 dtm_top_term <- wrd_stem |> 
@@ -506,45 +579,6 @@ top_terms <- topics_top_term |>
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
-```
-
-[OA - The below code was added by Alina. I moved it to the EDA section. I think we may need to look at score/rank rather than count since I think week-dma will all have the same or close to the same top terms.]
-
-### 1. Google BigQuery – Top 25 Search Terms
-
-**Count frequency of top search terms**
-
-This shows how often each top-ranked term appeared across all DMAs and
-dates in your sample.
-
-```{r top-term-frequency}
-# Count appearances of each top term
-top_term_counts <- top_term_df |>
-  count(top_term, sort = TRUE)
-
-head(top_term_counts)
-```
-
-**Count frequency of rising terms**
-
-This does the same for rising terms, now that we’ve unnested them.
-
-```{r rising-term-frequency}
-rising_term_counts <- rising_term_df |>
-  count(rising_term, sort = TRUE)
-
-head(rising_term_counts)
-```
-
-**Preview which terms are most common**
-
-These previews help you quickly spot which types of trends (e.g.,
-sports, celebrity) show up the most.
-
-```{r preview-trending-terms}
-# View most frequent top and rising terms side-by-side
-top_term_counts |> head(10)
-rising_term_counts |> head(10)
 ```
 
 
