@@ -98,7 +98,7 @@ query <- as.character(
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
     `bigquery-public-data.google_trends.top_terms`
-WHERE refresh_date >= date_add(current_date('America/New_York'),interval - 2 week)
+WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11’
 AND regexp_contains(dma_name, 'New York|Los Angeles')
 GROUP BY ALL
 
@@ -114,7 +114,7 @@ SELECT
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
     `bigquery-public-data.google_trends.top_rising_terms`
-WHERE refresh_date >= date_add(current_date('America/New_York'),interval - 2 week)
+WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11’
 AND regexp_contains(dma_name, 'New York|Los Angeles')
 GROUP BY ALL
 ORDER BY
@@ -678,10 +678,11 @@ top_terms_lda_k15 |>
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
+  labs(title = "Top 3 terms in each LDA topic",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
+
 ```{r lda-top-term-k11}
 # this is where we use a LDA model - the number of topics is defined as K. 
 lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
@@ -713,31 +714,7 @@ top_terms_lda_k11 |>
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
-## STM Modeling
-```{r stm-model}
-# temp <- textProcessor(gsearch_gdelt$term, 
-#                       metadata = NULL,  
-#                       lowercase=TRUE, 
-#                       removestopwords=TRUE, 
-#                       removenumbers=TRUE,  
-#                       removepunctuation=TRUE, 
-#                       wordLengths=c(3,Inf),
-#                       stem=TRUE,
-#                       onlycharacter= FALSE, 
-#                       striphtml=TRUE, 
-#                       customstopwords=NULL)
-# 
-# docs <- temp$documents 
-# vocab <- temp$vocab 
-# 
-# tds_stm <- stm(documents=docs, 
-#                vocab=vocab, 
-#                data = NULL,
-#                K=11,
-#                max.em.its=25,
-#                verbose = FALSE,
-#                gamma.prior='L1')
-```
+
 
 ## Analyzing with GDELT Data
 
