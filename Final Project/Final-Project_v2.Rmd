@@ -15,7 +15,6 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-```{r setup-knit, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -40,6 +39,7 @@ library(countrycode)
 library(SnowballC)
 library(Matrix)
 library(RecordLinkage)
+library(textmineR)
 ```
 
 This project uses several R packages to support data acquisition,
@@ -83,12 +83,6 @@ bq_auth(path = "/Users/olivia/Downloads/data607finalproject-6c666e5b6214.json")
 ```{r google-bigquery-api}
 project_id <- "data607finalproject"
 
-# gbigquery is in GMT so if we do sub date -1 that means that it is taking the 
-# data from today, need to do -2
-# need to specify that the date is in America/NY time: CURRENT_DATE(‘America/New_York’)
-
-# dma = designated market area
-# need to pick two dmas if want to use score **
 query <- as.character(
   "SELECT
   'top_terms' as term_type,
@@ -537,7 +531,6 @@ search level.
 ```{r count-most-freq-words}
 most_freq_tokens <- tokenized_gsearch_gdelt |> 
   count(word, sort = TRUE) |> 
-  slice_max(order_by = n, n = 25) 
   slice_max(order_by = n, n = 25) |> 
   mutate(color_group = factor(row_number() %% 3)) 
 
@@ -545,7 +538,6 @@ most_freq_searches <- gsearch_gdelt |>
   count(term, sort = TRUE) |> 
   slice_max(order_by = n, n = 25) |> 
   mutate(color_group = factor(row_number() %% 3)) 
-  slice_max(order_by = n, n = 25)
 ```
 
 ```{r 25-most-freq-tokens-plot}
@@ -597,7 +589,6 @@ tokenized_gsearch_gdelt |>
 
 ```{r plot-most-freq-top-searches}
 gsearch_gdelt |> 
-  filter(term_type == "top_terms") |> 
   filter(term_type == "top_terms",
          refresh_date >= "2025-05-03") |> 
   group_by(refresh_date) |> 
@@ -615,14 +606,12 @@ gsearch_gdelt |>
   theme_minimal()+
   labs(y = "Count",
        x = "Top Searched Terms",
-       title = "Top Google Searches in Past Two Weeks in LA and NYC",
        title = "Top Google Searches in Past 8 Days in LA and NYC",
        subtitle = "")
 ```
 
 ```{r plot-most-freq-rising-searches}
 gsearch_gdelt |> 
-  filter(term_type == "rising_terms") |> 
   filter(term_type == "rising_terms",
          refresh_date >= "2025-05-03") |> 
   group_by(refresh_date) |> 
@@ -640,7 +629,6 @@ gsearch_gdelt |>
   theme_minimal()+
   labs(y = "Count",
        x = "Top Searched Terms",
-       title = "Rising Google Searches in Past Two Weeks in LA and NYC",
        title = "Rising Google Searches in Past 8 Days in LA and NYC",
        subtitle = "")
 ```
@@ -726,11 +714,9 @@ ggplot(model_summary, aes(x = k)) +
 ```{r lda-top-term-k15}
 # this is where we use a LDA model - the number of topics is defined as K. 
 lda_model_k15 <- LDA(dtm_tokenized_terms, k = 15, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
 topics_lda_model_k15 <- tidy(lda_model_k15, matrix = "beta")
 
 # Top terms per topic
-top_words_k15 <- topics_lda_model |>   
 top_words_k15 <- topics_lda_model_k15 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
@@ -753,7 +739,6 @@ top_terms_lda_k15 |>
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
   labs(title = "Top 3 terms in each LDA topic",
        subtitle = "LDA model where k=15",
        x = expression(beta), y = NULL) +
@@ -776,7 +761,6 @@ top_words_k11 <- topics_lda_model_k11 |>
 ```
 
 ```{r plot-k11}
-top_terms_lda_k11 <- topics_lda_model |> 
 top_terms_lda_k11 <- topics_lda_model_k11 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
@@ -791,14 +775,12 @@ top_terms_lda_k11 |>
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
   labs(title = "Top 3 terms in each LDA topic",
        subtitle = "LDA model where k=11",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
-<<<<<<< HEAD
 
 ## String Similarity Analysis
 
@@ -838,8 +820,6 @@ token_str_gdelt = mention_gdelt_df_cleaned |>
   mutate(MentionTimeDate= as.Date(MentionTimeDate)) |>
   distinct()
 ```
-=======
->>>>>>> main
 
 **String similarity scores**
 
@@ -882,13 +862,11 @@ sim_df |>
   group_by(clean_term) |>
   tally() |>
   arrange(desc(n)) |>
-  ggplot(aes(x=reorder(clean_term, n), y=n)) +
   mutate(color_group = factor(row_number() %% 3)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
   scale_fill_manual(values = colors) +
   geom_col() +
   coord_flip() +
-  theme_classic() + 
   theme_classic() +
   scale_fill_manual(values = colors) +
   theme(axis.text.y = element_text(color = titles),
@@ -942,7 +920,6 @@ sim_df |>
   group_by(clean_term) |>
   tally() |>
   arrange(desc(n)) |>
-  ggplot(aes(x=reorder(clean_term, n), y=n)) +
   mutate(color_group = factor(row_number() %% 3)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
   geom_col() +
@@ -978,7 +955,6 @@ sim_df |>
     plot.title = element_text(color = titles, face = "bold"),
     plot.subtitle = element_text(color = titles))+
   theme(axis.text.x=element_text(angle=50, hjust=1)) +
-  theme(axis.text.y=element_text(angle=4)) +
   labs(
     title = 'Rising Google Search Terms & GDELT Event Source
       JaroWinkler Similarity Score > 0.85',
