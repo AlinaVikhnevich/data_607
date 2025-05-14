@@ -14,7 +14,7 @@ editor_options:
     wrap: 72
 ---
 
-```{r setup, include=FALSE}
+```{r setup-knit, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -98,7 +98,7 @@ query <- as.character(
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
     `bigquery-public-data.google_trends.top_terms`
-WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11’
+WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11'
 AND regexp_contains(dma_name, 'New York|Los Angeles')
 GROUP BY ALL
 
@@ -114,7 +114,7 @@ SELECT
   ARRAY_AGG(STRUCT(rank,week) ORDER BY week DESC LIMIT 1) x
 FROM
     `bigquery-public-data.google_trends.top_rising_terms`
-WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11’
+WHERE refresh_date >= '2025-05-06' and refresh_date <= '2025-05-11'
 AND regexp_contains(dma_name, 'New York|Los Angeles')
 GROUP BY ALL
 ORDER BY
@@ -468,6 +468,8 @@ most_freq_searches <- gsearch_gdelt |>
   mutate(color_group = factor(row_number() %% 3)) 
 ```
 
+## Frequency Plots
+
 ```{r 25-most-freq-tokens-plot}
 ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n, fill = color_group))+
   geom_bar(stat="identity")+
@@ -505,8 +507,6 @@ ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n, fill = color_group))+
        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
   guides(fill=FALSE)
 ```
-
-## Frequency Plots
 
 ```{r plot-most-freq-tokens}
 tokenized_gsearch_gdelt |> 
@@ -574,6 +574,8 @@ gsearch_gdelt |>
        title = "Rising Google Searches in Past 8 Days in LA and NYC",
        subtitle = "")
 ```
+
+## LDA Modeling
 
 *Word Stemming* 
 Another technique that can be used in text mining is word stemming. When word 
@@ -654,17 +656,17 @@ ggplot(model_summary, aes(x = k)) +
 ```{r lda-top-term-k15}
 # this is where we use a LDA model - the number of topics is defined as K. 
 lda_model_k15 <- LDA(dtm_tokenized_terms, k = 15, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
+topics_lda_model_k15 <- tidy(lda_model_k15, matrix = "beta")
 
 # Top terms per topic
-top_words_k15 <- topics_lda_model |>   
+top_words_k15 <- topics_lda_model_k15 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
 ```
 
 ```{r plot-k15}
-top_terms_lda_k15 <- topics_lda_model |> 
+top_terms_lda_k15 <- topics_lda_model_k15 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
   ungroup() |> 
@@ -679,24 +681,25 @@ top_terms_lda_k15 |>
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
   labs(title = "Top 3 terms in each LDA topic",
+       subtitle = "LDA model where k=15",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
 ```{r lda-top-term-k11}
 # this is where we use a LDA model - the number of topics is defined as K. 
-lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
+lda_model_k11 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
+topics_lda_model_k11 <- tidy(lda_model_k11, matrix = "beta")
 
 # Top terms per topic
-top_words_k11 <- topics_lda_model |>   
+top_words_k11 <- topics_lda_model_k11 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
 ```
 
 ```{r plot-k11}
-top_terms_lda_k11 <- topics_lda_model |> 
+top_terms_lda_k11 <- topics_lda_model_k11 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
   ungroup() |> 
@@ -710,7 +713,8 @@ top_terms_lda_k11 |>
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  labs(title = "Top 5 terms in each LDA topic",
+  labs(title = "Top 3 terms in each LDA topic",
+       subtitle = "LDA model where k=11",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
