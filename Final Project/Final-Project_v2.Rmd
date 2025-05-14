@@ -541,22 +541,36 @@ most_freq_searches <- gsearch_gdelt |>
 ```
 
 ```{r 25-most-freq-tokens-plot}
-ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n))+
+ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n, fill = color_group))+
   geom_bar(stat="identity")+
+  scale_fill_manual(values = colors) +
   theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, color = titles),
+    axis.text.y = element_text(color = titles),
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles)
+  )+
    labs(y = "Count",
        x = "Tokenized Terms (Words)",
        title = "Word Frequency in Google Searches",
        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
-  guides(fill=FALSE)
+  guides(fill=FALSE) 
 ```
 
 ```{r}
-ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n))+
-  geom_bar(stat="identity")+
+ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n, fill = color_group))+
+ geom_bar(stat="identity")+
+  scale_fill_manual(values = colors) +
   theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, color = titles),
+    axis.text.y = element_text(color = titles),
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles)
+  )+
    labs(y = "Count",
        x = "Google Searches",
        title = "Google Searches Frequency",
