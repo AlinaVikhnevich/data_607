@@ -15,7 +15,15 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
+```{r setup-knit, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r defining-colors}
+          #light blue # light pink #light green
+colors <- c("#aac4e9","#f5cdce","#ceda90")
+          # dark blue 
+titles <- "#1f2c8f"
 ```
 
 ## Packages
@@ -530,9 +538,13 @@ search level.
 most_freq_tokens <- tokenized_gsearch_gdelt |> 
   count(word, sort = TRUE) |> 
   slice_max(order_by = n, n = 25) 
+  slice_max(order_by = n, n = 25) |> 
+  mutate(color_group = factor(row_number() %% 3)) 
 
 most_freq_searches <- gsearch_gdelt |> 
   count(term, sort = TRUE) |> 
+  slice_max(order_by = n, n = 25) |> 
+  mutate(color_group = factor(row_number() %% 3)) 
   slice_max(order_by = n, n = 25)
 ```
 
@@ -586,6 +598,8 @@ tokenized_gsearch_gdelt |>
 ```{r plot-most-freq-top-searches}
 gsearch_gdelt |> 
   filter(term_type == "top_terms") |> 
+  filter(term_type == "top_terms",
+         refresh_date >= "2025-05-03") |> 
   group_by(refresh_date) |> 
   count(term, sort = TRUE) |> 
   top_n(3) |> 
@@ -602,12 +616,15 @@ gsearch_gdelt |>
   labs(y = "Count",
        x = "Top Searched Terms",
        title = "Top Google Searches in Past Two Weeks in LA and NYC",
+       title = "Top Google Searches in Past 8 Days in LA and NYC",
        subtitle = "")
 ```
 
 ```{r plot-most-freq-rising-searches}
 gsearch_gdelt |> 
   filter(term_type == "rising_terms") |> 
+  filter(term_type == "rising_terms",
+         refresh_date >= "2025-05-03") |> 
   group_by(refresh_date) |> 
   count(term, sort = TRUE) |> 
   top_n(3) |> 
@@ -624,8 +641,11 @@ gsearch_gdelt |>
   labs(y = "Count",
        x = "Top Searched Terms",
        title = "Rising Google Searches in Past Two Weeks in LA and NYC",
+       title = "Rising Google Searches in Past 8 Days in LA and NYC",
        subtitle = "")
 ```
+
+## LDA Modeling
 
 *Word Stemming* 
 Another technique that can be used in text mining is word stemming. When word 
@@ -707,9 +727,11 @@ ggplot(model_summary, aes(x = k)) +
 # this is where we use a LDA model - the number of topics is defined as K. 
 lda_model_k15 <- LDA(dtm_tokenized_terms, k = 15, control = list(seed = 1234))
 topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
+topics_lda_model_k15 <- tidy(lda_model_k15, matrix = "beta")
 
 # Top terms per topic
 top_words_k15 <- topics_lda_model |>   
+top_words_k15 <- topics_lda_model_k15 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
@@ -717,6 +739,7 @@ top_words_k15 <- topics_lda_model |>
 
 ```{r plot-k15}
 top_terms_lda_k15 <- topics_lda_model |> 
+top_terms_lda_k15 <- topics_lda_model_k15 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
   ungroup() |> 
@@ -731,6 +754,8 @@ top_terms_lda_k15 |>
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
   labs(title = "Top 5 terms in each LDA topic",
+  labs(title = "Top 3 terms in each LDA topic",
+       subtitle = "LDA model where k=15",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
@@ -739,9 +764,12 @@ top_terms_lda_k15 |>
 # this is where we use a LDA model - the number of topics is defined as K. 
 lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
 topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
+lda_model_k11 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
+topics_lda_model_k11 <- tidy(lda_model_k11, matrix = "beta")
 
 # Top terms per topic
 top_words_k11 <- topics_lda_model |>   
+top_words_k11 <- topics_lda_model_k11 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
   ungroup()
@@ -749,6 +777,7 @@ top_words_k11 <- topics_lda_model |>
 
 ```{r plot-k11}
 top_terms_lda_k11 <- topics_lda_model |> 
+top_terms_lda_k11 <- topics_lda_model_k11 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
   ungroup() |> 
@@ -763,10 +792,13 @@ top_terms_lda_k11 |>
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
   labs(title = "Top 5 terms in each LDA topic",
+  labs(title = "Top 3 terms in each LDA topic",
+       subtitle = "LDA model where k=11",
        x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
+<<<<<<< HEAD
 
 ## String Similarity Analysis
 
@@ -806,6 +838,8 @@ token_str_gdelt = mention_gdelt_df_cleaned |>
   mutate(MentionTimeDate= as.Date(MentionTimeDate)) |>
   distinct()
 ```
+=======
+>>>>>>> main
 
 **String similarity scores**
 
@@ -849,9 +883,19 @@ sim_df |>
   tally() |>
   arrange(desc(n)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n)) +
+  mutate(color_group = factor(row_number() %% 3)) |>
+  ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
+  scale_fill_manual(values = colors) +
   geom_col() +
   coord_flip() +
   theme_classic() + 
+  theme_classic() +
+  scale_fill_manual(values = colors) +
+  theme(axis.text.y = element_text(color = titles),
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles))+
   labs(
     title = 'Rising Google Search Terms & GDELT Event Source
       Levenshtein Similarity Score > 0.4',
@@ -868,8 +912,14 @@ sim_df |>
   scale_y_discrete(labels = function(x) str_wrap(str_replace_all(x, "clean_article" , " "),
                                                  width = 45)) +
   geom_tile() +
+  scale_fill_gradient(low = "#aac4e9", high = "#1f2c8f")+
   theme_classic() +
   theme(axis.text.x=element_text(angle=50, hjust=1)) +
+  theme(
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles))+
   labs(
     title = 'Rising Google Search Terms & GDELT Event Source
       Levenshtein Similarity Score > 0.4',
@@ -893,9 +943,17 @@ sim_df |>
   tally() |>
   arrange(desc(n)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n)) +
+  mutate(color_group = factor(row_number() %% 3)) |>
+  ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
   geom_col() +
   coord_flip() +
   theme_classic() + 
+  scale_fill_manual(values = colors) +
+  theme(axis.text.y = element_text(color = titles),
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles))+
   labs(
     title = 'Rising Google Search Terms & GDELT Event Source
       JaroWinkler Similarity Score > 0.85',
@@ -912,7 +970,13 @@ sim_df |>
   scale_y_discrete(labels = function(x) str_wrap(str_replace_all(x, "clean_article" , " "),
                                                  width = 45)) +
   geom_tile() +
+  scale_fill_gradient(low = "#aac4e9", high = "#1f2c8f")+
   theme_classic() +
+  theme(
+    axis.title.x = element_text(color = titles),
+    axis.title.y = element_text(color = titles),
+    plot.title = element_text(color = titles, face = "bold"),
+    plot.subtitle = element_text(color = titles))+
   theme(axis.text.x=element_text(angle=50, hjust=1)) +
   theme(axis.text.y=element_text(angle=4)) +
   labs(
