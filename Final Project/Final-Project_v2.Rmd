@@ -14,7 +14,7 @@ editor_options:
     wrap: 72
 ---
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -33,13 +33,14 @@ library(DBI)
 library(tidyverse)
 library(tidytext)
 library(lubridate)
-library(wordcloud)
+# library(wordcloud)
 library(topicmodels)
 library(countrycode)
 library(SnowballC)
 library(Matrix)
 library(RecordLinkage)
 library(textmineR)
+# install.packages('reshape2')
 ```
 
 This project uses several R packages to support data acquisition,
@@ -248,12 +249,14 @@ for (i in 1:nrow(all_files)){
   csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(all_files$file_url[i])))
   # Read the CSV file with correct case-sensitive name
   if (i == 1) {
-    mention_gdelt_df <- read_csv(csv_file, col_names = FALSE)
-    mention_gdelt_df <- read_delim(csv_file, delim = "\t", col_names = mention_gdelt_cols, show_col_types = FALSE)
+    mention_gdelt_df <- read_delim(
+      csv_file, delim = "\t", col_names = mention_gdelt_cols,
+      col_types = list('c', 'c', 'c', 'd', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', '?', '?'))
   }
   else{
-    temp_df <- read_csv(csv_file, col_names = FALSE)
-    temp_df <- read_delim(csv_file, delim = "\t", col_names = mention_gdelt_cols, show_col_types = FALSE)
+    temp_df <- read_delim(
+      csv_file, delim = "\t", col_names = mention_gdelt_cols,
+      col_types = list('c', 'c', 'c', 'd', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', '?', '?'))
     mention_gdelt_df = rbind(mention_gdelt_df, temp_df)
   }
 }
@@ -373,7 +376,7 @@ fips_adm1_ref <- read.csv(
 
 **Google Search Data Cleaning and Tidying**
 
-  - Unnest week and rank to transform dataframe into a long-format where
+  - Unnest week and rank to transform dataframe into a wide-format where
     each week and rank value is a separate row and own column
   - Fills Null `score` values with zero
   - Create `search_id` column from the associated row number
@@ -455,8 +458,8 @@ gdelt_df_cleaned <- gdelt_df |>
   - Transforms `GLOBALEVENTID` into strings
   - Transforms all categorical columns into factor data type
   - Creates `Article` column by extracting the article name from the source URL
-  - Subsets the dataframe to be on the Event level by filters to the most
-    the event mention with the highest confidence
+  - Subsets the dataframe to be on the Event level by filters to the event
+    mention with the highest confidence
   - Filters the dataframe to only include event source from the web with a
     confidence extraction percent of greater than or equal to 60%
     
@@ -467,8 +470,8 @@ were needed to be performed.
 mention_gdelt_df_cleaned = mention_gdelt_df |>
   mutate(
     GLOBALEVENTID = as.character(GLOBALEVENTID),
-    EventTimeDate =  format(lubridate::ymd_hms(as.character(EventTimeDate)),'%Y-%m-%d- %H:%M:%S'),
-    MentionTimeDate =  format(lubridate::ymd_hms(as.character(MentionTimeDate)),'%Y-%m-%d- %H:%M:%S'),
+    EventTimeDate =  format(lubridate::ymd_hms(EventTimeDate),'%Y-%m-%d %H:%M:%S'),
+    MentionTimeDate = format(lubridate::ymd_hms(MentionTimeDate),'%Y-%m-%d %H:%M:%S'),
     ) |>
   group_by(GLOBALEVENTID) |>
   arrange(GLOBALEVENTID, desc(Confidence), desc(MentionType), MentionSourceName) |>
@@ -738,7 +741,6 @@ top_words_k15 <- topics_lda_model_k15 |>
 ```
 
 ```{r plot-k15}
-top_terms_lda_k15 <- topics_lda_model |> 
 top_terms_lda_k15 <- topics_lda_model_k15 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
@@ -760,14 +762,11 @@ top_terms_lda_k15 |>
 ```
 
 ```{r lda-top-term-k11}
-# this is where we use a LDA model - the number of topics is defined as K. 
-lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
+# this is where we use a LDA model - the number of topics is defined as K.
 lda_model_k11 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
 topics_lda_model_k11 <- tidy(lda_model_k11, matrix = "beta")
 
 # Top terms per topic
-top_words_k11 <- topics_lda_model |>   
 top_words_k11 <- topics_lda_model_k11 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
@@ -816,7 +815,7 @@ token_str_gsearch = rising_term_df |>
   ungroup() |>
   select(search_id, clean_term) |>
   distinct() |>
-  left_join(rising_term_df) |>
+  left_join(rising_term_df, by = join_by(search_id)) |>
   select(clean_term, term, refresh_date) |>
   distinct()
 
@@ -829,7 +828,7 @@ token_str_gdelt = mention_gdelt_df_cleaned |>
   ungroup() |>
   select(GLOBALEVENTID, clean_article) |>
   distinct() |>
-  left_join(mention_gdelt_df_cleaned) |>
+  left_join(mention_gdelt_df_cleaned, by = join_by(GLOBALEVENTID)) |>
   select(clean_article, Article, MentionTimeDate) |>
   mutate(MentionTimeDate= as.Date(MentionTimeDate)) |>
   distinct()
@@ -855,7 +854,9 @@ Calculate similarity scores
 sim_df = inner_join(rising_term_df,
             token_str_gdelt,
             by=c('refresh_date'='MentionTimeDate')) |>
-  left_join(token_str_gsearch) |>
+  select(term, refresh_date, clean_article) |>
+  distinct() |>
+  left_join(token_str_gsearch, by = join_by(term, refresh_date)) |>
   select(term, clean_term, clean_article) |>
   distinct() |>
   mutate(jw_score = jarowinkler(term, clean_article, r=0.4)) |>
@@ -878,7 +879,6 @@ sim_df |>
   arrange(desc(n)) |>
   mutate(color_group = factor(row_number() %% 3)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
-  scale_fill_manual(values = colors) +
   geom_col() +
   coord_flip() +
   theme_classic() +
@@ -913,8 +913,8 @@ sim_df |>
     plot.title = element_text(color = titles, face = "bold"),
     plot.subtitle = element_text(color = titles))+
   labs(
-    title = 'Rising Google Search Terms & GDELT Event Source
-      Levenshtein Similarity Score > 0.4',
+    title = 'Rising Google Search Terms & GDELT Event
+      Source Levenshtein Similarity Score > 0.4',
     y = 'GDELT Event Source',
     x = 'Rising Term',
     fill='Levenshtein Score'
@@ -976,6 +976,9 @@ sim_df |>
     x = 'Rising Term',
     fill='JaroWinkler Score'
   )
+ggsave('Plot_Images/sim_jw_matrix.png', width = 8,
+  height = 5.6,
+  units = c("in"))
 ```
 Assessment:
 The results show the Jaro-Winkler similarity scores to be much higher than the
@@ -987,7 +990,7 @@ strings, the Jaro-Winkler similarity scores can be misleading.
 Next Steps:  
   - Reducing the string length in the GDELT article names will assist with 
     providing more meaning and interpretable similarity score results. This
-    could be done by extracting keywords from the article name
+    could be done by extracting keywords from the article name. 
   - In addition, exploring more string similarity scoring methods that are more
     fit for this use case could also improve current limitation. For example,
     the Jaccard Measure is a similarity measure that considers the number of
