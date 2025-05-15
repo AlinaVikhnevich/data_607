@@ -8,39 +8,55 @@ output:
     toc: true
     toc_float: true
     toc_collapsed: true
-    code_folding: show
+    # code_folding: show
 editor_options: 
   markdown: 
     wrap: 72
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-```
+### Packages
 
-```{r defining-colors}
-          #light blue # light pink #light green
-colors <- c("#aac4e9","#f5cdce","#ceda90")
-          # dark blue 
-titles <- "#1f2c8f"
-```
-
-## Packages
-
-```{r setup, message=FALSE, warning=FALSE}
+```{r packages, warning=FALSE, message=FALSE}
 library(bigrquery)
 library(DBI)
 library(tidyverse)
 library(tidytext)
 library(lubridate)
-library(wordcloud)
 library(topicmodels)
 library(countrycode)
 library(SnowballC)
 library(Matrix)
 library(RecordLinkage)
 library(textmineR)
+library(kableExtra)
 ```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+knit_table <- function(df, caption='', position = 'left') {
+  kbl(df, format = "html", escape = FALSE, caption = caption) |>
+    kable_styling(
+      full_width = F,
+      position = position,
+      bootstrap_options = c("striped")) |>
+    row_spec(0, bold = T,
+             color = "white",
+             background = "#327fac",
+             extra_css = "border: 2px solid #327fac;") |>
+    row_spec(dim(df)[1], extra_css = "border-bottom: 2px solid #327fac;") |>
+    column_spec(1, extra_css = "border-left: 2px solid #327fac;") |>
+    column_spec(dim(df)[2], extra_css = "border-right: 2px solid #327fac;")
+}
+```
+
+```{r defining-colors, include=FALSE}
+          #light blue # light pink #light green
+colors <- c("#aac4e9","#f5cdce","#ceda90")
+          # dark blue 
+titles <- "#1f2c8f"
+```
+
 
 This project uses several R packages to support data acquisition,
 cleaning, analysis, and visualization. For example, `bigrquery` and
@@ -69,7 +85,7 @@ behavior.
 
 ## Data Acquisition
 
-### 1. Google BigQuery – Top 25 Search Terms
+### Google BigQuery – Top Search Terms
 
 We use the `bigrquery` package to access Google’s public dataset of the
 most popular daily search terms. Make sure you have a Google Cloud
@@ -130,35 +146,33 @@ job <- bq_perform_query_dry_run(
 google_search_data <- bq_project_query(project_id, query)
 google_search_df <- bq_table_download(google_search_data)
 
-head(google_search_df)
+knit_table(head(google_search_df))
 ```
 
-### 2. GDELT 2.0: Our Global World in Realtime
+
+### GDELT 2.0: Our Global World in Realtime
 
 **Getting the latest file name:**
-
 ```{r gdelt-latest-link}
 # Get the name of the most recent GDELT CSV file
 latest_file <- read_lines("http://data.gdeltproject.org/gdeltv2/lastupdate.txt")
 latest_file
 ```
-
+\
 **Getting event mentions within the same timeframe as the Google Search Terms**
-
-```{r}
+```{r gdelt-mentions-files}
 all_files = data_frame(
-  time = (seq(ymd_hms('20250506000000'),ymd_hms('20250512000000'), by = '1 day'))
-  ) |>
-  mutate(time = format(time, format = '%Y%m%d%H%M%S')) |>
+  time = (
+    seq(ymd_hms('20250506000000'),ymd_hms('20250512000000'), by = '1 day'))) |>
   mutate(
+    time = format(time, format = '%Y%m%d%H%M%S'),
     file_url = paste0('http://data.gdeltproject.org/gdeltv2/', time, '.mentions.CSV.zip'),
     destfile = paste0("Data/GDELT/gdelt_", time, ".zip")
     )
+knit_table(all_files) |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
-
-
+\
 **Download and Unzip:**
-
 ```{r gdelt-download}
 # Constructing the full URL to download the ZIP file
 export_url_line <- latest_file[1]
@@ -172,22 +186,17 @@ download.file(export_url, destfile = "Data/GDELT/gdelt_latest.zip", mode = "wb")
 # Unzip the file
 unzip("Data/GDELT/gdelt_latest.zip", exdir='Data/GDELT')
 ```
-
+\
 **Read CSV into R:**
-
 ```{r gdelt-extract}
 # Extract filename only from URL
 csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(export_url)))
 
 # Read the CSV file with correct case-sensitive name
 gdelt_df <- read_csv(csv_file, col_names = FALSE)
-
-# Preview data
-head(gdelt_df)
 ```
-
-**GDELT 2.0 – Structured Load**
-
+\
+**GDELT 2.0 – Structured Load**  
 GDELT 2.0 is a massive global event database that captures media
 coverage of events in real time from across the world. The export files
 are updated every 15 minutes and are tab-delimited without column
@@ -195,9 +204,7 @@ headers, so we must assign names manually using the GDELT schema.
 
 In this chunk, we load the most recent export file and apply column
 names for easier exploration:
-
 ```{r gdelt-read}
-# Column names based on GDELT 2.0 schema (first 10 for demo, full list has 58+)
 gdelt_cols <- c(
   "GLOBALEVENTID", "Day", "MonthYear", "Year", "FractionDate", 
   "Actor1Code", "Actor1Name", "Actor1CountryCode", "Actor1KnownGroupCode", 
@@ -222,16 +229,16 @@ gdelt_cols <- c(
 gdelt_df <- read_delim(csv_file, delim = "\t", col_names = gdelt_cols, show_col_types = FALSE)
 
 # Preview first rows
-head(gdelt_df)
+knit_table(head(gdelt_df)) |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
-In this chunk, we load the most event mention export files and apply column
-names.
+
+In the following code chunk, we repeat the same process as above to load the
+event mention export file and apply column names.
 
 The Mentions table records an individual mention of an event in an article,
 This table includes a Confidence field that records GDELT’s confidence in its
 extraction of that event from that particular article.
-
-```{r}
+```{r gdelt-mentions-read}
 mention_gdelt_cols <- c(
   "GLOBALEVENTID", "EventTimeDate", "MentionTimeDate", "MentionType",
   "MentionSourceName", "MentionIdentifier",
@@ -241,29 +248,33 @@ mention_gdelt_cols <- c(
 )
 
 for (i in 1:nrow(all_files)){
-  print(all_files$time[i])
-  download.file(all_files$file_url[i], destfile = all_files$destfile[i], mode = "wb", quiet = TRUE)
+  download.file(
+    all_files$file_url[i],
+    destfile = all_files$destfile[i],
+    mode = "wb", quiet = TRUE)
   # Unzip the file
   unzip(all_files$destfile[i], exdir='Data/GDELT')
   csv_file <- paste0('Data/GDELT/', gsub(".zip", "", basename(all_files$file_url[i])))
   # Read the CSV file with correct case-sensitive name
   if (i == 1) {
-    mention_gdelt_df <- read_csv(csv_file, col_names = FALSE)
-    mention_gdelt_df <- read_delim(csv_file, delim = "\t", col_names = mention_gdelt_cols, show_col_types = FALSE)
+    mention_gdelt_df <- read_delim(
+      csv_file, delim = "\t", col_names = mention_gdelt_cols,
+      col_types = list('c', 'c', 'c', 'd', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', '?', '?'))
   }
   else{
-    temp_df <- read_csv(csv_file, col_names = FALSE)
-    temp_df <- read_delim(csv_file, delim = "\t", col_names = mention_gdelt_cols, show_col_types = FALSE)
+    temp_df <- read_delim(
+      csv_file, delim = "\t", col_names = mention_gdelt_cols,
+      col_types = list('c', 'c', 'c', 'd', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', '?', '?'))
     mention_gdelt_df = rbind(mention_gdelt_df, temp_df)
   }
 }
+knit_table(head(mention_gdelt_df)) |> scroll_box(width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
-
-
+\
 **Load GDELT Reference Table Data**
 
 Define reference table data file sources
-```{r}
+```{r gdelt-ref-txt}
 cameo_country_code_txt <- "https://www.gdeltproject.org/data/lookups/CAMEO.country.txt"
 fips_country_code_txt <- 'https://www.gdeltproject.org/data/lookups/FIPS.country.txt'
 cameo_code_type_txt <- 'https://www.gdeltproject.org/data/lookups/CAMEO.type.txt'
@@ -302,7 +313,7 @@ cameo_type_ref <- read.csv(cameo_code_type_txt, sep="\t", header=T,
 ```
 
 Event Data Reference Tables
-```{r}
+```{r event-ref}
 # Event Code (including base and root event codes) column reference values
 cameo_event_ref <- read.csv(cameo_event_code_txt, sep="\t", header=T ,
                            colClasses = "character",
@@ -323,7 +334,7 @@ quadclass_ref <- tribble(
 ```
 
 Event Geography Data Reference Tables
-```{r event-ref}
+```{r geo-ref}
 # Event geographic resolution column reference values
 geo_type_ref <- tribble(
   ~"Geo_Type", ~"Geo_Type_Desc",
@@ -369,13 +380,11 @@ fips_adm1_ref <- read.csv(
 
 ## Tidy & Clean Data
 
-### 1. Google BigQuery – Top 25 Search Terms
-
-**Google Search Data Cleaning and Tidying**
+### Google BigQuery
 
   - Unnest week and rank to transform dataframe into a long-format where
     each week and rank value is a separate row and own column
-  - Fills Null `score` values with zero
+  - Fill Null `score` values with zero
   - Create `search_id` column from the associated row number
 
 ```{r google-data-cleaning}
@@ -385,7 +394,7 @@ long_google_search_df <-  google_search_df |>
     score = replace_na(score, 0),
     search_id = row_number())
 
-head(long_google_search_df)
+knit_table(head(long_google_search_df))
 ```
 
 Subset refresh date into its own table for reference.
@@ -394,7 +403,7 @@ refresh_date_ref <- long_google_search_df |>
   select(refresh_date) |>
   distinct()
 
-head(refresh_date_ref)
+knit_table(head(refresh_date_ref))
 ```
 
 Create Designated Market Area (DMA) reference table.
@@ -403,7 +412,7 @@ dma_ref_df <- long_google_search_df |>
   select(dma_id, dma_name) |>
   distinct()
 
-head(dma_ref_df)
+knit_table(head(dma_ref_df))
 ```
 
 Create final Google top term dateframe
@@ -411,7 +420,7 @@ Create final Google top term dateframe
 top_term_df <- long_google_search_df |>
   filter(term_type == "top_terms")
 
-head(top_term_df)
+knit_table(head(top_term_df))
 ```
 
 Create final Google rising term dataframe
@@ -419,21 +428,21 @@ Create final Google rising term dataframe
 rising_term_df <- long_google_search_df |>
   filter(term_type == "rising_terms")
 
-head(rising_term_df)
+knit_table(head(rising_term_df))
 ```
 
 
-### 2. GDELT 2.0: Our Global World in Realtime
+### GDELT 2.0
 
-**GDELT Event Data Cleaning and Tidying**
+**Note:** The GDELT maintains a tidy format in its raw state. No manual tidying tasks
+were needed to be performed.
+
+**GDELT Event Data Cleaning**
 
   - Transforms `Day` into date data type
   - Transforms `MonthYear` into datetime string format
   - Transforms `GLOBALEVENTID` into strings
   - Transforms all categorical columns into factor data type
-  
-Note: The GDELT maintains a tidy format in its raw state. No manual tidying tasks
-were needed to be performed.
 
 ```{r gdelt-data-cleaning}
 gdelt_df_cleaned <- gdelt_df |>
@@ -446,6 +455,9 @@ gdelt_df_cleaned <- gdelt_df |>
     QuadClass = as.factor(QuadClass),
   ) |> 
   filter(Day >= today() - days(14) & Day <= today())
+
+knit_table(head(gdelt_df_cleaned)) |> scroll_box(
+  width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 **GDELT Event Mentions Data Cleaning**
@@ -459,11 +471,8 @@ gdelt_df_cleaned <- gdelt_df |>
     the event mention with the highest confidence
   - Filters the dataframe to only include event source from the web with a
     confidence extraction percent of greater than or equal to 60%
-    
-Note: The GDELT maintains a tidy format in its raw state. No manual tidying tasks
-were needed to be performed.
 
-```{r}
+```{r gdelt-mention-cleaning}
 mention_gdelt_df_cleaned = mention_gdelt_df |>
   mutate(
     GLOBALEVENTID = as.character(GLOBALEVENTID),
@@ -486,19 +495,25 @@ mention_gdelt_df_cleaned = mention_gdelt_df_cleaned |>
   mutate(Article = na_if(Article, 'index?more=')) |>
   mutate(Article = ifelse(str_count(Article)<=1, NA, Article)) |>
   mutate(Article = ifelse(str_count(Article, '\\w+')<=1, NA, Article))
+
+knit_table(head(mention_gdelt_df_cleaned)) |> scroll_box(
+  width = "100%", box_css = "border: 1px solid #FFFFFF;")
 ```
 
 
-## Matching the Google Big Query Data with the GDELT Data
+## Join Data
+
+Join the Google Big Query Data with the GDELT Data
 ```{r join-tbls}
-gsearch_gdelt <- left_join(long_google_search_df, 
-            gdelt_df_cleaned,
-            by=c('refresh_date'='Day'))
+gsearch_gdelt <- left_join(
+  long_google_search_df, 
+  gdelt_df_cleaned,
+  by=c('refresh_date'='Day'))
 ```
 
 ## Exploratory Data Analysis
 
-*Stop Words* 
+*Stop Words*  
 Stop words are words that should be excluded in text analysis, such as "the",
 "a", "and", etc. Within the 'tidytext' package, stop words can be removed in 
 multiple languages. In this analysis, stop words were removed in English and 
@@ -512,9 +527,9 @@ multi_lang_stopwords <- bind_rows(
 )
 ```
 
-*Tokenization*
+*Tokenization*  
 In text mining, tokenization refers to breaking down text into smaller units.
-The google search data was already broken in to short text, therefore, when 
+The Google search data was already broken in to short text, therefore, when 
 tokenizing the text, the unit of our text becomes a word. 
 
 ```{r tokenization}
@@ -524,7 +539,7 @@ tokenized_gsearch_gdelt <- gsearch_gdelt |>
   relocate(search_id, word)
 ```
 
-*Frequency Analysis* 
+*Frequency Analysis*  
 After tokenizing the text, a freqency analysis is conducted to better understand
 which searches appear most frequently, at the word level, and at the Google 
 search level. 
@@ -540,31 +555,41 @@ most_freq_searches <- gsearch_gdelt |>
   mutate(color_group = factor(row_number() %% 3)) 
 ```
 
+### Frequency Plots
+
 ```{r 25-most-freq-tokens-plot}
-ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n))+
+ggplot(most_freq_tokens, aes(x=reorder(word, -n), y=n, fill = color_group))+
   geom_bar(stat="identity")+
+  scale_fill_manual(values = colors) +
   theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, color = titles),
+    plot.title = element_text(face = "bold"),
+    text = element_text(color = titles)
+  ) +
    labs(y = "Count",
        x = "Tokenized Terms (Words)",
        title = "Word Frequency in Google Searches",
        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
-  guides(fill=FALSE)
+  guides(fill=FALSE) 
 ```
 
 ```{r}
-ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n))+
-  geom_bar(stat="identity")+
+ggplot(most_freq_searches, aes(x=reorder(term, -n), y=n, fill = color_group))+
+ geom_bar(stat="identity")+
+  scale_fill_manual(values = colors) +
   theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, color = titles),
+    plot.title = element_text(face = "bold"),
+    text = element_text(color = titles)
+  ) +
    labs(y = "Count",
        x = "Google Searches",
        title = "Google Searches Frequency",
        subtitle = "Searches are limited to NYC and LA and are taken from the past two weeks")+
   guides(fill=FALSE)
 ```
-
-## Frequency Plots
 
 ```{r plot-most-freq-tokens}
 tokenized_gsearch_gdelt |> 
@@ -633,9 +658,11 @@ gsearch_gdelt |>
        subtitle = "")
 ```
 
-## LDA Modeling
+## Statistical Analysis
 
-*Word Stemming* 
+### LDA Modeling
+
+*Word Stemming*  
 Another technique that can be used in text mining is word stemming. When word 
 stemming, it takes the text, or token, and reduces the term to the root form 
 (also known as the stem). This can help normalize the terms, so that terms like
@@ -646,7 +673,7 @@ wrd_stem <- tokenized_gsearch_gdelt %>%
   mutate(word = SnowballC::wordStem(word))
 ```
 
-*Document Term Matrix*
+*Document Term Matrix*  
 A document term matrix represents the frequency of terms that appear in the 
 collect of text. 
 ```{r dtm-top-term}
@@ -661,7 +688,7 @@ mat <- as.matrix(dtm_tokenized_terms)
 dtm_mat <- Matrix(mat, sparse = TRUE)
 ```
 
-*Latent Dirichlet Allocation (LDA)* 
+*Latent Dirichlet Allocation (LDA)*  
 LDA is a topic modeling method that can be used to identify central topics and
 distributions across a corpus.
 
@@ -705,7 +732,7 @@ model_summary <- data.frame(
 ggplot(model_summary, aes(x = k)) +
   geom_line(aes(y = coherence), color = "blue") +
   geom_line(aes(y = r2 * max(coherence)), color = "green", linetype = "dashed") +
-  geom_line(aes(y = log_likelihood / max(abs(log_likelihood)) * max(coherence)), 
+  geom_line(aes(y = log_likelihood / max(abs(log_likelihood)) * max(coherence)),
             color = "red", linetype = "dotted") +
   ylab("Normalized Metric (for comparison)") +
   ggtitle("LDA Tuning: Coherence, R2, and Log-Likelihood")
@@ -724,7 +751,6 @@ top_words_k15 <- topics_lda_model_k15 |>
 ```
 
 ```{r plot-k15}
-top_terms_lda_k15 <- topics_lda_model |> 
 top_terms_lda_k15 <- topics_lda_model_k15 |> 
   group_by(topic) |> 
   slice_max(beta, n = 3, with_ties = FALSE) |> 
@@ -747,13 +773,10 @@ top_terms_lda_k15 |>
 
 ```{r lda-top-term-k11}
 # this is where we use a LDA model - the number of topics is defined as K. 
-lda_model_k15 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
-topics_lda_model_k15 <- tidy(lda_model, matrix = "beta")
 lda_model_k11 <- LDA(dtm_tokenized_terms, k = 11, control = list(seed = 1234))
 topics_lda_model_k11 <- tidy(lda_model_k11, matrix = "beta")
 
 # Top terms per topic
-top_words_k11 <- topics_lda_model |>   
 top_words_k11 <- topics_lda_model_k11 |>   
   group_by(topic) |> 
   top_n(10, beta) |> 
@@ -782,13 +805,13 @@ top_terms_lda_k11 |>
 ```
 
 
-## String Similarity Analysis
+### String Similarity Analysis
 
 Assess string similarity between Google Search top rising terms and GDELT Event
 article name extracted from the event mention source URL with the highest
 confidence within the analysis time frame.
 
-**Remove Stop Words**
+**Remove Stop Words**  
 Tokenize both the top rising terms and event article names to allow for the
 removal of common stop words. Upon removal, the token words are joined back
 together. This process will assist in obtaining a more accurate similarity
@@ -821,22 +844,24 @@ token_str_gdelt = mention_gdelt_df_cleaned |>
   distinct()
 ```
 
-**String similarity scores**
+**String Similarity Metrics**
 
-  - Levenshtein Distance (edit distance-based algorithm):
+  - *Levenshtein Distance (edit distance-based algorithm):*  
     A string metric for measuring the difference between two sequences. The
     Levenshtein distance between two words is the minimum number of
     single-character edits (insertions, deletions or substitutions) required to
     change one word into the other. The more the number of operations, the less
     the similarity between the two strings.
   
-  - Jaro–Winkler Distance:
+  - *Jaro–Winkler Distance:*  
     A string metric measuring an edit distance between two sequences. The
     distance takes into account the number of matching characters and the order
     in which they appear, with a higher weight assigned to matching characters
     at the beginning of the strings.
+    
 
-Calculate similarity scores
+\
+**Calculate similarity scores**
 ```{r}
 sim_df = inner_join(rising_term_df,
             token_str_gdelt,
@@ -846,17 +871,18 @@ sim_df = inner_join(rising_term_df,
   distinct() |>
   mutate(jw_score = jarowinkler(term, clean_article, r=0.4)) |>
   mutate(lev_score = levenshteinSim(term, clean_article)) |>
-  arrange(desc(jw_score), desc(lev_score)) 
+  arrange(desc(jw_score), desc(lev_score))
+knit_table(head(sim_df))
 ```
 
 
-Display Levenshtein Distance metric similarity results
+**Display Levenshtein Distance Metric Similarity Results**
 
   - View counts of rising terms with a Levenshtein score greater than 0.4
   - View the heatmap matrix comparing the Levenshtein similarity scores for
     rising terms and GDELT article mention names with for terms/names with a
     Levenshtein score greater than 0.4
-```{r}
+```{r, fig.width=7, fig.height=5}
 sim_df |>
   filter(lev_score > 0.4) |>
   group_by(clean_term) |>
@@ -864,19 +890,17 @@ sim_df |>
   arrange(desc(n)) |>
   mutate(color_group = factor(row_number() %% 3)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
-  scale_fill_manual(values = colors) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   theme_classic() +
   scale_fill_manual(values = colors) +
-  theme(axis.text.y = element_text(color = titles),
-    axis.title.x = element_text(color = titles),
-    axis.title.y = element_text(color = titles),
-    plot.title = element_text(color = titles, face = "bold"),
-    plot.subtitle = element_text(color = titles))+
+  theme(
+    plot.title = element_text(face = "bold"),
+    text = element_text(color = titles)
+  ) +
   labs(
-    title = 'Rising Google Search Terms & GDELT Event Source
-      Levenshtein Similarity Score > 0.4',
+    title = 'Levenshtein Distance: Rising Terms & Event Article',
+    subtitle = 'Similarity Score > 0.4',
     y = 'Term Count',
     x = 'Rising Term'
   )
@@ -894,27 +918,26 @@ sim_df |>
   theme_classic() +
   theme(axis.text.x=element_text(angle=50, hjust=1)) +
   theme(
-    axis.title.x = element_text(color = titles),
-    axis.title.y = element_text(color = titles),
-    plot.title = element_text(color = titles, face = "bold"),
-    plot.subtitle = element_text(color = titles))+
+    plot.title = element_text(face = "bold"),
+    text = element_text(color = titles)
+  ) +
   labs(
-    title = 'Rising Google Search Terms & GDELT Event Source
-      Levenshtein Similarity Score > 0.4',
-    y = 'GDELT Event Source',
+    title = 'Levenshtein Distance: Rising Terms & Event Article',
+    subtitle = 'Similarity Score > 0.4',
+    y = 'GDELT Event Source Article',
     x = 'Rising Term',
     fill='Levenshtein Score'
   )
 ```
 
-Display Jaro–Winkler Distance metric similarity results
+**Display Jaro–Winkler Distance Metric Similarity Results**
 
   - View counts of rising terms with a Jaro–Winkler score greater than 0.85
   - View the heatmap matrix comparing the Jaro–Winkler similarity scores for
     rising terms and GDELT article mention names with for terms/names with a
     Jaro–Winkler score greater than 0.85
     
-```{r}
+```{r, fig.width=7, fig.height=5}
 sim_df |>
   filter(jw_score > 0.85) |>
   group_by(clean_term) |>
@@ -922,55 +945,74 @@ sim_df |>
   arrange(desc(n)) |>
   mutate(color_group = factor(row_number() %% 3)) |>
   ggplot(aes(x=reorder(clean_term, n), y=n, fill = color_group)) +
-  geom_col() +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
   theme_classic() + 
   scale_fill_manual(values = colors) +
-  theme(axis.text.y = element_text(color = titles),
-    axis.title.x = element_text(color = titles),
-    axis.title.y = element_text(color = titles),
-    plot.title = element_text(color = titles, face = "bold"),
-    plot.subtitle = element_text(color = titles))+
+  theme(
+    plot.title = element_text(face = "bold"),
+    text = element_text(color = titles)
+  ) +
   labs(
-    title = 'Rising Google Search Terms & GDELT Event Source
-      JaroWinkler Similarity Score > 0.85',
+    title = 'Jaro-Winkler Distance: Rising Terms & Event Article',
+    subtitle = 'Similarity Score > 0.85',
     y = 'Term Count',
     x = 'Rising Term'
   )
 
 filt_sim_df = sim_df |>
-  filter(jw_score > 0.85) 
+  filter(jw_score >= 0.85) 
 
 sim_df |>
   filter(term %in% filt_sim_df$term & clean_article %in% filt_sim_df$clean_article) |>
   ggplot(aes(x=term, y=reorder(clean_article, jw_score), fill=jw_score)) + 
-  scale_y_discrete(labels = function(x) str_wrap(str_replace_all(x, "clean_article" , " "),
-                                                 width = 45)) +
+  scale_y_discrete(
+    labels = function(x) str_wrap(str_replace_all(x, "clean_article" , " "),
+                                  width = 45)) +
   geom_tile() +
   scale_fill_gradient(low = "#aac4e9", high = "#1f2c8f")+
   theme_classic() +
   theme(
-    axis.title.x = element_text(color = titles),
-    axis.title.y = element_text(color = titles),
-    plot.title = element_text(color = titles, face = "bold"),
-    plot.subtitle = element_text(color = titles))+
+    plot.title = element_text(face = "bold", hjust=0.5),
+    plot.subtitle = element_text(hjust=0.5),
+    text = element_text(color = titles)) +
   theme(axis.text.x=element_text(angle=50, hjust=1)) +
   labs(
-    title = 'Rising Google Search Terms & GDELT Event Source
-      JaroWinkler Similarity Score > 0.85',
-    y = 'GDELT Event Source',
+    title = 'Jaro-Winkler Distance: Rising Terms & Event Article',
+    subtitle = 'Similarity Score > 0.85',
+    y = 'GDELT Event Source Article',
     x = 'Rising Term',
-    fill='JaroWinkler Score'
-  )
+    fill='Jaro-Winkler Score'
+  ) 
 ```
-Assessment:
+
+## Conclusion
+
+**Data Join:**  
+Due to the difference in size and complexity of the Goggle search and GDELT
+data, joining the dataframes for analysis proved to be difficult. For example,
+the Google search database provides a daily refresh of the top 25 searched values
+from the previous day, where as GDELT provides a CSV file every 15 minutes
+with hundreds of global events.  
+
+The string similarity analysis was our solution to comparing the reported
+events and top search terms without needing to implement a join.
+Given more time, we believe building out logic to more precisely extract the
+GDELT data for the same time frame as the Google search data would be best. This
+would involve utilizing the GDELT database, rather than CSV files, to query the
+data, as well as analyzing the difference in joining on when the event occurred vs
+when the event was mentioned.
+
+\
+**String Similarity:**  
 The results show the Jaro-Winkler similarity scores to be much higher than the
 Levenshtein scores. This is due to the the Jaro-Winkler method only taking into
 account matching characters and any required swapping of characters. As a result
 of the GDELT article names being significantly longer than the rising term 
-strings, the Jaro-Winkler similarity scores can be misleading.
+strings, the Jaro-Winkler similarity scores can be misleading.  
 
-Next Steps:  
+*Next Steps:*   
+
   - Reducing the string length in the GDELT article names will assist with 
     providing more meaning and interpretable similarity score results. This
     could be done by extracting keywords from the article name
