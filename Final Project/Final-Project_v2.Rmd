@@ -93,7 +93,7 @@ project set up with billing enabled and a BigQuery API key.
 
 ```{r bigquery-auth, eval=FALSE}
 # Authenticate with Google Cloud (interactive)
-bq_auth(path = "/Users/olivia/Downloads/data607finalproject-6c666e5b6214.json")
+bq_auth(path = "data607finalproject-6c666e5b6214.json")
 ```
 
 ```{r google-bigquery-api}
