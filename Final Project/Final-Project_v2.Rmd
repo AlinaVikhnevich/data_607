@@ -993,7 +993,11 @@ Due to the difference in size and complexity of the Goggle search and GDELT
 data, joining the dataframes for analysis proved to be difficult. For example,
 the Google search database provides a daily refresh of the top 25 searched values
 from the previous day, where as GDELT provides a CSV file every 15 minutes
-with hundreds of global events.  
+with hundreds of global events. Additionally, the GDELT dataset location data was
+not an exact match with the Google search data. Some observations were at the 
+Country level, State level, and city level, or did not have a geographic area 
+provided. This meant that it was difficult to compare the data adequately by
+geographic area. 
 
 The string similarity analysis was our solution to comparing the reported
 events and top search terms without needing to implement a join.
@@ -1003,6 +1007,16 @@ would involve utilizing the GDELT database, rather than CSV files, to query the
 data, as well as analyzing the difference in joining on when the event occurred vs
 when the event was mentioned.
 
+\
+**Latent Dirichlet Allocation (LDA) Modeling**
+The results in the LDA modeling show that topic modeling for Google searches is 
+possible, but would require additional tidying. For example, certain terms 
+appeared in multiple topic categories, indicating that there may have been 
+duplicate terms fed into the model. LDA modeling can be effective when the corpus
+is large enough, and may not be the best option for short-text. To improve this 
+analysis, using another method, such as Single topic LDA with clustering may be 
+preferrable. For more information about this type of modeling approach, please 
+see the [stLDA-C GitHub Page](https://github.com/g-tierney/stLDA-C_public/tree/master?tab=readme-ov-file).
 \
 **String Similarity:**  
 The results show the Jaro-Winkler similarity scores to be much higher than the
