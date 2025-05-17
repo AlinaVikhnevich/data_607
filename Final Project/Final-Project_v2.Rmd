@@ -1024,7 +1024,6 @@ Levenshtein scores. This is due to the the Jaro-Winkler method only taking into
 account matching characters and any required swapping of characters. As a result
 of the GDELT article names being significantly longer than the rising term 
 strings, the Jaro-Winkler similarity scores can be misleading.  
-
 *Next Steps:*   
 
   - Reducing the string length in the GDELT article names will assist with 
